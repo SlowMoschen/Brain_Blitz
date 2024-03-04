@@ -1,10 +1,5 @@
-import { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import { achievementsTable } from './achievements.model';
-import {
-  quizHighscoresTable,
-  quizQuestionsTable,
-  quizzesTable,
-} from './quizzes.model';
+import { quizHighscoresTable, quizQuestionsTable, quizzesTable } from './quizzes.model';
 import { tokensTable } from './tokens.model';
 import {
   usersAppStates,
@@ -49,27 +44,27 @@ export type SelectQuizQuestion = typeof quizQuestionsTable.$inferSelect;
 export type InsertQuizQuestion = typeof quizQuestionsTable.$inferInsert;
 
 export type SelectUserWithAllTables = typeof usersTable.$inferSelect & {
-  app_states: SelectUserAppState;
-  settings: SelectUserSettings;
-  statistics: SelectUserStatistics;
-  timestamps: SelectUserTimestamps;
-  billing_information: SelectUserBillingInformation;
+	app_states: SelectUserAppState;
+	settings: SelectUserSettings;
+	statistics: SelectUserStatistics;
+	timestamps: SelectUserTimestamps;
+	billing_information: SelectUserBillingInformation;
 };
 
 export type InsertUserWithAllTables = typeof usersTable.$inferInsert & {
-  app_states: InsertUserAppState;
-  settings: InsertUserSettings;
-  statistics: InsertUserStatistics;
-  timestamps: InsertUserTimestamps;
-  billing_information: InsertUserBillingInformation;
+	app_states: InsertUserAppState;
+	settings: InsertUserSettings;
+	statistics: InsertUserStatistics;
+	timestamps: InsertUserTimestamps;
+	billing_information: InsertUserBillingInformation;
 };
 
 export type SelectQuizWithAllTables = typeof quizzesTable.$inferSelect & {
-  highscores: SelectQuizHighscore;
-  questions: SelectQuizQuestion;
+	highscores: SelectQuizHighscore;
+	questions: SelectQuizQuestion;
 };
 
 export type InsertQuizWithAllTables = typeof quizzesTable.$inferInsert & {
-  highscores: InsertQuizHighscore;
-  questions: InsertQuizQuestion;
+	highscores: InsertQuizHighscore;
+	questions: InsertQuizQuestion;
 };
