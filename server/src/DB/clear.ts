@@ -16,18 +16,12 @@ const main = async () => {
   try {
     await client.connect();
     console.log('Connected to database');
-    db.delete(schema.users);
-
-    const newUser = await db.insert(schema.users).values([
-      {
-        first_name: 'Test',
-        last_name: 'User',
-        email: 'test@mail.com',
-        password: 'test',
-      }
-    ]).returning({ id: schema.users.id })
-
-    console.log(newUser);
+    
+    for ( const table in schema ) {
+      db.delete(schema[table]);
+    }
+    
+    console.log('Database cleared');
   } catch (err) {
     console.error(err);
   } finally {

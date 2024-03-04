@@ -12,7 +12,7 @@ export const users = pgTable('users', {
     id: text('id').primaryKey().default(createId()),
     first_name: varchar('first_name').notNull(),
     last_name: varchar('last_name').notNull(),
-    email: varchar('email').notNull(),
+    email: varchar('email').notNull().unique(),
     password: varchar('password').notNull(),
 })
 
