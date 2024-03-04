@@ -7,4 +7,4 @@ export const client = new Client({
     connectionString: DB_URL
 });
 
-export const db = drizzle(client, { schema })
+export const db = drizzle(client)
