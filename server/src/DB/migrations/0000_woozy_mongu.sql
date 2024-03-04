@@ -1,5 +1,17 @@
+DO $$ BEGIN
+ CREATE TYPE "payment_methods" AS ENUM('paypal', 'bank_transfer');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "roles" AS ENUM('admin', 'user', 'pro');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "achievements" (
-	"id" text PRIMARY KEY DEFAULT 'agmoj9db5qjo58epp0kuieiv' NOT NULL,
+	"id" text PRIMARY KEY DEFAULT 'i15raypvdesh3owdb5e6xl7f' NOT NULL,
 	"name" varchar NOT NULL,
 	"description" varchar NOT NULL,
 	"category" varchar NOT NULL,
@@ -7,7 +19,7 @@ CREATE TABLE IF NOT EXISTS "achievements" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "quiz_highscores" (
-	"id" text PRIMARY KEY DEFAULT 'e26eow5klr5lsds4nvnnzeuf' NOT NULL,
+	"id" text PRIMARY KEY DEFAULT 'lxnm1h5zlw7k4ejn6jyym8xq' NOT NULL,
 	"quiz_id" text NOT NULL,
 	"user_id" text NOT NULL,
 	"score" integer NOT NULL,
@@ -15,23 +27,23 @@ CREATE TABLE IF NOT EXISTS "quiz_highscores" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "quiz_questions" (
-	"id" text PRIMARY KEY DEFAULT 'grvhd2jnmoyh3slqxiu7t854' NOT NULL,
+	"id" text PRIMARY KEY DEFAULT 'j3kw76dt2f2etd580oypgofa' NOT NULL,
 	"quiz_id" text NOT NULL,
 	"questions" text[] NOT NULL,
 	"correct_answer" text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "quizzes" (
-	"id" text PRIMARY KEY DEFAULT 'qmt9eia9mmh94x3tkhlorxba' NOT NULL,
+	"id" text PRIMARY KEY DEFAULT 's9zk9ge30xadyq2p82ggdkl5' NOT NULL,
 	"name" varchar NOT NULL,
 	"description" varchar NOT NULL,
 	"category" varchar NOT NULL,
-	"highscores" integer,
-	"questions" integer
+	"highscores" text,
+	"questions" text
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "token" (
-	"id" text PRIMARY KEY DEFAULT 'yxmz720ghy9eicobtsu7byb0' NOT NULL,
+CREATE TABLE IF NOT EXISTS "tokens" (
+	"id" text PRIMARY KEY DEFAULT 'lnhpvrpkwognfdeok0rt3m4c' NOT NULL,
 	"user_id" text NOT NULL,
 	"token" text NOT NULL,
 	"created_at" timestamp DEFAULT now(),
@@ -39,7 +51,7 @@ CREATE TABLE IF NOT EXISTS "token" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "app_states" (
-	"id" text PRIMARY KEY DEFAULT 'pjvsit5kx2ds3b2mbabwmz52' NOT NULL,
+	"id" text PRIMARY KEY DEFAULT 'ac8jb20b5tae84cg970ex3pt' NOT NULL,
 	"user_id" text NOT NULL,
 	"energy" integer DEFAULT 100 NOT NULL,
 	"unlocked_quizzes" text,
@@ -48,9 +60,9 @@ CREATE TABLE IF NOT EXISTS "app_states" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "billing_informations" (
-	"id" text PRIMARY KEY DEFAULT 'ogionu2ju9vku0yy0k13natj' NOT NULL,
+	"id" text PRIMARY KEY DEFAULT 'pz6pxtnoyteie9pqnr89ai4m' NOT NULL,
 	"user_id" text NOT NULL,
-	"payment_method" "payment_methods" NOT NULL,
+	"payment_methods" "payment_methods" NOT NULL,
 	"billing_address" text NOT NULL,
 	"billing_city" varchar NOT NULL,
 	"billing_zip" varchar NOT NULL,
@@ -62,16 +74,16 @@ CREATE TABLE IF NOT EXISTS "billing_informations" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user_settings" (
-	"id" text PRIMARY KEY DEFAULT 'huopupihofwyk47ko8gj6hes' NOT NULL,
+	"id" text PRIMARY KEY DEFAULT 'undrm3uajhdijughftkwb70d' NOT NULL,
 	"user_id" text NOT NULL,
 	"theme" varchar DEFAULT 'default' NOT NULL,
 	"language" varchar DEFAULT 'de-DE' NOT NULL,
-	"role" "roles" DEFAULT 'user',
+	"roles" "roles" DEFAULT 'user',
 	"is_verified" boolean DEFAULT false NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user_statistics" (
-	"id" text PRIMARY KEY DEFAULT 'ie48zx66te975vbn837hyuc2' NOT NULL,
+	"id" text PRIMARY KEY DEFAULT 'p1npx77sqjvgjohhlqcpe1mc' NOT NULL,
 	"user_id" text NOT NULL,
 	"max_login_streak" integer DEFAULT 0 NOT NULL,
 	"current_login_streak" integer DEFAULT 0 NOT NULL,
@@ -85,7 +97,7 @@ CREATE TABLE IF NOT EXISTS "user_statistics" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user_timestamps" (
-	"id" text PRIMARY KEY DEFAULT 'y9371pki50ibisv1ib1bunkq' NOT NULL,
+	"id" text PRIMARY KEY DEFAULT 'flpbehb4wel99hz9o7d1f60a' NOT NULL,
 	"user_id" text NOT NULL,
 	"created_at" timestamp DEFAULT now(),
 	"updated_at" timestamp DEFAULT now(),
@@ -95,7 +107,7 @@ CREATE TABLE IF NOT EXISTS "user_timestamps" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users" (
-	"id" text PRIMARY KEY DEFAULT 'ybcglc16k17a6mdejkylovcc' NOT NULL,
+	"id" text PRIMARY KEY DEFAULT 'h3i7jmoalc8d3930lhk65hl7' NOT NULL,
 	"first_name" varchar NOT NULL,
 	"last_name" varchar NOT NULL,
 	"email" varchar NOT NULL,
@@ -133,7 +145,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "token" ADD CONSTRAINT "token_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "tokens" ADD CONSTRAINT "tokens_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

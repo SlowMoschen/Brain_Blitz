@@ -8,8 +8,8 @@ export const quizzes = pgTable('quizzes', {
     name: varchar('name').notNull(),
     description: varchar('description').notNull(),
     category: varchar('category').notNull(),
-    highscores: integer('highscores').references(() => quiz_highscores.id),
-    questions: integer('questions').references(() => quiz_questions.id),
+    highscores: text('highscores').references(() => quiz_highscores.id),
+    questions: text('questions').references(() => quiz_questions.id),
 })
 
 export const quiz_highscores = pgTable('quiz_highscores', {
@@ -27,7 +27,7 @@ export const quiz_questions = pgTable('quiz_questions', {
     correct_answer: text('correct_answer').notNull(),
 })
 
-export const quiz_relations = relations(quizzes, ({ one, many }) => ({
+export const quizRelations = relations(quizzes, ({ one, many }) => ({
     highscores: many(quiz_highscores),
     questions: many(quiz_questions),
 }))

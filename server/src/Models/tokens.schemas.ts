@@ -3,7 +3,7 @@ import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { users } from "./users.schemas";
 import { createId } from "@paralleldrive/cuid2";
 
-export const tokens = pgTable('token', {
+export const tokens = pgTable('tokens', {
     id: text('id').primaryKey().default(createId()),
     user_id: text('user_id').notNull().references(() => users.id),
     token: text('token').notNull(),

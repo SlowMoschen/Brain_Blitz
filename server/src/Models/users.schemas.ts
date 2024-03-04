@@ -2,11 +2,11 @@ import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 import { boolean, integer, pgEnum, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
 import { achievements } from "./achievements.schemas";
 import { quizzes } from "./quizzes.schemas";
-import { tokens } from "./tokens.schema";
+import { tokens } from "./tokens.schemas";
 import { createId } from "@paralleldrive/cuid2";
 
-const rolesEnum = pgEnum('roles', ['admin', 'user', 'pro'])
-const paymentMethodsEnum = pgEnum('payment_methods', ['paypal', 'bank_transfer'])
+export const rolesEnum = pgEnum('roles', ['admin', 'user', 'pro'])
+export const paymentMethodsEnum = pgEnum('payment_methods', ['paypal', 'bank_transfer'])
 
 export const users = pgTable('users', {
     id: text('id').primaryKey().default(createId()),
@@ -21,7 +21,7 @@ export const user_settings = pgTable('user_settings', {
     user_id: text('user_id').notNull().references(() => users.id),
     theme: varchar('theme').notNull().default('default'),
     language: varchar('language').notNull().default('de-DE'),
-    roles: rolesEnum('role').default('user'),
+    roles: rolesEnum('roles').default('user'),
     is_verified: boolean('is_verified').notNull().default(false),
 })
 
@@ -61,7 +61,7 @@ export const app_states = pgTable('app_states', {
 export const billing_informations = pgTable('billing_informations', {
     id: text('id').primaryKey().default(createId()),
     user_id: text('user_id').notNull().references(() => users.id),
-    payment_method: paymentMethodsEnum('payment_method').notNull(),
+    payment_method: paymentMethodsEnum('payment_methods').notNull(),
     billing_address: text('billing_address').notNull(),
     billing_city: varchar('billing_city').notNull(),
     billing_zip: varchar('billing_zip').notNull(),
@@ -84,7 +84,7 @@ export const userRelations = relations(users, ({ one, many }) => ({
     statistics: one(user_statistics),
     timestamps: one(user_timestamps),
     appStates: one(app_states),
-    billingInformation: one(billing_informations),
+    billing_informations: one(billing_informations),
     tokens: many(tokens),
 }))
 

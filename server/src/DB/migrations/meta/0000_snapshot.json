@@ -1,5 +1,5 @@
 {
-  "id": "4e663169-8c84-4e80-8161-e5b06959bdb5",
+  "id": "2ee5e4fe-3a3d-4047-a5bf-67200d47dedf",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -13,7 +13,7 @@
           "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "default": "'agmoj9db5qjo58epp0kuieiv'"
+          "default": "'i15raypvdesh3owdb5e6xl7f'"
         },
         "name": {
           "name": "name",
@@ -54,7 +54,7 @@
           "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "default": "'e26eow5klr5lsds4nvnnzeuf'"
+          "default": "'lxnm1h5zlw7k4ejn6jyym8xq'"
         },
         "quiz_id": {
           "name": "quiz_id",
@@ -122,7 +122,7 @@
           "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "default": "'grvhd2jnmoyh3slqxiu7t854'"
+          "default": "'j3kw76dt2f2etd580oypgofa'"
         },
         "quiz_id": {
           "name": "quiz_id",
@@ -171,7 +171,7 @@
           "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "default": "'qmt9eia9mmh94x3tkhlorxba'"
+          "default": "'s9zk9ge30xadyq2p82ggdkl5'"
         },
         "name": {
           "name": "name",
@@ -193,13 +193,13 @@
         },
         "highscores": {
           "name": "highscores",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
         "questions": {
           "name": "questions",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         }
@@ -236,8 +236,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "token": {
-      "name": "token",
+    "tokens": {
+      "name": "tokens",
       "schema": "",
       "columns": {
         "id": {
@@ -245,7 +245,7 @@
           "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "default": "'yxmz720ghy9eicobtsu7byb0'"
+          "default": "'lnhpvrpkwognfdeok0rt3m4c'"
         },
         "user_id": {
           "name": "user_id",
@@ -275,9 +275,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "token_user_id_users_id_fk": {
-          "name": "token_user_id_users_id_fk",
-          "tableFrom": "token",
+        "tokens_user_id_users_id_fk": {
+          "name": "tokens_user_id_users_id_fk",
+          "tableFrom": "tokens",
           "tableTo": "users",
           "columnsFrom": [
             "user_id"
@@ -301,7 +301,7 @@
           "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "default": "'pjvsit5kx2ds3b2mbabwmz52'"
+          "default": "'ac8jb20b5tae84cg970ex3pt'"
         },
         "user_id": {
           "name": "user_id",
@@ -402,7 +402,7 @@
           "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "default": "'ogionu2ju9vku0yy0k13natj'"
+          "default": "'pz6pxtnoyteie9pqnr89ai4m'"
         },
         "user_id": {
           "name": "user_id",
@@ -410,8 +410,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "payment_method": {
-          "name": "payment_method",
+        "payment_methods": {
+          "name": "payment_methods",
           "type": "payment_methods",
           "primaryKey": false,
           "notNull": true
@@ -495,7 +495,7 @@
           "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "default": "'huopupihofwyk47ko8gj6hes'"
+          "default": "'undrm3uajhdijughftkwb70d'"
         },
         "user_id": {
           "name": "user_id",
@@ -517,8 +517,8 @@
           "notNull": true,
           "default": "'de-DE'"
         },
-        "role": {
-          "name": "role",
+        "roles": {
+          "name": "roles",
           "type": "roles",
           "primaryKey": false,
           "notNull": false,
@@ -560,7 +560,7 @@
           "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "default": "'ie48zx66te975vbn837hyuc2'"
+          "default": "'p1npx77sqjvgjohhlqcpe1mc'"
         },
         "user_id": {
           "name": "user_id",
@@ -660,7 +660,7 @@
           "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "default": "'y9371pki50ibisv1ib1bunkq'"
+          "default": "'flpbehb4wel99hz9o7d1f60a'"
         },
         "user_id": {
           "name": "user_id",
@@ -732,7 +732,7 @@
           "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "default": "'ybcglc16k17a6mdejkylovcc'"
+          "default": "'h3i7jmoalc8d3930lhk65hl7'"
         },
         "first_name": {
           "name": "first_name",
@@ -765,7 +765,23 @@
       "uniqueConstraints": {}
     }
   },
-  "enums": {},
+  "enums": {
+    "payment_methods": {
+      "name": "payment_methods",
+      "values": {
+        "paypal": "paypal",
+        "bank_transfer": "bank_transfer"
+      }
+    },
+    "roles": {
+      "name": "roles",
+      "values": {
+        "admin": "admin",
+        "user": "user",
+        "pro": "pro"
+      }
+    }
+  },
   "schemas": {},
   "_meta": {
     "columns": {},
