@@ -2,6 +2,7 @@ import { env } from '../Configs/env.config';
 import { Client } from 'pg';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import * as schema from '../Models/schema';
+import * as tables from '../Models/tables';
 
 const DB_URL =
   env.NODE_ENV === 'production' ? env.DATABASE_URL : env.DATABASE_DEV_URL;
@@ -17,8 +18,8 @@ const main = async () => {
     await client.connect();
     console.log('Connected to database');
     
-    for ( const table in schema ) {
-      db.delete(schema[table]);
+    for ( const table in tables ) {
+      await db.delete(schema[table]);
     }
     
     console.log('Database cleared');

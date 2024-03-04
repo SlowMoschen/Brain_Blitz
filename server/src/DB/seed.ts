@@ -16,7 +16,7 @@ const main = async () => {
   try {
     await client.connect();
     console.log('Connected to database');
-    db.delete(schema.users);
+    await db.delete(schema.users);
 
     const newUser = await db.insert(schema.users).values([
       {

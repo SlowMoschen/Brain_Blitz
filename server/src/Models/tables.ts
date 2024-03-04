@@ -1,4 +1,4 @@
-// Purpose: Export all the schemas for the models to be used in the db connection and ORM
+// Purpose: Export all the tables from the database to be used in the seed and clear scripts
 
 import {
     users,
@@ -7,15 +7,12 @@ import {
     user_timestamps,
     app_states,
     billing_informations,
-    userRelations,
-    appStatesRelations
 } from "./users.schemas";
 
 import {
     quizzes,
     quiz_highscores,
     quiz_questions,
-    quizRelations
 } from "./quizzes.schemas";
 
 import {
@@ -24,7 +21,6 @@ import {
 
 import {
     tokens,
-    tokenRelations
 } from "./tokens.schemas";
 
 export {
@@ -34,13 +30,9 @@ export {
     user_timestamps,
     app_states,
     billing_informations,
-    userRelations,
-    appStatesRelations,
     quizzes,
     quiz_highscores,
     quiz_questions,
-    quizRelations,
     achievements,
     tokens,
-    tokenRelations
 }
