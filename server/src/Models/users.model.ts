@@ -70,7 +70,39 @@ export const usersAppStates = pgTable('users_app_states', {
     highscores: text('highscores').references(() => quizHighscoresTable.id)
 })
 
+export const usersSettingsRelations = relations(usersSettingsTable, ({ one }) => ({
+    user: one(usersTable, {
+        fields: [usersSettingsTable.user_id],
+        references: [usersTable.id]
+    })
+}))
+
+export const usersStatisticsRelations = relations(usersStatisticsTable, ({ one }) => ({
+    user: one(usersTable, {
+        fields: [usersStatisticsTable.user_id],
+        references: [usersTable.id]
+    })
+}))
+
+export const usersTimestampsRelations = relations(usersTimestampsTable, ({ one }) => ({
+    user: one(usersTable, {
+        fields: [usersTimestampsTable.user_id],
+        references: [usersTable.id]
+    })
+}))
+
+export const usersBillingInformationRelations = relations(usersBillingInformationTable, ({ one }) => ({
+    user: one(usersTable, {
+        fields: [usersBillingInformationTable.user_id],
+        references: [usersTable.id]
+    })
+}))
+
 export const usersAppStatesRelations = relations(usersAppStates, ({ one, many }) => ({
+    user: one(usersTable, {
+        fields: [usersAppStates.user_id],
+        references: [usersTable.id]
+    }),
     unlocked_quizzes: many(quizzesTable),
     completed_quizzes: many(quizzesTable),
     unlocked_achievements: many(achievementsTable),
