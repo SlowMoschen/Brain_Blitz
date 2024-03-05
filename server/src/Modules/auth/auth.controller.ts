@@ -1,8 +1,8 @@
 import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
-import { AuthService } from './auth.service';
 import { LocalAuthGuard } from 'src/Guards/localAuth.guard';
-import { create } from 'domain';
 import { CreateUserDTO } from '../users/dto/create-user.dto';
+import { AuthService } from './auth.service';
+import { ModifiedRequest } from 'src/Utils/Types/request.types';
 
 @Controller('auth')
 export class AuthController {
@@ -24,7 +24,8 @@ export class AuthController {
     }
 
     @Get('session')
-    async session(@Req() req) {
+    async session(@Req() req: ModifiedRequest) {
+        console.log(req);
         if (!req.user) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
         return { message: 'Authorized' };
     }

@@ -10,7 +10,7 @@ export class UsersController {
 	@Get()
 	@UseGuards(AuthenticationGuard)
 	async getCompleteUsers() {
-		const users = await this.userService.getCompleteUser();
+		const users = await this.userService.getCompleteUsers();
 		if (!users) throw new NotFoundException('No users found');
 		return { data: users, message: 'Users found' };
 	}

@@ -54,7 +54,7 @@ export class UserService {
 	/**
 	 * @returns {Promise<SelectUserWithAllTables[] | null>} - Returns all users with all tables or null if an error occurs or no users are found
 	 */
-	async getCompleteUser(): Promise<SelectUserWithAllTables[] | null> {
+	async getCompleteUsers(): Promise<SelectUserWithAllTables[] | null> {
 		try {
 			const users = await this.db.query.usersTable.findMany({
 				with: {
@@ -75,7 +75,7 @@ export class UserService {
 	}
 
 	/**
-	 * @returns {Promise<SelectUser[] | null>} - Returns a user with all tables or null if an error occurs or no user is found
+	 * @returns {Promise<SelectUser | null>} - Returns a user with all tables or null if an error occurs or no user is found
 	 */
 	async getCompleteUserById(id: string): Promise<SelectUserWithAllTables | null> {
 		try {

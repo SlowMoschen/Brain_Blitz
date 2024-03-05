@@ -1,4 +1,5 @@
 import { IsArray, IsBoolean, IsOptional, IsString } from "class-validator";
+import { SQL } from "drizzle-orm";
 
 export class UpdateUserSettingsDTO {
     @IsOptional()
@@ -12,7 +13,7 @@ export class UpdateUserSettingsDTO {
     @IsOptional()
     @IsString()
     @IsArray()
-    roles: string[];
+    roles: SQL;
 
     @IsOptional()
     @IsBoolean()
