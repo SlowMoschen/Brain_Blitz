@@ -32,7 +32,7 @@ export class UsersController {
     @Get('user')
     @UseGuards(AuthenticationGuard)
     async getCompleteUserBySession(@Req() req: ModifiedRequest) {
-        const userID = req.user;
+        const userID = req.user.id;
         const user = await this.userService.getCompleteUserById(userID);
         if (!user) throw new NotFoundException('No user found');
         const { password, ...rest } = user;
@@ -50,7 +50,7 @@ export class UsersController {
     @Put('user')
     @UseGuards(AuthenticationGuard)
     async updateUserBySession(@Req() req: ModifiedRequest, @Body() body: UpdateUserCredentialsDTO) {
-        const userID = req.user;
+        const userID = req.user.id;
         const user = await this.userService.updateUser(userID, body);
         if (user instanceof Error) throw new NotFoundException('No user found');
         return { data: user, message: 'User updated' };
