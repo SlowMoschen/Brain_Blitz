@@ -17,6 +17,6 @@ export class SessionSerializer extends PassportSerializer {
         if (!user) {
             done(new Error('User not found'), null);
         }
-        done(null, user);
+        done(null, user.id);
     }
 }
