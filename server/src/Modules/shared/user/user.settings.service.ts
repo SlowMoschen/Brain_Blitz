@@ -45,16 +45,17 @@ export class UsersSettingsService {
      * @description - Updates a user settings by id
      * @param {string} id - The id of the user
      * @param {any} body - The body of the request
-     * @returns {Promise<SelectUserSettings | null>} - Returns a user settings or null if an error occurs or no settings are found
+     * @returns {Promise<string | null>} - Returns a user settings or null if an error occurs or no settings are found
      */
-	async updateUserSettings(id: string, body: UpdateUserSettingsDTO) {
+	async updateUserSettings(id: string, body: UpdateUserSettingsDTO): Promise<string | null>{
 		try {
 			const settings = await this.db
 				.update(schema.usersSettingsTable)
 				.set(body)
-				.where(eq(schema.usersSettingsTable.user_id, id));
+				.where(eq(schema.usersSettingsTable.user_id, id))
+                .returning({ user_id: schema.usersSettingsTable.user_id });
 			if (!settings) return null;
-			return settings;
+			return settings[0].user_id;
 		} catch (error) {
 			return error;
 		}
