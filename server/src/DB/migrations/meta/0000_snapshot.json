@@ -1,5 +1,5 @@
 {
-  "id": "dc7ba5d7-1eb1-45dc-a25d-8195fd059c94",
+  "id": "db0e3dcd-bda2-4f32-ad17-86914188af3d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -57,7 +57,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         },
         "users_app_states_unlocked_quizzes_quizzes_id_fk": {
@@ -109,7 +109,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -201,7 +201,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -265,7 +265,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -350,7 +350,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -469,7 +469,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -606,8 +606,7 @@
           "name": "score",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "default": 0
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
@@ -680,7 +679,7 @@
         },
         "answers": {
           "name": "answers",
-          "type": "text",
+          "type": "text[]",
           "primaryKey": false,
           "notNull": true
         },

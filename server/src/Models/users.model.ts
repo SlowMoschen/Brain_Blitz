@@ -26,8 +26,7 @@ export const usersSettingsTable = pgTable('users_settings', {
 		.notNull()
 		.$defaultFn(() => createId()),
 	user_id: text('user_id')
-		.notNull()
-		.references(() => usersTable.id),
+		.references(() => usersTable.id, {onDelete: 'cascade'}).notNull(),
 	theme: text('theme').notNull().default('default'),
 	language: text('language').notNull().default('de-DE'),
 	is_verified: boolean('is_verified').notNull().default(false),
@@ -41,7 +40,7 @@ export const usersStatisticsTable = pgTable('users_statistics', {
 		.$defaultFn(() => createId()),
 	user_id: text('user_id')
 		.notNull()
-		.references(() => usersTable.id),
+		.references(() => usersTable.id, {onDelete: 'cascade'}),
 	login_count: integer('login_count').notNull().default(0),
 	login_streak: integer('login_streak').notNull().default(0),
 	max_login_streak: integer('max_login_streak').notNull().default(0),
@@ -58,7 +57,7 @@ export const usersTimestampsTable = pgTable('users_timestamps', {
 		.$defaultFn(() => createId()),
 	user_id: text('user_id')
 		.notNull()
-		.references(() => usersTable.id),
+		.references(() => usersTable.id, {onDelete: 'cascade'}),
 	created_at: timestamp('created_at').notNull().defaultNow(),
 	updated_at: timestamp('updated_at').notNull().defaultNow(),
 	last_login: timestamp('last_login').notNull().defaultNow(),
@@ -73,7 +72,7 @@ export const usersBillingInformationTable = pgTable('users_billing_information',
 		.$defaultFn(() => createId()),
 	user_id: text('user_id')
 		.notNull()
-		.references(() => usersTable.id),
+		.references(() => usersTable.id, {onDelete: 'cascade'}),
 	billing_address: text('billing_address').notNull().default(''),
 	billing_city: text('billing_city').notNull().default(''),
 	billing_state: text('billing_state').notNull().default(''),
@@ -91,11 +90,11 @@ export const usersAppStates = pgTable('users_app_states', {
 		.$defaultFn(() => createId()),
 	user_id: text('user_id')
 		.notNull()
-		.references(() => usersTable.id),
+		.references(() => usersTable.id, {onDelete: 'cascade'}),
 	unlocked_quizzes: text('unlocked_quizzes').references(() => quizzesTable.id),
 	completed_quizzes: text('completed_quizzes').references(() => quizzesTable.id),
 	unlocked_achievements: text('unlocked_achievements').references(() => achievementsTable.id),
-	highscores: text('highscores').references(() => quizHighscoresTable.id),
+	highscores: text('highscores').references(() => quizHighscoresTable.id, {onDelete: 'cascade'}),
 });
 
 export const usersSettingsRelations = relations(usersSettingsTable, ({ one }) => ({

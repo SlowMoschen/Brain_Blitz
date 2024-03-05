@@ -2,9 +2,10 @@ import { Inject, Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { SelectUser, SelectUserWithAllTables } from 'src/Models/_types';
-import { CreateUserDTO } from 'src/Modules/auth/dto/create-user.dto';
+import { CreateUserDTO } from 'src/Modules/users/dto/create-user.dto';
 import * as schema from '../../../Models/_index';
 import { EncryptionService } from '../encryption/encryption.service';
+import { UpdateUserCredentialsDTO } from 'src/Modules/users/dto/update-user-credentials.dto';
 
 @Injectable()
 export class UserService {
@@ -13,36 +14,46 @@ export class UserService {
 		private readonly encryptionService: EncryptionService,
 	) {}
 
-    async queryUserCredentialsByEmail(email: string): Promise<SelectUser | null> {
-        try {
-            const user = await this.db.query.usersTable.findFirst({
-                where: eq(schema.usersTable.email, email),
-            });
+	/**
+	 * @description - Queries the database for a user by email
+	 * @param {string} email - The email of the user
+	 * @returns {Promise<SelectUser[] | null>} - Returns all users or null if an error occurs or no users are found
+	 */
+	async getUserByEmail(email: string): Promise<SelectUser | null> {
+		try {
+			const user = await this.db.query.usersTable.findFirst({
+				where: eq(schema.usersTable.email, email),
+			});
 
-            if (!user) return null;
-            return user;
-        } catch (error) {
-            return error;
-        }
-    }
+			if (!user) return null;
+			return user;
+		} catch (error) {
+			return error;
+		}
+	}
 
-    async queryUserCredentialsById(id: string): Promise<SelectUser | null> {
-        try {
-            const user = await this.db.query.usersTable.findFirst({
-                where: eq(schema.usersTable.id, id),
-            });
+	/**
+	 * @description - Queries the database for a user by id
+	 * @param {string} id - The id of the user
+	 * @returns {Promise<SelectUser[] | null>} - Returns all users or null if an error occurs or no users are found
+	 */
+	async getUserById(id: string): Promise<SelectUser | null> {
+		try {
+			const user = await this.db.query.usersTable.findFirst({
+				where: eq(schema.usersTable.id, id),
+			});
 
-            if (!user) return null;
-            return user;
-        } catch (error) {
-            return error;
-        }
-    }
+			if (!user) return null;
+			return user;
+		} catch (error) {
+			return error;
+		}
+	}
 
 	/**
 	 * @returns {Promise<SelectUserWithAllTables[] | null>} - Returns all users with all tables or null if an error occurs or no users are found
 	 */
-	async queryAllUsersWithAllTables(): Promise<SelectUserWithAllTables[] | null> {
+	async getCompleteUser(): Promise<SelectUserWithAllTables[] | null> {
 		try {
 			const users = await this.db.query.usersTable.findMany({
 				with: {
@@ -65,7 +76,7 @@ export class UserService {
 	/**
 	 * @returns {Promise<SelectUser[] | null>} - Returns a user with all tables or null if an error occurs or no user is found
 	 */
-	async queryUserWithAllTablesById(id: string): Promise<SelectUserWithAllTables | null> {
+	async getCompleteUserById(id: string): Promise<SelectUserWithAllTables | null> {
 		try {
 			const user = await this.db.query.usersTable.findFirst({
 				where: eq(schema.usersTable.id, id),
@@ -75,121 +86,6 @@ export class UserService {
 					settings: true,
 					statistics: true,
 					timestamps: true,
-					tokens: true,
-				},
-			});
-
-			if (!user) return null;
-			return user;
-		} catch (error) {
-			return error;
-		}
-	}
-
-	/**
-	 * @returns {Promise<SelectUser[] | null>} - Returns a user with only the app_states table or null if an error occurs or no user is found
-	 */
-	async queryUserWithAppStatesById(id: string): Promise<SelectUser | null> {
-		try {
-			const user = await this.db.query.usersTable.findFirst({
-				where: eq(schema.usersTable.id, id),
-				with: {
-					app_states: true,
-				},
-			});
-
-			if (!user) return null;
-			return user;
-		} catch (error) {
-			return error;
-		}
-	}
-
-	/**
-	 * @returns {Promise<SelectUser[] | null>} - Returns a user with only the billing_information table or null if an error occurs or no user is found
-	 */
-	async queryUserWithBillingInformationById(id: string): Promise<SelectUser | null> {
-		try {
-			const user = await this.db.query.usersTable.findFirst({
-				where: eq(schema.usersTable.id, id),
-				with: {
-					billing_information: true,
-				},
-			});
-
-			if (!user) return null;
-			return user;
-		} catch (error) {
-			return error;
-		}
-	}
-
-	/**
-	 * @returns {Promise<SelectUser[] | null>} - Returns a user with only the settings table or null if an error occurs or no user is found
-	 */
-	async queryUserWithSettingsById(id: string): Promise<SelectUser | null> {
-		try {
-			const user = await this.db.query.usersTable.findFirst({
-				where: eq(schema.usersTable.id, id),
-				with: {
-					settings: true,
-				},
-			});
-
-			if (!user) return null;
-			return user;
-		} catch (error) {
-			return error;
-		}
-	}
-
-	/**
-	 * @returns {Promise<SelectUser[] | null>} - Returns a user with only the statistics table or null if an error occurs or no user is found
-	 */
-
-	async queryUserWithStatisticsById(id: string): Promise<SelectUser | null> {
-		try {
-			const user = await this.db.query.usersTable.findFirst({
-				where: eq(schema.usersTable.id, id),
-				with: {
-					statistics: true,
-				},
-			});
-
-			if (!user) return null;
-			return user;
-		} catch (error) {
-			return error;
-		}
-	}
-
-	/**
-	 * @returns {Promise<SelectUser[] | null>} - Returns a user with only the timestamps table or null if an error occurs or no user is found
-	 */
-	async queryUserWithTimestampsById(id: string): Promise<SelectUser | null> {
-		try {
-			const user = await this.db.query.usersTable.findFirst({
-				where: eq(schema.usersTable.id, id),
-				with: {
-					timestamps: true,
-				},
-			});
-
-			if (!user) return null;
-			return user;
-		} catch (error) {
-			return error;
-		}
-	}
-
-	/**
-	 * @returns {Promise<SelectUser[] | null>} - Returns a user with only the tokens table or null if an error occurs or no user is found
-	 */
-	async queryUserWithTokensById(id: string): Promise<SelectUser | null> {
-		try {
-			const user = await this.db.query.usersTable.findFirst({
-				where: eq(schema.usersTable.id, id),
-				with: {
 					tokens: true,
 				},
 			});
@@ -233,7 +129,7 @@ export class UserService {
 			if (error.message === 'Error inserting default user tables') {
 				const deleteUser = await this.db.delete(schema.usersTable).where(eq(schema.usersTable.id, userID));
 				if (!deleteUser) throw new Error('Error deleting user');
-                return new Error('User creation failed');
+				return new Error('User creation failed');
 			}
 
 			return error;
@@ -269,4 +165,43 @@ export class UserService {
 			return error;
 		}
 	}
+
+	/**
+	 * @description - Updates a user's credentials
+	 * @param {string} id - The id of the user
+	 * @param {UpdateUserCredentialsDTO} body - The body of the request containing the user's new credentials
+	 * @returns {Promise<string| null | Error>} - Returns the id of the updated user or null if an error occurs
+	 */
+	async updateUser(id: string, body: UpdateUserCredentialsDTO): Promise<string | null | Error> {
+		try {
+			const user = await this.db
+				.update(schema.usersTable)
+				.set(body)
+				.where(eq(schema.usersTable.id, id))
+				.returning({ id: schema.usersTable.id });
+			if (!user) return null;
+			return user[0].id;
+		} catch (error) {
+			return error;
+		}
+	}
+
+	/**
+	 * @description - Deletes a user by id
+	 * @param {string} id - The id of the user
+	 * @returns {Promise<string | null | Error>} - Returns the id of the deleted user or null if an error occurs
+	 */
+	async deleteUserById(id: string): Promise<string | null| Error> {
+		try {
+			const user = await this.db
+				.delete(schema.usersTable)
+				.where(eq(schema.usersTable.id, id))
+				.returning({ id: schema.usersTable.id });
+			if (!user) return null;
+			return user[0].id;
+		} catch (error) {
+			return error;
+		}
+	}
+
 }

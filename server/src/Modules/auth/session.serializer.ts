@@ -13,7 +13,7 @@ export class SessionSerializer extends PassportSerializer {
     }
 
     async deserializeUser(userId: string, done: (err: Error, payload: any) => void): Promise<void> {
-        const user = await this.userService.queryUserCredentialsById(userId);
+        const user = await this.userService.getUserById(userId);
         if (!user) {
             done(new Error('User not found'), null);
         }

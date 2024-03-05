@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable, NotFoundException, UnauthorizedE
 import { SelectUserWithoutPassword } from 'src/Models/_types';
 import { EncryptionService } from '../shared/encryption/encryption.service';
 import { UserService } from '../shared/user/user.service';
-import { CreateUserDTO } from './dto/create-user.dto';
+import { CreateUserDTO } from '../users/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +12,7 @@ export class AuthService {
         ) {}
 
     async validateUser(email: string, password: string): Promise<SelectUserWithoutPassword | null> {
-        const user = await this.userService.queryUserCredentialsByEmail(email);
+        const user = await this.userService.getUserByEmail(email);
         if (!user) throw new NotFoundException('User not found');
 
         const isPasswordValid = await this.encryptionService.comparePassword(password, user.password);
@@ -26,7 +26,7 @@ export class AuthService {
     }
 
     async createUser(createUserDTO: CreateUserDTO): Promise<string | Error> {
-        const user = await this.userService.queryUserCredentialsByEmail(createUserDTO.email);
+        const user = await this.userService.getUserByEmail(createUserDTO.email);
         if (user) return new HttpException('User with this email already exists', HttpStatus.CONFLICT);
 
         const newUser = await this.userService.insertNewUser(createUserDTO);

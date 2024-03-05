@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Post, Req, 
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from 'src/Guards/localAuth.guard';
 import { create } from 'domain';
-import { CreateUserDTO } from './dto/create-user.dto';
+import { CreateUserDTO } from '../users/dto/create-user.dto';
 
 @Controller('auth')
 export class AuthController {

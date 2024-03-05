@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS "quiz_highscores" (
 	"id" text PRIMARY KEY NOT NULL,
 	"quiz_id" text NOT NULL,
 	"user_id" text NOT NULL,
-	"score" integer DEFAULT 0 NOT NULL,
+	"score" integer NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS "quiz_questions" (
 	"id" text PRIMARY KEY NOT NULL,
 	"quiz_id" text NOT NULL,
 	"question" text NOT NULL,
-	"answers" text NOT NULL,
+	"answers" text[] NOT NULL,
 	"correct_answer" text NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS "quizzes" (
 );
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "users_app_states" ADD CONSTRAINT "users_app_states_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "users_app_states" ADD CONSTRAINT "users_app_states_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -150,31 +150,31 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "users_app_states" ADD CONSTRAINT "users_app_states_highscores_quiz_highscores_id_fk" FOREIGN KEY ("highscores") REFERENCES "quiz_highscores"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "users_app_states" ADD CONSTRAINT "users_app_states_highscores_quiz_highscores_id_fk" FOREIGN KEY ("highscores") REFERENCES "quiz_highscores"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "users_billing_information" ADD CONSTRAINT "users_billing_information_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "users_billing_information" ADD CONSTRAINT "users_billing_information_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "users_settings" ADD CONSTRAINT "users_settings_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "users_settings" ADD CONSTRAINT "users_settings_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "users_statistics" ADD CONSTRAINT "users_statistics_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "users_statistics" ADD CONSTRAINT "users_statistics_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "users_timestamps" ADD CONSTRAINT "users_timestamps_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "users_timestamps" ADD CONSTRAINT "users_timestamps_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
