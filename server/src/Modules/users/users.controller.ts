@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Inject, NotFoundException, Param, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, NotFoundException, Param, Put, Req, UseGuards } from '@nestjs/common';
 import { UserService } from '../shared/user/user.service';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { UpdateUserCredentialsDTO } from './dto/update-user-credentials.dto';
+import { ModifiedRequest } from 'src/Utils/Types/request.types';
 
 @Controller('users')
 export class UsersController {
@@ -12,7 +13,11 @@ export class UsersController {
 	async getCompleteUsers() {
 		const users = await this.userService.getCompleteUsers();
 		if (!users) throw new NotFoundException('No users found');
-		return { data: users, message: 'Users found' };
+        const usersWithoutPassword = users.map((user) => {
+            const { password, ...rest } = user;
+            return rest;
+        });
+		return { data: usersWithoutPassword, message: 'Users found' };
 	}
 
     @Get(':id')
@@ -20,14 +25,34 @@ export class UsersController {
     async getCompleteUserById(@Param('id') id: string) {
         const user = await this.userService.getCompleteUserById(id);
         if (!user) throw new NotFoundException('No user found');
-        return { data: user, message: 'User found' };
+        const { password, ...rest } = user;
+        return { data: rest, message: 'User found' };
     }
+
+    @Get('user')
+    @UseGuards(AuthenticationGuard)
+    async getCompleteUserBySession(@Req() req: ModifiedRequest) {
+        const userID = req.user;
+        const user = await this.userService.getCompleteUserById(userID);
+        if (!user) throw new NotFoundException('No user found');
+        const { password, ...rest } = user;
+        return { data: rest, message: 'User found' };
+    } 
 
     @Put(':id')
     @UseGuards(AuthenticationGuard)
     async updateUser(@Param('id') id: string, @Body() body: UpdateUserCredentialsDTO) {
         const user = await this.userService.updateUser(id, body);
-        if (!user) throw new NotFoundException('No user found');
+        if (user instanceof Error) throw new NotFoundException('No user found');
+        return { data: user, message: 'User updated' };
+    }
+
+    @Put('user')
+    @UseGuards(AuthenticationGuard)
+    async updateUserBySession(@Req() req: ModifiedRequest, @Body() body: UpdateUserCredentialsDTO) {
+        const userID = req.user;
+        const user = await this.userService.updateUser(userID, body);
+        if (user instanceof Error) throw new NotFoundException('No user found');
         return { data: user, message: 'User updated' };
     }
 
@@ -35,7 +60,7 @@ export class UsersController {
     @UseGuards(AuthenticationGuard)
     async deleteUser(@Param('id') id: string) {
         const user = await this.userService.deleteUserById(id);
-        if (!user) throw new NotFoundException('No user found');
+        if (user instanceof Error) throw new NotFoundException('No user found')
         return { data: user, message: 'User deleted' };
     }
 }
