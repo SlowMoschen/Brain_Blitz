@@ -12,16 +12,8 @@ import { Role } from "src/Enums/role.enum";
 export class UsersSettingsController {
     constructor(@Inject(UsersSettingsService) private readonly userSettingService: UsersSettingsService) {}
 
-    @Roles(Role.ADMIN)
-    @Get()
-    async getUserSettings() {
-        const settings = await this.userSettingService.getUserSettings();
-        if (!settings) throw new NotFoundException('No settings found');
-        return { data: settings, message: 'Settings found' };
-    }
-
     @Roles(Role.USER, Role.ADMIN)
-    @Get('setting')
+    @Get()
     async getUserSettingsBySession(@Req() req: ModifiedRequest) {
         const userID = req.user.id;
         const settings = await this.userSettingService.getUserSettingsById(userID);
@@ -30,12 +22,20 @@ export class UsersSettingsController {
     }
 
     @Roles(Role.USER, Role.ADMIN)
-    @Patch('setting')
+    @Patch()
     async updateUserSettingsBySession(@Req() req: ModifiedRequest, @Body() body: UpdateUserSettingsDTO){
         const userID = req.user.id;
         const settings = await this.userSettingService.updateUserSettings(userID, body);
         if (!settings) throw new NotFoundException('No settings found');
         return { data: settings, message: 'Settings updated' };
+    }
+
+    @Roles(Role.ADMIN)
+    @Get('all')
+    async getUserSettings() {
+        const settings = await this.userSettingService.getUserSettings();
+        if (!settings) throw new NotFoundException('No settings found');
+        return { data: settings, message: 'Settings found' };
     }
 
     @Roles(Role.ADMIN)

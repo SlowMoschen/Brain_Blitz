@@ -11,21 +11,9 @@ import { RolesGuard } from 'src/Guards/roles.guard';
 @UseGuards(AuthenticationGuard, RolesGuard)
 export class UsersController {
 	constructor(@Inject(UserService) private readonly userService: UserService) {}
-
-    @Roles(Role.ADMIN)
-	@Get()
-	async getCompleteUsers() {
-		const users = await this.userService.getCompleteUsers();
-		if (!users) throw new NotFoundException('No users found');
-        const usersWithoutPassword = users.map((user) => {
-            const { password, ...rest } = user;
-            return rest;
-        });
-		return { data: usersWithoutPassword, message: 'Users found' };
-	}
     
     @Roles(Role.USER, Role.ADMIN)
-    @Get('user')
+    @Get()
     async getCompleteUserBySession(@Req() req: ModifiedRequest) {
         const userID = req.user.id;
         const user = await this.userService.getCompleteUserById(userID);
@@ -35,7 +23,7 @@ export class UsersController {
     }
 
     @Roles(Role.USER, Role.ADMIN)
-    @Put('user')
+    @Put()
     async updateUserBySession(@Req() req: ModifiedRequest, @Body() body: UpdateUserCredentialsDTO) {
         const userID = req.user.id;
         const user = await this.userService.updateUser(userID, body);
@@ -44,13 +32,25 @@ export class UsersController {
     }
 
     @Roles(Role.USER, Role.ADMIN)
-    @Delete('user')
+    @Delete()
     async deleteUserBySession(@Req() req: ModifiedRequest) {
         const userID = req.user.id;
         const user = await this.userService.deleteUserById(userID);
         if (user instanceof Error) throw new NotFoundException('No user found')
         return { data: user, message: 'User deleted' };
     }
+
+    @Roles(Role.ADMIN)
+	@Get('all')
+	async getCompleteUsers() {
+		const users = await this.userService.getCompleteUsers();
+		if (!users) throw new NotFoundException('No users found');
+        const usersWithoutPassword = users.map((user) => {
+            const { password, ...rest } = user;
+            return rest;
+        });
+		return { data: usersWithoutPassword, message: 'Users found' };
+	}
 
     @Roles(Role.ADMIN)
     @Get(':id')
