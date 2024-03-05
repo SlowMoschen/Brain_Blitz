@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
-import { SelectUser, SelectUserWithAllTables } from 'src/Models/_types';
+import { SelectUser, SelectUserSettings, SelectUserWithAllTables } from 'src/Models/_types';
 import { CreateUserDTO } from 'src/Modules/users/dto/create-user.dto';
 import * as schema from '../../../Models/_index';
 import { EncryptionService } from '../encryption/encryption.service';
@@ -38,10 +38,13 @@ export class UserService {
 	 * @param {string} id - The id of the user
 	 * @returns {Promise<SelectUser[] | null>} - Returns all users or null if an error occurs or no users are found
 	 */
-	async getUserById(id: string): Promise<SelectUser | null> {
+	async getUserById(id: string): Promise<SelectUser & { settings: SelectUserSettings} | null> {
 		try {
 			const user = await this.db.query.usersTable.findFirst({
 				where: eq(schema.usersTable.id, id),
+				with: {
+					settings: true,
+				},
 			});
 
 			if (!user) return null;
