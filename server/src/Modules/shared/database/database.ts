@@ -13,12 +13,11 @@ export const databaseProvider: Provider = {
 			configService.get<string>('NODE_ENV') === 'production'
 				? configService.get<string>('DATABASE_URL')
 				: configService.get<string>('DATABASE_DEV_URL');
-
 		const client = new Client({
 			connectionString: DB_URL,
 		});
+        await client.connect();
         const db = drizzle(client, { schema });
-        console.log('Database connected');
 		return db;
 	},
 };
