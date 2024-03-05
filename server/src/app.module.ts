@@ -6,8 +6,8 @@ import { UsersModule } from './Modules/users/users.module';
 
 @Module({
   imports: [
-    SharedModule,
     ConfigModule.forRoot({ isGlobal: true }),
+    SharedModule,
     AuthModule,
     UsersModule,
   ],
