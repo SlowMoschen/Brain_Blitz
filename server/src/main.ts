@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
-import loggerMiddleware from './Middlewares/Logger.Middleware';
+import loggerMiddleware from './Middlewares/logger.middleware';
 import * as session from 'express-session';
 import * as passport from 'passport';
 import * as connectPGSession from 'connect-pg-simple';

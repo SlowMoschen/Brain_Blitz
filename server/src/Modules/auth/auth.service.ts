@@ -1,7 +1,7 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { UserService } from '../shared/user/user.service';
+import { HttpException, HttpStatus, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { SelectUserWithoutPassword } from 'src/Models/_types';
 import { EncryptionService } from '../shared/encryption/encryption.service';
-import { SelectUser, SelectUserWithoutPassword } from 'src/Models/_types';
+import { UserService } from '../shared/user/user.service';
 import { CreateUserDTO } from './dto/create-user.dto';
 
 @Injectable()
@@ -13,7 +13,11 @@ export class AuthService {
 
     async validateUser(email: string, password: string): Promise<SelectUserWithoutPassword | null> {
         const user = await this.userService.queryUserCredentialsByEmail(email);
+        if (!user) throw new NotFoundException('User not found');
+
         const isPasswordValid = await this.encryptionService.comparePassword(password, user.password);
+        if (!isPasswordValid) throw new UnauthorizedException('Invalid password');
+
         if (user && isPasswordValid) {
             const { password, ...result } = user;
             return result;
