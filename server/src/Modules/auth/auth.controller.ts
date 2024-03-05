@@ -25,6 +25,7 @@ export class AuthController {
 
     @Get('session')
     async session(@Req() req: ModifiedRequest) {
+        console.log(req.user);
         if (!req.user) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
         return { message: 'Authorized' };
     }
