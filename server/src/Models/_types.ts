@@ -12,6 +12,7 @@ import {
 
 export type SelectUser = typeof usersTable.$inferSelect;
 export type InsertUser = typeof usersTable.$inferInsert;
+export type SelectUserWithoutPassword = Omit<SelectUser, 'password'>;
 
 export type SelectUserSettings = typeof usersSettingsTable.$inferSelect;
 export type InsertUserSettings = typeof usersSettingsTable.$inferInsert;
