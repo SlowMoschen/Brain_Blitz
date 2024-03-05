@@ -17,5 +17,8 @@ export const tokensTable = pgTable('tokens', {
 });
 
 export const tokenRelations = relations(tokensTable, ({ one }) => ({
-	user: one(usersTable),
+	user: one(usersTable, {
+		fields: [tokensTable.user_id],
+		references: [usersTable.id],
+	}),
 }));

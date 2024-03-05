@@ -18,6 +18,6 @@ export class SessionSerializer extends PassportSerializer {
 			done(new Error('User not found'), null);
 		}
 		const { password, settings, id, ...rest } = user;
-		done(null, { id: id, roles: settings.roles });
+		done(null, { id: id, roles: [settings.roles] });
 	}
 }

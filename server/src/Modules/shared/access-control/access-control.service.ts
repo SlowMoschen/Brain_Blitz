@@ -27,7 +27,8 @@ export class AccessControlService {
         this.hierachies.push(hierarchy);
     }
 
-    public isAuthorized({ userRole, requiredRole }: isAuthorizedParams) {
+    public isAuthorized({ userRole, requiredRole }: isAuthorizedParams): boolean {
+        console.log('isAuthorizedParams: ', { userRole, requiredRole });
         for (const hierarchy of this.hierachies) {
             const prio = hierarchy.get(userRole);
             const requiredPrio = hierarchy.get(requiredRole);
