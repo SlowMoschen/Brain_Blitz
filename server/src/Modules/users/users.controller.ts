@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, NotFoundException, Param, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, NotFoundException, Param, Put, UseGuards } from '@nestjs/common';
 import { UserService } from '../shared/user/user.service';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { UpdateUserCredentialsDTO } from './dto/update-user-credentials.dto';
@@ -29,5 +29,13 @@ export class UsersController {
         const user = await this.userService.updateUser(id, body);
         if (!user) throw new NotFoundException('No user found');
         return { data: user, message: 'User updated' };
+    }
+
+    @Delete(':id')
+    @UseGuards(AuthenticationGuard)
+    async deleteUser(@Param('id') id: string) {
+        const user = await this.userService.deleteUserById(id);
+        if (!user) throw new NotFoundException('No user found');
+        return { data: user, message: 'User deleted' };
     }
 }
