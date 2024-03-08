@@ -1,11 +1,6 @@
 import { FilteredKeys } from 'src/Utils/Types/enum.types';
 import { usersTimestampsTable } from '../Models/_index';
+import { extractKeysFromTable } from 'src/Utils/Helpers/extractKeysFromTable';
 
-const timestampsArray = [
-	...Object.keys(usersTimestampsTable)
-		.filter((column) => column !== 'id' && column !== 'user_id')
-		.map((column) => column.toUpperCase()),
-] as const;
-console.log(timestampsArray);
-
+const timestampsArray = [...extractKeysFromTable(usersTimestampsTable)] as const;
 export type TimestampColumns = FilteredKeys<typeof usersTimestampsTable._.columns>;
