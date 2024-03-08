@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS "achievements" (
 	"id" text PRIMARY KEY NOT NULL,
 	"title" text NOT NULL,
 	"description" text NOT NULL,
-	"requirements" text NOT NULL,
+	"requirements" jsonb NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );

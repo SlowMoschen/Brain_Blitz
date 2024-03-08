@@ -1,6 +1,6 @@
 {
-  "id": "bc9cfeff-74d0-4cb4-97c3-62540ee10596",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "f4bd3695-77a9-421a-9fdf-776d6d81882a",
+  "prevId": "bc9cfeff-74d0-4cb4-97c3-62540ee10596",
   "version": "5",
   "dialect": "pg",
   "tables": {
@@ -430,6 +430,34 @@
         },
         "updated_at": {
           "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "billing_information_updated_at": {
+          "name": "billing_information_updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "statistics_updated_at": {
+          "name": "statistics_updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "settings_updated_at": {
+          "name": "settings_updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "last_password_reset": {
+          "name": "last_password_reset",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
