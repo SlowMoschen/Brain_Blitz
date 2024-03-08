@@ -41,6 +41,12 @@ export class UserTimestampsService {
 		}
 	}
 
+    /**
+     * @description - Updates a specific column in the user timestamps table
+     * @param {string} userID - The id of the user
+     * @param {TimestampColumns} column - The column to update
+     * @returns {Promise<string | null>} - Returns the id of the user or null if an error occurs
+     */
     async updateUserTimestamp(userID: string, column: TimestampColumns) {
         try {
             const timestamps = await this.db
