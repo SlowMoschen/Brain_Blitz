@@ -1,6 +1,6 @@
 import { Request } from "express";
 
-export type ModifiedRequest = Request & {
+export type ReqWithUser = Request & {
     user: {
         id: string;
         role: string[];
