@@ -4,7 +4,7 @@ import { Role } from 'src/Enums/role.enum';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { RolesGuard } from 'src/Guards/roles.guard';
 import { UsersStatisticsService } from '../shared/user/user.statistics.service';
-import { ModifiedRequest } from 'src/Utils/Types/request.types';
+import { ReqWithUser } from 'src/Utils/Types/request.types';
 import { UpdateUserStatisticsDTO } from './dto/update-user-statistics.dto';
 
 @UseGuards(AuthenticationGuard, RolesGuard)
@@ -14,7 +14,7 @@ export class UsersStatisticsController {
 
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
-	async getUserStatisticsBySession(@Req() req: ModifiedRequest) {
+	async getUserStatisticsBySession(@Req() req: ReqWithUser) {
 		const userID = req.user.id;
         const stats = await this.usersStatisticsService.getUserStatisticsById(userID);
         if (!stats) throw new NotFoundException('No statistics found');
@@ -23,7 +23,7 @@ export class UsersStatisticsController {
 
 	@Roles(Role.USER, Role.ADMIN)
 	@Patch()
-	async updateUserStatisticsBySession(@Req() req: ModifiedRequest, @Body() body: UpdateUserStatisticsDTO) {
+	async updateUserStatisticsBySession(@Req() req: ReqWithUser, @Body() body: UpdateUserStatisticsDTO) {
 		const userID = req.user.id;
         const stats = await this.usersStatisticsService.updateUserStatistics(userID, body);
         if (!stats) throw new NotFoundException('No statistics found');

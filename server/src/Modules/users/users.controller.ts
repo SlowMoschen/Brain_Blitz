@@ -6,6 +6,7 @@ import {
 	Inject,
 	NotFoundException,
 	Param,
+	Post,
 	Put,
 	Req,
 	UseGuards,
@@ -15,19 +16,23 @@ import {
 import { UserService } from '../shared/user/user.service';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { UpdateUserCredentialsDTO } from './dto/update-user-credentials.dto';
-import { ModifiedRequest } from 'src/Utils/Types/request.types';
+import { ReqWithUser } from 'src/Utils/Types/request.types';
 import { Roles } from 'src/Decorators/roles.decorator';
 import { Role } from 'src/Enums/role.enum';
 import { RolesGuard } from 'src/Guards/roles.guard';
+import { UserTimestampsService } from '../shared/user/user.timestamps.service';
 
 @Controller('users')
 @UseGuards(AuthenticationGuard, RolesGuard)
 export class UsersController {
-	constructor(@Inject(UserService) private readonly userService: UserService) {}
+	constructor(
+		@Inject(UserService) private readonly userService: UserService,
+		@Inject(UserTimestampsService) private readonly timestampService: UserTimestampsService,
+	) {}
 
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
-	async getCompleteUserBySession(@Req() req: ModifiedRequest) {
+	async getCompleteUserBySession(@Req() req: ReqWithUser) {
 		const userID = req.user.id;
 		const user = await this.userService.getCompleteUserById(userID);
 		if (!user) throw new NotFoundException('No user found');
@@ -38,7 +43,7 @@ export class UsersController {
 	@Roles(Role.USER, Role.ADMIN)
 	@UsePipes(new ValidationPipe())
 	@Put()
-	async updateUserBySession(@Req() req: ModifiedRequest, @Body() body: UpdateUserCredentialsDTO) {
+	async updateUserBySession(@Req() req: ReqWithUser, @Body() body: UpdateUserCredentialsDTO) {
 		const userID = req.user.id;
 		const user = await this.userService.updateUser(userID, body);
 		if (user instanceof Error) throw new NotFoundException('No user found');
@@ -47,7 +52,7 @@ export class UsersController {
 
 	@Roles(Role.USER, Role.ADMIN)
 	@Delete()
-	async deleteUserBySession(@Req() req: ModifiedRequest) {
+	async deleteUserBySession(@Req() req: ReqWithUser) {
 		const userID = req.user.id;
 		const user = await this.userService.deleteUserById(userID);
 		if (user instanceof Error) throw new NotFoundException('No user found');

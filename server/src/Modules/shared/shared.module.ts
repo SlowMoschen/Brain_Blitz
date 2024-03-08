@@ -6,6 +6,7 @@ import { EncryptionService } from './encryption/encryption.service';
 import { UsersSettingsService } from './user/user.settings.service';
 import { AccessControlService } from './access-control/access-control.service';
 import { UsersStatisticsService } from './user/user.statistics.service';
+import { UserTimestampsService } from './user/user.timestamps.service';
 
 @Module({
 	providers: [
@@ -15,6 +16,7 @@ import { UsersStatisticsService } from './user/user.statistics.service';
 		UsersSettingsService,
 		AccessControlService,
 		UsersStatisticsService,
+		UserTimestampsService,
 	],
 	exports: [
 		DB_CONNECTION,
@@ -23,6 +25,7 @@ import { UsersStatisticsService } from './user/user.statistics.service';
 		UsersSettingsService,
 		AccessControlService,
 		UsersStatisticsService,
+		UserTimestampsService,
 	],
 })
 export class SharedModule {}

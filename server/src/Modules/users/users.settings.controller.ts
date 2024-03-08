@@ -12,7 +12,7 @@ import {
 	ValidationPipe,
 } from '@nestjs/common';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
-import { ModifiedRequest } from 'src/Utils/Types/request.types';
+import { ReqWithUser } from 'src/Utils/Types/request.types';
 import { UsersSettingsService } from '../shared/user/user.settings.service';
 import { UpdateUserSettingsDTO } from './dto/update-user-settings.dto';
 import { RolesGuard } from 'src/Guards/roles.guard';
@@ -26,7 +26,7 @@ export class UsersSettingsController {
 
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
-	async getUserSettingsBySession(@Req() req: ModifiedRequest) {
+	async getUserSettingsBySession(@Req() req: ReqWithUser) {
 		const userID = req.user.id;
 		const settings = await this.userSettingService.getUserSettingsById(userID);
 		if (!settings) throw new NotFoundException('No settings found');
@@ -36,7 +36,7 @@ export class UsersSettingsController {
 	@Roles(Role.USER, Role.ADMIN)
 	@UsePipes(new ValidationPipe())
 	@Patch()
-	async updateUserSettingsBySession(@Req() req: ModifiedRequest, @Body() body: UpdateUserSettingsDTO) {
+	async updateUserSettingsBySession(@Req() req: ReqWithUser, @Body() body: UpdateUserSettingsDTO) {
 		const userID = req.user.id;
 		const settings = await this.userSettingService.updateUserSettings(userID, body);
 		if (!settings) throw new NotFoundException('No settings found');

@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Post, Req, 
 import { LocalAuthGuard } from 'src/Guards/localAuth.guard';
 import { CreateUserDTO } from '../users/dto/create-user.dto';
 import { AuthService } from './auth.service';
-import { ModifiedRequest } from 'src/Utils/Types/request.types';
+import { ReqWithUser } from 'src/Utils/Types/request.types';
 
 @Controller('auth')
 export class AuthController {
@@ -24,7 +24,7 @@ export class AuthController {
     }
 
     @Get('session')
-    async session(@Req() req: ModifiedRequest) {
+    async session(@Req() req: ReqWithUser) {
         console.log(req.user);
         if (!req.user) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
         return { message: 'Authorized' };
