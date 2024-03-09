@@ -6,6 +6,7 @@ import * as session from 'express-session';
 import * as passport from 'passport';
 import * as connectPGSession from 'connect-pg-simple';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 const pgSession = connectPGSession(session);
 
 async function bootstrap() {
@@ -38,6 +39,16 @@ async function bootstrap() {
 
   app.use(passport.initialize());
   app.use(passport.session());
+
+  const config = new DocumentBuilder()
+  .setTitle('NestJS API')
+  .setDescription('The NestJS API description')
+  .setVersion('1.0')
+  .addTag('nestjs')
+  .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('docs', app, document);
 
   await app.listen(3000);
 }
