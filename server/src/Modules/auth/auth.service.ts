@@ -78,10 +78,9 @@ export class AuthService {
      */
     async verifyEmail(userID: string, token: string): Promise<string | Error> {
         try {
-            const { settings, ...user } = await this.userService.getCompleteUserById(userID);
-    
+            const user = await this.userService.getCompleteUserById(userID);
             if (!user) throw new NotFoundException('User not found');
-            if (settings.is_verified) throw new HttpException('Email already verified', HttpStatus.CONFLICT);
+            if (user.settings.is_verified) throw new HttpException('Email already verified', HttpStatus.CONFLICT);
     
             const decodedToken = await this.tokenService.verifyToken(token);
             if (!decodedToken) throw new NotFoundException('Your token is invalid or expired, please request a new one');
@@ -94,5 +93,34 @@ export class AuthService {
         } catch (error) {
             return error;
         }
+    }
+
+    /**
+     * @description - Resends a verification email
+     * @param {string} email - The user's email
+     * @throws {HttpException} - Throws an error if the email is not found
+     * @throws {HttpException} - Throws an error if the email is already verified
+     * @throws {HttpException} - Throws an error if the token generation fails
+     * @returns {Promise<string | Error>} - Returns the user's id or an error
+     */
+    async resendVerificationEmail(email: string): Promise<string | Error> {
+        const user = await this.userService.getUserByEmail(email);
+        if (!user) return new NotFoundException('Email not found');
+
+        const userSettings = await this.settingsService.getUserSettingsById(user.id);
+        if (!userSettings) return new NotFoundException('User settings not found');
+        if (userSettings.is_verified) return new HttpException('Email already verified', HttpStatus.CONFLICT);
+
+        const existingToken = await this.tokenService.getTokensByUserId(user.id);
+        if (existingToken) {
+            await this.tokenService.deleteToken(existingToken[0].token);
+        }
+
+        const token = await this.tokenService.generateToken(user.id);
+        if (!token) return new HttpException('Token generation failed', HttpStatus.INTERNAL_SERVER_ERROR);
+
+        await this.mailService.sendConfirmationEmail(user, token);
+
+        return user.id;
     }
 }

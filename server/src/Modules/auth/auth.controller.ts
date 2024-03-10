@@ -7,7 +7,9 @@ import {
 	HttpStatus,
 	Param,
 	Post,
+	Render,
 	Req,
+	Res,
 	UseGuards,
 	UsePipes,
 	ValidationPipe,
@@ -27,6 +29,7 @@ import { ReqWithUser } from 'src/Utils/Types/request.types';
 import { CreateUserDTO } from '../users/dto/create-user.dto';
 import { LoginUserDTO } from '../users/dto/login-user.dto';
 import { AuthService } from './auth.service';
+import { ResendVerificationEmailDto } from './dto/resendVerficationEmail.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -92,10 +95,56 @@ export class AuthController {
 	@ApiForbiddenResponse({ description: 'if token does not match user' })
 	@ApiInternalServerErrorResponse({ description: 'if email verification failed' })
 	@Get('verify-email/:id/:token')
-	async verifyEmail(@Param('id') id: string, @Param('token') token: string) {
+	@Render('email-verified')
+	async verifyEmail(@Param('id') id: string, @Param('token') token: string, @Res() res) {
 		const verified = await this.authService.verifyEmail(id, token);
-		if (!verified) throw new HttpException('Email verification failed', HttpStatus.INTERNAL_SERVER_ERROR);
+		if (verified instanceof Error) {
+			let message = '';
+			switch (verified.message) {
+				case 'User not found':
+					message = 'User not found';
+					break;
+				case 'Email already verified':
+					message = 'Email already verified';
+					break;
+				case 'Your token is invalid or expired, please request a new one':
+					message = 'Your token is invalid or expired, please request a new one';
+					break;
+				case 'Token does not match user':
+					message = 'Token does not match user';
+					break;
+				default:
+					message = 'Email verification failed';
+					break;
+			}
+			return res.render('email-verified', { message });
+		} else {
+			return res.render('email-verified', { message: 'E-Mail wurde erfolgreich bestätigt', url: process.env.LOGIN_REDIRECT_URL });
+		}
+	}
 
-		return { message: 'Email verified' };
+	@ApiOperation({ summary: 'Resend email verification' })
+	@ApiOkResponse({ description: 'returns message if email was resent' })
+	@ApiNotFoundResponse({ description: 'if user not found' })
+	@ApiConflictResponse({ description: 'if email already verified' })
+	@ApiInternalServerErrorResponse({ description: 'if email resend failed' })
+	@Post('resend-email-verification')
+	@UsePipes(new ValidationPipe())
+	async resendEmailVerification(@Body() verficiationDTO: ResendVerificationEmailDto) {
+		const resent = await this.authService.resendVerificationEmail(verficiationDTO.email);
+		if (resent instanceof Error) {
+			if (resent.message === 'Email not found') {
+				throw new HttpException(resent.message, HttpStatus.NOT_FOUND);
+			}
+
+			if (resent.message === 'Email already verified') {
+				throw new HttpException(resent.message, HttpStatus.CONFLICT);
+			}
+
+			if (resent.message === 'Email resend failed') {
+				throw new HttpException(resent.message, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+		return { message: 'Email resent'};
 	}
 }
