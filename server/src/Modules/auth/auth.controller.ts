@@ -100,6 +100,7 @@ export class AuthController {
 		const verified = await this.authService.verifyEmail(id, token);
 		if (verified instanceof Error) {
 			let message = '';
+			let url = '';
 			switch (verified.message) {
 				case 'User not found':
 					message = 'User not found';
@@ -109,6 +110,7 @@ export class AuthController {
 					break;
 				case 'Your token is invalid or expired, please request a new one':
 					message = 'Your token is invalid or expired, please request a new one';
+					url = '/resend-email-verification';
 					break;
 				case 'Token does not match user':
 					message = 'Token does not match user';
@@ -117,9 +119,12 @@ export class AuthController {
 					message = 'Email verification failed';
 					break;
 			}
-			return res.render('email-verified', { message });
+			return res.render('email-verified', { message, url });
 		} else {
-			return res.render('email-verified', { message: 'E-Mail wurde erfolgreich bestätigt', url: process.env.LOGIN_REDIRECT_URL });
+			return res.render('email-verified', {
+				message: 'E-Mail wurde erfolgreich bestätigt',
+				url: process.env.LOGIN_REDIRECT_URL,
+			});
 		}
 	}
 
@@ -145,6 +150,6 @@ export class AuthController {
 				throw new HttpException(resent.message, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
-		return { message: 'Email resent'};
+		return { message: 'Email resent' };
 	}
 }
