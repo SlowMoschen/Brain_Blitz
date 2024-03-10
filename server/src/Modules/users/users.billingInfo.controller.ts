@@ -55,7 +55,7 @@ export class UsersBillingInfoController {
 		return { data: billingInfo, message: 'Billing info updated' };
 	}
 
-    @ApiOperation({ summary: 'Get all billing info' })
+    @ApiOperation({ summary: 'ADMIN ROUTE - Get all billing info' })
     @ApiOkResponse({ description: 'returns all billing info' })
     @ApiForbiddenResponse({ description: 'if user got no session cookie or is not an admin' })
     @ApiNotFoundResponse({ description: 'if no billing info was found' })
@@ -70,7 +70,7 @@ export class UsersBillingInfoController {
         return { data: billingInfos, message: 'Billing infos found' };
 	}
 
-    @ApiOperation({ summary: 'Get billing info by id' })
+    @ApiOperation({ summary: 'ADMIN ROUTE - Get billing info by id' })
     @ApiOkResponse({ description: 'returns billing info' })
     @ApiForbiddenResponse({ description: 'if user got no session cookie or is not an admin' })
     @ApiNotFoundResponse({ description: 'if no billing info was found' })
@@ -85,7 +85,7 @@ export class UsersBillingInfoController {
         return { data: billingInfo, message: 'Billing info found' };
 	}
 
-    @ApiOperation({ summary: 'Update billing info by id' })
+    @ApiOperation({ summary: 'ADMIN ROUTE - Update billing info by id' })
     @ApiOkResponse({ description: 'returns userID of updated billing info table' })
     @ApiForbiddenResponse({ description: 'if user got no session cookie or is not an admin' })
     @ApiNotFoundResponse({ description: 'if no billing info was found' })
