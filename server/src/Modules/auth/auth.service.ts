@@ -17,6 +17,15 @@ export class AuthService {
         private readonly mailService: MailService,
         ) {}
 
+    
+    /**
+     * @description - Validates a user's email and password
+     * @param {string} email - The user's email
+     * @param {string} password - The user's password
+     * @throws {NotFoundException} - Throws an error if the user is not found
+     * @throws {UnauthorizedException} - Throws an error if the email is not verified or the password is invalid
+     * @returns {Promise<SelectUserWithoutPassword | null>} - Returns the user without the password
+     */
     async validateUser(email: string, password: string): Promise<SelectUserWithoutPassword | null> {
         const user = await this.userService.getUserByEmail(email);
         if (!user) throw new NotFoundException('User not found');
@@ -35,6 +44,13 @@ export class AuthService {
         return null;
     }
 
+    /**
+     * @description - Creates a new user and sends a confirmation email
+     * @param {CreateUserDTO} createUserDTO - The user's data
+     * @throws {HttpException} - Throws an error if the user already exists
+     * @throws {HttpException} - Throws an error if the token generation fails
+     * @returns {Promise<string | Error>} - Returns the user's id or an error
+     */
     async createUser(createUserDTO: CreateUserDTO): Promise<string | Error> {
         const user = await this.userService.getUserByEmail(createUserDTO.email);
         if (user) return new HttpException('User with this email already exists', HttpStatus.CONFLICT);
@@ -50,6 +66,16 @@ export class AuthService {
         return newUser.id;
     }
     
+    /**
+     * @description - Verifies a user's email
+     * @param {string} userID - The user's id
+     * @param {string} token - The token to verify the user's email
+     * @throws {NotFoundException} - Throws an error if the user is not found
+     * @throws {HttpException} - Throws an error if the email is already verified
+     * @throws {HttpException} - Throws an error if the token is invalid or expired
+     * @throws {UnauthorizedException} - Throws an error if the token does not match the user
+     * @returns {Promise<string | Error>} - Returns the user's id or an error
+     */
     async verifyEmail(userID: string, token: string): Promise<string | Error> {
         try {
             const { settings, ...user } = await this.userService.getCompleteUserById(userID);

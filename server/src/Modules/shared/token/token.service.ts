@@ -12,6 +12,12 @@ export class TokenService {
 		private readonly jwtService: JwtService,
 	) {}
 
+
+    /**
+     * @description - Generates a token for a user
+     * @param {string} userID - The id of the user
+     * @returns {Promise<string>} - Returns the token
+     */
     async generateToken(userID: string): Promise<string> {
         const jwt = this.jwtService.sign({ userID });
         const token = {
@@ -23,6 +29,11 @@ export class TokenService {
         return jwt;
     }
 
+    /**
+     * @description - Verifies a token
+     * @param {string} token - The token to verify
+     * @returns {Promise<{ userID: string }>} - Returns the user id
+     */
     async verifyToken(token: string): Promise<{ userID: string }> {
         const tokenRow = await this.db.query.tokensTable.findFirst({
             where: eq(schema.tokensTable.token, token),
@@ -33,6 +44,11 @@ export class TokenService {
         return decodedToken;
     }
 
+    /**
+     * @description - Deletes a token from the database
+     * @param {string} token - The token to delete
+     * @returns {Promise<string>} - Returns the token
+     */
     async deleteToken(token: string): Promise<string> {
         const deletedToken = await this.db
             .delete(schema.tokensTable)

@@ -6,6 +6,13 @@ import { SelectUser } from "src/Utils/Types/model.types";
 export class MailService {
     constructor(private readonly mailerService: MailerService) {}
 
+
+    /**
+     * @description - Sends a confirmation email to the user
+     * @param {SelectUser} user - The user instance for which to send the confirmation email
+     * @param {string} token - The token to verify the user's email
+     * @returns {Promise<void>} - Returns void
+     */
     async sendConfirmationEmail(user: SelectUser, token: string): Promise<void> {
         const url = `http://localhost:3000/auth/verify-email/${user.id}/${token}`;
 
