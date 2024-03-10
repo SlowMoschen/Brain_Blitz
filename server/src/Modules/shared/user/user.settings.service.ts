@@ -7,7 +7,7 @@ import { SelectUserSettings } from 'src/Models/_types';
 import { UpdateUserSettingsDTO } from 'src/Modules/users/dto/update-user-settings.dto';
 
 @Injectable()
-export class UsersSettingsService {
+export class SettingsService {
 	constructor(@InjectDatabase() private readonly db: NodePgDatabase<typeof schema>) {}
 
 	/**

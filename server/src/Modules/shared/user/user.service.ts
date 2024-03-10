@@ -7,14 +7,14 @@ import * as schema from '../../../Models/_index';
 import { EncryptionService } from '../encryption/encryption.service';
 import { UpdateUserCredentialsDTO } from 'src/Modules/users/dto/update-user-credentials.dto';
 import { InjectDatabase } from 'src/Decorators/injectDatabase.decorator';
-import { UserTimestampsService } from './user.timestamps.service';
+import { TimestampsService } from './user.timestamps.service';
 
 @Injectable()
 export class UserService {
 	constructor(
 		@InjectDatabase() private readonly db: NodePgDatabase<typeof schema>,
 		private readonly encryptionService: EncryptionService,
-		private readonly timestampService: UserTimestampsService,
+		private readonly timestampService: TimestampsService,
 	) {}
 
 	/**

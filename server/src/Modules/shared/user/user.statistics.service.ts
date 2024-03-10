@@ -7,7 +7,7 @@ import { SelectUserStatistics } from "src/Models/_types";
 import { UpdateUserStatisticsDTO } from "src/Modules/users/dto/update-user-statistics.dto";
 
 @Injectable()
-export class UsersStatisticsService {
+export class StatisticsService {
     constructor(@InjectDatabase() private readonly db: NodePgDatabase<typeof schema>) {}
 
 

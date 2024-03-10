@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { ReqWithUser } from 'src/Utils/Types/request.types';
-import { UsersSettingsService } from '../shared/user/user.settings.service';
+import { SettingsService } from '../shared/user/user.settings.service';
 import { UpdateUserSettingsDTO } from './dto/update-user-settings.dto';
 import { RolesGuard } from 'src/Guards/roles.guard';
 import { Roles } from 'src/Decorators/roles.decorator';
@@ -32,7 +32,7 @@ import {
 @Controller('users/settings')
 @UseGuards(AuthenticationGuard, RolesGuard)
 export class UsersSettingsController {
-	constructor(@Inject(UsersSettingsService) private readonly userSettingService: UsersSettingsService) {}
+	constructor(@Inject(SettingsService) private readonly userSettingService: SettingsService) {}
 
 	@ApiOperation({ summary: 'Get user settings via session cookie' })
 	@ApiOkResponse({ description: 'returns user settings table' })

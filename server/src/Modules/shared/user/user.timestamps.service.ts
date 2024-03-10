@@ -6,7 +6,7 @@ import { TimestampColumns } from 'src/Enums/timestampColumns.enum';
 import * as schema from '../../../Models/_index';
 
 @Injectable()
-export class UserTimestampsService {
+export class TimestampsService {
 
 	constructor(@InjectDatabase() private readonly db: NodePgDatabase<typeof schema>) {}
 

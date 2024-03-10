@@ -3,7 +3,7 @@ import { Roles } from 'src/Decorators/roles.decorator';
 import { Role } from 'src/Enums/role.enum';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { RolesGuard } from 'src/Guards/roles.guard';
-import { UsersStatisticsService } from '../shared/user/user.statistics.service';
+import { StatisticsService } from '../shared/user/user.statistics.service';
 import { ReqWithUser } from 'src/Utils/Types/request.types';
 import { UpdateUserStatisticsDTO } from './dto/update-user-statistics.dto';
 import { ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -12,7 +12,7 @@ import { ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiNotFoundRespon
 @UseGuards(AuthenticationGuard, RolesGuard)
 @Controller('users/statistics')
 export class UsersStatisticsController {
-	constructor(@Inject(UsersStatisticsService) private readonly usersStatisticsService: UsersStatisticsService) {}
+	constructor(@Inject(StatisticsService) private readonly usersStatisticsService: StatisticsService) {}
 
 	@ApiOperation({ summary: 'Get user statistics via session cookie' })
 	@ApiOkResponse({ description: 'returns user statistics table' })

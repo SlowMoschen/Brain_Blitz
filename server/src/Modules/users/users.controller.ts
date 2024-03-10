@@ -47,7 +47,7 @@ export class UsersController {
 		const userID = req.user.id;
 		const user = await this.userService.getCompleteUserById(userID);
 		if (!user) throw new NotFoundException('No user found');
-		if (user instanceof Error) throw new HttpException('User not found', 500);
+		if (user instanceof Error) throw new HttpException('Query failed', 500);
 		const { password, ...rest } = user;
 		return { data: rest, message: 'User found' };
 	}
