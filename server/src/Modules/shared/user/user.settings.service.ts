@@ -47,7 +47,7 @@ export class UsersSettingsService {
 	 * @param {UpdateUserSettingsDTO} body - The body of the request
 	 * @returns {Promise<string | null>} - Returns the userID or null if an error occurs or no settings are found
 	 */
-	async updateUserSettings(id: string, body: UpdateUserSettingsDTO): Promise<string | null> {
+	async updateUserSettings(id: string, body: UpdateUserSettingsDTO): Promise<string | null | Error> {
 		try {
 			const settings = await this.db
 				.update(schema.usersSettingsTable)

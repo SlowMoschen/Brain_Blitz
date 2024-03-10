@@ -48,7 +48,7 @@ export class UsersStatisticsService {
      * @param {UpdateUserStatisticsDTO} body - The body of the request
      * @returns {Promise<string | null>} - Returns the userID or null if an error occurs or no statistics are found
      */
-    async updateUserStatistics(id: string, body: UpdateUserStatisticsDTO): Promise<string | null>{
+    async updateUserStatistics(id: string, body: UpdateUserStatisticsDTO): Promise<string | null | Error>{
         try {
             const stats = await this.db
                 .update(schema.usersStatisticsTable)

@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsArray, IsBoolean, IsOptional, IsString } from "class-validator";
 import { SQL } from "drizzle-orm";
+import { Role } from "src/Enums/role.enum";
 
 export class UpdateUserSettingsDTO {
 
@@ -14,7 +15,7 @@ export class UpdateUserSettingsDTO {
     @IsString()
     language: string;
 
-    @ApiProperty()
+    @ApiProperty({ enum: Role, enumName: 'Role', examples: ['user', 'admin']})
     @IsOptional()
     @IsString()
     @IsArray()

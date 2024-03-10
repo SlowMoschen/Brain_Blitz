@@ -4,21 +4,25 @@ import { IsOptional, IsString, MinLength, IsEmail, Matches } from "class-validat
 export class UpdateUserCredentialsDTO {
 
     @ApiProperty()
+    @IsOptional()
     @IsString()
     @MinLength(2, { message: 'First name is too short' })
     first_name: string;
 
     @ApiProperty()
+    @IsOptional()
     @IsString()
     @MinLength(2, { message: 'Last name is too short' })
     last_name: string;
 
     @ApiProperty()
+    @IsOptional()
     @IsString()
     @IsEmail()
     email: string;
 
     @ApiProperty()
+    @IsOptional()
     @IsString()
     @MinLength(8, { message: 'Password is too short' })
     @Matches(/[^a-zA-Z0-9]/, { message: 'Password must contain at least one special character' })

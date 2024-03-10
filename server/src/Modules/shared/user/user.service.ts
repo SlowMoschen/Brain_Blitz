@@ -7,12 +7,14 @@ import * as schema from '../../../Models/_index';
 import { EncryptionService } from '../encryption/encryption.service';
 import { UpdateUserCredentialsDTO } from 'src/Modules/users/dto/update-user-credentials.dto';
 import { InjectDatabase } from 'src/Decorators/injectDatabase.decorator';
+import { UserTimestampsService } from './user.timestamps.service';
 
 @Injectable()
 export class UserService {
 	constructor(
 		@InjectDatabase() private readonly db: NodePgDatabase<typeof schema>,
 		private readonly encryptionService: EncryptionService,
+		private readonly timestampService: UserTimestampsService,
 	) {}
 
 	/**
@@ -38,7 +40,7 @@ export class UserService {
 	 * @param {string} id - The id of the user
 	 * @returns {Promise<SelectUser[] | null>} - Returns all users or null if an error occurs or no users are found
 	 */
-	async getUserById(id: string): Promise<SelectUser & { settings: SelectUserSettings} | null> {
+	async getUserById(id: string): Promise<(SelectUser & { settings: SelectUserSettings }) | null> {
 		try {
 			const user = await this.db.query.usersTable.findFirst({
 				where: eq(schema.usersTable.id, id),
@@ -184,6 +186,8 @@ export class UserService {
 				.where(eq(schema.usersTable.id, id))
 				.returning({ id: schema.usersTable.id });
 			if (!user) return null;
+
+			await this.timestampService.updateUserTimestamp(id, 'updated_at');
 			return user[0].id;
 		} catch (error) {
 			return error;
@@ -195,8 +199,17 @@ export class UserService {
 	 * @param {string} id - The id of the user
 	 * @returns {Promise<string | null | Error>} - Returns the id of the deleted user or null if an error occurs
 	 */
-	async deleteUserById(id: string): Promise<string | null| Error> {
+	async deleteUserById(id: string): Promise<string | null | Error> {
 		try {
+			await this.db.delete(schema.usersAppStates).where(eq(schema.usersAppStates.user_id, id));
+			await this.db
+				.delete(schema.usersBillingInformationTable)
+				.where(eq(schema.usersBillingInformationTable.user_id, id));
+			await this.db.delete(schema.usersSettingsTable).where(eq(schema.usersSettingsTable.user_id, id));
+			await this.db.delete(schema.usersStatisticsTable).where(eq(schema.usersStatisticsTable.user_id, id));
+			await this.db.delete(schema.usersTimestampsTable).where(eq(schema.usersTimestampsTable.user_id, id));
+			await this.db.delete(schema.tokensTable).where(eq(schema.tokensTable.user_id, id));
+
 			const user = await this.db
 				.delete(schema.usersTable)
 				.where(eq(schema.usersTable.id, id))
@@ -204,8 +217,8 @@ export class UserService {
 			if (!user) return null;
 			return user[0].id;
 		} catch (error) {
+			console.log(error);
 			return error;
 		}
 	}
-
 }
