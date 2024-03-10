@@ -19,7 +19,8 @@ import {
 	ApiInternalServerErrorResponse,
 	ApiNotFoundResponse,
 	ApiOkResponse,
-	ApiTags,
+	ApiOperation,
+	ApiTags
 } from '@nestjs/swagger';
 import { Roles } from 'src/Decorators/roles.decorator';
 import { Role } from 'src/Enums/role.enum';
@@ -35,6 +36,7 @@ import { UpdateUserCredentialsDTO } from './dto/update-user-credentials.dto';
 export class UsersController {
 	constructor(@Inject(UserService) private readonly userService: UserService) {}
 
+	@ApiOperation({ summary: 'Get user data via session cookie' })
 	@ApiOkResponse({ description: 'returns user data without the hashed password' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
 	@ApiNotFoundResponse({ description: 'if no user was found' })
@@ -50,6 +52,7 @@ export class UsersController {
 		return { data: rest, message: 'User found' };
 	}
 
+	@ApiOperation({ summary: 'Update user data via session cookie' })
 	@ApiOkResponse({ description: 'returns userID if user was updated' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
 	@ApiNotFoundResponse({ description: 'if no user was found' })
@@ -67,6 +70,7 @@ export class UsersController {
 		return { data: user, message: 'User updated' };
 	}
 
+	@ApiOperation({ summary: 'Delete user data via session cookie' })
 	@ApiOkResponse({ description: 'returns userID if user was deleted' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
 	@ApiNotFoundResponse({ description: 'if no user was found' })
@@ -87,6 +91,7 @@ export class UsersController {
 		return { data: user, message: 'User deleted' };
 	}
 
+	@ApiOperation({ summary: 'ADMIN ROUTE - Get all users data' })
 	@ApiOkResponse({ description: 'returns all users data without the hashed password' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie or is not an admin' })
 	@ApiNotFoundResponse({ description: 'if no users were found' })
@@ -107,6 +112,7 @@ export class UsersController {
 		return { data: usersWithoutPassword, message: 'Users found' };
 	}
 
+	@ApiOperation({ summary: 'ADMIN ROUTE - Get user data via userID' })
 	@ApiOkResponse({ description: 'returns data from a user without the hashed password' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie or is not an admin' })
 	@ApiNotFoundResponse({ description: 'if no user was found' })
@@ -123,6 +129,7 @@ export class UsersController {
 		return { data: rest, message: 'User found' };
 	}
 
+	@ApiOperation({ summary: 'ADMIN ROUTE - Update user data via userID' })
 	@ApiOkResponse({ description: 'returns userID if user was updated' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie or is not an admin' })
 	@ApiNotFoundResponse({ description: 'if no user was found' })
@@ -137,6 +144,7 @@ export class UsersController {
 		return { data: user, message: 'User updated' };
 	}
 
+	@ApiOperation({ summary: 'ADMIN ROUTE - Delete user data via userID' })
 	@ApiOkResponse({ description: 'returns userID if user was deleted' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie or is not an admin' })
 	@ApiNotFoundResponse({ description: 'if no user was found' })

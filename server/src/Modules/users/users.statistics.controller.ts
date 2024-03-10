@@ -6,7 +6,7 @@ import { RolesGuard } from 'src/Guards/roles.guard';
 import { UsersStatisticsService } from '../shared/user/user.statistics.service';
 import { ReqWithUser } from 'src/Utils/Types/request.types';
 import { UpdateUserStatisticsDTO } from './dto/update-user-statistics.dto';
-import { ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('users/statistics')
 @UseGuards(AuthenticationGuard, RolesGuard)
@@ -14,6 +14,7 @@ import { ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiNotFoundRespon
 export class UsersStatisticsController {
 	constructor(@Inject(UsersStatisticsService) private readonly usersStatisticsService: UsersStatisticsService) {}
 
+	@ApiOperation({ summary: 'Get user statistics via session cookie' })
 	@ApiOkResponse({ description: 'returns user statistics table' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
 	@ApiNotFoundResponse({ description: 'if no statistics were found' })
@@ -30,7 +31,7 @@ export class UsersStatisticsController {
         return { data: stats, message: 'Statistics found' };
 	}
 
-
+	@ApiOperation({ summary: 'Update user statistics via session cookie' })
 	@ApiOkResponse({ description: 'returns userID if table was updated successfully' })
 	@ApiNotFoundResponse({ description: 'if no statistics were found' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
@@ -47,6 +48,7 @@ export class UsersStatisticsController {
         return { data: stats, message: 'Statistics updated' };
 	}
 
+	@ApiOperation({ summary: 'ADMIN ROUTE - Get all user statistics' })
 	@ApiOkResponse({ description: 'returns all user statistics' })
 	@ApiNotFoundResponse({ description: 'if no statistics were found' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie or is not an admin' })
@@ -61,6 +63,7 @@ export class UsersStatisticsController {
         return { data: stats, message: 'Statistics found' };
 	}
 
+	@ApiOperation({ summary: 'ADMIN ROUTE - Get user statistics by ID' })
 	@ApiOkResponse({ description: 'returns user statistics table' })
 	@ApiNotFoundResponse({ description: 'if no statistics were found' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie or is not an admin' })
@@ -75,6 +78,7 @@ export class UsersStatisticsController {
         return { data: stats, message: 'Statistics found' };
 	}
 
+	@ApiOperation({ summary: 'ADMIN ROUTE - Update user statistics by ID' })
 	@ApiOkResponse({ description: 'returns userID if table was updated successfully' })
 	@ApiNotFoundResponse({ description: 'if no statistics were found' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie or is not an admin' })

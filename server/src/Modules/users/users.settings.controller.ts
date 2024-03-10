@@ -24,6 +24,7 @@ import {
 	ApiInternalServerErrorResponse,
 	ApiNotFoundResponse,
 	ApiOkResponse,
+	ApiOperation,
 	ApiTags,
 } from '@nestjs/swagger';
 
@@ -33,6 +34,7 @@ import {
 export class UsersSettingsController {
 	constructor(@Inject(UsersSettingsService) private readonly userSettingService: UsersSettingsService) {}
 
+	@ApiOperation({ summary: 'Get user settings via session cookie' })
 	@ApiOkResponse({ description: 'returns user settings table' })
 	@ApiNotFoundResponse({ description: 'if no settings were found' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
@@ -49,6 +51,7 @@ export class UsersSettingsController {
 		return { data: settings, message: 'Settings found' };
 	}
 
+	@ApiOperation({ summary: 'Update user settings via session cookie' })
 	@ApiOkResponse({ description: 'returns userID if table was updated successfully' })
 	@ApiNotFoundResponse({ description: 'if no settings were found' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
@@ -66,6 +69,7 @@ export class UsersSettingsController {
 		return { data: settings, message: 'Settings updated' };
 	}
 
+	@ApiOperation({ summary: 'ADMIN ROUTE - Get user settings by ID' })
 	@ApiOkResponse({ description: 'returns all user settings' })
 	@ApiNotFoundResponse({ description: 'if no settings were found' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie or is not an admin' })
@@ -80,6 +84,7 @@ export class UsersSettingsController {
 		return { data: settings, message: 'Settings found' };
 	}
 
+	@ApiOperation({ summary: 'ADMIN ROUTE - Get user settings by ID' })
 	@ApiOkResponse({ description: 'returns user settings table' })
 	@ApiNotFoundResponse({ description: 'if no settings were found' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie or is not an admin' })
@@ -94,6 +99,7 @@ export class UsersSettingsController {
 		return { data: settings, message: 'Settings found' };
 	}
 
+	@ApiOperation({ summary: 'ADMIN ROUTE - Update user settings by ID' })
 	@ApiOkResponse({ description: 'returns userID if table was updated successfully' })
 	@ApiNotFoundResponse({ description: 'if no settings were found' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie or is not an admin' })
