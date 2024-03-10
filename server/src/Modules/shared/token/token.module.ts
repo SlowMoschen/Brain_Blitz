@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { TokenService } from "./token.service";
-import { databaseProvider } from "../database/database";
+import { databaseProvider } from "../database/database.provider";
 import { ConfigService } from "@nestjs/config";
 
 @Module({

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { databaseProvider } from './database/database';
+import { databaseProvider } from './database/database.provider';
 import { DB_CONNECTION } from 'src/Utils/constants';
 import { UserService } from './user/user.service';
 import { EncryptionService } from './encryption/encryption.service';
