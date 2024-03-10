@@ -1,9 +1,10 @@
 import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { ApiBody, ApiConflictResponse, ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from 'src/Guards/localAuth.guard';
-import { CreateUserDTO } from '../users/dto/create-user.dto';
-import { AuthService } from './auth.service';
 import { ReqWithUser } from 'src/Utils/Types/request.types';
-import { ApiConflictResponse, ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { CreateUserDTO } from '../users/dto/create-user.dto';
+import { LoginUserDTO } from '../users/dto/login-user.dto';
+import { AuthService } from './auth.service';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -12,6 +13,7 @@ export class AuthController {
 
     @ApiOkResponse({ description: 'returns message if login was successful' })
     @ApiNotFoundResponse({ description: 'if login failed due to not finding entered email' })
+    @ApiBody({ description: 'email and password', type: LoginUserDTO})
     @Post('login')
     @UseGuards(LocalAuthGuard)
     @HttpCode(HttpStatus.OK)
