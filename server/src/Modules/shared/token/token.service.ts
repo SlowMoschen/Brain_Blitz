@@ -57,4 +57,12 @@ export class TokenService {
         if (!deletedToken) return null;
         return deletedToken[0].token;
     }
+
+    async getTokensByUserId(userId: string) {
+        const token = await this.db.query.tokensTable.findMany({
+            where: eq(schema.tokensTable.user_id, userId),
+        });
+        if (!token) return null;
+        return token;
+    }
 }
