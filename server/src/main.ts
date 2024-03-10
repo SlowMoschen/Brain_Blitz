@@ -7,6 +7,7 @@ import * as passport from 'passport';
 import * as connectPGSession from 'connect-pg-simple';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { join } from 'path';
 const pgSession = connectPGSession(session);
 
 async function bootstrap() {
@@ -19,6 +20,8 @@ async function bootstrap() {
 
   app.use(helmet());
   app.use(loggerMiddleware);
+  app.setBaseViewsDir(join(__dirname, 'Views'));
+  app.setViewEngine('hbs');
 
   app.use(
     session({
