@@ -11,7 +11,7 @@ import {
   usersTable,
   usersTimestampsTable,
 } from '../Models/_index';
-import { InsertQuiz, InsertQuizQuestion, InsertQuizWithAllTables } from 'src/Models/_types';
+import { InsertQuiz, InsertQuizQuestion, InsertQuizWithAllTables } from 'src/Utils/Types/model.types';
 
 const DB_URL =
   env.NODE_ENV === 'production' ? env.DATABASE_URL : env.DATABASE_DEV_URL;
