@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, Inject, NotFoundException, Param, Patch, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, Inject, NotFoundException, Param, Patch, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Roles } from 'src/Decorators/roles.decorator';
 import { Role } from 'src/Enums/role.enum';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
@@ -36,6 +36,7 @@ export class UsersStatisticsController {
 	@ApiNotFoundResponse({ description: 'if no statistics were found' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
 	@ApiInternalServerErrorResponse({ description: 'if updateing failed' })
+	@UsePipes(new ValidationPipe())
 	@Roles(Role.USER, Role.ADMIN)
 	@Patch()
 	async updateUserStatisticsBySession(@Req() req: ReqWithUser, @Body() body: UpdateUserStatisticsDTO) {
@@ -83,6 +84,7 @@ export class UsersStatisticsController {
 	@ApiNotFoundResponse({ description: 'if no statistics were found' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie or is not an admin' })
 	@ApiInternalServerErrorResponse({ description: 'if update failed' })
+	@UsePipes(new ValidationPipe())
 	@Roles(Role.ADMIN)
 	@Patch(':id')
 	async updateUserStatistics(@Param('id') id: string, @Body() body: UpdateUserStatisticsDTO){

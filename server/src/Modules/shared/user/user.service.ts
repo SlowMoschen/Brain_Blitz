@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
-import { SelectUser, SelectUserSettings, SelectUserWithAllTables } from 'src/Models/_types';
+import { SelectUser, SelectUserSettings, SelectUserWithAllTables } from 'src/Utils/Types/model.types';
 import { CreateUserDTO } from 'src/Modules/users/dto/create-user.dto';
 import * as schema from '../../../Models/_index';
 import { EncryptionService } from '../encryption/encryption.service';
@@ -106,11 +106,9 @@ export class UserService {
 	/**
 	 * @description - Inserts a new User with all corresponding tables - if an error occurs, the user is deleted
 	 * @param {CreateUserDTO} body - The body of the request containing the user's information
-	 * @returns {Promise<string | Error>} - Returns the id of the new user or an Error if an error occurs
+	 * @returns {Promise<string | Error>} - Returns the user instance or an Error if an error occurs
 	 */
-	async insertNewUser(body: CreateUserDTO): Promise<string | Error> {
-		let userID: string;
-
+	async insertNewUser(body: CreateUserDTO): Promise<SelectUser | Error> {
 		try {
 			const hashedPassword = await this.encryptionService.hashPassword(body.password);
 
@@ -123,17 +121,17 @@ export class UserService {
 					password: hashedPassword,
 				})
 				.returning({ id: schema.usersTable.id });
-
 			if (!newUser) throw new Error('User creation failed');
-			userID = newUser[0].id;
+			const user = await this.getUserById(newUser[0].id);
 
-			const foo = await this.insertDefaultUserTables(userID);
-			if (foo instanceof Error) throw new Error('Error inserting default user tables');
+			const defaultTables = await this.insertDefaultUserTables(user.id);
+			if (defaultTables instanceof Error) throw new Error('Error inserting default user tables');
 
-			return userID;
+			return user;
 		} catch (error) {
 			if (error.message === 'Error inserting default user tables') {
-				const deleteUser = await this.db.delete(schema.usersTable).where(eq(schema.usersTable.id, userID));
+				const user = await this.getUserByEmail(body.email);
+				const deleteUser = await this.db.delete(schema.usersTable).where(eq(schema.usersTable.id, user.id));
 				if (!deleteUser) throw new Error('Error deleting user');
 				return new Error('User creation failed');
 			}

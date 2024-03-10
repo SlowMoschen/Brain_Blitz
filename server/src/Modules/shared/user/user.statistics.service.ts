@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { InjectDatabase } from "src/Decorators/injectDatabase.decorator";
 import * as schema from "src/Models/_index";
-import { SelectUserStatistics } from "src/Models/_types";
+import { SelectUserStatistics } from "src/Utils/Types/model.types";
 import { UpdateUserStatisticsDTO } from "src/Modules/users/dto/update-user-statistics.dto";
 
 @Injectable()

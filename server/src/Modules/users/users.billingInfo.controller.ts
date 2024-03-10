@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, Inject, NotFoundException, Param, Patch, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, Inject, NotFoundException, Param, Patch, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import {
     ApiForbiddenResponse,
     ApiInternalServerErrorResponse,
@@ -43,6 +43,7 @@ export class UsersBillingInfoController {
     @ApiForbiddenResponse({ description: 'if user got no session cookie' })
     @ApiNotFoundResponse({ description: 'if no billing info was found' })
     @ApiInternalServerErrorResponse({ description: 'if updating billing info failed' })
+    @UsePipes(new ValidationPipe())
 	@Roles(Role.USER, Role.ADMIN)
 	@Patch()
 	async updateBillingInfoBySession(@Req() req: ReqWithUser, @Body() updateBillingInfoDTO: UpdateUserBillingInfoDTO) {
@@ -90,6 +91,7 @@ export class UsersBillingInfoController {
     @ApiForbiddenResponse({ description: 'if user got no session cookie or is not an admin' })
     @ApiNotFoundResponse({ description: 'if no billing info was found' })
     @ApiInternalServerErrorResponse({ description: 'if updating billing info failed' })
+    @UsePipes(new ValidationPipe())
 	@Roles(Role.ADMIN)
 	@Patch(':id')
 	async updateBillingInfoById(@Param() id: string, @Body() updateBillingInfoDTO: UpdateUserBillingInfoDTO) {

@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { InjectDatabase } from "src/Decorators/injectDatabase.decorator";
 import * as schema from '../../../Models/_index';
-import { SelectUserBillingInformation } from "src/Models/_types";
+import { SelectUserBillingInformation } from "src/Utils/Types/model.types";
 import { eq } from "drizzle-orm";
 import { UpdateUserBillingInfoDTO } from "src/Modules/users/dto/update-user-billingInfo.dto";
 

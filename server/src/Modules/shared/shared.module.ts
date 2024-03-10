@@ -8,8 +8,10 @@ import { AccessControlService } from './access-control/access-control.service';
 import { StatisticsService } from './user/user.statistics.service';
 import { TimestampsService } from './user/user.timestamps.service';
 import { BillingInfoService } from './user/user.billingInfo.service';
+import { TokenModule } from './token/token.module';
 
 @Module({
+	imports: [TokenModule],
 	providers: [
 		databaseProvider,
 		UserService,
