@@ -30,11 +30,16 @@ import { CreateUserDTO } from './dto/create-user.dto';
 import { LoginUserDTO } from './dto/login-user.dto';
 import { AuthService } from './auth.service';
 import { ResendVerificationEmailDto } from './dto/resendVerficationEmail.dto';
+import { ErrorResponse, SuccessResponse } from 'src/Utils/Types/response.types';
+import { ResponseHelperService } from '../shared/responseHelper.service';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-	constructor(private readonly authService: AuthService) {}
+	constructor(
+		private readonly authService: AuthService,
+		private readonly responseHelperService: ResponseHelperService,
+	) {}
 
 	@ApiOperation({ summary: 'Login user' })
 	@ApiOkResponse({ description: 'returns message if login was successful' })
@@ -43,28 +48,38 @@ export class AuthController {
 	@Post('login')
 	@UseGuards(LocalAuthGuard)
 	@HttpCode(HttpStatus.OK)
-	async login() {
-		return { message: 'Login successful' };
+	async login(): Promise<SuccessResponse | ErrorResponse> {
+		return this.responseHelperService.successResponse(200, 'Login successful', null, { method: 'POST', url: '/auth/login' });
 	}
 
 	@ApiOperation({ summary: 'Logout user' })
 	@ApiOkResponse({ description: 'returns message if logout was successful' })
 	@ApiInternalServerErrorResponse({ description: 'if logout failed' })
 	@Post('logout')
-	async logout(@Req() req) {
+	async logout(@Req() req): Promise<SuccessResponse | ErrorResponse>{
 		req.logout((err) => {
-			if (err) throw new HttpException('Logout failed', HttpStatus.INTERNAL_SERVER_ERROR);
+			if (err) return this.responseHelperService.errorResponse('Internal Server Error', 500, 'Logout failed', err, { method: 'POST', url: req.url });
 		});
-		return { message: 'Logout successful' };
+		return this.responseHelperService.successResponse(200, 'Logout successful', null, { method: 'POST', url: req.url });
 	}
 
 	@ApiOperation({ summary: 'Check if user is authorized' })
 	@ApiOkResponse({ description: 'returns message if session is authorized' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
 	@Get('session')
-	async session(@Req() req: ReqWithUser) {
-		if (!req.user) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
-		return { message: 'Authorized' };
+	async session(@Req() req: ReqWithUser): Promise<SuccessResponse | ErrorResponse> {
+		if (!req.user)
+			return this.responseHelperService.errorResponse(
+				'Forbidden',
+				403,
+				'No session cookie',
+				new HttpException('No session cookie', HttpStatus.FORBIDDEN),
+				{ method: 'GET', url: req.url },
+			);
+		return this.responseHelperService.successResponse(200, 'Session authorized', req.user.id, {
+			method: 'GET',
+			url: req.url,
+		});
 	}
 
 	@ApiOperation({ summary: 'Register user' })
@@ -73,18 +88,23 @@ export class AuthController {
 	@ApiInternalServerErrorResponse({ description: 'if user creation failed' })
 	@Post('register')
 	@UsePipes(new ValidationPipe())
-	async register(@Body() createUserDTO: CreateUserDTO) {
+	async register(@Body() createUserDTO: CreateUserDTO, @Req() req): Promise<SuccessResponse | ErrorResponse> {
 		const user = await this.authService.createUser(createUserDTO);
-		if (user instanceof Error) {
-			if (user.message === 'User with this email already exists') {
-				throw new HttpException(user.message, HttpStatus.CONFLICT);
-			}
 
-			if (user.message === 'User creation failed') {
-				throw new HttpException(user.message, HttpStatus.INTERNAL_SERVER_ERROR);
-			}
+		if (user instanceof Error) {
+			if (user.message === 'User with this email already exists')
+				return this.responseHelperService.errorResponse('Conflict', 409, 'User with this email already exists', user, {
+					method: 'POST',
+					url: req.url,
+				});
+
+			return this.responseHelperService.errorResponse('Internal Server Error', 500, 'User creation failed', user, {
+				method: 'POST',
+				url: req.url,
+			});
 		}
-		return { data: user, message: 'User created' };
+
+		return this.responseHelperService.successResponse(200, 'User created', user, { method: 'POST', url: req.url });
 	}
 
 	@ApiOperation({ summary: 'verify User with provided link in sent email' })
@@ -134,21 +154,17 @@ export class AuthController {
 	@ApiInternalServerErrorResponse({ description: 'if email resend failed' })
 	@Post('resend-email-verification')
 	@UsePipes(new ValidationPipe())
-	async resendEmailVerification(@Body() verficiationDTO: ResendVerificationEmailDto) {
+	async resendEmailVerification(
+		@Body() verficiationDTO: ResendVerificationEmailDto,
+		@Req() req,
+	): Promise<SuccessResponse | ErrorResponse> {
 		const resent = await this.authService.resendVerificationEmail(verficiationDTO.email);
-		if (resent instanceof Error) {
-			if (resent.message === 'Email not found') {
-				throw new HttpException(resent.message, HttpStatus.NOT_FOUND);
-			}
+		if (resent instanceof Error)
+			return this.responseHelperService.errorResponse('Internal Server Error', 500, 'Email resend failed', resent, {
+				method: 'POST',
+				url: req.url,
+			});
 
-			if (resent.message === 'Email already verified') {
-				throw new HttpException(resent.message, HttpStatus.CONFLICT);
-			}
-
-			if (resent.message === 'Email resend failed') {
-				throw new HttpException(resent.message, HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-		}
-		return { message: 'Email resent' };
+		return this.responseHelperService.successResponse(200, 'Email resent', resent, { method: 'POST', url: req.url });
 	}
 }
