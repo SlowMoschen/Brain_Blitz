@@ -1,36 +1,20 @@
-import { Module } from '@nestjs/common';
-import { databaseProvider } from './database/database.provider';
-import { DB_CONNECTION } from 'src/Utils/constants';
-import { UserService } from './user/user.service';
-import { EncryptionService } from './encryption/encryption.service';
-import { SettingsService } from './user/user.settings.service';
+import { Global, Module } from '@nestjs/common';
 import { AccessControlService } from './access-control/access-control.service';
-import { StatisticsService } from './user/user.statistics.service';
-import { TimestampsService } from './user/user.timestamps.service';
-import { BillingInfoService } from './user/user.billingInfo.service';
+import { EncryptionService } from './encryption/encryption.service';
 import { TokenModule } from './token/token.module';
+import { DatabaseModule } from './database/db.module';
 
+@Global()
 @Module({
 	imports: [TokenModule],
 	providers: [
-		databaseProvider,
-		UserService,
+		DatabaseModule,
 		EncryptionService,
-		SettingsService,
 		AccessControlService,
-		StatisticsService,
-		TimestampsService,
-		BillingInfoService,
 	],
 	exports: [
-		DB_CONNECTION,
-		UserService,
 		EncryptionService,
-		SettingsService,
 		AccessControlService,
-		StatisticsService,
-		TimestampsService,
-		BillingInfoService,
 	],
 })
 export class SharedModule {}
