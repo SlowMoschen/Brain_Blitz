@@ -22,13 +22,14 @@ async function bootstrap() {
   app.use(loggerMiddleware);
   app.setBaseViewsDir(join(__dirname, 'Views'));
   app.setViewEngine('hbs');
-
+  
   app.use(
     session({
       store: new pgSession({
-        conString: process.env.DATABASE_URL,
+        conString: process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : process.env.DATABASE_DEV_URL,
         tableName: 'user_sessions',
         createTableIfMissing: true,
+        ttl: Number(process.env.SESSION_MAX_AGE),
       }),
       secret: process.env.SESSION_SECRET,
       resave: false,
