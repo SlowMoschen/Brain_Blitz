@@ -159,8 +159,8 @@ export class AuthController {
 		@Req() req,
 	): Promise<SuccessResponse | ErrorResponse> {
 		const resent = await this.authService.resendVerificationEmail(verficiationDTO.email);
-		if (resent instanceof Error)
-			return this.responseHelperService.errorResponse('Internal Server Error', 500, 'Email resend failed', resent, {
+		if (resent instanceof HttpException)
+			return this.responseHelperService.errorResponse(resent.getResponse().toString(), resent.getStatus(), 'Email resend failed', resent, {
 				method: 'POST',
 				url: req.url,
 			});

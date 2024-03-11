@@ -1,6 +1,6 @@
 export type SuccessResponse = {
     status: string;
-    code: number;
+    statusCode: number;
     message: string;
     data: object | Array<any> | any;
     request: {
@@ -11,7 +11,7 @@ export type SuccessResponse = {
 
 export type ErrorResponse = {
     status: string;
-    code: number;
+    statusCode: number;
     message: string;
     error: object | Array<any> | any;
     request: {

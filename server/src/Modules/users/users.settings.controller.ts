@@ -84,6 +84,16 @@ export class UsersSettingsController {
 		@Body() body: UpdateUserSettingsDTO,
 	): Promise<SuccessResponse | ErrorResponse> {
 		const userID = req.user.id;
+		const userRole = req.user.roles;
+
+		if (userRole[0] === Role.USER && body.roles)
+			return this.responseHelperService.errorResponse(
+				'Forbidden',
+				403,
+				'User is not allowed to change roles',
+				new HttpException('User is not allowed to change roles', 403),
+				{ method: 'PATCH', url: req.url },
+			);
 
 		const updatedSettings = await this.usersService.updateSettings(userID, body);
 

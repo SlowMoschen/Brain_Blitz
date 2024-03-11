@@ -4,6 +4,6 @@ export type ReqWithUser = Request & {
     logout: (cb: (err: Error) => void) => void;
     user: {
         id: string;
-        role: string[];
+        roles: string[];
     };
 }
