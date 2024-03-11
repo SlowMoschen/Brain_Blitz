@@ -1,18 +1,16 @@
+import { eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Client } from 'pg';
+import { InsertQuiz } from 'src/Utils/Types/model.types';
 import { env } from '../Configs/env.config';
 import * as schema from '../Models/_index';
 import {
-	quizHighscoresTable,
-	usersAppStates,
 	usersBillingInformationTable,
 	usersSettingsTable,
 	usersStatisticsTable,
 	usersTable,
-	usersTimestampsTable,
+	usersTimestampsTable
 } from '../Models/_index';
-import { InsertQuiz, InsertQuizQuestion, InsertQuizWithAllTables } from 'src/Utils/Types/model.types';
-import { eq } from 'drizzle-orm';
 
 const DB_URL = env.NODE_ENV === 'production' ? env.DATABASE_URL : env.DATABASE_DEV_URL;
 
@@ -132,9 +130,6 @@ const seedUsers = async () => {
 				db.insert(usersBillingInformationTable).values({
 					user_id: id,
 				}),
-				db.insert(usersAppStates).values({
-					user_id: id,
-				}),
 			]);
 			await db
 				.update(usersSettingsTable)
@@ -168,7 +163,6 @@ async function queryUsersWithAllTables() {
 	try {
 		const users = await db.query.usersTable.findMany({
 			with: {
-				app_states: true,
 				billing_information: true,
 				statistics: true,
 				settings: true,

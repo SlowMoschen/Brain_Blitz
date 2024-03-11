@@ -16,13 +16,30 @@ EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "users_app_states" (
-	"id" text PRIMARY KEY NOT NULL,
+CREATE TABLE IF NOT EXISTS "completed_quizzes" (
 	"user_id" text NOT NULL,
-	"unlocked_quizzes" text,
-	"completed_quizzes" text,
-	"unlocked_achievements" text,
-	"highscores" text
+	"quiz_id" text NOT NULL,
+	CONSTRAINT "completed_quizzes_user_id_quiz_id_pk" PRIMARY KEY("user_id","quiz_id")
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "highscores" (
+	"user_id" text NOT NULL,
+	"quiz_id" text NOT NULL,
+	"score" integer NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT "highscores_user_id_quiz_id_pk" PRIMARY KEY("user_id","quiz_id")
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "unlocked_achievements" (
+	"user_id" text NOT NULL,
+	"achievement_id" text NOT NULL,
+	CONSTRAINT "unlocked_achievements_user_id_achievement_id_pk" PRIMARY KEY("user_id","achievement_id")
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "unlocked_quizzes" (
+	"user_id" text NOT NULL,
+	"quiz_id" text NOT NULL,
+	CONSTRAINT "unlocked_quizzes_user_id_quiz_id_pk" PRIMARY KEY("user_id","quiz_id")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users_billing_information" (
@@ -65,6 +82,7 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"last_name" text NOT NULL,
 	"email" text NOT NULL,
 	"password" text NOT NULL,
+	"energy" integer DEFAULT 100 NOT NULL,
 	CONSTRAINT "users_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
@@ -73,6 +91,10 @@ CREATE TABLE IF NOT EXISTS "users_timestamps" (
 	"user_id" text NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
+	"billing_information_updated_at" timestamp DEFAULT now() NOT NULL,
+	"statistics_updated_at" timestamp DEFAULT now() NOT NULL,
+	"settings_updated_at" timestamp DEFAULT now() NOT NULL,
+	"last_password_reset" timestamp DEFAULT now() NOT NULL,
 	"last_login" timestamp DEFAULT now() NOT NULL,
 	"last_logout" timestamp DEFAULT now() NOT NULL,
 	"last_quiz_completed" timestamp DEFAULT now() NOT NULL
@@ -92,7 +114,7 @@ CREATE TABLE IF NOT EXISTS "tokens" (
 	"user_id" text NOT NULL,
 	"token" text NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
-	"expires_at" timestamp DEFAULT now() NOT NULL
+	"expires_at" timestamp NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "quiz_highscores" (
@@ -126,31 +148,49 @@ CREATE TABLE IF NOT EXISTS "quizzes" (
 );
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "users_app_states" ADD CONSTRAINT "users_app_states_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "completed_quizzes" ADD CONSTRAINT "completed_quizzes_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "users_app_states" ADD CONSTRAINT "users_app_states_unlocked_quizzes_quizzes_id_fk" FOREIGN KEY ("unlocked_quizzes") REFERENCES "quizzes"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "completed_quizzes" ADD CONSTRAINT "completed_quizzes_quiz_id_quizzes_id_fk" FOREIGN KEY ("quiz_id") REFERENCES "quizzes"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "users_app_states" ADD CONSTRAINT "users_app_states_completed_quizzes_quizzes_id_fk" FOREIGN KEY ("completed_quizzes") REFERENCES "quizzes"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "highscores" ADD CONSTRAINT "highscores_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "users_app_states" ADD CONSTRAINT "users_app_states_unlocked_achievements_achievements_id_fk" FOREIGN KEY ("unlocked_achievements") REFERENCES "achievements"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "highscores" ADD CONSTRAINT "highscores_quiz_id_quiz_highscores_id_fk" FOREIGN KEY ("quiz_id") REFERENCES "quiz_highscores"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "users_app_states" ADD CONSTRAINT "users_app_states_highscores_quiz_highscores_id_fk" FOREIGN KEY ("highscores") REFERENCES "quiz_highscores"("id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "unlocked_achievements" ADD CONSTRAINT "unlocked_achievements_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "unlocked_achievements" ADD CONSTRAINT "unlocked_achievements_achievement_id_achievements_id_fk" FOREIGN KEY ("achievement_id") REFERENCES "achievements"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "unlocked_quizzes" ADD CONSTRAINT "unlocked_quizzes_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "unlocked_quizzes" ADD CONSTRAINT "unlocked_quizzes_quiz_id_quizzes_id_fk" FOREIGN KEY ("quiz_id") REFERENCES "quizzes"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

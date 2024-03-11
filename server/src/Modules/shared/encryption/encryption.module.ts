@@ -1,8 +1,9 @@
 import { Module } from "@nestjs/common";
+import { EncryptionService } from "./encryption.service";
 import { JwtModule } from "@nestjs/jwt";
-import { TokenService } from "./token.service";
-import { databaseProvider } from "../database/database";
 import { ConfigService } from "@nestjs/config";
+import { databaseProvider } from "../database/database.provider";
+import { DatabaseModule } from "../database/db.module";
 
 @Module({
     imports: [
@@ -12,9 +13,10 @@ import { ConfigService } from "@nestjs/config";
                 signOptions: { expiresIn: '1h' }
             }),
             inject: [ConfigService]
-        })
+        }),
+        DatabaseModule
     ],
-    providers: [databaseProvider, TokenService],
-    exports: [TokenService]
+    providers: [databaseProvider, EncryptionService],
+    exports: [EncryptionService],
 })
-export class TokenModule {}
+export class EncryptionModule {}

@@ -1,18 +1,42 @@
-import { Body, Controller, Get, HttpException, Inject, NotFoundException, Param, Patch, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Get,
+	HttpException,
+	NotFoundException,
+	Param,
+	Patch,
+	Req,
+	UseGuards,
+	UsePipes,
+	ValidationPipe,
+} from '@nestjs/common';
+import {
+	ApiForbiddenResponse,
+	ApiInternalServerErrorResponse,
+	ApiNotFoundResponse,
+	ApiOkResponse,
+	ApiOperation,
+	ApiTags,
+} from '@nestjs/swagger';
 import { Roles } from 'src/Decorators/roles.decorator';
 import { Role } from 'src/Enums/role.enum';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { RolesGuard } from 'src/Guards/roles.guard';
-import { StatisticsService } from '../shared/user/user.statistics.service';
 import { ReqWithUser } from 'src/Utils/Types/request.types';
+import { ResponseHelperService } from '../shared/responseHelper.service';
 import { UpdateUserStatisticsDTO } from './dto/update-user-statistics.dto';
-import { ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { UsersService } from './users.service';
+import { ErrorResponse, SuccessResponse } from 'src/Utils/Types/response.types';
 
 @ApiTags('users/statistics')
 @UseGuards(AuthenticationGuard, RolesGuard)
 @Controller('users/statistics')
 export class UsersStatisticsController {
-	constructor(@Inject(StatisticsService) private readonly usersStatisticsService: StatisticsService) {}
+	constructor(
+		private readonly usersService: UsersService,
+		private readonly responseHelperService: ResponseHelperService,
+	) {}
 
 	@ApiOperation({ summary: 'Get user statistics via session cookie' })
 	@ApiOkResponse({ description: 'returns user statistics table' })
@@ -21,14 +45,30 @@ export class UsersStatisticsController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
-	async getUserStatisticsBySession(@Req() req: ReqWithUser) {
+	async getUserStatisticsBySession(@Req() req: ReqWithUser): Promise<SuccessResponse | ErrorResponse> {
 		const userID = req.user.id;
 
-        const stats = await this.usersStatisticsService.getUserStatisticsById(userID);
-        if (!stats) throw new NotFoundException('No statistics found');
-		if (stats instanceof Error) throw new HttpException('Query for statistics failed', 500);
+		const stats = await this.usersService.getStatistics(userID);
 
-        return { data: stats, message: 'Statistics found' };
+		if (!stats)
+			return this.responseHelperService.errorResponse(
+				'Not Found',
+				404,
+				'No statistics found',
+				new NotFoundException('No statistics found'),
+				{ method: 'GET', url: req.url },
+			);
+
+		if (stats instanceof Error)
+			return this.responseHelperService.errorResponse(
+				'Internal Server Error',
+				500,
+				'Query for statistics failed',
+				new HttpException('Query for statistics failed', 500),
+				{ method: 'GET', url: req.url },
+			);
+
+		return this.responseHelperService.successResponse(200, 'Statistics found', stats, { method: 'GET', url: req.url });
 	}
 
 	@ApiOperation({ summary: 'Update user statistics via session cookie' })
@@ -39,29 +79,36 @@ export class UsersStatisticsController {
 	@UsePipes(new ValidationPipe())
 	@Roles(Role.USER, Role.ADMIN)
 	@Patch()
-	async updateUserStatisticsBySession(@Req() req: ReqWithUser, @Body() body: UpdateUserStatisticsDTO) {
+	async updateUserStatisticsBySession(
+		@Req() req: ReqWithUser,
+		@Body() body: UpdateUserStatisticsDTO,
+	): Promise<SuccessResponse | ErrorResponse> {
 		const userID = req.user.id;
 
-        const stats = await this.usersStatisticsService.updateUserStatistics(userID, body);
-        if (!stats) throw new NotFoundException('No statistics found');
-		if (stats instanceof Error) throw new HttpException('Update of settings failed', 500);
+		const stats = await this.usersService.updateStatistics(userID, body);
 
-        return { data: stats, message: 'Statistics updated' };
-	}
+		if (!stats)
+			return this.responseHelperService.errorResponse(
+				'Not Found',
+				404,
+				'No statistics found',
+				new NotFoundException('No statistics found'),
+				{ method: 'PATCH', url: req.url },
+			);
 
-	@ApiOperation({ summary: 'ADMIN ROUTE - Get all user statistics' })
-	@ApiOkResponse({ description: 'returns all user statistics' })
-	@ApiNotFoundResponse({ description: 'if no statistics were found' })
-	@ApiForbiddenResponse({ description: 'if user got no session cookie or is not an admin' })
-	@ApiInternalServerErrorResponse({ description: 'if query failed' })
-	@Roles(Role.ADMIN)
-	@Get('all')
-	async getUserStatistics() {
-        const stats = await this.usersStatisticsService.getUserStatistics();
-        if (!stats) throw new NotFoundException('No statistics found');
-		if (stats instanceof Error) throw new HttpException('Query for statistics failed', 500);
+		if (stats instanceof Error)
+			return this.responseHelperService.errorResponse(
+				'Internal Server Error',
+				500,
+				'Update of statistics failed',
+				new HttpException('Update of statistics failed', 500),
+				{ method: 'PATCH', url: req.url },
+			);
 
-        return { data: stats, message: 'Statistics found' };
+		return this.responseHelperService.successResponse(200, 'Statistics updated', stats, {
+			method: 'PATCH',
+			url: req.url,
+		});
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Get user statistics by ID' })
@@ -71,12 +118,28 @@ export class UsersStatisticsController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
 	@Get(':id')
-	async getUserStatisticsById(@Param('id') id: string){
-        const stats = await this.usersStatisticsService.getUserStatisticsById(id);
-        if (!stats) throw new NotFoundException('No statistics found');
-		if (stats instanceof Error) throw new HttpException('Query for statistics failed', 500);
+	async getUserStatisticsById(@Param('id') id: string, @Req() req: ReqWithUser): Promise<SuccessResponse | ErrorResponse> {
+		const stats = await this.usersService.getStatistics(id);
 
-        return { data: stats, message: 'Statistics found' };
+		if (!stats)
+			return this.responseHelperService.errorResponse(
+				'Not Found',
+				404,
+				'No statistics found',
+				new NotFoundException('No statistics found'),
+				{ method: 'GET', url: req.url },
+			);
+
+		if (stats instanceof Error)
+			return this.responseHelperService.errorResponse(
+				'Internal Server Error',
+				500,
+				'Query for statistics failed',
+				new HttpException('Query for statistics failed', 500),
+				{ method: 'GET', url: req.url },
+			);
+
+		return this.responseHelperService.successResponse(200, 'Statistics found', stats, { method: 'GET', url: req.url });
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Update user statistics by ID' })
@@ -87,11 +150,28 @@ export class UsersStatisticsController {
 	@UsePipes(new ValidationPipe())
 	@Roles(Role.ADMIN)
 	@Patch(':id')
-	async updateUserStatistics(@Param('id') id: string, @Body() body: UpdateUserStatisticsDTO){
-        const stats = await this.usersStatisticsService.updateUserStatistics(id, body);
-        if (!stats) throw new NotFoundException('No statistics found');
-		if (stats instanceof Error) throw new HttpException('Update of statistics failed', 500);
-		
-        return { data: stats, message: 'Statistics updated' };
-    }
+	async updateUserStatistics(@Param('id') id: string, @Body() body: UpdateUserStatisticsDTO, @Req() req: ReqWithUser): Promise<SuccessResponse | ErrorResponse> {
+		const stats = await this.usersService.updateStatistics(id, body);
+
+		if (!stats)
+			return this.responseHelperService.errorResponse(
+				'Not Found',
+				404,
+				'No statistics found',
+				new NotFoundException('No statistics found'),
+				{ method: 'PATCH', url: req.url },
+			);
+
+		if (stats instanceof Error)
+
+			return this.responseHelperService.errorResponse(
+				'Internal Server Error',
+				500,
+				'Update of statistics failed',
+				new HttpException('Update of statistics failed', 500),
+				{ method: 'PATCH', url: req.url },
+			);
+
+		return this.responseHelperService.successResponse(200, 'Statistics updated', stats, { method: 'PATCH', url: req.url });
+	}
 }
