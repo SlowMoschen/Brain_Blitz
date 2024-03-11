@@ -7,7 +7,14 @@ import { UpdateAppStateDTO } from 'src/Modules/users/dto/update-appstate.dto';
 import { UpdateUserCredentialsDTO } from 'src/Modules/users/dto/update-user-credentials.dto';
 import { UpdateUserSettingsDTO } from 'src/Modules/users/dto/update-user-settings.dto';
 import { UpdateUserStatisticsDTO } from 'src/Modules/users/dto/update-user-statistics.dto';
-import { SelectUser, SelectUserBillingInformation, SelectUserSettings, SelectUserStatistics, SelectUserTimestamps, SelectUserWithAllTables } from 'src/Utils/Types/model.types';
+import {
+	SelectUser,
+	SelectUserBillingInformation,
+	SelectUserSettings,
+	SelectUserStatistics,
+	SelectUserTimestamps,
+	SelectUserWithAllTables,
+} from 'src/Utils/Types/model.types';
 import * as schema from '../../../../../Models/_index';
 import { BillingInfoRepository } from './billingInfo.repository';
 import { SettingsRepository } from './settings.repository';
@@ -32,10 +39,10 @@ export class UserRepository {
 		try {
 			const users = await this.db.query.usersTable.findMany({
 				with: {
-                    unlocked_quizzes: true,
+					unlocked_quizzes: true,
 					completed_quizzes: true,
-                    unlocked_achievements: true,
-                    highscores: true,
+					unlocked_achievements: true,
+					highscores: true,
 					statistics: true,
 					billing_information: true,
 					settings: true,
@@ -59,10 +66,10 @@ export class UserRepository {
 			const user = await this.db.query.usersTable.findFirst({
 				where: eq(schema.usersTable.id, id),
 				with: {
-                    completed_quizzes: true,
-                    highscores: true,
-                    unlocked_achievements: true,
-                    unlocked_quizzes: true,
+					completed_quizzes: true,
+					highscores: true,
+					unlocked_achievements: true,
+					unlocked_quizzes: true,
 					statistics: true,
 					billing_information: true,
 					settings: true,
@@ -87,10 +94,10 @@ export class UserRepository {
 				where: eq(schema.usersTable.email, email),
 				with: {
 					settings: true,
-                    unlocked_quizzes: true,
-                    unlocked_achievements: true,
-                    highscores: true,
-                    completed_quizzes: true,
+					unlocked_quizzes: true,
+					unlocked_achievements: true,
+					highscores: true,
+					completed_quizzes: true,
 				},
 			});
 			return user;
@@ -109,10 +116,10 @@ export class UserRepository {
 			const user = await this.db.query.usersTable.findFirst({
 				where: eq(schema.usersTable.id, id),
 				with: {
-                    completed_quizzes: true,
-                    highscores: true,
-                    unlocked_achievements: true,
-                    unlocked_quizzes: true,
+					completed_quizzes: true,
+					highscores: true,
+					unlocked_achievements: true,
+					unlocked_quizzes: true,
 					settings: true,
 				},
 			});
@@ -187,46 +194,84 @@ export class UserRepository {
 		}
 	}
 
-    /**
-     * @description - Completely deletes a user with all corresponding Tables by id
-     * @param id - The id of the user
-     * @returns {Promise<string | [] | Error>} - Returns the id of the deleted user or null if an error occurs
-     */
-    async deleteUserById(id: string): Promise<string | [] | Error> {
-        try {
-            await this.settingsRepository.deleteSettingsById(id);
-            await this.statisticsRepository.deleteStatisticsById(id);
-            await this.timestampsRepository.deleteTimestampsById(id);
-            await this.billingInfoRepository.deleteBillingInfo(id);
-           const deletedUser = await this.db.delete(schema.usersTable).where(eq(schema.usersTable.id, id)).returning({ id: schema.usersTable.id });
-            return deletedUser ? deletedUser[0].id : [];
-        } catch (error) {
-            return error;
-        }
-    }
+	/**
+	 * @description - Completely deletes a user with all corresponding Tables by id
+	 * @param id - The id of the user
+	 * @returns {Promise<string | [] | Error>} - Returns the id of the deleted user or null if an error occurs
+	 */
+	async deleteUserById(id: string): Promise<string | [] | Error> {
+		try {
+			await this.settingsRepository.deleteSettingsById(id);
+			await this.statisticsRepository.deleteStatisticsById(id);
+			await this.timestampsRepository.deleteTimestampsById(id);
+			await this.billingInfoRepository.deleteBillingInfo(id);
+			const deletedUser = await this.db
+				.delete(schema.usersTable)
+				.where(eq(schema.usersTable.id, id))
+				.returning({ id: schema.usersTable.id });
+			return deletedUser ? deletedUser[0].id : [];
+		} catch (error) {
+			return error;
+		}
+	}
 
-    async getSettings(id: string): Promise<SelectUserSettings | [] | Error> {
-        return await this.settingsRepository.querySettingsById(id);
-    }
+	async getSettings(id: string): Promise<SelectUserSettings | [] | Error> {
+		return await this.settingsRepository.querySettingsById(id);
+	}
 
-    async getStatistics(id: string): Promise<SelectUserStatistics | [] | Error> {
-        return await this.statisticsRepository.queryStatisticsById(id);
-    }
+	async getStatistics(id: string): Promise<SelectUserStatistics | [] | Error> {
+		return await this.statisticsRepository.queryStatisticsById(id);
+	}
 
-    async getBillingInfo(id: string): Promise<SelectUserBillingInformation| [] | Error> {
-        return await this.billingInfoRepository.queryBillingInfoById(id);
-    }
+	async getBillingInfo(id: string): Promise<SelectUserBillingInformation | [] | Error> {
+		return await this.billingInfoRepository.queryBillingInfoById(id);
+	}
 
-    async getTimestamps(id: string): Promise<SelectUserTimestamps| [] | Error> {
-        return await this.timestampsRepository.queryTimestampsById(id);
-    }
+	async getTimestamps(id: string): Promise<SelectUserTimestamps | [] | Error> {
+		return await this.timestampsRepository.queryTimestampsById(id);
+	}
 
-    async updateSettings(id: string, body: UpdateUserSettingsDTO): Promise<string | [] | Error> {
-        return await this.settingsRepository.updateSettings(id, body);
-    }
+	async updateSettings(id: string, body: UpdateUserSettingsDTO): Promise<string | [] | Error> {
+		return await this.settingsRepository.updateSettings(id, body);
+	}
 
-    async updateStatistics(id: string, body: UpdateUserStatisticsDTO): Promise<string | [] | Error> {
-        return await this.statisticsRepository.updateStatistics(id, body);
-    }
+	async updateStatistics(id: string, body: UpdateUserStatisticsDTO): Promise<string | [] | Error> {
+		return await this.statisticsRepository.updateStatistics(id, body);
+	}
 
+	async insertNewUnlockedQuiz(id: string, quizID: string): Promise<string | [] | Error> {
+		const newQuiz = await this.db
+			.insert(schema.unlockedQuizzes)
+			.values({ user_id: id, quiz_id: quizID })
+			.returning({ user_id: schema.unlockedQuizzes.user_id });
+		return newQuiz ? newQuiz[0].user_id : [];
+	}
+
+	async insertNewUnlockedAchievement(id: string, achievementID: string): Promise<string | [] | Error> {
+		const newAchievement = await this.db
+			.insert(schema.unlockedAchievements)
+			.values({ user_id: id, achievement_id: achievementID })
+			.returning({ user_id: schema.unlockedAchievements.user_id });
+		return newAchievement ? newAchievement[0].user_id : [];
+	}
+
+	async insertNewHighscore(user_id: string, highscore_id: string, score: number): Promise<string | [] | Error> {
+		const newHighscore = await this.db
+			.insert(schema.highscores)
+			.values({
+				user_id,
+				highscore_id,
+				score
+			})
+			.returning({ user_id: schema.highscores.user_id });
+		return newHighscore ? newHighscore[0].user_id : [];
+	}
+
+	async insertNewCompletedQuiz(user_id: string, quiz_id: string): Promise<string | [] | Error> {
+		const newCompletedQuiz = await this.db
+			.insert(schema.completedQuizzes)
+			.values({ user_id, quiz_id })
+			.returning({ user_id: schema.completedQuizzes.user_id });
+		return newCompletedQuiz ? newCompletedQuiz[0].user_id : [];
+	}
 }
