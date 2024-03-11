@@ -37,6 +37,23 @@ export class BillingInfoRepository {
     }
 
     /**
+     * @description - Inserts a new billing information into the database
+     * @param {string} id - The id of the user
+     * @returns {Promise<string | [] | Error>} - Returns the id of the user or null if an error occurs
+     */
+    async insertDefaultTable(id: string): Promise<string | [] | Error> {
+        try {
+            const billingInfo = await this.db
+                .insert(schema.usersBillingInformationTable)
+                .values({ user_id: id })
+                .returning({ user_id: schema.usersBillingInformationTable.user_id });
+            return billingInfo ? billingInfo[0].user_id : [];
+        } catch (error) {
+            return error;
+        }
+    }
+
+    /**
      * @description - Updates a billing information by id
      * @param id - The id of the billing information
      * @param body - The body of the request
@@ -47,6 +64,23 @@ export class BillingInfoRepository {
             const billingInfo = await this.db
                 .update(schema.usersBillingInformationTable)
                 .set(body)
+                .where(eq(schema.usersBillingInformationTable.user_id, id))
+                .returning({ user_id: schema.usersBillingInformationTable.user_id });
+            return billingInfo ? billingInfo[0].user_id : [];
+        } catch (error) {
+            return error;
+        }
+    }
+
+    /**
+     * @description - Deletes a billing information by id
+     * @param id - The id of the billing information
+     * @returns {Promise<string | [] | Error>} - Returns the userID or an empty array if no billing information is found and an error if an error occurs
+     */
+    async deleteBillingInfo(id: string): Promise<string | [] | Error> {
+        try {
+            const billingInfo = await this.db
+                .delete(schema.usersBillingInformationTable)
                 .where(eq(schema.usersBillingInformationTable.user_id, id))
                 .returning({ user_id: schema.usersBillingInformationTable.user_id });
             return billingInfo ? billingInfo[0].user_id : [];

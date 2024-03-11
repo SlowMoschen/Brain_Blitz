@@ -37,6 +37,23 @@ export class StatisticsRepository {
     }
 
     /**
+     * @description - Inserts a new statistics into the database
+     * @param {string} id - The id of the user
+     * @returns {Promise<string | [] | Error>} - Returns the id of the user or null if an error occurs
+     */
+    async insertDefaultTable(id: string): Promise<string | [] | Error> {
+        try {
+            const statistics = await this.db
+                .insert(schema.usersStatisticsTable)
+                .values({ user_id: id })
+                .returning({ user_id: schema.usersStatisticsTable.user_id });
+            return statistics ? statistics[0].user_id : [];
+        } catch (error) {
+            return error;
+        }
+    }
+
+    /**
      * @description - Updates a statistics by id
      * @param id - The id of the statistics
      * @param body - The body of the request
@@ -50,6 +67,20 @@ export class StatisticsRepository {
                 .where(eq(schema.usersStatisticsTable.user_id, id))
                 .returning({ user_id: schema.usersStatisticsTable.user_id });
             return statistics ? statistics[0].user_id : [];
+        } catch (error) {
+            return error;
+        }
+    }
+
+    /**
+     * @description - Deletes a statistics by id
+     * @param id - The id of the statistics
+     * @returns {Promise<string | [] | Error>} - Returns the id of the deleted statistics or null if an error occurs
+     */
+    async deleteStatisticsById(id: string): Promise<string | [] | Error> {
+        try {
+            await this.db.delete(schema.usersStatisticsTable).where(eq(schema.usersStatisticsTable.user_id, id));
+            return id;
         } catch (error) {
             return error;
         }

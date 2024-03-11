@@ -37,6 +37,23 @@ export class SettingsRepository {
     }
 
     /**
+     * @description - Inserts a new settings into the database
+     * @param {string} id - The id of the user
+     * @returns {Promise<string | [] | Error>} - Returns the id of the user or null if an error occurs
+     */
+    async insertDefaultTable(id: string): Promise<string | [] | Error> {
+        try {
+            const settings = await this.db
+                .insert(schema.usersSettingsTable)
+                .values({ user_id: id })
+                .returning({ user_id: schema.usersSettingsTable.user_id });
+            return settings ? settings[0].user_id : [];
+        } catch (error) {
+            return error;
+        }
+    }
+
+    /**
      * @description - Updates a settings by id
      * @param id - The id of the settings
      * @param body - The body of the request
@@ -47,6 +64,23 @@ export class SettingsRepository {
             const settings = await this.db
                 .update(schema.usersSettingsTable)
                 .set(body)
+                .where(eq(schema.usersSettingsTable.user_id, id))
+                .returning({ user_id: schema.usersSettingsTable.user_id });
+            return settings ? settings[0].user_id : [];
+        } catch (error) {
+            return error;
+        }
+    }
+
+    /**
+     * @description - Deletes a settings by id
+     * @param id - The id of the settings
+     * @returns {Promise<string | [] | Error>} - Returns the id of the deleted settings or null if an error occurs
+     */
+    async deleteSettingsById(id: string): Promise<string | [] | Error> {
+        try {
+            const settings = await this.db
+                .delete(schema.usersSettingsTable)
                 .where(eq(schema.usersSettingsTable.user_id, id))
                 .returning({ user_id: schema.usersSettingsTable.user_id });
             return settings ? settings[0].user_id : [];

@@ -1,4 +1,4 @@
-import { boolean, integer, pgEnum, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { boolean, integer, pgEnum, pgTable, primaryKey, text, timestamp } from 'drizzle-orm/pg-core';
 import { createId } from '@paralleldrive/cuid2';
 import { quizHighscoresTable, quizzesTable } from './quizzes.model';
 import { achievementsTable } from './achievements.model';
@@ -18,6 +18,7 @@ export const usersTable = pgTable('users', {
 	last_name: text('last_name').notNull(),
 	email: text('email').notNull().unique(),
 	password: text('password').notNull(),
+	energy: integer('energy').notNull().default(100),
 });
 
 export const usersSettingsTable = pgTable('users_settings', {
@@ -26,7 +27,8 @@ export const usersSettingsTable = pgTable('users_settings', {
 		.notNull()
 		.$defaultFn(() => createId()),
 	user_id: text('user_id')
-		.references(() => usersTable.id, {onDelete: 'cascade'}).notNull(),
+		.references(() => usersTable.id, { onDelete: 'cascade' })
+		.notNull(),
 	theme: text('theme').notNull().default('default'),
 	language: text('language').notNull().default('de-DE'),
 	is_verified: boolean('is_verified').notNull().default(false),
@@ -40,7 +42,7 @@ export const usersStatisticsTable = pgTable('users_statistics', {
 		.$defaultFn(() => createId()),
 	user_id: text('user_id')
 		.notNull()
-		.references(() => usersTable.id, {onDelete: 'cascade'}),
+		.references(() => usersTable.id, { onDelete: 'cascade' }),
 	login_count: integer('login_count').notNull().default(0),
 	login_streak: integer('login_streak').notNull().default(0),
 	max_login_streak: integer('max_login_streak').notNull().default(0),
@@ -57,7 +59,7 @@ export const usersTimestampsTable = pgTable('users_timestamps', {
 		.$defaultFn(() => createId()),
 	user_id: text('user_id')
 		.notNull()
-		.references(() => usersTable.id, {onDelete: 'cascade'}),
+		.references(() => usersTable.id, { onDelete: 'cascade' }),
 	created_at: timestamp('created_at').notNull().defaultNow(),
 	updated_at: timestamp('updated_at').notNull().defaultNow(),
 	billing_information_updated_at: timestamp('billing_information_updated_at').notNull().defaultNow(),
@@ -76,7 +78,7 @@ export const usersBillingInformationTable = pgTable('users_billing_information',
 		.$defaultFn(() => createId()),
 	user_id: text('user_id')
 		.notNull()
-		.references(() => usersTable.id, {onDelete: 'cascade'}),
+		.references(() => usersTable.id, { onDelete: 'cascade' }),
 	billing_address: text('billing_address').notNull().default(''),
 	billing_city: text('billing_city').notNull().default(''),
 	billing_state: text('billing_state').notNull().default(''),
@@ -87,19 +89,95 @@ export const usersBillingInformationTable = pgTable('users_billing_information',
 	payment_date: timestamp('payment_date').notNull().defaultNow(),
 });
 
-export const usersAppStates = pgTable('users_app_states', {
-	id: text('id')
-		.primaryKey()
-		.notNull()
-		.$defaultFn(() => createId()),
-	user_id: text('user_id')
-		.notNull()
-		.references(() => usersTable.id, {onDelete: 'cascade'}),
-	unlocked_quizzes: text('unlocked_quizzes').references(() => quizzesTable.id),
-	completed_quizzes: text('completed_quizzes').references(() => quizzesTable.id),
-	unlocked_achievements: text('unlocked_achievements').references(() => achievementsTable.id),
-	highscores: text('highscores').references(() => quizHighscoresTable.id, {onDelete: 'cascade'}),
-});
+export const unlockedQuizzes = pgTable(
+	'unlocked_quizzes',
+	{
+		user_id: text('user_id').notNull().references(() => usersTable.id),
+		quiz_id: text('quiz_id').notNull().references(() => quizzesTable.id),
+	},
+	(t) => ({
+		pk: primaryKey(t.user_id, t.quiz_id),
+	}),
+);
+
+export const completedQuizzes = pgTable(
+	'completed_quizzes',
+	{
+		user_id: text('user_id').notNull().references(() => usersTable.id),
+		quiz_id: text('quiz_id').notNull().references(() => quizzesTable.id),
+	},
+	(t) => ({
+		pk: primaryKey(t.user_id, t.quiz_id),
+	}),
+);
+
+export const unlockedAchievements = pgTable(
+	'unlocked_achievements',
+	{
+		user_id: text('user_id').notNull().references(() => usersTable.id),
+		achievement_id: text('achievement_id').notNull().references(() => achievementsTable.id),
+	},
+	(t) => ({
+		pk: primaryKey(t.user_id, t.achievement_id),
+	}),
+);
+
+export const highscores = pgTable(
+	'highscores',
+	{
+		user_id: text('user_id').notNull().references(() => usersTable.id),
+		highscore_id: text('quiz_id').notNull().references(() => quizHighscoresTable.id),
+		score: integer('score').notNull(),
+		created_at: timestamp('created_at').notNull().defaultNow(),
+	},
+	(t) => ({
+		pk: primaryKey(t.user_id, t.highscore_id),
+	}),
+);
+
+export const highscoresRelations = relations(highscores, ({ one }) => ({
+	user: one(usersTable, {
+		fields: [highscores.user_id],
+		references: [usersTable.id],
+	}),
+	quiz: one(quizHighscoresTable, {
+		fields: [highscores.highscore_id],
+		references: [quizHighscoresTable.id],
+	}),
+}));
+
+export const completedQuizzesRelations = relations(completedQuizzes, ({ one }) => ({
+	user: one(usersTable, {
+		fields: [completedQuizzes.user_id],
+		references: [usersTable.id],
+	}),
+	quiz: one(quizzesTable, {
+		fields: [completedQuizzes.quiz_id],
+		references: [quizzesTable.id],
+	}),
+}));
+
+export const unlockedAchievementsRelations = relations(unlockedAchievements, ({ one }) => ({
+	user: one(usersTable, {
+		fields: [unlockedAchievements.user_id],
+		references: [usersTable.id],
+	}),
+	achievement: one(achievementsTable, {
+		fields: [unlockedAchievements.achievement_id],
+		references: [achievementsTable.id],
+	}),
+}));
+
+export const unlockedQuizzesRelations = relations(unlockedQuizzes, ({ one }) => ({
+	user: one(usersTable, {
+		fields: [unlockedQuizzes.user_id],
+		references: [usersTable.id],
+	}),
+	quiz: one(quizzesTable, {
+		fields: [unlockedQuizzes.quiz_id],
+		references: [quizzesTable.id],
+	}),
+}));
 
 export const usersSettingsRelations = relations(usersSettingsTable, ({ one }) => ({
 	user: one(usersTable, {
@@ -129,22 +207,14 @@ export const usersBillingInformationRelations = relations(usersBillingInformatio
 	}),
 }));
 
-export const usersAppStatesRelations = relations(usersAppStates, ({ one, many }) => ({
-	user: one(usersTable, {
-		fields: [usersAppStates.user_id],
-		references: [usersTable.id],
-	}),
-	unlocked_quizzes: many(quizzesTable),
-	completed_quizzes: many(quizzesTable),
-	unlocked_achievements: many(achievementsTable),
-	highscores: many(quizHighscoresTable),
-}));
-
 export const usersRelations = relations(usersTable, ({ one, many }) => ({
 	settings: one(usersSettingsTable),
 	statistics: one(usersStatisticsTable),
 	timestamps: one(usersTimestampsTable),
 	billing_information: one(usersBillingInformationTable),
-	app_states: one(usersAppStates),
 	tokens: many(tokensTable),
+	unlocked_quizzes: many(unlockedQuizzes),
+	completed_quizzes: many(completedQuizzes),
+	unlocked_achievements: many(unlockedAchievements),
+	highscores: many(highscores),
 }));

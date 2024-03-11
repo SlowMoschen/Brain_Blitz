@@ -1,7 +1,7 @@
-import { AnyPgColumn, boolean, integer, pgEnum, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 import { createId } from '@paralleldrive/cuid2';
-import { usersTable } from './users.model';
 import { relations } from 'drizzle-orm';
+import { AnyPgColumn, integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { usersTable } from './users.model';
 
 export const quizzesTable = pgTable('quizzes', {
 	id: text('id')

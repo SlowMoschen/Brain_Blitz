@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 import { TimestampColumns } from "src/Enums/timestampColumns.enum";
 
 @Injectable()
-export class TimestampsService {
+export class TimestampsRepository {
     constructor(@InjectDatabase() private readonly db: NodePgDatabase<typeof schema>) {}
 
     /**
@@ -38,6 +38,23 @@ export class TimestampsService {
     }
 
     /**
+     * @description - Inserts a new timestamps into the database
+     * @param {string} id - The id of the user
+     * @returns {Promise<string | [] | Error>} - Returns the id of the user or null if an error occurs
+     */
+    async insertDefaultTable(id: string): Promise<string | [] | Error> {
+        try {
+            const timestamps = await this.db
+                .insert(schema.usersTimestampsTable)
+                .values({ user_id: id })
+                .returning({ user_id: schema.usersTimestampsTable.user_id });
+            return timestamps ? timestamps[0].user_id : [];
+        } catch (error) {
+            return error;
+        }
+    }
+
+    /**
      * @description - Updates a specific column in the user timestamps table and sets the value to the current date
      * @param {string} userID - The id of the user
      * @param {TimestampColumns} column - The column to update
@@ -49,6 +66,23 @@ export class TimestampsService {
                 .update(schema.usersTimestampsTable)
                 .set({ [column]: new Date() })
                 .where(eq(schema.usersTimestampsTable.user_id, userID))
+                .returning({ user_id: schema.usersTimestampsTable.user_id });
+            return timestamps ? timestamps[0].user_id : [];
+        } catch (error) {
+            return error;
+        }
+    }
+
+    /**
+     * @description - Deletes a user by id
+     * @param {string} id - The id of the user
+     * @returns {Promise<string | [] | Error>} - Returns the id of the deleted user or null if an error occurs
+     */
+    async deleteTimestampsById(id: string): Promise<string | [] | Error> {
+        try {
+            const timestamps = await this.db
+                .delete(schema.usersTimestampsTable)
+                .where(eq(schema.usersTimestampsTable.user_id, id))
                 .returning({ user_id: schema.usersTimestampsTable.user_id });
             return timestamps ? timestamps[0].user_id : [];
         } catch (error) {

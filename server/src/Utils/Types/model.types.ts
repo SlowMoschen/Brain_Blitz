@@ -2,12 +2,15 @@ import { achievementsTable } from '../../Models/achievements.model';
 import { quizHighscoresTable, quizQuestionsTable, quizzesTable } from '../../Models/quizzes.model';
 import { tokensTable } from '../../Models/tokens.model';
 import {
-  usersAppStates,
-  usersBillingInformationTable,
-  usersSettingsTable,
-  usersStatisticsTable,
-  usersTable,
-  usersTimestampsTable,
+	completedQuizzes,
+	highscores,
+	unlockedAchievements,
+	unlockedQuizzes,
+	usersBillingInformationTable,
+	usersSettingsTable,
+	usersStatisticsTable,
+	usersTable,
+	usersTimestampsTable
 } from '../../Models/users.model';
 
 export type SelectUser = typeof usersTable.$inferSelect;
@@ -26,8 +29,17 @@ export type InsertUserTimestamps = typeof usersTimestampsTable.$inferInsert;
 export type SelectUserBillingInformation = typeof usersBillingInformationTable.$inferSelect;
 export type InsertUserBillingInformation = typeof usersBillingInformationTable.$inferInsert;
 
-export type SelectUserAppState = typeof usersAppStates.$inferSelect;
-export type InsertUserAppState = typeof usersAppStates.$inferInsert;
+export type SelectUnlockedQuizzes = typeof unlockedQuizzes.$inferSelect;
+export type InsertUnlockedQuizzes = typeof unlockedQuizzes.$inferInsert;
+
+export type SelectUnlockedAchievements = typeof unlockedAchievements.$inferSelect;
+export type InsertUnlockedAchievements = typeof unlockedAchievements.$inferInsert;
+
+export type SelectCompletedQuizzes = typeof completedQuizzes.$inferSelect;
+export type InsertCompletedQuizzes = typeof completedQuizzes.$inferInsert;
+
+export type SelectHighscores = typeof highscores.$inferSelect;
+export type InsertHighscores = typeof highscores.$inferInsert;
 
 export type SelectToken = typeof tokensTable.$inferSelect;
 export type InsertToken = typeof tokensTable.$inferInsert;
@@ -45,7 +57,10 @@ export type SelectQuizQuestion = typeof quizQuestionsTable.$inferSelect;
 export type InsertQuizQuestion = typeof quizQuestionsTable.$inferInsert;
 
 export type SelectUserWithAllTables = typeof usersTable.$inferSelect & {
-	app_states: SelectUserAppState;
+	unlocked_quizzes: SelectUnlockedQuizzes;
+	completed_quizzes: SelectCompletedQuizzes;
+	unlocked_achievements: SelectUnlockedAchievements;
+	highscores: SelectHighscores;
 	settings: SelectUserSettings;
 	statistics: SelectUserStatistics;
 	timestamps: SelectUserTimestamps;
@@ -53,7 +68,10 @@ export type SelectUserWithAllTables = typeof usersTable.$inferSelect & {
 };
 
 export type InsertUserWithAllTables = typeof usersTable.$inferInsert & {
-	app_states: InsertUserAppState;
+	unlocked_quizzes: InsertUnlockedQuizzes;
+	completed_quizzes: InsertCompletedQuizzes;
+	unlocked_achievements: InsertUnlockedAchievements;
+	highscores: InsertHighscores;
 	settings: InsertUserSettings;
 	statistics: InsertUserStatistics;
 	timestamps: InsertUserTimestamps;
