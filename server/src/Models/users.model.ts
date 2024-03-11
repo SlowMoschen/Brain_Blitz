@@ -135,7 +135,7 @@ export const highscores = pgTable(
 	}),
 );
 
-export const highscoresRelations = relations(highscores, ({ one }) => ({
+export const usersHighscoresRelations = relations(highscores, ({ one }) => ({
 	user: one(usersTable, {
 		fields: [highscores.user_id],
 		references: [usersTable.id],

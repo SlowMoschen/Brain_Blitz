@@ -3,22 +3,14 @@ import {
 	Controller,
 	Get,
 	HttpException,
-	Inject,
 	NotFoundException,
 	Param,
 	Patch,
 	Req,
 	UseGuards,
 	UsePipes,
-	ValidationPipe,
+	ValidationPipe
 } from '@nestjs/common';
-import { AuthenticationGuard } from 'src/Guards/auth.guard';
-import { ReqWithUser } from 'src/Utils/Types/request.types';
-import { SettingsService } from '../shared/user/user.settings.service';
-import { UpdateUserSettingsDTO } from './dto/update-user-settings.dto';
-import { RolesGuard } from 'src/Guards/roles.guard';
-import { Roles } from 'src/Decorators/roles.decorator';
-import { Role } from 'src/Enums/role.enum';
 import {
 	ApiForbiddenResponse,
 	ApiInternalServerErrorResponse,
@@ -27,12 +19,24 @@ import {
 	ApiOperation,
 	ApiTags,
 } from '@nestjs/swagger';
+import { Roles } from 'src/Decorators/roles.decorator';
+import { Role } from 'src/Enums/role.enum';
+import { AuthenticationGuard } from 'src/Guards/auth.guard';
+import { RolesGuard } from 'src/Guards/roles.guard';
+import { ReqWithUser } from 'src/Utils/Types/request.types';
+import { ErrorResponse, SuccessResponse } from 'src/Utils/Types/response.types';
+import { ResponseHelperService } from '../shared/responseHelper.service';
+import { UpdateUserSettingsDTO } from './dto/update-user-settings.dto';
+import { UsersService } from './users.service';
 
 @ApiTags('users/settings')
 @Controller('users/settings')
 @UseGuards(AuthenticationGuard, RolesGuard)
 export class UsersSettingsController {
-	constructor(@Inject(SettingsService) private readonly userSettingService: SettingsService) {}
+	constructor(
+		private readonly usersService: UsersService,
+		private readonly responseHelperService: ResponseHelperService,
+	) {}
 
 	@ApiOperation({ summary: 'Get user settings via session cookie' })
 	@ApiOkResponse({ description: 'returns user settings table' })
@@ -41,14 +45,30 @@ export class UsersSettingsController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
-	async getUserSettingsBySession(@Req() req: ReqWithUser) {
+	async getUserSettingsBySession(@Req() req: ReqWithUser): Promise<SuccessResponse | ErrorResponse> {
 		const userID = req.user.id;
 
-		const settings = await this.userSettingService.getUserSettingsById(userID);
-		if (!settings) throw new NotFoundException('No settings found');
-		if (settings instanceof Error) throw new HttpException('Query for settings failed', 500);
+		const settings = await this.usersService.getSettings(userID);
 
-		return { data: settings, message: 'Settings found' };
+		if (!settings)
+			return this.responseHelperService.errorResponse(
+				'Not Found',
+				404,
+				'No settings found',
+				new NotFoundException('No settings found'),
+				{ method: 'GET', url: req.url },
+			);
+
+		if (settings instanceof Error)
+			return this.responseHelperService.errorResponse(
+				'Internal Server Error',
+				500,
+				'Query for settings failed',
+				new HttpException('Query for settings failed', 500),
+				{ method: 'GET', url: req.url },
+			);
+
+		return this.responseHelperService.successResponse(200, 'Settings found', settings, { method: 'GET', url: req.url });
 	}
 
 	@ApiOperation({ summary: 'Update user settings via session cookie' })
@@ -59,29 +79,36 @@ export class UsersSettingsController {
 	@Roles(Role.USER, Role.ADMIN)
 	@UsePipes(new ValidationPipe())
 	@Patch()
-	async updateUserSettingsBySession(@Req() req: ReqWithUser, @Body() body: UpdateUserSettingsDTO) {
+	async updateUserSettingsBySession(
+		@Req() req: ReqWithUser,
+		@Body() body: UpdateUserSettingsDTO,
+	): Promise<SuccessResponse | ErrorResponse> {
 		const userID = req.user.id;
 
-		const settings = await this.userSettingService.updateUserSettings(userID, body);
-		if (!settings) throw new NotFoundException('No settings found');
-		if (settings instanceof Error) throw new HttpException('Query for settings failed', 500);
+		const updatedSettings = await this.usersService.updateSettings(userID, body);
 
-		return { data: settings, message: 'Settings updated' };
-	}
+		if (!updatedSettings)
+			return this.responseHelperService.errorResponse(
+				'Not Found',
+				404,
+				'No settings found',
+				new NotFoundException('No settings found'),
+				{ method: 'PATCH', url: req.url },
+			);
 
-	@ApiOperation({ summary: 'ADMIN ROUTE - Get user settings by ID' })
-	@ApiOkResponse({ description: 'returns all user settings' })
-	@ApiNotFoundResponse({ description: 'if no settings were found' })
-	@ApiForbiddenResponse({ description: 'if user got no session cookie or is not an admin' })
-	@ApiInternalServerErrorResponse({ description: 'if query failed' })
-	@Roles(Role.ADMIN)
-	@Get('all')
-	async getUserSettings() {
-		const settings = await this.userSettingService.getUserSettings();
-		if (!settings) throw new NotFoundException('No settings found');
-		if (settings instanceof Error) throw new HttpException('Query for settings failed', 500);
+		if (updatedSettings instanceof Error)
+			return this.responseHelperService.errorResponse(
+				'Internal Server Error',
+				500,
+				'Update of settings failed',
+				new HttpException('Update of settings failed', 500),
+				{ method: 'PATCH', url: req.url },
+			);
 
-		return { data: settings, message: 'Settings found' };
+		return this.responseHelperService.successResponse(200, 'Settings updated', updatedSettings, {
+			method: 'PATCH',
+			url: req.url,
+		});
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Get user settings by ID' })
@@ -91,12 +118,28 @@ export class UsersSettingsController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
 	@Get(':id')
-	async getUserSettingsById(id: string) {
-		const settings = await this.userSettingService.getUserSettingsById(id);
-		if (!settings) throw new NotFoundException('No settings found');
-		if (settings instanceof Error) throw new HttpException('Query for settings failed', 500);
+	async getUserSettingsById(id: string, @Req() req: ReqWithUser): Promise<SuccessResponse | ErrorResponse> {
+		const settings = await this.usersService.getSettings(id);
 
-		return { data: settings, message: 'Settings found' };
+		if (!settings)
+			return this.responseHelperService.errorResponse(
+				'Not Found',
+				404,
+				'No settings found',
+				new NotFoundException('No settings found'),
+				{ method: 'GET', url: req.url },
+			);
+
+		if (settings instanceof Error)
+			return this.responseHelperService.errorResponse(
+				'Internal Server Error',
+				500,
+				'Query for settings failed',
+				new HttpException('Query for settings failed', 500),
+				{ method: 'GET', url: req.url },
+			);
+
+		return this.responseHelperService.successResponse(200, 'Settings found', settings, { method: 'GET', url: req.url });
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Update user settings by ID' })
@@ -107,10 +150,27 @@ export class UsersSettingsController {
 	@Roles(Role.ADMIN)
 	@UsePipes(new ValidationPipe())
 	@Patch(':id')
-	async updateUserSettings(@Param('id') userID: string, @Body() body: UpdateUserSettingsDTO) {
-		const settings = await this.userSettingService.updateUserSettings(userID, body);
-		if (!settings) throw new NotFoundException('No settings found');
-		if (settings instanceof Error) throw new HttpException('Update of settings failed', 500);
-		return { data: settings, message: 'Settings updated' };
+	async updateUserSettings(@Param('id') userID: string, @Body() body: UpdateUserSettingsDTO, @Req() req: ReqWithUser): Promise<SuccessResponse | ErrorResponse>{
+		const updatedSettings = await this.usersService.updateSettings(userID, body);
+
+		if (!updatedSettings)
+			return this.responseHelperService.errorResponse(
+				'Not Found',
+				404,
+				'No settings found',
+				new NotFoundException('No settings found'),
+				{ method: 'PATCH', url: req.url },
+			);
+
+		if (updatedSettings instanceof Error)
+			return this.responseHelperService.errorResponse(
+				'Internal Server Error',
+				500,
+				'Update of settings failed',
+				new HttpException('Update of settings failed', 500),
+				{ method: 'PATCH', url: req.url },
+			);
+
+		return this.responseHelperService.successResponse(200, 'Settings updated', updatedSettings, { method: 'PATCH', url: req.url });
 	}
 }

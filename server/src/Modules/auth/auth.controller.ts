@@ -26,8 +26,8 @@ import {
 } from '@nestjs/swagger';
 import { LocalAuthGuard } from 'src/Guards/localAuth.guard';
 import { ReqWithUser } from 'src/Utils/Types/request.types';
-import { CreateUserDTO } from '../users/dto/create-user.dto';
-import { LoginUserDTO } from '../users/dto/login-user.dto';
+import { CreateUserDTO } from './dto/create-user.dto';
+import { LoginUserDTO } from './dto/login-user.dto';
 import { AuthService } from './auth.service';
 import { ResendVerificationEmailDto } from './dto/resendVerficationEmail.dto';
 
@@ -63,7 +63,6 @@ export class AuthController {
 	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
 	@Get('session')
 	async session(@Req() req: ReqWithUser) {
-		console.log(req.user);
 		if (!req.user) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
 		return { message: 'Authorized' };
 	}

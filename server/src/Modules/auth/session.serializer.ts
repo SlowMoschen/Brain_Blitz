@@ -1,10 +1,10 @@
 import { PassportSerializer } from '@nestjs/passport';
-import { UserService } from '../shared/user/user.service';
 import { usersTable } from 'src/Models/users.model';
+import { UsersService } from '../users/users.service';
 import { Inject } from '@nestjs/common';
 
 export class SessionSerializer extends PassportSerializer {
-	constructor(@Inject(UserService) private readonly userService: UserService) {
+	constructor(@Inject(UsersService) private readonly usersService: UsersService) {
 		super();
 	}
 
@@ -13,11 +13,12 @@ export class SessionSerializer extends PassportSerializer {
 	}
 
 	async deserializeUser(userId: string, done: (err: Error, payload: any) => void): Promise<void> {
-		const user = await this.userService.getUserById(userId);
-		if (!user) {
-			done(new Error('User not found'), null);
+		const user = await this.usersService.getCompleteUserById(userId);
+		if (user instanceof Error) {
+			done(user, null);
+			return;
 		}
-		const { password, settings, id, ...rest } = user;
+		const { settings, id, ...rest } = user;
 		done(null, { id: id, roles: [settings.roles] });
 	}
 }

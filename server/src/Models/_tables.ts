@@ -1,6 +1,5 @@
 import {
 	usersTable,
-	usersAppStates,
 	usersBillingInformationTable,
 	usersStatisticsTable,
 	usersSettingsTable,
@@ -15,7 +14,6 @@ import { tokensTable } from './tokens.model';
 
 export {
 	usersTable,
-	usersAppStates,
 	usersBillingInformationTable,
 	usersStatisticsTable,
 	usersSettingsTable,
