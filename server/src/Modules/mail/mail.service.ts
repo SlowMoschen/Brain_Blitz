@@ -13,17 +13,28 @@ export class MailService {
      * @param {string} token - The token to verify the user's email
      * @returns {Promise<void>} - Returns void
      */
-    async sendConfirmationEmail(user: SelectUser, token: string): Promise<void> {
-        const url = `http://localhost:3000/auth/verify-email/${user.id}/${token}`;
-
-        await this.mailerService.sendMail({
-            to: user.email,
-            subject: 'Willkommen bei Brain Blitz! Bitte bestätige deine E-Mail-Adresse',
-            template: './confirmation',
-            context: {
-                name: user.first_name,
-                url,
-            },
-        })
+    async sendConfirmationEmail(user: SelectUser, token: string): Promise<void | Error> {
+        try {
+            const url = `http://localhost:3000/auth/verify-email/${user.id}/${token}`;
+    
+            await this.mailerService.sendMail({
+                to: user.email,
+                subject: 'Willkommen bei Brain Blitz! Bitte bestätige deine E-Mail-Adresse',
+                template: './confirmation',
+                context: {
+                    name: user.first_name,
+                    url,
+                },
+                attachments: [
+                    {
+                        filename: 'email.svg',
+                        path: './dist/Public/SVGS/email.svg',
+                        cid: 'email',
+                    },
+                ]
+            })
+        } catch (error) {
+            return error
+        }
     }
 }

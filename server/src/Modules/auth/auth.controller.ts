@@ -167,4 +167,11 @@ export class AuthController {
 
 		return this.responseHelperService.successResponse(200, 'Email resent', resent, { method: 'POST', url: req.url });
 	}
+
+	// DEV ONLY
+	@Get('dev')
+	async dev(@Res() res) {
+		return res.render('email-verified', { message: 'E-Mail wurde erfolgreich bestätigt', url: process.env.LOGIN_REDIRECT_URL });
+	}
+	
 }

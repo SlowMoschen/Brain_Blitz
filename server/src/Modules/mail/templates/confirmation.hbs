@@ -1,5 +1,22 @@
-<p>Hey {{name}}</p>
-<p>Danke das du dich bei Brain Blitz angemeldet hast. Bitte bestätige deine E-Mail Adresse per klick auf den unten stehenden Link</p>
-<p><a href="{{url}}">Bestätigen</a></p>
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+		
+	</head>
+	<body style="font-family: 'Roboto', sans-serif;">
+		<div style="background-color: #1a1a1a;color: #ffffff;display: flex;flex-direction: column;align-items: center;justify-content: flex-start;height: 100vh;">
+		<img src="cid:email" alt="email" width="150px" style="margin: 3rem 0;">
+		<h1 style="font-size: 3rem;margin-bottom: 1rem;">Hey {{name}}</h1>
+		<p class="main-text" style="font-size: 1.2rem;text-align: center;margin-bottom: 2rem;width: 600px;">
+			Danke das du dich bei <span class="mixed-bg font-xl" style="font-size: 2rem;background: linear-gradient(120deg, #c10000 0%, #99ff66 100%);background-clip: text;-webkit-text-fill-color: transparent;">Brain Blitz</span> angemeldet hast. Bitte bestätige deine E-Mail Adresse per klick auf den unten
+			stehenden Link
+		</p>
+		<a href="{{url}}" style="text-decoration: none;color: #ffffff;background-color: #c10000;padding: 0.8rem 1rem;border-radius: 5px;width: 200px;text-align: center;transition: all 0.2s ease-in-out;">Bestätigen</a>
 
-<p>Solltest du dich nicht bei uns angemeldet haben, kannst du diese E-Mail ignorieren.</p>
+		<p class="footer-note" style="margin-top: 2rem;font-size: 0.8rem;">Solltest du dich nicht bei uns angemeldet haben, kannst du diese E-Mail ignorieren.</p>
+		</div>
+	</body>
+</html>

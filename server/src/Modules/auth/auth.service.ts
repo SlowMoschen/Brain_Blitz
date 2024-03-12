@@ -60,9 +60,16 @@ export class AuthService {
 		const userID = createdUser.id;
 		
 		const token = await this.encryptionService.generateToken(userID);
-		if (token instanceof Error) return new HttpException('Token generation failed', HttpStatus.INTERNAL_SERVER_ERROR);
+		if (token instanceof Error) {
+			await this.usersService.deleteUser(userID);
+			return new HttpException('Token generation failed', HttpStatus.INTERNAL_SERVER_ERROR);
+		} 
 
-		await this.mailService.sendConfirmationEmail(createdUser, token);
+		const mail = await this.mailService.sendConfirmationEmail(createdUser, token);
+		if (mail instanceof Error) {
+			await this.usersService.deleteUser(userID);
+			return new HttpException('Sending email failed', HttpStatus.INTERNAL_SERVER_ERROR)
+		} 
 
         return userID;
 	}

@@ -1,13 +1,15 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import helmet from 'helmet';
-import loggerMiddleware from './Middlewares/logger.middleware';
-import * as session from 'express-session';
-import * as passport from 'passport';
-import * as connectPGSession from 'connect-pg-simple';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as connectPGSession from 'connect-pg-simple';
+import { create } from 'express-handlebars';
+import * as session from 'express-session';
+import helmet from 'helmet';
+import * as passport from 'passport';
 import { join } from 'path';
+import loggerMiddleware from './Middlewares/logger.middleware';
+import { AppModule } from './app.module';
+
 const pgSession = connectPGSession(session);
 
 async function bootstrap() {
@@ -18,9 +20,19 @@ async function bootstrap() {
     },
   });
 
+  const hbsConfig = create({
+    extname: '.hbs',
+    layoutsDir: join(__dirname, 'Views/Layouts'),
+    partialsDir: join(__dirname, 'Views/Partials'),
+    defaultLayout: 'main',
+  });
+
   app.use(helmet());
   app.use(loggerMiddleware);
+  app.useStaticAssets(join(__dirname, 'Public'));
+  app.useStaticAssets(join(__dirname, 'Public/CSS'));
   app.setBaseViewsDir(join(__dirname, 'Views'));
+  app.engine('hbs', hbsConfig.engine);
   app.setViewEngine('hbs');
   
   app.use(

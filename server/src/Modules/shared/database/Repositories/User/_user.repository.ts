@@ -216,6 +216,7 @@ export class UserRepository {
 	 */
 	async deleteUserById(id: string): Promise<string | [] | Error> {
 		try {
+			await this.tokenRepository.deleteTokensByUserId(id);
 			await this.settingsRepository.deleteSettingsById(id);
 			await this.statisticsRepository.deleteStatisticsById(id);
 			await this.timestampsRepository.deleteTimestampsById(id);
@@ -226,7 +227,6 @@ export class UserRepository {
 				.returning({ id: schema.usersTable.id });
 			return deletedUser ? deletedUser[0].id : [];
 		} catch (error) {
-			console.log(error, '-----------------------------------');
 			return error;
 		}
 	}
