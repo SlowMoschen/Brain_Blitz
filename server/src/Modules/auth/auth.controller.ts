@@ -114,34 +114,41 @@ export class AuthController {
 	@ApiForbiddenResponse({ description: 'if token does not match user' })
 	@ApiInternalServerErrorResponse({ description: 'if email verification failed' })
 	@Get('verify-email/:id/:token')
-	@Render('email-verified')
 	async verifyEmail(@Param('id') id: string, @Param('token') token: string, @Res() res) {
 		const verified = await this.authService.verifyEmail(id, token);
 		if (verified instanceof Error) {
-			let message = '';
-			let url = '';
+			let data: {header?: string, message?: string, url?: string} = new Object();
 			switch (verified.message) {
 				case 'User not found':
-					message = 'User not found';
+					data.header = 'Der Benutzer wurde nicht gefunden';
+					data.message = 'Bitte registriere dich erneut';
 					break;
 				case 'Email already verified':
-					message = 'Email already verified';
-					break;
+					// ! This is a workaround for the frontend. When clicking on the link in the email. 2 requests are sent. The first one will verify the email and the second one will throw this error. This is a workaround for the frontend to display the correct message.
+					data.header = 'E-Mail wurde erfolgreich bestätigt';
+					data.message = 'Du kannst dich jetzt einloggen';
+					data.url = process.env.LOGIN_REDIRECT_URL;
+					return res.render('email-verified', data);
 				case 'Your token is invalid or expired, please request a new one':
-					message = 'Your token is invalid or expired, please request a new one';
-					url = '/resend-email-verification';
+					data.header = 'Der Verifizierungslink ist ungültig oder abgelaufen';
+					data.message = 'Fordere erneut eine E-Mail an';
+					data.url= '/auth/resend-email-verification';
 					break;
 				case 'Token does not match user':
-					message = 'Token does not match user';
+					data.header = 'Verifizierungslink passt nicht zum Benutzer';
+					data.message = 'Bitte fordere eine neue E-Mail an';
+					data.url = '/auth/resend-email-verification';
 					break;
 				default:
-					message = 'Email verification failed';
+					data.header = 'E-Mail Verifizierung fehlgeschlagen';
+					data.message = 'Bitte schreibe unseren Support an';
 					break;
 			}
-			return res.render('email-verified', { message, url });
+			return res.render('email-not-verified', data);
 		} else {
 			return res.render('email-verified', {
-				message: 'E-Mail wurde erfolgreich bestätigt',
+				header: 'E-Mail wurde erfolgreich bestätigt',
+				message: 'Du kannst dich jetzt einloggen',
 				url: process.env.LOGIN_REDIRECT_URL,
 			});
 		}
@@ -156,22 +163,12 @@ export class AuthController {
 	@UsePipes(new ValidationPipe())
 	async resendEmailVerification(
 		@Body() verficiationDTO: ResendVerificationEmailDto,
-		@Req() req: Request,
+		@Res() res,
 	): Promise<SuccessResponse | ErrorResponse> {
 		const resent = await this.authService.resendVerificationEmail(verficiationDTO.email);
 		if (resent instanceof HttpException)
-			return this.responseHelperService.errorResponse(resent.getResponse().toString(), resent.getStatus(), 'Email resend failed', resent, {
-				method: 'POST',
-				url: req.url,
-			});
+			return res.render('email-resend', { header: 'Senden fehlgeschlagen', message: resent.message, url: '/auth/resend-email-verification' });
 
-		return this.responseHelperService.successResponse(200, 'Email resent', resent, { method: 'POST', url: req.url });
+		return res.render('email-resend', { header: 'E-Mail wurde erneut gesendet', message: 'Bitte überprüfe deine E-Mails'});
 	}
-
-	// DEV ONLY
-	@Get('dev')
-	async dev(@Res() res) {
-		return res.render('email-verified', { message: 'E-Mail wurde erfolgreich bestätigt', url: process.env.LOGIN_REDIRECT_URL });
-	}
-	
 }
