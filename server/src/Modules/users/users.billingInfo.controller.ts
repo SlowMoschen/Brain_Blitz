@@ -3,14 +3,13 @@ import {
 	Controller,
 	Get,
 	HttpException,
-	Inject,
 	NotFoundException,
 	Param,
 	Patch,
 	Req,
 	UseGuards,
 	UsePipes,
-	ValidationPipe,
+	ValidationPipe
 } from '@nestjs/common';
 import {
 	ApiForbiddenResponse,
@@ -20,15 +19,15 @@ import {
 	ApiOperation,
 	ApiTags,
 } from '@nestjs/swagger';
+import { Request } from 'express';
 import { Roles } from 'src/Decorators/roles.decorator';
 import { Role } from 'src/Enums/role.enum';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { RolesGuard } from 'src/Guards/roles.guard';
-import { ReqWithUser } from 'src/Utils/Types/request.types';
-import { UpdateUserBillingInfoDTO } from './dto/update-user-billingInfo.dto';
-import { UsersService } from './users.service';
 import { ErrorResponse, SuccessResponse } from 'src/Utils/Types/response.types';
 import { ResponseHelperService } from '../shared/responseHelper.service';
+import { UpdateUserBillingInfoDTO } from './dto/update-user-billingInfo.dto';
+import { UsersService } from './users.service';
 
 @ApiTags('users/billing-info')
 @UseGuards(AuthenticationGuard, RolesGuard)
@@ -46,7 +45,7 @@ export class UsersBillingInfoController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
-	async getBillingInfoBySession(@Req() req: ReqWithUser): Promise<SuccessResponse | ErrorResponse> {
+	async getBillingInfoBySession(@Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
 		const userID = req.user.id;
 
 		const billingInfo = await this.usersService.getBillingInfo(userID);
@@ -86,7 +85,7 @@ export class UsersBillingInfoController {
 	@Roles(Role.USER, Role.ADMIN)
 	@Patch()
 	async updateBillingInfoBySession(
-		@Req() req: ReqWithUser,
+		@Req() req: Request,
 		@Body() updateBillingInfoDTO: UpdateUserBillingInfoDTO,
 	): Promise<SuccessResponse | ErrorResponse> {
 		const userID = req.user.id;
@@ -126,7 +125,7 @@ export class UsersBillingInfoController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
 	@Get(':id')
-	async getBillingInfoById(@Param() id: string, @Req() req: Response): Promise<SuccessResponse | ErrorResponse> {
+	async getBillingInfoById(@Param() id: string, @Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
 		const billingInfo = await this.usersService.getBillingInfo(id);
 
 		if (!billingInfo) {
@@ -166,7 +165,7 @@ export class UsersBillingInfoController {
 	async updateBillingInfoById(
 		@Param() id: string,
 		@Body() updateBillingInfoDTO: UpdateUserBillingInfoDTO,
-		@Req() req: Response,
+		@Req() req: Request,
 	): Promise<SuccessResponse | ErrorResponse> {
 		const updatedBillingInfo = await this.usersService.updateBillingInfo(id, updateBillingInfoDTO);
 

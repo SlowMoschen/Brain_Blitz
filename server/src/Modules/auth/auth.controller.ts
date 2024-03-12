@@ -24,14 +24,14 @@ import {
 	ApiOperation,
 	ApiTags,
 } from '@nestjs/swagger';
+import { Request } from 'express';
 import { LocalAuthGuard } from 'src/Guards/localAuth.guard';
-import { ReqWithUser } from 'src/Utils/Types/request.types';
-import { CreateUserDTO } from './dto/create-user.dto';
-import { LoginUserDTO } from './dto/login-user.dto';
-import { AuthService } from './auth.service';
-import { ResendVerificationEmailDto } from './dto/resendVerficationEmail.dto';
 import { ErrorResponse, SuccessResponse } from 'src/Utils/Types/response.types';
 import { ResponseHelperService } from '../shared/responseHelper.service';
+import { AuthService } from './auth.service';
+import { CreateUserDTO } from './dto/create-user.dto';
+import { LoginUserDTO } from './dto/login-user.dto';
+import { ResendVerificationEmailDto } from './dto/resendVerficationEmail.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -56,7 +56,7 @@ export class AuthController {
 	@ApiOkResponse({ description: 'returns message if logout was successful' })
 	@ApiInternalServerErrorResponse({ description: 'if logout failed' })
 	@Post('logout')
-	async logout(@Req() req): Promise<SuccessResponse | ErrorResponse>{
+	async logout(@Req() req: Request): Promise<SuccessResponse | ErrorResponse>{
 		req.logout((err) => {
 			if (err) return this.responseHelperService.errorResponse('Internal Server Error', 500, 'Logout failed', err, { method: 'POST', url: req.url });
 		});
@@ -67,7 +67,7 @@ export class AuthController {
 	@ApiOkResponse({ description: 'returns message if session is authorized' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
 	@Get('session')
-	async session(@Req() req: ReqWithUser): Promise<SuccessResponse | ErrorResponse> {
+	async session(@Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
 		if (!req.user)
 			return this.responseHelperService.errorResponse(
 				'Forbidden',
@@ -156,7 +156,7 @@ export class AuthController {
 	@UsePipes(new ValidationPipe())
 	async resendEmailVerification(
 		@Body() verficiationDTO: ResendVerificationEmailDto,
-		@Req() req,
+		@Req() req: Request,
 	): Promise<SuccessResponse | ErrorResponse> {
 		const resent = await this.authService.resendVerificationEmail(verficiationDTO.email);
 		if (resent instanceof HttpException)

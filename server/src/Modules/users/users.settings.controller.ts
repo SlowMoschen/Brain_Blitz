@@ -23,11 +23,11 @@ import { Roles } from 'src/Decorators/roles.decorator';
 import { Role } from 'src/Enums/role.enum';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { RolesGuard } from 'src/Guards/roles.guard';
-import { ReqWithUser } from 'src/Utils/Types/request.types';
 import { ErrorResponse, SuccessResponse } from 'src/Utils/Types/response.types';
 import { ResponseHelperService } from '../shared/responseHelper.service';
 import { UpdateUserSettingsDTO } from './dto/update-user-settings.dto';
 import { UsersService } from './users.service';
+import { Request } from 'express';
 
 @ApiTags('users/settings')
 @Controller('users/settings')
@@ -45,7 +45,7 @@ export class UsersSettingsController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
-	async getUserSettingsBySession(@Req() req: ReqWithUser): Promise<SuccessResponse | ErrorResponse> {
+	async getUserSettingsBySession(@Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
 		const userID = req.user.id;
 
 		const settings = await this.usersService.getSettings(userID);
@@ -80,7 +80,7 @@ export class UsersSettingsController {
 	@UsePipes(new ValidationPipe())
 	@Patch()
 	async updateUserSettingsBySession(
-		@Req() req: ReqWithUser,
+		@Req() req: Request,
 		@Body() body: UpdateUserSettingsDTO,
 	): Promise<SuccessResponse | ErrorResponse> {
 		const userID = req.user.id;
@@ -128,7 +128,7 @@ export class UsersSettingsController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
 	@Get(':id')
-	async getUserSettingsById(id: string, @Req() req: ReqWithUser): Promise<SuccessResponse | ErrorResponse> {
+	async getUserSettingsById(id: string, @Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
 		const settings = await this.usersService.getSettings(id);
 
 		if (!settings)
@@ -160,7 +160,7 @@ export class UsersSettingsController {
 	@Roles(Role.ADMIN)
 	@UsePipes(new ValidationPipe())
 	@Patch(':id')
-	async updateUserSettings(@Param('id') userID: string, @Body() body: UpdateUserSettingsDTO, @Req() req: ReqWithUser): Promise<SuccessResponse | ErrorResponse>{
+	async updateUserSettings(@Param('id') userID: string, @Body() body: UpdateUserSettingsDTO, @Req() req: Request): Promise<SuccessResponse | ErrorResponse>{
 		const updatedSettings = await this.usersService.updateSettings(userID, body);
 
 		if (!updatedSettings)

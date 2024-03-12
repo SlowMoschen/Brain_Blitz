@@ -23,11 +23,11 @@ import { Roles } from 'src/Decorators/roles.decorator';
 import { Role } from 'src/Enums/role.enum';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { RolesGuard } from 'src/Guards/roles.guard';
-import { ReqWithUser } from 'src/Utils/Types/request.types';
 import { ResponseHelperService } from '../shared/responseHelper.service';
 import { UpdateUserStatisticsDTO } from './dto/update-user-statistics.dto';
 import { UsersService } from './users.service';
 import { ErrorResponse, SuccessResponse } from 'src/Utils/Types/response.types';
+import { Request } from 'express';
 
 @ApiTags('users/statistics')
 @UseGuards(AuthenticationGuard, RolesGuard)
@@ -45,7 +45,7 @@ export class UsersStatisticsController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
-	async getUserStatisticsBySession(@Req() req: ReqWithUser): Promise<SuccessResponse | ErrorResponse> {
+	async getUserStatisticsBySession(@Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
 		const userID = req.user.id;
 
 		const stats = await this.usersService.getStatistics(userID);
@@ -80,7 +80,7 @@ export class UsersStatisticsController {
 	@Roles(Role.USER, Role.ADMIN)
 	@Patch()
 	async updateUserStatisticsBySession(
-		@Req() req: ReqWithUser,
+		@Req() req: Request,
 		@Body() body: UpdateUserStatisticsDTO,
 	): Promise<SuccessResponse | ErrorResponse> {
 		const userID = req.user.id;
@@ -118,7 +118,7 @@ export class UsersStatisticsController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
 	@Get(':id')
-	async getUserStatisticsById(@Param('id') id: string, @Req() req: ReqWithUser): Promise<SuccessResponse | ErrorResponse> {
+	async getUserStatisticsById(@Param('id') id: string, @Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
 		const stats = await this.usersService.getStatistics(id);
 
 		if (!stats)
@@ -150,7 +150,7 @@ export class UsersStatisticsController {
 	@UsePipes(new ValidationPipe())
 	@Roles(Role.ADMIN)
 	@Patch(':id')
-	async updateUserStatistics(@Param('id') id: string, @Body() body: UpdateUserStatisticsDTO, @Req() req: ReqWithUser): Promise<SuccessResponse | ErrorResponse> {
+	async updateUserStatistics(@Param('id') id: string, @Body() body: UpdateUserStatisticsDTO, @Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
 		const stats = await this.usersService.updateStatistics(id, body);
 
 		if (!stats)

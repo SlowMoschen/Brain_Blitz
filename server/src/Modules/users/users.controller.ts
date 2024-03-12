@@ -20,11 +20,11 @@ import {
 	ApiOperation,
 	ApiTags,
 } from '@nestjs/swagger';
+import { Request } from 'express';
 import { Roles } from 'src/Decorators/roles.decorator';
 import { Role } from 'src/Enums/role.enum';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { RolesGuard } from 'src/Guards/roles.guard';
-import { ReqWithUser } from 'src/Utils/Types/request.types';
 import { ErrorResponse, SuccessResponse } from 'src/Utils/Types/response.types';
 import { ResponseHelperService } from '../shared/responseHelper.service';
 import { UpdateUserCredentialsDTO } from './dto/update-user-credentials.dto';
@@ -46,7 +46,7 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
-	async getCompleteUserBySession(@Req() req: ReqWithUser): Promise<SuccessResponse | ErrorResponse> {
+	async getCompleteUserBySession(@Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
 		const userID = req.user.id;
 		const user = await this.usersService.getCompleteUserById(userID);
 		if (!user) {
@@ -78,7 +78,7 @@ export class UsersController {
 	@UsePipes(new ValidationPipe())
 	@Patch()
 	async updateUserCredentialsBySession(
-		@Req() req: ReqWithUser,
+		@Req() req: Request,
 		@Body() body: UpdateUserCredentialsDTO,
 	): Promise<SuccessResponse | ErrorResponse> {
 		const userID = req.user.id;
@@ -117,7 +117,7 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'if user delete failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Delete()
-	async deleteUserBySession(@Req() req: ReqWithUser): Promise<SuccessResponse | ErrorResponse> {
+	async deleteUserBySession(@Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
 		const userID = req.user.id;
 
 		const deletedUser = await this.usersService.deleteUser(userID);
@@ -159,7 +159,7 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
 	@Get('all')
-	async getCompleteUsers(@Req() req: Response): Promise<SuccessResponse | ErrorResponse> {
+	async getCompleteUsers(@Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
 		const users = await this.usersService.getAllUsers();
 
 		if (!users) {
@@ -189,7 +189,7 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
 	@Get(':id')
-	async getCompleteUserById(@Param('id') id: string, @Req() req: Response): Promise<SuccessResponse | ErrorResponse> {
+	async getCompleteUserById(@Param('id') id: string, @Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
 		const user = await this.usersService.getCompleteUserById(id);
 
 		if (!user) {
@@ -223,7 +223,7 @@ export class UsersController {
 	async updateUser(
 		@Param('id') id: string,
 		@Body() body: UpdateUserCredentialsDTO,
-		@Req() req: Response,
+		@Req() req: Request,
 	): Promise<SuccessResponse | ErrorResponse> {
 		const updatedUser = await this.usersService.updateUserCredentials(id, body);
 
@@ -257,7 +257,7 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'if user delete failed' })
 	@Roles(Role.ADMIN)
 	@Delete(':id')
-	async deleteUser(@Param('id') id: string, @Req() req: Response): Promise<SuccessResponse | ErrorResponse> {
+	async deleteUser(@Param('id') id: string, @Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
 		const deletedUser = await this.usersService.deleteUser(id);
 
 		if (!deletedUser) {
