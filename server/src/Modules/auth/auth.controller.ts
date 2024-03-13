@@ -167,8 +167,16 @@ export class AuthController {
 	): Promise<SuccessResponse | ErrorResponse> {
 		const resent = await this.authService.resendVerificationEmail(verficiationDTO.email);
 		if (resent instanceof HttpException)
-			return res.render('email-resend', { header: 'Senden fehlgeschlagen', message: resent.message, url: '/auth/resend-email-verification' });
+			return res.render('email-not-verified', { header: 'Senden fehlgeschlagen', message: resent.message, url: '/auth/resend-email-verification' });
 
-		return res.render('email-resend', { header: 'E-Mail wurde erneut gesendet', message: 'Bitte überprüfe deine E-Mails'});
+		return res.render('email-not-verified', { header: 'E-Mail wurde erneut gesendet', message: 'Bitte überprüfe deine E-Mails'});
+	}
+
+	@ApiOperation({ summary: 'Render page to request a new verification email' })
+	@ApiOkResponse({ description: 'renders the Handlebars view for resending a verification email' })
+	@Render('email-not-verified')
+	@Get('resend-email-verification')
+	async resendEmailVerificationPage() {
+		return { header: 'Verifikation erneut durchführen', message: 'Bitte gib deine E-Mail ein', url: '/auth/resend-email-verification'};
 	}
 }

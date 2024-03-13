@@ -41,10 +41,10 @@ export class UsersService {
     }
 
     async getCompleteUserByEmail(email: string): Promise<SelectUserWithAllTables | Error> {
-        const user = await this.userRepo.getUserByEmailWithAllTables(email);
-        if (!user) return new NotFoundException('User not found');
+		const user = await this.userRepo.getUserByEmailWithAllTables(email);
         if (user instanceof Error) return new Error(user.message);
-
+        if (!user) return new NotFoundException('E-mail konnte nicht gefunden werden');
+		
         return user as SelectUserWithAllTables;
     }
 

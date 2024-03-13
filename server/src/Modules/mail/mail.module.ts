@@ -19,7 +19,7 @@ import { ConfigService } from "@nestjs/config";
                     },
                 },
                 defaults: {
-                    from: '"No Reply" <service@brain-blitz.com>',
+                    from: '"No Reply <Brain Blitz>" <service@brain-blitz.com>',
                 },
                 template: {
                     dir: join(__dirname, 'templates'),

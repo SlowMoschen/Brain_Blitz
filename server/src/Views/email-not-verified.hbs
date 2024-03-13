@@ -1,12 +1,12 @@
 <img src="/Images/logo.png" alt="Brain Blitz Logo">
 <h1>{{header}}</h1>
-{{#if url}}
+{{#if message}}
 	<p>{{message}}</p>
 {{/if}}
 {{#if url}}
 	<form action='{{url}}' method="post" enctype="application/x-www-form-urlencoded">
 		<label for="email">E-Mail Adresse</label>
-		<input type="email" name="email" id="email">
+		<input type="email" name="email" id="email" required>
 		<button>Sende E-Mail erneut</button>
 	</form>
 {{/if}}

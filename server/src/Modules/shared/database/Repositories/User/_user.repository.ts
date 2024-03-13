@@ -95,7 +95,7 @@ export class UserRepository {
 	 * @param {string} email - The email of the user
 	 * @returns {Promise<SelectUserWithAllTables | [] | Error>} - Returns a user with all tables or null if an error occurs or no user is found
 	 */
-	async getUserByEmailWithAllTables(email: string): Promise<SelectUser | [] | Error> {
+	async getUserByEmailWithAllTables(email: string): Promise<SelectUser | Error> {
 		try {
 			const user = await this.db.query.usersTable.findFirst({
 				where: eq(schema.usersTable.email, email),

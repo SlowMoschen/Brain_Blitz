@@ -118,13 +118,13 @@ export class AuthService {
 	 */
 	async resendVerificationEmail(email: string): Promise<string | Error> {
 		const user = await this.usersService.getCompleteUserByEmail(email);
-        if (Array.isArray(user) && user.length === 0) return new HttpException('Email not found', HttpStatus.NOT_FOUND);
         if (user instanceof Error) return user;
-
-        if (user.settings.is_verified) return new HttpException('Email already verified', HttpStatus.CONFLICT);
+        if (!user) return new HttpException('E-Mail konnte nicht gefunden werden', HttpStatus.NOT_FOUND);
+		
+        if (user.settings.is_verified) return new HttpException('E-Mail wurde schon verifiziert', HttpStatus.CONFLICT);
 
         const token = await this.encryptionService.generateToken(user.id);
-        if (token instanceof Error) return new HttpException('Token generation failed', HttpStatus.INTERNAL_SERVER_ERROR);
+        if (token instanceof Error) return new HttpException('Generieren vom Token fehlgeschlagen', HttpStatus.INTERNAL_SERVER_ERROR);
 
         await this.mailService.sendConfirmationEmail(user, token);
 
