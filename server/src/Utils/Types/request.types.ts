@@ -11,3 +11,5 @@ declare global {
         }
     }
 }
+
+export type UserKeys = keyof Express.Request['user'];
