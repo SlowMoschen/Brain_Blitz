@@ -9,6 +9,7 @@ import * as passport from 'passport';
 import { join } from 'path';
 import loggerMiddleware from './Middlewares/logger.middleware';
 import { AppModule } from './app.module';
+import { ResponseInterceptor } from './Interceptors/response.interceptor';
 
 const pgSession = connectPGSession(session);
 
@@ -29,6 +30,8 @@ async function bootstrap() {
 
   app.use(helmet());
   app.use(loggerMiddleware);
+  app.useGlobalInterceptors(new ResponseInterceptor());
+
   app.useStaticAssets(join(__dirname, 'Public'));
   app.useStaticAssets(join(__dirname, 'Public/CSS'));
   app.setBaseViewsDir(join(__dirname, 'Views'));
