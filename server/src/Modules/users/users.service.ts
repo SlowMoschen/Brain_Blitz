@@ -37,7 +37,9 @@ export class UsersService {
         if (!user) return new NotFoundException('User not found');
         if (user instanceof Error) return new Error(user.message);
 
-        return user as SelectUserWithAllTables;
+		const { password, ...rest } = user;
+
+        return rest as SelectUserWithAllTables;
     }
 
     async getCompleteUserByEmail(email: string): Promise<SelectUserWithAllTables | Error> {

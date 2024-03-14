@@ -25,6 +25,7 @@ import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { RolesGuard } from 'src/Guards/roles.guard';
 import { UpdateUserStatisticsDTO } from './dto/update-user-statistics.dto';
 import { UsersService } from './users.service';
+import { User } from 'src/Decorators/user.decorator';
 
 @ApiTags('users/statistics')
 @UseGuards(AuthenticationGuard, RolesGuard)
@@ -41,9 +42,8 @@ export class UsersStatisticsController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
-	async getUserStatisticsBySession(@Req() req: Request) {
-		const userID = req.user.id;
-		const stats = await this.usersService.getStatistics(userID);
+	async getUserStatisticsBySession(@User('id') id: string){
+		const stats = await this.usersService.getStatistics(id);
 
 		if (!stats) throw new NotFoundException('No statistics found');
 		if (stats instanceof Error) throw stats;
@@ -60,11 +60,10 @@ export class UsersStatisticsController {
 	@Roles(Role.USER, Role.ADMIN)
 	@Patch()
 	async updateUserStatisticsBySession(
-		@Req() req: Request,
+		@User('id') id: string,
 		@Body() body: UpdateUserStatisticsDTO,
 	) {
-		const userID = req.user.id;
-		const stats = await this.usersService.updateStatistics(userID, body);
+		const stats = await this.usersService.updateStatistics(id, body);
 
 		if (!stats) throw new NotFoundException('No statistics found');
 		if (stats instanceof Error) throw stats;
@@ -79,7 +78,7 @@ export class UsersStatisticsController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
 	@Get(':id')
-	async getUserStatisticsById(@Param('id') id: string, @Req() req: Request) {
+	async getUserStatisticsById(@Param('id') id: string) {
 		const stats = await this.usersService.getStatistics(id);
 
 		if (!stats) throw new NotFoundException('No statistics found');
@@ -96,7 +95,7 @@ export class UsersStatisticsController {
 	@UsePipes(new ValidationPipe())
 	@Roles(Role.ADMIN)
 	@Patch(':id')
-	async updateUserStatistics(@Param('id') id: string, @Body() body: UpdateUserStatisticsDTO, @Req() req: Request) {
+	async updateUserStatistics(@Param('id') id: string, @Body() body: UpdateUserStatisticsDTO) {
 		const stats = await this.usersService.updateStatistics(id, body);
 
 		if (!stats) throw new NotFoundException('No statistics found');

@@ -25,6 +25,7 @@ import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { RolesGuard } from 'src/Guards/roles.guard';
 import { UpdateUserBillingInfoDTO } from './dto/update-user-billingInfo.dto';
 import { UsersService } from './users.service';
+import { User } from 'src/Decorators/user.decorator';
 
 @ApiTags('users/billing-info')
 @UseGuards(AuthenticationGuard, RolesGuard)
@@ -41,9 +42,8 @@ export class UsersBillingInfoController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
-	async getBillingInfoBySession(@Req() req: Request) {
-		const userID = req.user.id;
-		const billingInfo = await this.usersService.getBillingInfo(userID);
+	async getBillingInfoBySession(@User('id') id: string) {
+		const billingInfo = await this.usersService.getBillingInfo(id);
 		
 		if (!billingInfo) throw new NotFoundException('No billing info found');
 		if (billingInfo instanceof Error) throw billingInfo;
@@ -60,11 +60,10 @@ export class UsersBillingInfoController {
 	@Roles(Role.USER, Role.ADMIN)
 	@Patch()
 	async updateBillingInfoBySession(
-		@Req() req: Request,
+		@User('id') id: string,
 		@Body() updateBillingInfoDTO: UpdateUserBillingInfoDTO,
 	) {
-		const userID = req.user.id;
-		const updatedBillingInfo = await this.usersService.updateBillingInfo(userID, updateBillingInfoDTO);
+		const updatedBillingInfo = await this.usersService.updateBillingInfo(id, updateBillingInfoDTO);
 
 		if (!updatedBillingInfo) throw new NotFoundException('No billing info found');
 		if (updatedBillingInfo instanceof Error) throw updatedBillingInfo;
@@ -79,7 +78,7 @@ export class UsersBillingInfoController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
 	@Get(':id')
-	async getBillingInfoById(@Param() id: string, @Req() req: Request) {
+	async getBillingInfoById(@Param() id: string) {
 		const billingInfo = await this.usersService.getBillingInfo(id);
 
 		if (!billingInfo) throw new NotFoundException('No billing info found');

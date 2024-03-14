@@ -75,7 +75,7 @@ export class AuthController {
 	@ApiInternalServerErrorResponse({ description: 'if user creation failed' })
 	@Post('register')
 	@UsePipes(new ValidationPipe())
-	async register(@Body() createUserDTO: CreateUserDTO, @Req() req) {
+	async register(@Body() createUserDTO: CreateUserDTO) {
 		const user = await this.authService.createUser(createUserDTO);
 		if (user instanceof HttpException) throw new HttpException(user.message, user.getStatus());
 

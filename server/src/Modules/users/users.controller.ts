@@ -28,6 +28,7 @@ import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { RolesGuard } from 'src/Guards/roles.guard';
 import { UpdateUserCredentialsDTO } from './dto/update-user-credentials.dto';
 import { UsersService } from './users.service';
+import { User } from 'src/Decorators/user.decorator';
 
 @ApiTags('users')
 @Controller('users')
@@ -42,14 +43,13 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
-	async getCompleteUserBySession(@Req() req: Request) {
-		const userID = req.user.id;
-		const user = await this.usersService.getCompleteUserById(userID);
+	async getCompleteUserBySession(@User('id') id: string){
+		const user = await this.usersService.getCompleteUserById(id);
 
 		if (!user) throw new NotFoundException('No user found');
 		if (user instanceof HttpException) throw user;
 
-		return user;
+		return [user];
 	}
 
 	@ApiOperation({ summary: 'Update user data via session cookie' })
@@ -60,9 +60,8 @@ export class UsersController {
 	@Roles(Role.USER, Role.ADMIN)
 	@UsePipes(new ValidationPipe())
 	@Patch()
-	async updateUserCredentialsBySession(@Req() req: Request, @Body() body: UpdateUserCredentialsDTO) {
-		const userID = req.user.id;
-		const updatedUsers = await this.usersService.updateUserCredentials(userID, body);
+	async updateUserCredentialsBySession(@User('id') id: string, @Body() body: UpdateUserCredentialsDTO) {
+		const updatedUsers = await this.usersService.updateUserCredentials(id, body);
 
 		if (!updatedUsers) throw new NotFoundException('No user found');
 		if (updatedUsers instanceof Error) throw updatedUsers;
@@ -77,9 +76,8 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'if user delete failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Delete()
-	async deleteUserBySession(@Req() req: Request) {
-		const userID = req.user.id;
-		const deletedUser = await this.usersService.deleteUser(userID);
+	async deleteUserBySession(@User('id') id: string, @Req() req: Request){
+		const deletedUser = await this.usersService.deleteUser(id);
 
 		if (!deletedUser) throw new NotFoundException('No user found');
 		if (deletedUser instanceof HttpException) throw deletedUser;
@@ -98,7 +96,7 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
 	@Get('all')
-	async getCompleteUsers(@Req() req: Request) {
+	async getCompleteUsers() {
 		const users = await this.usersService.getAllUsers();
 
 		if (!users) throw new NotFoundException('No users found');
@@ -114,13 +112,13 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
 	@Get(':id')
-	async getCompleteUserById(@Param('id') id: string, @Req() req: Request) {
+	async getCompleteUserById(@Param('id') id: string) {
 		const user = await this.usersService.getCompleteUserById(id);
 
 		if (!user) throw new NotFoundException('No user found');
 		if (user instanceof Error) throw user;
 
-		return user;
+		return [user];
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Update user data via userID' })
@@ -131,7 +129,7 @@ export class UsersController {
 	@Roles(Role.ADMIN)
 	@UsePipes(new ValidationPipe())
 	@Put(':id')
-	async updateUser(@Param('id') id: string, @Body() body: UpdateUserCredentialsDTO, @Req() req: Request) {
+	async updateUser(@Param('id') id: string, @Body() body: UpdateUserCredentialsDTO) {
 		const updatedUser = await this.usersService.updateUserCredentials(id, body);
 
 		if (!updatedUser) throw new NotFoundException('No user found');
@@ -147,7 +145,7 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'if user delete failed' })
 	@Roles(Role.ADMIN)
 	@Delete(':id')
-	async deleteUser(@Param('id') id: string, @Req() req: Request) {
+	async deleteUser(@Param('id') id: string) {
 		const deletedUser = await this.usersService.deleteUser(id);
 		
 		if (!deletedUser) throw new NotFoundException('No user found');
