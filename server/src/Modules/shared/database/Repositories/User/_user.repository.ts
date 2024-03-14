@@ -353,13 +353,12 @@ export class UserRepository {
 	 * @param {number} score - The score of the highscore
 	 * @returns {Promise<string | [] | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
 	 */
-	async insertNewHighscore(user_id: string, highscore_id: string, score: number): Promise<string | Error> {
+	async insertNewHighscore(user_id: string, highscore_id: string): Promise<string | Error> {
 		const newHighscore = await this.db
 			.insert(schema.highscores)
 			.values({
 				user_id,
 				highscore_id,
-				score
 			})
 			.returning({ user_id: schema.highscores.user_id });
 		return newHighscore ? newHighscore[0].user_id : new Error('Inserting new highscore failed');
