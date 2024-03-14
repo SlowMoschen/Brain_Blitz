@@ -19,15 +19,13 @@ import {
 	ApiOperation,
 	ApiTags,
 } from '@nestjs/swagger';
+import { Request } from 'express';
 import { Roles } from 'src/Decorators/roles.decorator';
 import { Role } from 'src/Enums/role.enum';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { RolesGuard } from 'src/Guards/roles.guard';
-import { ErrorResponse, SuccessResponse } from 'src/Utils/Types/response.types';
-import { ResponseHelperService } from '../shared/responseHelper.service';
 import { UpdateUserSettingsDTO } from './dto/update-user-settings.dto';
 import { UsersService } from './users.service';
-import { Request } from 'express';
 
 @ApiTags('users/settings')
 @Controller('users/settings')
@@ -35,7 +33,6 @@ import { Request } from 'express';
 export class UsersSettingsController {
 	constructor(
 		private readonly usersService: UsersService,
-		private readonly responseHelperService: ResponseHelperService,
 	) {}
 
 	@ApiOperation({ summary: 'Get user settings via session cookie' })
@@ -45,30 +42,14 @@ export class UsersSettingsController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
-	async getUserSettingsBySession(@Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
+	async getUserSettingsBySession(@Req() req: Request) {
 		const userID = req.user.id;
-
 		const settings = await this.usersService.getSettings(userID);
 
-		if (!settings)
-			return this.responseHelperService.errorResponse(
-				'Not Found',
-				404,
-				'No settings found',
-				new NotFoundException('No settings found'),
-				{ method: 'GET', url: req.url },
-			);
+		if (!settings) throw new NotFoundException('No settings found');
+		if (settings instanceof Error) throw settings;
 
-		if (settings instanceof Error)
-			return this.responseHelperService.errorResponse(
-				'Internal Server Error',
-				500,
-				'Query for settings failed',
-				new HttpException('Query for settings failed', 500),
-				{ method: 'GET', url: req.url },
-			);
-
-		return this.responseHelperService.successResponse(200, 'Settings found', settings, { method: 'GET', url: req.url });
+		return settings;
 	}
 
 	@ApiOperation({ summary: 'Update user settings via session cookie' })
@@ -82,43 +63,17 @@ export class UsersSettingsController {
 	async updateUserSettingsBySession(
 		@Req() req: Request,
 		@Body() body: UpdateUserSettingsDTO,
-	): Promise<SuccessResponse | ErrorResponse> {
+	) {
 		const userID = req.user.id;
 		const userRole = req.user.roles;
-
-		if (userRole[0] === Role.USER && body.roles)
-			return this.responseHelperService.errorResponse(
-				'Forbidden',
-				403,
-				'User is not allowed to change roles',
-				new HttpException('User is not allowed to change roles', 403),
-				{ method: 'PATCH', url: req.url },
-			);
-
+		if (userRole[0] === Role.USER && body.roles) throw new HttpException('Forbidden', 403);
+		
 		const updatedSettings = await this.usersService.updateSettings(userID, body);
 
-		if (!updatedSettings)
-			return this.responseHelperService.errorResponse(
-				'Not Found',
-				404,
-				'No settings found',
-				new NotFoundException('No settings found'),
-				{ method: 'PATCH', url: req.url },
-			);
+		if (!updatedSettings) throw new NotFoundException('No settings found');
+		if (updatedSettings instanceof Error) throw updatedSettings;
 
-		if (updatedSettings instanceof Error)
-			return this.responseHelperService.errorResponse(
-				'Internal Server Error',
-				500,
-				'Update of settings failed',
-				new HttpException('Update of settings failed', 500),
-				{ method: 'PATCH', url: req.url },
-			);
-
-		return this.responseHelperService.successResponse(200, 'Settings updated', updatedSettings, {
-			method: 'PATCH',
-			url: req.url,
-		});
+		return updatedSettings;
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Get user settings by ID' })
@@ -128,28 +83,13 @@ export class UsersSettingsController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
 	@Get(':id')
-	async getUserSettingsById(id: string, @Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
+	async getUserSettingsById(id: string, @Req() req: Request) {
 		const settings = await this.usersService.getSettings(id);
 
-		if (!settings)
-			return this.responseHelperService.errorResponse(
-				'Not Found',
-				404,
-				'No settings found',
-				new NotFoundException('No settings found'),
-				{ method: 'GET', url: req.url },
-			);
+		if (!settings) throw new NotFoundException('No settings found');
+		if (settings instanceof Error) throw settings;
 
-		if (settings instanceof Error)
-			return this.responseHelperService.errorResponse(
-				'Internal Server Error',
-				500,
-				'Query for settings failed',
-				new HttpException('Query for settings failed', 500),
-				{ method: 'GET', url: req.url },
-			);
-
-		return this.responseHelperService.successResponse(200, 'Settings found', settings, { method: 'GET', url: req.url });
+		return settings;
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Update user settings by ID' })
@@ -160,27 +100,12 @@ export class UsersSettingsController {
 	@Roles(Role.ADMIN)
 	@UsePipes(new ValidationPipe())
 	@Patch(':id')
-	async updateUserSettings(@Param('id') userID: string, @Body() body: UpdateUserSettingsDTO, @Req() req: Request): Promise<SuccessResponse | ErrorResponse>{
+	async updateUserSettings(@Param('id') userID: string, @Body() body: UpdateUserSettingsDTO){
 		const updatedSettings = await this.usersService.updateSettings(userID, body);
 
-		if (!updatedSettings)
-			return this.responseHelperService.errorResponse(
-				'Not Found',
-				404,
-				'No settings found',
-				new NotFoundException('No settings found'),
-				{ method: 'PATCH', url: req.url },
-			);
+		if (!updatedSettings) throw new NotFoundException('No settings found');
+		if (updatedSettings instanceof Error) throw updatedSettings;
 
-		if (updatedSettings instanceof Error)
-			return this.responseHelperService.errorResponse(
-				'Internal Server Error',
-				500,
-				'Update of settings failed',
-				new HttpException('Update of settings failed', 500),
-				{ method: 'PATCH', url: req.url },
-			);
-
-		return this.responseHelperService.successResponse(200, 'Settings updated', updatedSettings, { method: 'PATCH', url: req.url });
+		return updatedSettings;
 	}
 }
