@@ -26,8 +26,6 @@ import {
 } from '@nestjs/swagger';
 import { Request } from 'express';
 import { LocalAuthGuard } from 'src/Guards/localAuth.guard';
-import { ErrorResponse, SuccessResponse } from 'src/Utils/Types/response.types';
-import { ResponseHelperService } from '../shared/responseHelper.service';
 import { AuthService } from './auth.service';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { LoginUserDTO } from './dto/login-user.dto';
@@ -38,7 +36,6 @@ import { ResendVerificationEmailDto } from './dto/resendVerficationEmail.dto';
 export class AuthController {
 	constructor(
 		private readonly authService: AuthService,
-		private readonly responseHelperService: ResponseHelperService,
 	) {}
 
 	@ApiOperation({ summary: 'Login user' })
@@ -48,38 +45,28 @@ export class AuthController {
 	@Post('login')
 	@UseGuards(LocalAuthGuard)
 	@HttpCode(HttpStatus.OK)
-	async login(): Promise<SuccessResponse | ErrorResponse> {
-		return this.responseHelperService.successResponse(200, 'Login successful', null, { method: 'POST', url: '/auth/login' });
+	async login() {
+		return { message: 'Login successful' };
 	}
 
 	@ApiOperation({ summary: 'Logout user' })
 	@ApiOkResponse({ description: 'returns message if logout was successful' })
 	@ApiInternalServerErrorResponse({ description: 'if logout failed' })
 	@Post('logout')
-	async logout(@Req() req: Request): Promise<SuccessResponse | ErrorResponse>{
+	async logout(@Req() req: Request) {
 		req.logout((err) => {
-			if (err) return this.responseHelperService.errorResponse('Internal Server Error', 500, 'Logout failed', err, { method: 'POST', url: req.url });
+			if (err) throw new HttpException('Logout failed', HttpStatus.INTERNAL_SERVER_ERROR);
 		});
-		return this.responseHelperService.successResponse(200, 'Logout successful', null, { method: 'POST', url: req.url });
+		return { message: 'Logout successful' };
 	}
 
 	@ApiOperation({ summary: 'Check if user is authorized' })
 	@ApiOkResponse({ description: 'returns message if session is authorized' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
 	@Get('session')
-	async session(@Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
-		if (!req.user)
-			return this.responseHelperService.errorResponse(
-				'Forbidden',
-				403,
-				'No session cookie',
-				new HttpException('No session cookie', HttpStatus.FORBIDDEN),
-				{ method: 'GET', url: req.url },
-			);
-		return this.responseHelperService.successResponse(200, 'Session authorized', req.user.id, {
-			method: 'GET',
-			url: req.url,
-		});
+	async session(@Req() req: Request) {
+		if (!req.user) throw new HttpException('Unauthorized', HttpStatus.FORBIDDEN);
+		return { message: 'Authorized' };
 	}
 
 	@ApiOperation({ summary: 'Register user' })
@@ -88,23 +75,11 @@ export class AuthController {
 	@ApiInternalServerErrorResponse({ description: 'if user creation failed' })
 	@Post('register')
 	@UsePipes(new ValidationPipe())
-	async register(@Body() createUserDTO: CreateUserDTO, @Req() req): Promise<SuccessResponse | ErrorResponse> {
+	async register(@Body() createUserDTO: CreateUserDTO) {
 		const user = await this.authService.createUser(createUserDTO);
+		if (user instanceof HttpException) throw new HttpException(user.message, user.getStatus());
 
-		if (user instanceof Error) {
-			if (user.message === 'User with this email already exists')
-				return this.responseHelperService.errorResponse('Conflict', 409, 'User with this email already exists', user, {
-					method: 'POST',
-					url: req.url,
-				});
-
-			return this.responseHelperService.errorResponse('Internal Server Error', 500, 'User creation failed', user, {
-				method: 'POST',
-				url: req.url,
-			});
-		}
-
-		return this.responseHelperService.successResponse(200, 'User created', user, { method: 'POST', url: req.url });
+		return user;
 	}
 
 	@ApiOperation({ summary: 'verify User with provided link in sent email' })
@@ -164,7 +139,7 @@ export class AuthController {
 	async resendEmailVerification(
 		@Body() verficiationDTO: ResendVerificationEmailDto,
 		@Res() res,
-	): Promise<SuccessResponse | ErrorResponse> {
+	) {
 		const resent = await this.authService.resendVerificationEmail(verficiationDTO.email);
 		if (resent instanceof HttpException)
 			return res.render('email-not-verified', { header: 'Senden fehlgeschlagen', message: resent.message, url: '/auth/resend-email-verification' });

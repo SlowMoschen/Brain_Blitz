@@ -3,6 +3,7 @@ import {
 	Controller,
 	Delete,
 	Get,
+	HttpException,
 	NotFoundException,
 	Param,
 	Patch,
@@ -10,7 +11,7 @@ import {
 	Req,
 	UseGuards,
 	UsePipes,
-	ValidationPipe
+	ValidationPipe,
 } from '@nestjs/common';
 import {
 	ApiForbiddenResponse,
@@ -25,19 +26,15 @@ import { Roles } from 'src/Decorators/roles.decorator';
 import { Role } from 'src/Enums/role.enum';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { RolesGuard } from 'src/Guards/roles.guard';
-import { ErrorResponse, SuccessResponse } from 'src/Utils/Types/response.types';
-import { ResponseHelperService } from '../shared/responseHelper.service';
 import { UpdateUserCredentialsDTO } from './dto/update-user-credentials.dto';
 import { UsersService } from './users.service';
+import { User } from 'src/Decorators/user.decorator';
 
 @ApiTags('users')
 @Controller('users')
 @UseGuards(AuthenticationGuard, RolesGuard)
 export class UsersController {
-	constructor(
-		private readonly usersService: UsersService,
-		private readonly responseHelperService: ResponseHelperService,
-	) {}
+	constructor(private readonly usersService: UsersService) {}
 
 	@ApiOperation({ summary: 'Get user data via session cookie' })
 	@ApiOkResponse({ description: 'returns user data without the hashed password' })
@@ -46,27 +43,13 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
-	async getCompleteUserBySession(@Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
-		const userID = req.user.id;
-		const user = await this.usersService.getCompleteUserById(userID);
-		if (!user) {
-			return this.responseHelperService.errorResponse(
-				'Not Found',
-				404,
-				'No user found',
-				new NotFoundException('No user found'),
-				{ method: 'GET', url: req.url },
-			);
-		}
+	async getCompleteUserBySession(@User('id') id: string){
+		const user = await this.usersService.getCompleteUserById(id);
 
-		if (user instanceof Error) {
-			return this.responseHelperService.errorResponse('Internal Server Error', 500, 'Query for user failed', user, {
-				method: 'GET',
-				url: req.url,
-			});
-		}
+		if (!user) throw new NotFoundException('No user found');
+		if (user instanceof HttpException) throw user;
 
-		return this.responseHelperService.successResponse(200, 'User found', user, { method: 'GET', url: req.url });
+		return [user];
 	}
 
 	@ApiOperation({ summary: 'Update user data via session cookie' })
@@ -77,37 +60,13 @@ export class UsersController {
 	@Roles(Role.USER, Role.ADMIN)
 	@UsePipes(new ValidationPipe())
 	@Patch()
-	async updateUserCredentialsBySession(
-		@Req() req: Request,
-		@Body() body: UpdateUserCredentialsDTO,
-	): Promise<SuccessResponse | ErrorResponse> {
-		const userID = req.user.id;
+	async updateUserCredentialsBySession(@User('id') id: string, @Body() body: UpdateUserCredentialsDTO) {
+		const updatedUsers = await this.usersService.updateUserCredentials(id, body);
 
-		const updatedUsers = await this.usersService.updateUserCredentials(userID, body);
-		if (!updatedUsers) {
-			return this.responseHelperService.errorResponse(
-				'Not Found',
-				404,
-				'No user found',
-				new NotFoundException('No user found'),
-				{ method: 'PATCH', url: req.url },
-			);
-		}
+		if (!updatedUsers) throw new NotFoundException('No user found');
+		if (updatedUsers instanceof Error) throw updatedUsers;
 
-		if (updatedUsers instanceof Error) {
-			return this.responseHelperService.errorResponse(
-				'Internal Server Error',
-				500,
-				'User update failed',
-				updatedUsers,
-				{ method: 'PATCH', url: req.url },
-			);
-		}
-
-		return this.responseHelperService.successResponse(200, 'User updated', updatedUsers, {
-			method: 'PATCH',
-			url: req.url,
-		});
+		return updatedUsers;
 	}
 
 	@ApiOperation({ summary: 'Delete user data via session cookie' })
@@ -117,39 +76,17 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'if user delete failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Delete()
-	async deleteUserBySession(@Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
-		const userID = req.user.id;
+	async deleteUserBySession(@User('id') id: string, @Req() req: Request){
+		const deletedUser = await this.usersService.deleteUser(id);
 
-		const deletedUser = await this.usersService.deleteUser(userID);
-
-		if (!deletedUser) {
-			return this.responseHelperService.errorResponse(
-				'Not Found',
-				404,
-				'No user found',
-				new NotFoundException('No user found'),
-				{ method: 'DELETE', url: req.url },
-			);
-		}
-
-		if (deletedUser instanceof Error) {
-			return this.responseHelperService.errorResponse(
-				'Internal Server Error',
-				500,
-				'Deleting of User failed',
-				deletedUser,
-				{ method: 'DELETE', url: req.url },
-			);
-		}
+		if (!deletedUser) throw new NotFoundException('No user found');
+		if (deletedUser instanceof HttpException) throw deletedUser;
 
 		req.logout((err) => {
 			if (err) throw new Error('Logout failed');
 		});
 
-		return this.responseHelperService.successResponse(200, 'User deleted', deletedUser, {
-			method: 'DELETE',
-			url: req.url,
-		});
+		return deletedUser;
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Get all users data' })
@@ -159,27 +96,13 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
 	@Get('all')
-	async getCompleteUsers(@Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
+	async getCompleteUsers() {
 		const users = await this.usersService.getAllUsers();
 
-		if (!users) {
-			return this.responseHelperService.errorResponse(
-				'Not Found',
-				404,
-				'No users found',
-				new NotFoundException('No users found'),
-				{ method: 'GET', url: '/users/all' },
-			);
-		}
+		if (!users) throw new NotFoundException('No users found');
+		if (users instanceof Error) throw users;
 
-		if (users instanceof Error) {
-			return this.responseHelperService.errorResponse('Internal Server Error', 500, 'Query failed', users, {
-				method: 'GET',
-				url: req.url,
-			});
-		}
-
-		return this.responseHelperService.successResponse(200, 'Users found', users, { method: 'GET', url: req.url });
+		return users;
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Get user data via userID' })
@@ -189,27 +112,13 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
 	@Get(':id')
-	async getCompleteUserById(@Param('id') id: string, @Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
+	async getCompleteUserById(@Param('id') id: string) {
 		const user = await this.usersService.getCompleteUserById(id);
 
-		if (!user) {
-			return this.responseHelperService.errorResponse(
-				'Not Found',
-				404,
-				'No user found',
-				new NotFoundException('No user found'),
-				{ method: 'GET', url: req.url },
-			);
-		}
+		if (!user) throw new NotFoundException('No user found');
+		if (user instanceof Error) throw user;
 
-		if (user instanceof Error) {
-			return this.responseHelperService.errorResponse('Internal Server Error', 500, 'Query failed', user, {
-				method: 'GET',
-				url: req.url,
-			});
-		}
-
-		return this.responseHelperService.successResponse(200, 'User found', user, { method: 'GET', url: req.url });
+		return [user];
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Update user data via userID' })
@@ -220,34 +129,13 @@ export class UsersController {
 	@Roles(Role.ADMIN)
 	@UsePipes(new ValidationPipe())
 	@Put(':id')
-	async updateUser(
-		@Param('id') id: string,
-		@Body() body: UpdateUserCredentialsDTO,
-		@Req() req: Request,
-	): Promise<SuccessResponse | ErrorResponse> {
+	async updateUser(@Param('id') id: string, @Body() body: UpdateUserCredentialsDTO) {
 		const updatedUser = await this.usersService.updateUserCredentials(id, body);
 
-		if (!updatedUser) {
-			return this.responseHelperService.errorResponse(
-				'Not Found',
-				404,
-				'No user found',
-				new NotFoundException('No user found'),
-				{ method: 'PUT', url: req.url },
-			);
-		}
+		if (!updatedUser) throw new NotFoundException('No user found');
+		if (updatedUser instanceof Error) throw updatedUser;
 
-		if (updatedUser instanceof Error) {
-			return this.responseHelperService.errorResponse('Internal Server Error', 500, 'User update failed', updatedUser, {
-				method: 'PUT',
-				url: req.url,
-			});
-		}
-
-		return this.responseHelperService.successResponse(200, 'User updated', updatedUser, {
-			method: 'PUT',
-			url: req.url,
-		});
+		return updatedUser;
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Delete user data via userID' })
@@ -257,32 +145,12 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'if user delete failed' })
 	@Roles(Role.ADMIN)
 	@Delete(':id')
-	async deleteUser(@Param('id') id: string, @Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
+	async deleteUser(@Param('id') id: string) {
 		const deletedUser = await this.usersService.deleteUser(id);
+		
+		if (!deletedUser) throw new NotFoundException('No user found');
+		if (deletedUser instanceof Error) throw deletedUser;
 
-		if (!deletedUser) {
-			return this.responseHelperService.errorResponse(
-				'Not Found',
-				404,
-				'No user found',
-				new NotFoundException('No user found'),
-				{ method: 'DELETE', url: req.url },
-			);
-		}
-
-		if (deletedUser instanceof Error) {
-			return this.responseHelperService.errorResponse(
-				'Internal Server Error',
-				500,
-				'Deleting of User failed',
-				deletedUser,
-				{ method: 'DELETE', url: req.url },
-			);
-		}
-
-		return this.responseHelperService.successResponse(200, 'User deleted', deletedUser, {
-			method: 'DELETE',
-			url: req.url,
-		});
+		return deletedUser;
 	}
 }
