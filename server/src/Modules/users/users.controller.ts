@@ -36,7 +36,6 @@ import { UsersService } from './users.service';
 export class UsersController {
 	constructor(
 		private readonly usersService: UsersService,
-		private readonly responseHelperService: ResponseHelperService,
 	) {}
 
 	@ApiOperation({ summary: 'Get user data via session cookie' })
@@ -46,18 +45,10 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
-	async getCompleteUserBySession(@Req() req: Request): Promise<SuccessResponse | ErrorResponse> {
+	async getCompleteUserBySession(@Req() req: Request) {
 		const userID = req.user.id;
 		const user = await this.usersService.getCompleteUserById(userID);
-		if (!user) {
-			return this.responseHelperService.errorResponse(
-				'Not Found',
-				404,
-				'No user found',
-				new NotFoundException('No user found'),
-				{ method: 'GET', url: req.url },
-			);
-		}
+		if (!user) throw new NotFoundException('No user found');
 
 		if (user instanceof Error) {
 			return this.responseHelperService.errorResponse('Internal Server Error', 500, 'Query for user failed', user, {

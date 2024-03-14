@@ -116,7 +116,7 @@ export class UsersService {
 	}
 
 	async insertNewHighscore(id: string, quizId: string, score: number): Promise<string | [] | Error> {
-		const user = await this.userRepo.insertNewHighscore(id, quizId, score);
+		const user = await this.userRepo.insertNewHighscore(id, quizId);
 		if (user instanceof Error) return new Error(user.message);
 
 		return user;
