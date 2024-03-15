@@ -22,10 +22,9 @@ export class AuthService {
 	 * @returns {Promise<SelectUserWithoutPassword | null>} - Returns the user without the password
 	 */
 	async validateUser(email: string, password: string): Promise<SelectUserWithoutPassword | null> {
-		const user = await this.usersService.getCompleteUserByEmail(email);
+		const user = await this.usersService.getUserByEmail(email);
 
-		if (Array.isArray(user) && user.length === 0) throw new NotFoundException('User not found');
-		if (user instanceof Error) throw new Error(user.message);
+		if (user instanceof Error) throw user;
 		if (!user.settings.is_verified) throw new UnauthorizedException('Email not verified');
 
 		const isPasswordValid = await this.encryptionService.comparePassword(password, user.password);
@@ -86,7 +85,7 @@ export class AuthService {
 	 */
 	async verifyEmail(userID: string, token: string): Promise<string | Error> {
 		try {
-			const user = await this.usersService.getCompleteUserById(userID);
+			const user = await this.usersService.getUserByID(userID);
             if (Array.isArray(user) && user.length === 0) return new NotFoundException('User not found');
             if (user instanceof Error) return user;
 
@@ -117,7 +116,7 @@ export class AuthService {
 	 * @returns {Promise<string | Error>} - Returns the user's id or an error
 	 */
 	async resendVerificationEmail(email: string): Promise<string | Error> {
-		const user = await this.usersService.getCompleteUserByEmail(email);
+		const user = await this.usersService.getUserByEmail(email);
         if (user instanceof Error) return user;
         if (!user) return new HttpException('E-Mail konnte nicht gefunden werden', HttpStatus.NOT_FOUND);
 		

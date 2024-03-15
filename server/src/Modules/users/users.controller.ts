@@ -32,9 +32,14 @@ import { User } from 'src/Decorators/user.decorator';
 
 @ApiTags('users')
 @Controller('users')
-@UseGuards(AuthenticationGuard, RolesGuard)
+// @UseGuards(AuthenticationGuard, RolesGuard)
 export class UsersController {
 	constructor(private readonly usersService: UsersService) {}
+
+	@Get('dev')
+	async dev() {
+		return this.usersService.getAllUsers();
+	}
 
 	@ApiOperation({ summary: 'Get user data via session cookie' })
 	@ApiOkResponse({ description: 'returns user data without the hashed password' })
@@ -44,7 +49,7 @@ export class UsersController {
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
 	async getCompleteUserBySession(@User('id') id: string){
-		const user = await this.usersService.getCompleteUserById(id);
+		const user = await this.usersService.getUserByID(id);
 
 		if (!user) throw new NotFoundException('No user found');
 		if (user instanceof HttpException) throw user;
@@ -113,7 +118,7 @@ export class UsersController {
 	@Roles(Role.ADMIN)
 	@Get(':id')
 	async getCompleteUserById(@Param('id') id: string) {
-		const user = await this.usersService.getCompleteUserById(id);
+		const user = await this.usersService.getUserByID(id);
 
 		if (!user) throw new NotFoundException('No user found');
 		if (user instanceof Error) throw user;
