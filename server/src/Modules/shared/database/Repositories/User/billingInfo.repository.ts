@@ -11,9 +11,9 @@ export class BillingInfoRepository {
 
     /**
      * @description - Queries the database for all billing information
-     * @returns {Promise<SelectUserBillingInformation[] | [] | Error>} - Returns all billing information or an empty array if no billing information is found and an error if an error occurs
+     * @returns {Promise<SelectUserBillingInformation[] | Error>} - Returns all billing information or an empty array if no billing information is found and an error if an error occurs
      */
-    async queryAllBillingInfos(): Promise<SelectUserBillingInformation[] | [] | Error> {
+    async findAll(): Promise<SelectUserBillingInformation[] | Error> {
         try {
             return await this.db.select().from(schema.usersBillingInformationTable);
         } catch (error) {
@@ -24,9 +24,9 @@ export class BillingInfoRepository {
     /**
      * @description - Queries the database for a billing information by id
      * @param id - The id of the billing information
-     * @returns {Promise<SelectUserBillingInformation | [] | Error>} - Returns a billing information or an empty array if no billing information is found and an error if an error occurs
+     * @returns {Promise<SelectUserBillingInformation | Error>} - Returns a billing information or an empty array if no billing information is found and an error if an error occurs
      */
-    async queryBillingInfoById(id: string): Promise<SelectUserBillingInformation | [] | Error> {
+    async findByID(id: string): Promise<SelectUserBillingInformation | Error> {
         try {
             return await this.db.query.usersBillingInformationTable.findFirst({
                 where: eq(schema.usersBillingInformationTable.user_id, id)
@@ -39,15 +39,15 @@ export class BillingInfoRepository {
     /**
      * @description - Inserts a new billing information into the database
      * @param {string} id - The id of the user
-     * @returns {Promise<string | [] | Error>} - Returns the id of the user or null if an error occurs
+     * @returns {Promise<string | Error>} - Returns the id of the user or null if an error occurs
      */
-    async insertDefaultTable(id: string): Promise<string | [] | Error> {
+    async insertDefaultTable(id: string): Promise<string | Error> {
         try {
             const billingInfo = await this.db
                 .insert(schema.usersBillingInformationTable)
                 .values({ user_id: id })
                 .returning({ user_id: schema.usersBillingInformationTable.user_id });
-            return billingInfo ? billingInfo[0].user_id : [];
+            return billingInfo[0].user_id;
         } catch (error) {
             return error;
         }
@@ -57,16 +57,16 @@ export class BillingInfoRepository {
      * @description - Updates a billing information by id
      * @param id - The id of the billing information
      * @param body - The body of the request
-     * @returns {Promise<string | [] | Error>} - Returns the userID or an empty array if no billing information is found and an error if an error occurs
+     * @returns {Promise<string | Error>} - Returns the userID or an empty array if no billing information is found and an error if an error occurs
      */
-    async updateBillingInfo(id: string, body: any): Promise<string | [] | Error> {
+    async updateOne(id: string, body: any): Promise<string | Error> {
         try {
             const billingInfo = await this.db
                 .update(schema.usersBillingInformationTable)
                 .set(body)
                 .where(eq(schema.usersBillingInformationTable.user_id, id))
                 .returning({ user_id: schema.usersBillingInformationTable.user_id });
-            return billingInfo ? billingInfo[0].user_id : [];
+            return billingInfo[0].user_id;
         } catch (error) {
             return error;
         }
@@ -75,15 +75,15 @@ export class BillingInfoRepository {
     /**
      * @description - Deletes a billing information by id
      * @param id - The id of the billing information
-     * @returns {Promise<string | [] | Error>} - Returns the userID or an empty array if no billing information is found and an error if an error occurs
+     * @returns {Promise<string | Error>} - Returns the userID or an empty array if no billing information is found and an error if an error occurs
      */
-    async deleteBillingInfo(id: string): Promise<string | [] | Error> {
+    async deleteOne(id: string): Promise<string | Error> {
         try {
             const billingInfo = await this.db
                 .delete(schema.usersBillingInformationTable)
                 .where(eq(schema.usersBillingInformationTable.user_id, id))
                 .returning({ user_id: schema.usersBillingInformationTable.user_id });
-            return billingInfo ? billingInfo[0].user_id : [];
+            return billingInfo[0].user_id;
         } catch (error) {
             return error;
         }

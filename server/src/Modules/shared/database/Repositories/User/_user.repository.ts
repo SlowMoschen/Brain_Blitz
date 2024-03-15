@@ -40,9 +40,9 @@ export class UserRepository {
 
 	/**
 	 * @description - Queries the database for all users with all tables included
-	 * @returns {Promise<SelectUserWithAllTables[] | [] | Error>} - Returns all users with all tables or null if an error occurs or no users are found
+	 * @returns {Promise<SelectUserWithAllTables[] | Error>} - Returns all users with all tables or null if an error occurs or no users are found
 	 */
-	async getAllUsersWithAllTables(): Promise<SelectUser[] | [] | Error> {
+	async findAll(): Promise<SelectUser[] | Error> {
 		try {
 			const users = await this.db.query.usersTable.findMany({
 				with: {
@@ -66,9 +66,9 @@ export class UserRepository {
 	/**
 	 * @description - Queries the database for a user by id with all tables included
 	 * @param {string} id - The id of the user
-	 * @returns {Promise<SelectUserWithAllTables | [] | Error>} - Returns a user with all tables or an empty array if no user is found and an error if an error occurs
+	 * @returns {Promise<SelectUserWithAllTables | Error>} - Returns a user with all tables or an empty array if no user is found and an error if an error occurs
 	 */
-	async getUserByIdWithAllTables(id: string): Promise<SelectUser | Error> {
+	async findByID(id: string): Promise<SelectUser | Error> {
 		try {
 			const user = await this.db.query.usersTable.findFirst({
 				where: eq(schema.usersTable.id, id),
@@ -93,9 +93,9 @@ export class UserRepository {
 	/**
 	 * @description - Queries the database for a user by email
 	 * @param {string} email - The email of the user
-	 * @returns {Promise<SelectUserWithAllTables | [] | Error>} - Returns a user with all tables or null if an error occurs or no user is found
+	 * @returns {Promise<SelectUserWithAllTables | Error>} - Returns a user with all tables or null if an error occurs or no user is found
 	 */
-	async getUserByEmailWithAllTables(email: string): Promise<SelectUser | Error> {
+	async findByEmail(email: string): Promise<SelectUser | Error> {
 		try {
 			const user = await this.db.query.usersTable.findFirst({
 				where: eq(schema.usersTable.email, email),
@@ -118,41 +118,18 @@ export class UserRepository {
 	}
 
 	/**
-	 * @description - Queries the database for a user by id
-	 * @param {string} id - The id of the user
-	 * @returns {Promise<SelectUser | [] | Error>} - Returns a user or an empty array if no user is found and an error if an error occurs
-	 */
-	async getUserById(id: string): Promise<SelectUser | [] | Error> {
-		try {
-			const user = await this.db.query.usersTable.findFirst({
-				where: eq(schema.usersTable.id, id),
-				with: {
-					completed_quizzes: true,
-					highscores: true,
-					unlocked_achievements: true,
-					unlocked_quizzes: true,
-					settings: true,
-				},
-			});
-			return user;
-		} catch (error) {
-			return error;
-		}
-	}
-
-	/**
 	 * @description - Creates a new user
 	 * @param body - The body of the request - validation was done by the controller via the CreateUserDTO
 	 * @returns {Promise<string | [] | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
 	 */
-	async insertNewUser(body: CreateUserDTO): Promise<SelectUser | [] | Error> {
+	async insertOne(body: CreateUserDTO): Promise<SelectUser | [] | Error> {
 		try {
 			const createdUser = await this.db.insert(schema.usersTable).values(body).returning({ id: schema.usersTable.id });
 			if (createdUser) {
 				const userID = createdUser[0].id;
 				const defaultTables = await this.insertDefaultUserTables(userID);
 				if (defaultTables) {
-					return await this.getUserByIdWithAllTables(userID);
+					return await this.findByID(userID);
 				}
 			}
 
@@ -163,7 +140,7 @@ export class UserRepository {
 				return new Error('User with this email already exists');
 			}
 			// If one of the tables fails to be created, delete the user to avoid orphaned data and save space
-			const deletedUser = await this.deleteUserByEmail(body.email);
+			const deletedUser = await this.deleteOneByEmail(body.email);
 			if (deletedUser instanceof Error) return deletedUser;
 			return error;
 		}
@@ -172,9 +149,9 @@ export class UserRepository {
 	/**
 	 * @description - Inserts all default tables for a new user
 	 * @param {string} userID - The id of the user
-	 * @returns {Promise<string | [] | Error>} - Returns the userID or an empty array if no user created and an error if an error occurs
+	 * @returns {Promise<string | Error>} - Returns the userID or an empty array if no user created and an error if an error occurs
 	 */
-	private async insertDefaultUserTables(userID: string): Promise<string | [] | Error> {
+	private async insertDefaultUserTables(userID: string): Promise<string | Error> {
 		try {
 			const settings = await this.settingsRepository.insertDefaultTable(userID);
 			const statistics = await this.statisticsRepository.insertDefaultTable(userID);
@@ -182,7 +159,6 @@ export class UserRepository {
 			const billingInfo = await this.billingInfoRepository.insertDefaultTable(userID);
 
 			if (settings && statistics && timestamps && billingInfo) return userID;
-			return [];
 		} catch (error) {
 			return error;
 		}
@@ -192,9 +168,9 @@ export class UserRepository {
 	 * @description - Updates a user by id
 	 * @param id - The id of the user
 	 * @param body - The body of the request
-	 * @returns {Promise<string | [] | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
+	 * @returns {Promise<string | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
 	 */
-	async updateUserCredentials(id: string, body: UpdateUserCredentialsDTO): Promise<string | [] | Error> {
+	async updateOneCredentials(id: string, body: UpdateUserCredentialsDTO): Promise<string | Error> {
 		try {
 			const user = await this.db
 				.update(schema.usersTable)
@@ -202,8 +178,8 @@ export class UserRepository {
 				.where(eq(schema.usersTable.id, id))
 				.returning({ id: schema.usersTable.id });
 
-			await this.timestampsRepository.updateUserTimestamp(id, 'updated_at');
-			return user ? user[0].id : [];
+			await this.timestampsRepository.updateOne(id, 'updated_at');
+			return user[0].id;
 		} catch (error) {
 			return error;
 		}
@@ -212,26 +188,32 @@ export class UserRepository {
 	/**
 	 * @description - Completely deletes a user with all corresponding Tables by id
 	 * @param id - The id of the user
-	 * @returns {Promise<string | [] | Error>} - Returns the id of the deleted user or null if an error occurs
+	 * @returns {Promise<string | Error>} - Returns the id of the deleted user or null if an error occurs
 	 */
-	async deleteUserById(id: string): Promise<string | [] | Error> {
+	async deleteOneByID(id: string): Promise<string | Error> {
 		try {
 			await this.tokenRepository.deleteTokensByUserId(id);
-			await this.settingsRepository.deleteSettingsById(id);
-			await this.statisticsRepository.deleteStatisticsById(id);
-			await this.timestampsRepository.deleteTimestampsById(id);
-			await this.billingInfoRepository.deleteBillingInfo(id);
+			await this.settingsRepository.deleteOne(id);
+			await this.statisticsRepository.deleteOne(id);
+			await this.timestampsRepository.deleteOne(id);
+			await this.billingInfoRepository.deleteOne(id);
 			const deletedUser = await this.db
 				.delete(schema.usersTable)
 				.where(eq(schema.usersTable.id, id))
 				.returning({ id: schema.usersTable.id });
-			return deletedUser ? deletedUser[0].id : [];
+			return deletedUser[0].id;
 		} catch (error) {
 			return error;
 		}
 	}
 
-	async deleteUserByEmail(email: string): Promise<string | [] | Error> {
+
+	/**
+	 * @description - Completely deletes a user with all corresponding Tables by email
+	 * @param email - The email of the user
+	 * @returns {Promise<string | Error>} - Returns the id of the deleted user or null if an error occurs
+	 */
+	async deleteOneByEmail(email: string): Promise<string | Error> {
 		try {
 			const user = await this.db.query.usersTable.findFirst({
 				where: eq(schema.usersTable.email, email),
@@ -239,15 +221,15 @@ export class UserRepository {
 			if (!user) return new Error('User not found');
 
 			await this.tokenRepository.deleteTokensByUserId(user.id);
-			await this.settingsRepository.deleteSettingsById(user.id);
-			await this.statisticsRepository.deleteStatisticsById(user.id);
-			await this.timestampsRepository.deleteTimestampsById(user.id);
-			await this.billingInfoRepository.deleteBillingInfo(user.id);
+			await this.settingsRepository.deleteOne(user.id);
+			await this.statisticsRepository.deleteOne(user.id);
+			await this.timestampsRepository.deleteOne(user.id);
+			await this.billingInfoRepository.deleteOne(user.id);
 			const deletedUser = await this.db
 				.delete(schema.usersTable)
 				.where(eq(schema.usersTable.email, email))
 				.returning({ id: schema.usersTable.id });
-			return deletedUser ? deletedUser[0].id : [];
+			return deletedUser[0].id;
 		} catch (error) {
 			return error;
 		}
@@ -255,74 +237,80 @@ export class UserRepository {
 
 	/**
 	 * @description - Queries the database for a users settings table by id
-	 * @returns {Promise<SelectUserWithAllTables[] | [] | Error>} - Returns all users with all tables or null if an error occurs or no users are found
+	 * @returns {Promise<SelectUserWithAllTables[] | Error>} - Returns all users with all tables or null if an error occurs or no users are found
 	 */
-	async getSettings(id: string): Promise<SelectUserSettings | [] | Error> {
-		return await this.settingsRepository.querySettingsById(id);
+	async findOneSettings(id: string): Promise<SelectUserSettings | Error> {
+		const settings = await this.settingsRepository.findByID(id);
+		if (settings instanceof Error) return settings;
+		if (!settings) return new Error('No settings found');
+		return settings;
 	}
 
 	/**
 	 * @description - Queries the database for a users statistics table by id
-	 * @returns {Promise<SelectUserWithAllTables[] | [] | Error>} - Returns all users with all tables or null if an error occurs or no users are found
+	 * @returns {Promise<SelectUserStatistics | Error>} - Returns all users with all tables or null if an error occurs or no users are found
 	 */
-	async getStatistics(id: string): Promise<SelectUserStatistics | [] | Error> {
-		return await this.statisticsRepository.queryStatisticsById(id);
+	async findOneStats(id: string): Promise<SelectUserStatistics  | Error> {
+		const stats = await this.statisticsRepository.findByID(id);
+		if (stats instanceof Error) return stats;
+		if (!stats) return new Error('No statistics found');
+		return stats;
 	}
 
 	/**
 	 * @description - Queries the database for a users billing info table by id
-	 * @returns {Promise<SelectUserWithAllTables[] | [] | Error>} - Returns all users with all tables or null if an error occurs or no users are found
+	 * @returns {Promise<SelectUserWithAllTables[] | Error>} - Returns all users with all tables or null if an error occurs or no users are found
 	 */
-	async getBillingInfo(id: string): Promise<SelectUserBillingInformation | [] | Error> {
-		return await this.billingInfoRepository.queryBillingInfoById(id);
+	async findOneBillingInfo(id: string): Promise<SelectUserBillingInformation | Error> {
+		return await this.billingInfoRepository.findByID(id);
 	}
 
 	/**
 	 * @description - Queries the database for a users timestamps table by id
-	 * @returns {Promise<SelectUserWithAllTables[] | [] | Error>} - Returns all users with all tables or null if an error occurs or no users are found
+	 * @returns {Promise<SelectUserWithAllTables[] | Error>} - Returns all users with all tables or null if an error occurs or no users are found
 	 */
-	async getTimestamps(id: string): Promise<SelectUserTimestamps | [] | Error> {
-		return await this.timestampsRepository.queryTimestampsById(id);
+	async findOneTimestamps(id: string): Promise<SelectUserTimestamps | Error> {
+		return await this.timestampsRepository.findByID(id);
 	}
 
 	/**
 	 * @description - Updates a users settings table by id - also updates the corresponding timestamps table
 	 * @param id - The id of the user
 	 * @param body - The body of the request
-	 * @returns {Promise<string | [] | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
+	 * @returns {Promise<string | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
 	 */
-	async updateSettings(id: string, body: UpdateUserSettingsDTO): Promise<string | [] | Error> {
-		await this.timestampsRepository.updateUserTimestamp(id, 'settings_updated_at');
-		return await this.settingsRepository.updateSettings(id, body);
+	async updateOneSettings(id: string, body: UpdateUserSettingsDTO): Promise<string | Error> {
+		await this.timestampsRepository.updateOne(id, 'settings_updated_at');
+		return await this.settingsRepository.updateOne(id, body);
 	}
 
 	/**
 	 * @description - Updates a users statistics table by id - also updates the corresponding timestamps table
 	 * @param id - The id of the user
 	 * @param body - The body of the request
-	 * @returns {Promise<string | [] | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
+	 * @returns {Promise<string | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
 	 */
-	async updateStatistics(id: string, body: UpdateUserStatisticsDTO): Promise<string | [] | Error> {
-		await this.timestampsRepository.updateUserTimestamp(id,'statistics_updated_at');
-		return await this.statisticsRepository.updateStatistics(id, body);
+	async updateOneStats(id: string, body: UpdateUserStatisticsDTO): Promise<string | Error> {
+		await this.timestampsRepository.updateOne(id,'statistics_updated_at');
+		return await this.statisticsRepository.updateOne(id, body);
 	}
 
 	/**
 	 * @description - Updates a users billing info table by id - also updates the corresponding timestamps table
 	 * @param id - The id of the user
 	 * @param body - The body of the request
-	 * @returns {Promise<string | [] | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
+	 * @returns {Promise<string | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
 	 */
-	async updateBillingInfo(id: string, body: UpdateUserBillingInfoDTO): Promise<string | [] | Error> {
-		await this.timestampsRepository.updateUserTimestamp(id, 'billing_information_updated_at');
-		return await this.billingInfoRepository.updateBillingInfo(id, body);
+	async updateOneBillingInfo(id: string, body: UpdateUserBillingInfoDTO): Promise<string | Error> {
+		await this.timestampsRepository.updateOne(id, 'billing_information_updated_at');
+		return await this.billingInfoRepository.updateOne(id, body);
 	}
 
 	/**
 	 * @description - Inserts a new unlocked quiz
 	 * @param {string} id - The id of the user
 	 * @param {string} quizID - The id of the quiz
-	 * @returns {Promise<string | [] | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
+	 * @returns {Promise<string | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
 	 */
 	async insertNewUnlockedQuiz(id: string, quizID: string): Promise<string | Error> {
 		const newQuiz = await this.db
@@ -336,7 +324,7 @@ export class UserRepository {
 	 * @description - Inserts a new unlocked achievement
 	 * @param {string} id - The id of the user
 	 * @param {string} achievementID - The id of the achievement
-	 * @returns {Promise<string | [] | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
+	 * @returns {Promise<string | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
 	 */
 	async insertNewUnlockedAchievement(id: string, achievementID: string): Promise<string | Error> {
 		const newAchievement = await this.db
@@ -351,7 +339,7 @@ export class UserRepository {
 	 * @param {string} id - The id of the user
 	 * @param {string} highscoreID - The id of the highscore
 	 * @param {number} score - The score of the highscore
-	 * @returns {Promise<string | [] | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
+	 * @returns {Promise<string | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
 	 */
 	async insertNewHighscore(user_id: string, highscore_id: string): Promise<string | Error> {
 		const newHighscore = await this.db
