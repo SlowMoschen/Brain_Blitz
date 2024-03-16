@@ -58,15 +58,50 @@ export class QuizzesController {
     }
 
     @Roles(Role.ADMIN)
-    @Post("question")
+    @Post("questions")
     async createQuestion() {
         return "Create question";
     }
 
     @Roles(Role.USER, Role.ADMIN)
-    @Get("question/:id")
+    @Get("questions/:id")
     async getQuestion() {
         return "Get question";
     }
 
+    @Roles(Role.ADMIN)
+    @Patch("questions/:id")
+    async updateQuestion() {
+        return "Update question";
+    }
+
+    @Roles(Role.ADMIN)
+    @Delete("questions/:id")
+    async deleteQuestion() {
+        return "Delete question";
+    }
+
+    @Roles(Role.USER, Role.ADMIN)
+    @Get("highscores")
+    async getHighScores() {
+        return "High scores";
+    }
+
+    @Roles(Role.USER, Role.ADMIN)
+    @Get("highscores/user")
+    async getHighScoresByUser() {
+        return "High scores by user";
+    }
+
+    @Roles(Role.USER, Role.ADMIN)
+    @Get("highscores/:quizId")
+    async getHighScoresByQuiz() {
+        return "High scores by quiz";
+    }
+
+    @Roles(Role.USER, Role.ADMIN)
+    @Post("highscores/:quizId")
+    async createHighScore() {
+        return "Create high score";
+    }
 }
