@@ -17,17 +17,17 @@ const quizzesToInsert: InsertQuiz[] = [
 	{
 		title: 'Quiz 1',
 		description: 'This is a quiz',
-		category: 'Science',
+		category: 'science',
 	},
 	{
 		title: 'Quiz 2',
 		description: 'This is a quiz',
-		category: 'History',
+		category: 'history',
 	},
 	{
 		title: 'Quiz 3',
 		description: 'This is a quiz',
-		category: 'Math',
+		category: 'math',
 	},
 ];
 
