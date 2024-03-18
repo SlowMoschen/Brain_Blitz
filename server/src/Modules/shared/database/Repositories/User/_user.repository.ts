@@ -73,10 +73,10 @@ export class UserRepository {
 			const user = await this.db.query.usersTable.findFirst({
 				where: eq(schema.usersTable.id, id),
 				with: {
+					unlocked_quizzes: { with: { quiz: true } },
 					completed_quizzes: true,
 					highscores: true,
 					unlocked_achievements: true,
-					unlocked_quizzes: true,
 					statistics: true,
 					billing_information: true,
 					settings: true,
@@ -101,7 +101,7 @@ export class UserRepository {
 				where: eq(schema.usersTable.email, email),
 				with: {
 					settings: true,
-					unlocked_quizzes: true,
+					unlocked_quizzes: { with: { quiz: true } },
 					unlocked_achievements: true,
 					highscores: true,
 					completed_quizzes: true,
@@ -136,7 +136,7 @@ export class UserRepository {
 			return [];
 		} catch (error) {
 			// If the user with provided email already exists, return an error
-			if (error.code === '23505' ) {
+			if (error.code === '23505') {
 				return new Error('User with this email already exists');
 			}
 			// If one of the tables fails to be created, delete the user to avoid orphaned data and save space
@@ -207,7 +207,6 @@ export class UserRepository {
 		}
 	}
 
-
 	/**
 	 * @description - Completely deletes a user with all corresponding Tables by email
 	 * @param email - The email of the user
@@ -250,7 +249,7 @@ export class UserRepository {
 	 * @description - Queries the database for a users statistics table by id
 	 * @returns {Promise<SelectUserStatistics | Error>} - Returns all users with all tables or null if an error occurs or no users are found
 	 */
-	async findOneStats(id: string): Promise<SelectUserStatistics  | Error> {
+	async findOneStats(id: string): Promise<SelectUserStatistics | Error> {
 		const stats = await this.statisticsRepository.findByID(id);
 		if (stats instanceof Error) return stats;
 		if (!stats) return new Error('No statistics found');
@@ -291,7 +290,7 @@ export class UserRepository {
 	 * @returns {Promise<string | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
 	 */
 	async updateOneStats(id: string, body: UpdateUserStatisticsDTO): Promise<string | Error> {
-		await this.timestampsRepository.updateOne(id,'statistics_updated_at');
+		await this.timestampsRepository.updateOne(id, 'statistics_updated_at');
 		return await this.statisticsRepository.updateOne(id, body);
 	}
 

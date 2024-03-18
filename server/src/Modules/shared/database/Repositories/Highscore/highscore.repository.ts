@@ -55,9 +55,9 @@ export class HighscoreRepository {
 			const createdHighscoreID = await this.db
 				.insert(schema.quizHighscoresTable)
 				.values(createHighscoreDTO)
-				.returning({ id: schema.quizHighscoresTable.id })[0].id;
+				.returning({ id: schema.quizHighscoresTable.id });
 
-			return createdHighscoreID;
+			return createdHighscoreID[0].id;
 		} catch (error) {
 			return error;
 		}
