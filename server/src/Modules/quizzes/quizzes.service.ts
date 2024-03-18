@@ -133,6 +133,10 @@ export class QuizService {
 			});
 			if (createdHighscore instanceof Error) return createdHighscore;
 			returnValue.highscore = 'created';
+
+			const highscoreJunction = await this.userService.insertNewHighscore(userId, createdHighscore);
+			if (highscoreJunction instanceof Error) return highscoreJunction;
+
 			return returnValue;
 		}
 		
