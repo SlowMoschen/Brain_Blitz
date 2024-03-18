@@ -1,10 +1,11 @@
 import { HttpException, HttpStatus, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { SendVerifyMailEvent } from 'src/Events/send.verify.mail.event';
+import { SendVerifyMailEvent } from 'src/Events/notification.events';
 import { SelectUserWithoutPassword } from 'src/Utils/Types/model.types';
 import { EncryptionService } from '../shared/encryption/encryption.service';
 import { UsersService } from '../users/users.service';
 import { CreateUserDTO } from './dto/create-user.dto';
+import { UserCreatedEvent } from 'src/Events/user.events';
 
 @Injectable()
 export class AuthService {
@@ -64,9 +65,9 @@ export class AuthService {
 			await this.usersService.deleteUser(userID);
 			return new HttpException('Token generation failed', HttpStatus.INTERNAL_SERVER_ERROR);
 		} 
-
+		
+		this.eventEmitter.emit('user.created', new UserCreatedEvent(userID));
 		this.eventEmitter.emit('mail.verify-email', new SendVerifyMailEvent(userID, createUserDTO.email, createUserDTO.first_name, token)); 
-
         return userID;
 	}
 
