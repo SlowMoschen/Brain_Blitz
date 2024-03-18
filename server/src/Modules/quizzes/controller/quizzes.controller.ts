@@ -1,10 +1,12 @@
-import { Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { Roles } from 'src/Decorators/roles.decorator';
 import { User } from 'src/Decorators/user.decorator';
 import { Role } from 'src/Enums/role.enum';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { RolesGuard } from 'src/Guards/roles.guard';
 import { QuizService } from '../quizzes.service';
+import { CreateQuizDTO } from '../dto/create-quiz.dto';
+import { CompletedQuizDTO } from '../dto/completed-quiz.dto';
 
 @UseGuards(AuthenticationGuard, RolesGuard)
 @Controller('quizzes')
@@ -14,50 +16,60 @@ export class QuizzesController {
 	@Roles(Role.ADMIN)
 	@Get()
 	async getAllQuizzes() {
-		return 'All Quizzes';
+		const quizzes = await this.quizService.getAllQuizzes();
+		if (quizzes instanceof Error) return quizzes;
+		return quizzes;
 	}
 
 	@Roles(Role.ADMIN)
 	@Post()
-	async createQuiz() {
-		return 'Quiz created';
+	async createQuiz(@Body() quiz: CreateQuizDTO) {
+		const createdQuiz = await this.quizService.createQuiz(quiz);
+		if (createdQuiz instanceof Error) return createdQuiz;
+		return createdQuiz;
 	}
 
 	@Roles(Role.USER, Role.ADMIN)
 	@Get(':id')
-	async getQuiz() {
-		return 'Get Quiz';
+	async getQuiz(@Param('id') quizID: string) {
+		const quiz = await this.quizService.getQuiz(quizID);
+		if (quiz instanceof Error) return quiz;
+		return quiz;
 	}
 
 	@Roles(Role.ADMIN)
 	@Patch(':id')
-	async updateQuiz() {
-		return 'Update Quiz';
+	async updateQuiz(@Param('id') quizID: string, @Body() quiz: CreateQuizDTO) {
+		const updatedQuiz = await this.quizService.updateQuiz(quizID, quiz);
+		if (updatedQuiz instanceof Error) return updatedQuiz;
+		return updatedQuiz;
 	}
 
 	@Roles(Role.ADMIN)
 	@Delete(':id')
-	async deleteQuiz() {
-		return 'Delete Quiz';
+	async deleteQuiz(@Param('id') quizID: string) {
+		const deletedQuiz = await this.quizService.deleteQuiz(quizID);
+		if (deletedQuiz instanceof Error) return deletedQuiz;
+		return deletedQuiz;
 	}
 
 	@Roles(Role.USER, Role.ADMIN)
-	@Patch('complete/:id')
-	async completeQuiz(@Param('id') quizId: string, @User('id') userId: string) {
-        const foo = await this.quizService.completeQuiz(quizId, userId);
-		if (foo instanceof Error) return foo;
-		return 'Complete Quiz';
+	@Post('complete/:id')
+	async completeQuiz(
+		@Param('id') quizId: string,
+		@User('id') userId: string,
+		@Body() completedQuizDTO: CompletedQuizDTO,
+	) {
+		const completedQuiz = await this.quizService.completeQuiz(quizId, userId, completedQuizDTO);
+		if (completedQuiz instanceof Error) return completedQuiz;
+		return completedQuiz;
 	}
 
 	@Roles(Role.USER, Role.ADMIN)
 	@Get(':category')
-	async getQuizzesByCategory() {
-		return 'Quizzes by category';
-	}
-
-	@Roles(Role.USER, Role.ADMIN)
-	@Get(':category/:id')
-	async getQuizByCategory() {
-		return 'Quiz by category';
+	async getQuizzesByCategory(@Param('category') category: string) {
+		const quizzes = await this.quizService.getQuizzesByCategory(category);
+		if (quizzes instanceof Error) return quizzes;
+		return quizzes;
 	}
 }
