@@ -1,15 +1,15 @@
-import { IsInt, IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber } from "class-validator";
 
 export class CompletedQuizDTO {
     @IsNotEmpty()
-    @IsString()
-    correct_answers: string;
+    @IsNumber()
+    correct_answers: number;
 
     @IsNotEmpty()
-    @IsString()
-    incorrect_answers: string;
+    @IsNumber()
+    incorrect_answers: number;
 
     @IsNotEmpty()
-    @IsInt()
+    @IsNumber()
     score: number;
 }

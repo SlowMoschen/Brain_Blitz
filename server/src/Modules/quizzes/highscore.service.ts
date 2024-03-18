@@ -17,7 +17,7 @@ export class HighscoreService {
     async getSpecificHighscore(userID: string, quizID: string): Promise<SelectQuizHighscore | Error> {
         const highscore = await this.highscoreRepository.findOne(userID, quizID);
         if (highscore instanceof Error) return highscore;
-        if (!highscore) return new NotFoundException('Highscore not found');
+        if (!highscore) return null;
         return highscore;
     }
 

@@ -7,9 +7,10 @@ import { QuestionsController } from "./controller/questions.controller";
 import { QuestionService } from "./questions.service";
 import { HighscoreService } from "./highscore.service";
 import { GameModule } from "../game/game.module";
+import { UsersModule } from "../users/users.module";
 
 @Module({
-    imports: [SharedModule, GameModule],
+    imports: [UsersModule, SharedModule, GameModule],
     controllers: [QuestionsController, HighscoresController, QuizzesController],
     providers: [QuizService, QuestionService, HighscoreService],
     exports: [HighscoreService, QuizService, QuestionService]

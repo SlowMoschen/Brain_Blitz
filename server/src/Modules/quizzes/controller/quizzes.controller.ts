@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Roles } from 'src/Decorators/roles.decorator';
 import { User } from 'src/Decorators/user.decorator';
 import { Role } from 'src/Enums/role.enum';
@@ -22,11 +22,25 @@ export class QuizzesController {
 	}
 
 	@Roles(Role.ADMIN)
+	@UsePipes(new ValidationPipe())
 	@Post()
 	async createQuiz(@Body() quiz: CreateQuizDTO) {
 		const createdQuiz = await this.quizService.createQuiz(quiz);
 		if (createdQuiz instanceof Error) return createdQuiz;
 		return createdQuiz;
+	}
+
+	@Roles(Role.USER, Role.ADMIN)
+	@Post('complete/:id')
+	@UsePipes(new ValidationPipe())
+	async completeQuiz(
+		@Body() completedQuizDTO: CompletedQuizDTO,
+		@Param('id') quizId: string,
+		@User('id') userId: string,
+	) {
+		const completedQuiz = await this.quizService.completeQuiz(quizId, userId, completedQuizDTO);
+		if (completedQuiz instanceof Error) return completedQuiz;
+		return completedQuiz;
 	}
 
 	@Roles(Role.USER, Role.ADMIN)
@@ -38,6 +52,7 @@ export class QuizzesController {
 	}
 
 	@Roles(Role.ADMIN)
+	@UsePipes(new ValidationPipe())
 	@Patch(':id')
 	async updateQuiz(@Param('id') quizID: string, @Body() quiz: CreateQuizDTO) {
 		const updatedQuiz = await this.quizService.updateQuiz(quizID, quiz);
@@ -51,18 +66,6 @@ export class QuizzesController {
 		const deletedQuiz = await this.quizService.deleteQuiz(quizID);
 		if (deletedQuiz instanceof Error) return deletedQuiz;
 		return deletedQuiz;
-	}
-
-	@Roles(Role.USER, Role.ADMIN)
-	@Post('complete/:id')
-	async completeQuiz(
-		@Param('id') quizId: string,
-		@User('id') userId: string,
-		@Body() completedQuizDTO: CompletedQuizDTO,
-	) {
-		const completedQuiz = await this.quizService.completeQuiz(quizId, userId, completedQuizDTO);
-		if (completedQuiz instanceof Error) return completedQuiz;
-		return completedQuiz;
 	}
 
 	@Roles(Role.USER, Role.ADMIN)

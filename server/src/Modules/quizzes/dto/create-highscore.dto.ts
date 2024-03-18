@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateHighscoreDTO {
 	@IsNotEmpty()
@@ -10,6 +10,6 @@ export class CreateHighscoreDTO {
 	quiz_id: string;
 
 	@IsNotEmpty()
-	@IsInt()
+	@IsNumber()
 	score: number;
 }
