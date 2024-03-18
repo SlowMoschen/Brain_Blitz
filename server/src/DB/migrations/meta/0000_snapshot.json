@@ -1,5 +1,5 @@
 {
-  "id": "abf5edb0-3819-4085-9606-336b59b35539",
+  "id": "8472289d-514b-42ed-b4e4-529be28bbede",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -51,8 +51,8 @@
         }
       },
       "compositePrimaryKeys": {
-        "completed_quizzes_user_id_quiz_id_pk": {
-          "name": "completed_quizzes_user_id_quiz_id_pk",
+        "composite_pk": {
+          "name": "composite_pk",
           "columns": [
             "user_id",
             "quiz_id"
@@ -108,8 +108,8 @@
         }
       },
       "compositePrimaryKeys": {
-        "highscores_user_id_quiz_id_pk": {
-          "name": "highscores_user_id_quiz_id_pk",
+        "composite_pk": {
+          "name": "composite_pk",
           "columns": [
             "user_id",
             "quiz_id"
@@ -165,8 +165,8 @@
         }
       },
       "compositePrimaryKeys": {
-        "unlocked_achievements_user_id_achievement_id_pk": {
-          "name": "unlocked_achievements_user_id_achievement_id_pk",
+        "composite_pk": {
+          "name": "composite_pk",
           "columns": [
             "user_id",
             "achievement_id"
@@ -222,8 +222,8 @@
         }
       },
       "compositePrimaryKeys": {
-        "unlocked_quizzes_user_id_quiz_id_pk": {
-          "name": "unlocked_quizzes_user_id_quiz_id_pk",
+        "composite_pk": {
+          "name": "composite_pk",
           "columns": [
             "user_id",
             "quiz_id"

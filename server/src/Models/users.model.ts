@@ -96,7 +96,7 @@ export const unlockedQuizzes = pgTable(
 		quiz_id: text('quiz_id').notNull().references(() => quizzesTable.id),
 	},
 	(t) => ({
-		pk: primaryKey(t.user_id, t.quiz_id),
+		cpk: primaryKey({ name: 'composite_pk', columns: [t.user_id, t.quiz_id]}),
 	}),
 );
 
@@ -107,7 +107,7 @@ export const completedQuizzes = pgTable(
 		quiz_id: text('quiz_id').notNull().references(() => quizzesTable.id),
 	},
 	(t) => ({
-		pk: primaryKey(t.user_id, t.quiz_id),
+		cpk: primaryKey({ name: 'composite_pk', columns: [t.user_id, t.quiz_id]}),
 	}),
 );
 
@@ -118,7 +118,7 @@ export const unlockedAchievements = pgTable(
 		achievement_id: text('achievement_id').notNull().references(() => achievementsTable.id),
 	},
 	(t) => ({
-		pk: primaryKey(t.user_id, t.achievement_id),
+		cpk: primaryKey({ name: 'composite_pk', columns: [t.user_id, t.achievement_id]}),
 	}),
 );
 
@@ -129,7 +129,8 @@ export const highscores = pgTable(
 		highscore_id: text('quiz_id').notNull().references(() => quizHighscoresTable.id),
 	},
 	(t) => ({
-		pk: primaryKey(t.user_id, t.highscore_id),
+		// pk: primaryKey(t.user_id, t.highscore_id),
+		cpk: primaryKey({ name: 'composite_pk', columns: [t.user_id, t.highscore_id]}),
 	}),
 );
 

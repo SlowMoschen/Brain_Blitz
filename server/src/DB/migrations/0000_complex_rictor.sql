@@ -19,25 +19,25 @@ END $$;
 CREATE TABLE IF NOT EXISTS "completed_quizzes" (
 	"user_id" text NOT NULL,
 	"quiz_id" text NOT NULL,
-	CONSTRAINT "completed_quizzes_user_id_quiz_id_pk" PRIMARY KEY("user_id","quiz_id")
+	CONSTRAINT "composite_pk" PRIMARY KEY("user_id","quiz_id")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "highscores" (
 	"user_id" text NOT NULL,
 	"quiz_id" text NOT NULL,
-	CONSTRAINT "highscores_user_id_quiz_id_pk" PRIMARY KEY("user_id","quiz_id")
+	CONSTRAINT "composite_pk" PRIMARY KEY("user_id","quiz_id")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "unlocked_achievements" (
 	"user_id" text NOT NULL,
 	"achievement_id" text NOT NULL,
-	CONSTRAINT "unlocked_achievements_user_id_achievement_id_pk" PRIMARY KEY("user_id","achievement_id")
+	CONSTRAINT "composite_pk" PRIMARY KEY("user_id","achievement_id")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "unlocked_quizzes" (
 	"user_id" text NOT NULL,
 	"quiz_id" text NOT NULL,
-	CONSTRAINT "unlocked_quizzes_user_id_quiz_id_pk" PRIMARY KEY("user_id","quiz_id")
+	CONSTRAINT "composite_pk" PRIMARY KEY("user_id","quiz_id")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users_billing_information" (
