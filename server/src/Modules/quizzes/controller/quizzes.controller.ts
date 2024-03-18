@@ -4,11 +4,12 @@ import { User } from 'src/Decorators/user.decorator';
 import { Role } from 'src/Enums/role.enum';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { RolesGuard } from 'src/Guards/roles.guard';
+import { QuizService } from '../quizzes.service';
 
 @UseGuards(AuthenticationGuard, RolesGuard)
 @Controller('quizzes')
 export class QuizzesController {
-	constructor() {}
+	constructor(private readonly quizService: QuizService) {}
 
 	@Roles(Role.ADMIN)
 	@Get()
@@ -43,7 +44,8 @@ export class QuizzesController {
 	@Roles(Role.USER, Role.ADMIN)
 	@Patch('complete/:id')
 	async completeQuiz(@Param('id') quizId: string, @User('id') userId: string) {
-        
+        const foo = await this.quizService.completeQuiz(quizId, userId);
+		if (foo instanceof Error) return foo;
 		return 'Complete Quiz';
 	}
 
