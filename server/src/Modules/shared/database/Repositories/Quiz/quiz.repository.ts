@@ -7,6 +7,7 @@ import { CreateQuizDTO } from 'src/Modules/quizzes/dto/create-quiz.dto';
 import { UpdateQuizDTO } from 'src/Modules/quizzes/dto/update-quiz.dto';
 import { SelectQuiz, SelectQuizQuestion } from 'src/Utils/Types/model.types';
 import * as schema from '../../../../../Models/_index';
+import { UpdateQuestionDTO } from 'src/Modules/quizzes/dto/update-question.dto';
 
 @Injectable()
 export class QuizRepository {
@@ -148,7 +149,7 @@ export class QuizRepository {
 	 * @param {CreateQuestionDTO} question
 	 * @returns {Promise<string | Error>}
 	 */
-	async updateOneQuestion(id: string, question: CreateQuestionDTO): Promise<string | Error> {
+	async updateOneQuestion(id: string, question: UpdateQuestionDTO): Promise<string | Error> {
 		try {
 			return await this.db
 				.update(schema.quizQuestionsTable)

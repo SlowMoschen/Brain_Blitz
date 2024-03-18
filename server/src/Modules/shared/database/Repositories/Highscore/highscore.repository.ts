@@ -39,6 +39,36 @@ export class HighscoreRepository {
 	}
 
 	/**
+	 * @description Find highscores by user
+	 * @param {string} userID
+	 * @returns {Promise<SelectQuizHighscore[] | Error>}
+	 */
+	async findByUser(userID: string): Promise<SelectQuizHighscore[] | Error> {
+		try {
+			return await this.db.query.quizHighscoresTable.findMany({
+				where: eq(schema.quizHighscoresTable.user_id, userID),
+			});
+		} catch (error) {
+			return error;
+		}
+	}
+
+	/**
+	 * @description Find highscores by quiz
+	 * @param {string} quizID
+	 * @returns {Promise<SelectQuizHighscore[] | Error>}
+	 */
+	async findByQuiz(quizID: string): Promise<SelectQuizHighscore[] | Error> {
+		try {
+			return await this.db.query.quizHighscoresTable.findMany({
+				where: eq(schema.quizHighscoresTable.quiz_id, quizID),
+			});
+		} catch (error) {
+			return error;
+		}
+	}
+
+	/**
 	 * @description Insert one highscore
 	 * @param {CreateHighscoreDTO} createHighscoreDTO
 	 * @returns {Promise<string | Error>} - id of created highscore
