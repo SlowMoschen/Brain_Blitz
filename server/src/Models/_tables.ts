@@ -4,6 +4,9 @@ import {
 	usersStatisticsTable,
 	usersSettingsTable,
 	usersTimestampsTable,
+	unlockedAchievements,
+	unlockedQuizzes,
+	completedQuizzes,
 } from './users.model';
 
 import { quizzesTable, quizHighscoresTable, quizQuestionsTable } from './quizzes.model';
@@ -23,4 +26,7 @@ export {
 	quizQuestionsTable,
 	achievementsTable,
 	tokensTable,
+	unlockedAchievements,
+	completedQuizzes,
+	unlockedQuizzes,
 };
