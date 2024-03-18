@@ -5,12 +5,19 @@ import { Role } from "src/Enums/role.enum";
 import { AuthenticationGuard } from "src/Guards/auth.guard";
 import { RolesGuard } from "src/Guards/roles.guard";
 import { HighscoreService } from "../highscore.service";
+import { ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 
+@ApiTags('quizzes/highscores')
 @UseGuards(AuthenticationGuard, RolesGuard)
 @Controller('quizzes/highscores')
 export class HighscoresController {
     constructor(private readonly highscoreService: HighscoreService) {}
 
+    @ApiOperation({ summary: 'Get highscores by user' })
+    @ApiOkResponse({ description: 'returns highscores' })
+    @ApiForbiddenResponse({ description: 'if user got no session cookie' })
+    @ApiNotFoundResponse({ description: 'if no highscores were found' })
+    @ApiInternalServerErrorResponse({ description: 'if query failed' })
     @Roles(Role.USER, Role.ADMIN)
     @Get("")
     async getHighScoresByUser(@User('id') userId: string) {
@@ -18,6 +25,11 @@ export class HighscoresController {
         return highScores;
     }
 
+    @ApiOperation({ summary: 'ADMIN ROUTE - Get all highscores' })
+    @ApiOkResponse({ description: 'returns all highscores' })
+    @ApiForbiddenResponse({ description: 'if user got no session cookie' })
+    @ApiNotFoundResponse({ description: 'if no highscores were found' })
+    @ApiInternalServerErrorResponse({ description: 'if query failed' })
     @Roles(Role.ADMIN)
     @Get("all")
     async getAllHighScores() {
@@ -25,6 +37,11 @@ export class HighscoresController {
         return highScores;
     }
 
+    @ApiOperation({ summary: 'Get highscores by quiz' })
+    @ApiOkResponse({ description: 'returns highscores' })
+    @ApiForbiddenResponse({ description: 'if user got no session cookie' })
+    @ApiNotFoundResponse({ description: 'if no highscores were found' })
+    @ApiInternalServerErrorResponse({ description: 'if query failed' })
     @Roles(Role.USER, Role.ADMIN)
     @Get(":quizId")
     async getHighScoresByQuiz(@Param('id') quizId: string) {

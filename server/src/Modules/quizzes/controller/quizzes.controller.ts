@@ -7,12 +7,18 @@ import { RolesGuard } from 'src/Guards/roles.guard';
 import { QuizService } from '../quizzes.service';
 import { CreateQuizDTO } from '../dto/create-quiz.dto';
 import { CompletedQuizDTO } from '../dto/completed-quiz.dto';
+import { ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 
 @UseGuards(AuthenticationGuard, RolesGuard)
 @Controller('quizzes')
 export class QuizzesController {
 	constructor(private readonly quizService: QuizService) {}
 
+	@ApiOperation({ summary: 'ADMIN ROUTE - Get all quizzes' })
+	@ApiOkResponse({ description: 'returns all quizzes' })
+	@ApiNotFoundResponse({ description: 'if no quizzes were found' })
+	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
+	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
 	@Get()
 	async getAllQuizzes() {
@@ -21,6 +27,10 @@ export class QuizzesController {
 		return quizzes;
 	}
 
+	@ApiOperation({ summary: 'ADMIN ROUTE - Create a new quiz' })
+	@ApiOkResponse({ description: 'returns the created quiz' })
+	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
+	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
 	@UsePipes(new ValidationPipe())
 	@Post()
@@ -30,6 +40,10 @@ export class QuizzesController {
 		return createdQuiz;
 	}
 
+	@ApiOperation({ summary: 'If score threshhold is surpassed - completes Quiz and unlocks new one - saves highscore ' })
+	@ApiOkResponse({ description: 'returns the completed quiz' })
+	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
+	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Post('complete/:id')
 	@UsePipes(new ValidationPipe())
@@ -43,6 +57,11 @@ export class QuizzesController {
 		return completedQuiz;
 	}
 
+	@ApiOperation({ summary: 'Get a quiz by ID' })
+	@ApiOkResponse({ description: 'returns the quiz' })
+	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
+	@ApiNotFoundResponse({ description: 'if no quiz was found' })
+	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Get(':id')
 	async getQuiz(@Param('id') quizID: string) {
@@ -51,6 +70,11 @@ export class QuizzesController {
 		return quiz;
 	}
 
+	@ApiOperation({ summary: 'ADMIN ROUTE - Update a quiz by ID' })
+	@ApiOkResponse({ description: 'returns the updated quiz' })
+	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
+	@ApiNotFoundResponse({ description: 'if no quiz was found' })
+	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
 	@UsePipes(new ValidationPipe())
 	@Patch(':id')
@@ -60,6 +84,11 @@ export class QuizzesController {
 		return updatedQuiz;
 	}
 
+	@ApiOperation({ summary: 'ADMIN ROUTE - Delete a quiz by ID' })
+	@ApiOkResponse({ description: 'returns the deleted quiz' })
+	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
+	@ApiNotFoundResponse({ description: 'if no quiz was found' })
+	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
 	@Delete(':id')
 	async deleteQuiz(@Param('id') quizID: string) {
@@ -68,6 +97,11 @@ export class QuizzesController {
 		return deletedQuiz;
 	}
 
+	@ApiOperation({ summary: 'Get all quizzes by category' })
+	@ApiOkResponse({ description: 'returns all quizzes' })
+	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
+	@ApiNotFoundResponse({ description: 'if no quizzes were found' })
+	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Get(':category')
 	async getQuizzesByCategory(@Param('category') category: string) {
