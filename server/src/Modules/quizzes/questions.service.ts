@@ -24,8 +24,8 @@ export class QuestionService {
 		return questionId;
 	}
 
-	async updateQuestion(questionId: string, question: UpdateQuestionDTO): Promise<string | Error> {
-		const updatedQuestion = await this.quizRepository.updateOneQuestion(questionId, question);
+	async updateQuestion(questionId: string, body: UpdateQuestionDTO): Promise<string | Error> {
+		const updatedQuestion = await this.quizRepository.updateOneQuestion(questionId, body);
 		if (updatedQuestion instanceof Error) return updatedQuestion;
 		if (!updatedQuestion) return new NotFoundException('Question not found');
 		return updatedQuestion;

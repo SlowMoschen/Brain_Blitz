@@ -14,6 +14,20 @@ export class HighscoreService {
         return highscores;
     }
 
+    async getHighscoresByQuiz(quizID: string): Promise<SelectQuizHighscore[] | Error> {
+        const highscores = await this.highscoreRepository.findByQuiz(quizID);
+        if (highscores instanceof Error) return highscores;
+        if (highscores.length === 0) return new NotFoundException('No highscores found');
+        return highscores;
+    }
+
+    async getHighscoresByUser(userID: string): Promise<SelectQuizHighscore[] | Error> {
+        const highscores = await this.highscoreRepository.findByUser(userID);
+        if (highscores instanceof Error) return highscores;
+        if (highscores.length === 0) return new NotFoundException('No highscores found');
+        return highscores;
+    }
+
     async getSpecificHighscore(userID: string, quizID: string): Promise<SelectQuizHighscore | Error> {
         const highscore = await this.highscoreRepository.findOne(userID, quizID);
         if (highscore instanceof Error) return highscore;
