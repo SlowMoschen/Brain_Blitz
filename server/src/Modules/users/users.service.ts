@@ -8,10 +8,10 @@ import { UpdateUserStatisticsDTO } from './dto/update-user-statistics.dto';
 
 @Injectable()
 export class UsersService {
-	constructor(private readonly userRepo: UserRepository) {}
+	constructor(private readonly userRepository: UserRepository) {}
 
     async getUserByID(id: string): Promise<SelectUserWithAllTables | Error> {
-        const user = await this.userRepo.findByID(id);
+        const user = await this.userRepository.findByID(id);
 		if (!user) return new NotFoundException('User not found');
         if (user instanceof Error) return user;
 
@@ -21,7 +21,7 @@ export class UsersService {
     }
 
     async getUserByEmail(email: string): Promise<SelectUserWithAllTables | Error> {
-		const user = await this.userRepo.findByEmail(email);
+		const user = await this.userRepository.findByEmail(email);
         if (user instanceof Error) return new Error(user.message);
         if (!user) return new NotFoundException('User not found');
 		
@@ -29,7 +29,7 @@ export class UsersService {
     }
 
 	async getAllUsers(): Promise<SelectUserWithoutPassword[] | Error> {
-		const users = await this.userRepo.findAll();
+		const users = await this.userRepository.findAll();
 		if (users instanceof Error) return new Error(users.message);
 		if (users.length === 0) return new NotFoundException('No users found');
 
@@ -43,7 +43,7 @@ export class UsersService {
 	}
 
     async getBillingInfo(id: string): Promise<SelectUserBillingInformation | Error> {
-        const billingInfo = await this.userRepo.findOneBillingInfo(id);
+        const billingInfo = await this.userRepository.findOneBillingInfo(id);
         if (!billingInfo) return new NotFoundException('No billing info found');
         if (billingInfo instanceof Error) return new Error(billingInfo.message);
 
@@ -51,7 +51,7 @@ export class UsersService {
     }
 
     async getStatistics(id: string): Promise<SelectUserStatistics | Error> {
-        const statistics = await this.userRepo.findOneStats(id);
+        const statistics = await this.userRepository.findOneStats(id);
         if (!statistics) return new NotFoundException('No statistics found');
         if (statistics instanceof Error) return new Error(statistics.message);
 
@@ -59,7 +59,7 @@ export class UsersService {
     }
 
     async getSettings(id: string): Promise<SelectUserSettings | Error> {
-        const settings = await this.userRepo.findOneSettings(id);
+        const settings = await this.userRepository.findOneSettings(id);
         if (!settings) return new NotFoundException('No settings found');
         if (settings instanceof Error) return new Error(settings.message);
 
@@ -67,7 +67,7 @@ export class UsersService {
     }
 
 	async createNewUser(body: CreateUserDTO): Promise<SelectUser | Error> {
-		const user = await this.userRepo.insertOne(body);
+		const user = await this.userRepository.insertOne(body);
 		if (user instanceof Error) return new Error(user.message);
 		if (!user || typeof user !== 'object') return new Error('User creation failed');
 
@@ -75,7 +75,7 @@ export class UsersService {
 	}
 
 	async insertNewUnlockedQuiz(id: string, quizId: string): Promise<string | Error> {
-		const user = await this.userRepo.insertNewUnlockedQuiz(id, quizId);
+		const user = await this.userRepository.insertNewUnlockedQuiz(id, quizId);
 		if (user instanceof Error) return new Error(user.message);
 		if (!user) return new Error('User update failed');
 
@@ -83,7 +83,7 @@ export class UsersService {
 	}
 
 	async insertNewUnlockedAchievement(id: string, achievementId: string): Promise<string | Error> {
-		const user = await this.userRepo.insertNewUnlockedAchievement(id, achievementId);
+		const user = await this.userRepository.insertNewUnlockedAchievement(id, achievementId);
 		if (user instanceof Error) return new Error(user.message);
 		if (!user) return new Error('User update failed');
 
@@ -91,7 +91,7 @@ export class UsersService {
 	}
 
 	async insertNewCompletedQuiz(id: string, quizId: string): Promise<string | Error> {
-		const user = await this.userRepo.insertNewCompletedQuiz(id, quizId);
+		const user = await this.userRepository.insertNewCompletedQuiz(id, quizId);
 		if (user instanceof Error) return new Error(user.message);
 		if (!user) return new Error('User update failed');
 
@@ -99,7 +99,7 @@ export class UsersService {
 	}
 
 	async insertNewHighscore(id: string, quizId: string, score: number): Promise<string | Error> {
-		const user = await this.userRepo.insertNewHighscore(id, quizId);
+		const user = await this.userRepository.insertNewHighscore(id, quizId);
 		if (user instanceof Error) return new Error(user.message);
 		if (!user) return new Error('User update failed');
 
@@ -107,7 +107,7 @@ export class UsersService {
 	}
 
 	async updateUserCredentials(id: string, body: CreateUserDTO): Promise<string | Error> {
-		const user = await this.userRepo.updateOneCredentials(id, body);
+		const user = await this.userRepository.updateOneCredentials(id, body);
 		if (user instanceof Error) return new Error(user.message);
 		if (!user) return new Error('User update failed');
 
@@ -115,7 +115,7 @@ export class UsersService {
 	}
 
 	async updateBillingInfo(id: string, body: UpdateUserBillingInfoDTO): Promise<string | Error> {
-		const user = await this.userRepo.updateOneBillingInfo(id, body);
+		const user = await this.userRepository.updateOneBillingInfo(id, body);
 		if (user instanceof Error) return new Error(user.message);
 		if (!user) return new Error('User update failed');
 
@@ -123,7 +123,7 @@ export class UsersService {
 	}
 
 	async updateSettings(id: string, body: UpdateUserSettingsDTO): Promise<string | Error> {
-		const user = await this.userRepo.updateOneSettings(id, body);
+		const user = await this.userRepository.updateOneSettings(id, body);
 		if (user instanceof Error) return new Error(user.message);
 		if (!user) return new Error('User update failed');
 
@@ -131,7 +131,7 @@ export class UsersService {
 	}
 
     async setVerificationStatus(id: string, status: boolean): Promise<string | Error> {
-        const user = await this.userRepo.setVerificationStatus(id, status);
+        const user = await this.userRepository.setVerificationStatus(id, status);
         if (user instanceof Error) return new Error(user.message);
 		if (!user) return new Error('User update failed');
 
@@ -140,7 +140,7 @@ export class UsersService {
     }
 
 	async updateStatistics(id: string, body: UpdateUserStatisticsDTO): Promise<string | Error> {
-		const user = await this.userRepo.updateOneStats(id, body);
+		const user = await this.userRepository.updateOneStats(id, body);
 		if (user instanceof Error) return new Error(user.message);
 		if (!user) return new Error('User update failed');
 
@@ -148,7 +148,7 @@ export class UsersService {
 	}
 
 	async deleteUser(id: string): Promise<string | Error> {
-		const user = await this.userRepo.deleteOneByID(id);
+		const user = await this.userRepository.deleteOneByID(id);
 		if (user instanceof Error) return new Error(user.message);
 		if (!user) return new Error('User deletion failed');
 
