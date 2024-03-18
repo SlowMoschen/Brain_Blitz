@@ -32,7 +32,7 @@ import { User } from 'src/Decorators/user.decorator';
 
 @ApiTags('users')
 @Controller('users')
-// @UseGuards(AuthenticationGuard, RolesGuard)
+@UseGuards(AuthenticationGuard, RolesGuard)
 export class UsersController {
 	constructor(private readonly usersService: UsersService) {}
 
