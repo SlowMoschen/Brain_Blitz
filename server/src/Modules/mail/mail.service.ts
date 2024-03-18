@@ -1,7 +1,7 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { SendVerifyMailEvent } from 'src/Events/send.verify.mail.event';
+import { SendVerifyMailEvent } from 'src/Events/notification.events';
 
 @Injectable()
 export class MailService {
