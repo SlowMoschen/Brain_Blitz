@@ -29,6 +29,11 @@ const quizzesToInsert: InsertQuiz[] = [
 		description: 'This is a quiz',
 		category: 'math',
 	},
+	{
+		title: 'Quiz 4',
+		description: 'This is a quiz',
+		category: 'science',
+	},
 ];
 
 /**

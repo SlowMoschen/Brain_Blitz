@@ -129,7 +129,6 @@ export const highscores = pgTable(
 		highscore_id: text('quiz_id').notNull().references(() => quizHighscoresTable.id),
 	},
 	(t) => ({
-		// pk: primaryKey(t.user_id, t.highscore_id),
 		cpk: primaryKey({ name: 'composite_pk', columns: [t.user_id, t.highscore_id]}),
 	}),
 );
