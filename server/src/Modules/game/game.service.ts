@@ -20,11 +20,12 @@ export class GameService {
 	@OnEvent('quiz.completed')
 	async insertCompletedQuiz(completeQuizEvent: CompleteQuizEvent) {
 		const { user_id, quiz_id } = completeQuizEvent;
+
 		const user = await this.userService.getUserByID(user_id);
 		if (user instanceof Error) throw user;
 		if (!user) throw new NotFoundException('User not found');
-		if (user.unlocked_quizzes.some((ref) => ref.quiz_id === quiz_id))
-			throw new ConflictException('Quiz already completed');
+		if (user.completed_quizzes.some((ref) => ref.quiz_id === quiz_id))
+			return new ConflictException('Quiz already completed');
 
 		const newCompletedQuiz = await this.userService.insertNewCompletedQuiz(user_id, quiz_id);
 		if (newCompletedQuiz instanceof Error) return newCompletedQuiz;
@@ -43,7 +44,7 @@ export class GameService {
 		const user = await this.userService.getUserByID(user_id);
 		if (user instanceof Error) return user;
 		if (!user) return new NotFoundException('User not found');
-		if (user.unlocked_quizzes.some((ref) => ref.quiz_id === quiz_id))
+		if (user.completed_quizzes.some((ref) => ref.quiz_id === quiz_id))
 			return new ConflictException('Quiz already completed, cannot unlock next quiz');
 
 		const newUnlockedQuiz = await this.getRandomNewQuiz(user_id);
