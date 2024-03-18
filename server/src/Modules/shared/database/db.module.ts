@@ -8,6 +8,7 @@ import { SettingsRepository } from './Repositories/User/settings.repository';
 import { StatisticsRepository } from './Repositories/User/statistics.repository';
 import { TimestampsRepository } from './Repositories/User/timestamps.repository';
 import { QuizRepository } from './Repositories/Quiz/quiz.repository';
+import { HighscoreRepository } from './Repositories/Highscore/highscore.repository';
 
 @Module({
 	imports: [],
@@ -20,7 +21,8 @@ import { QuizRepository } from './Repositories/Quiz/quiz.repository';
 		StatisticsRepository,
 		TimestampsRepository,
 		QuizRepository,
+		HighscoreRepository
 	],
-	exports: [DB_CONNECTION, UserRepository, databaseProvider, TokenRepository, QuizRepository],
+	exports: [DB_CONNECTION, UserRepository, databaseProvider, TokenRepository, QuizRepository, HighscoreRepository],
 })
 export class DatabaseModule {}
