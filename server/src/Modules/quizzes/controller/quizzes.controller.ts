@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Roles } from 'src/Decorators/roles.decorator';
 import { User } from 'src/Decorators/user.decorator';
 import { Role } from 'src/Enums/role.enum';
@@ -15,13 +15,26 @@ import { ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiNotFoundRespon
 export class QuizzesController {
 	constructor(private readonly quizService: QuizService) {}
 
+	@ApiOperation({ summary: 'Get all quizzes by category' })
+	@ApiOkResponse({ description: 'returns all quizzes' })
+	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
+	@ApiNotFoundResponse({ description: 'if no quizzes were found' })
+	@ApiInternalServerErrorResponse({ description: 'if query failed' })
+	@Roles(Role.USER, Role.ADMIN)
+	@Get()
+	async getQuizzesByCategory(@Query('category') category: string) {
+		const quizzes = await this.quizService.getQuizzesByCategory(category);
+		if (quizzes instanceof Error) return quizzes;
+		return quizzes;
+	}
+
 	@ApiOperation({ summary: 'ADMIN ROUTE - Get all quizzes' })
 	@ApiOkResponse({ description: 'returns all quizzes' })
 	@ApiNotFoundResponse({ description: 'if no quizzes were found' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
-	@Get()
+	@Get('all')
 	async getAllQuizzes() {
 		const quizzes = await this.quizService.getAllQuizzes();
 		if (quizzes instanceof Error) return quizzes;
@@ -96,18 +109,5 @@ export class QuizzesController {
 		const deletedQuiz = await this.quizService.deleteQuiz(quizID);
 		if (deletedQuiz instanceof Error) return deletedQuiz;
 		return deletedQuiz;
-	}
-
-	@ApiOperation({ summary: 'Get all quizzes by category' })
-	@ApiOkResponse({ description: 'returns all quizzes' })
-	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
-	@ApiNotFoundResponse({ description: 'if no quizzes were found' })
-	@ApiInternalServerErrorResponse({ description: 'if query failed' })
-	@Roles(Role.USER, Role.ADMIN)
-	@Get(':category')
-	async getQuizzesByCategory(@Param('category') category: string) {
-		const quizzes = await this.quizService.getQuizzesByCategory(category);
-		if (quizzes instanceof Error) return quizzes;
-		return quizzes;
 	}
 }
