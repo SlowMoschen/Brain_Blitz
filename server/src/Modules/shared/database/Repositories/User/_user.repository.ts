@@ -178,7 +178,7 @@ export class UserRepository {
 				.where(eq(schema.usersTable.id, id))
 				.returning({ id: schema.usersTable.id });
 
-			await this.timestampsRepository.updateOne(id, 'updated_at');
+			await this.timestampsRepository.updateOneColumn(id, 'updated_at');
 			return user[0].id;
 		} catch (error) {
 			return error;
@@ -279,7 +279,7 @@ export class UserRepository {
 	 * @returns {Promise<string | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
 	 */
 	async updateOneSettings(id: string, body: UpdateUserSettingsDTO): Promise<string | Error> {
-		await this.timestampsRepository.updateOne(id, 'settings_updated_at');
+		await this.timestampsRepository.updateOneColumn(id, 'settings_updated_at');
 		return await this.settingsRepository.updateOne(id, body);
 	}
 
@@ -290,7 +290,7 @@ export class UserRepository {
 	 * @returns {Promise<string | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
 	 */
 	async updateOneStats(id: string, body: UpdateUserStatisticsDTO): Promise<string | Error> {
-		await this.timestampsRepository.updateOne(id, 'statistics_updated_at');
+		await this.timestampsRepository.updateOneColumn(id, 'statistics_updated_at');
 		return await this.statisticsRepository.updateOne(id, body);
 	}
 
@@ -301,7 +301,7 @@ export class UserRepository {
 	 * @returns {Promise<string | Error>} - Returns the userID or an empty array if no user is found and an error if an error occurs
 	 */
 	async updateOneBillingInfo(id: string, body: UpdateUserBillingInfoDTO): Promise<string | Error> {
-		await this.timestampsRepository.updateOne(id, 'billing_information_updated_at');
+		await this.timestampsRepository.updateOneColumn(id, 'billing_information_updated_at');
 		return await this.billingInfoRepository.updateOne(id, body);
 	}
 

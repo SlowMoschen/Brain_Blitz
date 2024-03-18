@@ -60,7 +60,7 @@ export class TimestampsRepository {
      * @param {TimestampColumns} column - The column to update
      * @returns {Promise<string | Error>} - Returns the id of the user or null if an error occurs
      */
-    async updateOne(userID: string, column: TimestampColumns): Promise<string | Error>{
+    async updateOneColumn(userID: string, column: TimestampColumns): Promise<string | Error>{
         try {
             const timestamps = await this.db
                 .update(schema.usersTimestampsTable)

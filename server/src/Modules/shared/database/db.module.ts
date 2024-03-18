@@ -23,6 +23,6 @@ import { HighscoreRepository } from './Repositories/Highscore/highscore.reposito
 		QuizRepository,
 		HighscoreRepository
 	],
-	exports: [DB_CONNECTION, UserRepository, databaseProvider, TokenRepository, QuizRepository, HighscoreRepository],
+	exports: [DB_CONNECTION, UserRepository, databaseProvider, TokenRepository, QuizRepository, HighscoreRepository, TimestampsRepository],
 })
 export class DatabaseModule {}
