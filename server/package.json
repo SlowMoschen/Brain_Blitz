@@ -20,8 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "db:generate": "drizzle-kit generate:pg --config ./src/Configs/drizzle.config.ts",
     "db:migrate": "ts-node src/DB/migrate.ts",
-    "db:seed": "ts-node src/DB/seed.ts",
-    "db:clear": "ts-node src/DB/clear.ts"
+    "db:seed": "ts-node src/DB/seed.ts"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^1.11.2",
