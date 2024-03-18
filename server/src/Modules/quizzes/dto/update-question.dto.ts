@@ -3,14 +3,14 @@ import { IsArray, IsOptional, IsString } from "class-validator";
 export class UpdateQuestionDTO {
     @IsOptional()
     @IsString()
-    question: string;
+    question?: string;
 
     @IsOptional()
     @IsArray()
     @IsString({ each: true })
-    answers: string[];
+    answers?: string[];
 
     @IsOptional()
     @IsString()
-    correct_answer: string;
+    correct_answer?: string;
 }

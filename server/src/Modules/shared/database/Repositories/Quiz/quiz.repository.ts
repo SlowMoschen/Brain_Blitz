@@ -5,7 +5,7 @@ import { InjectDatabase } from 'src/Decorators/injectDatabase.decorator';
 import { CreateQuestionDTO } from 'src/Modules/quizzes/dto/create-question.dto';
 import { CreateQuizDTO } from 'src/Modules/quizzes/dto/create-quiz.dto';
 import { UpdateQuizDTO } from 'src/Modules/quizzes/dto/update-quiz.dto';
-import { SelectQuiz } from 'src/Utils/Types/model.types';
+import { SelectQuiz, SelectQuizQuestion } from 'src/Utils/Types/model.types';
 import * as schema from '../../../../../Models/_index';
 
 @Injectable()
@@ -39,6 +39,21 @@ export class QuizRepository {
 			return await this.db.query.quizzesTable.findFirst({
 				where: eq(schema.quizzesTable.id, id),
 				with: { questions: true, highscores: true },
+			});
+		} catch (error) {
+			return error;
+		}
+	}
+
+	/**
+	 * @description Find one question by ID
+	 * @param {string} id
+	 * @returns {Promise<SelectQuizQuestion | Error>}
+	 */
+	async findOneQuestion(id: string): Promise<SelectQuizQuestion | Error> {
+		try {
+			return await this.db.query.quizQuestionsTable.findFirst({
+				where: eq(schema.quizQuestionsTable.id, id),
 			});
 		} catch (error) {
 			return error;

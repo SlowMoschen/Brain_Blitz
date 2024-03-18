@@ -7,6 +7,13 @@ import { UpdateQuestionDTO } from './dto/update-question.dto';
 export class QuestionService {
 	constructor(private readonly quizRepository: QuizRepository) {}
 
+	async getQuestion(questionId: string) {
+		const question = await this.quizRepository.findOneQuestion(questionId);
+		if (question instanceof Error) return question;
+		if (!question) return new NotFoundException('Question not found');
+		return question;
+	}
+
 	async createQuestion(quizId: string, question: CreateQuestionDTO): Promise<string | Error> {
 		const quiz = await this.quizRepository.findOne(quizId);
 		if (quiz instanceof Error) return quiz;
