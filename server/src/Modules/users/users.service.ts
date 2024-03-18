@@ -1,6 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserRepository } from '../shared/database/Repositories/User/_user.repository';
-import { SelectUser, SelectUserBillingInformation, SelectUserSettings, SelectUserStatistics, SelectUserWithAllTables, SelectUserWithoutPassword } from 'src/Utils/Types/model.types';
+import {
+	SelectUser,
+	SelectUserBillingInformation,
+	SelectUserSettings,
+	SelectUserStatistics,
+	SelectUserWithAllTables,
+	SelectUserWithoutPassword,
+} from 'src/Utils/Types/model.types';
 import { CreateUserDTO } from '../auth/dto/create-user.dto';
 import { UpdateUserBillingInfoDTO } from './dto/update-user-billingInfo.dto';
 import { UpdateUserSettingsDTO } from './dto/update-user-settings.dto';
@@ -10,23 +17,23 @@ import { UpdateUserStatisticsDTO } from './dto/update-user-statistics.dto';
 export class UsersService {
 	constructor(private readonly userRepository: UserRepository) {}
 
-    async getUserByID(id: string): Promise<SelectUserWithAllTables | Error> {
-        const user = await this.userRepository.findByID(id);
+	async getUserByID(id: string): Promise<SelectUserWithAllTables | Error> {
+		const user = await this.userRepository.findByID(id);
 		if (!user) return new NotFoundException('User not found');
-        if (user instanceof Error) return user;
+		if (user instanceof Error) return user;
 
 		const { password, ...rest } = user;
 
-        return rest as SelectUserWithAllTables;
-    }
+		return rest as SelectUserWithAllTables;
+	}
 
-    async getUserByEmail(email: string): Promise<SelectUserWithAllTables | Error> {
+	async getUserByEmail(email: string): Promise<SelectUserWithAllTables | Error> {
 		const user = await this.userRepository.findByEmail(email);
-        if (user instanceof Error) return new Error(user.message);
-        if (!user) return new NotFoundException('User not found');
-		
-        return user as SelectUserWithAllTables;
-    }
+		if (user instanceof Error) return new Error(user.message);
+		if (!user) return new NotFoundException('User not found');
+
+		return user as SelectUserWithAllTables;
+	}
 
 	async getAllUsers(): Promise<SelectUserWithoutPassword[] | Error> {
 		const users = await this.userRepository.findAll();
@@ -42,29 +49,29 @@ export class UsersService {
 		return usersWithoutPassword;
 	}
 
-    async getBillingInfo(id: string): Promise<SelectUserBillingInformation | Error> {
-        const billingInfo = await this.userRepository.findOneBillingInfo(id);
-        if (!billingInfo) return new NotFoundException('No billing info found');
-        if (billingInfo instanceof Error) return new Error(billingInfo.message);
+	async getBillingInfo(id: string): Promise<SelectUserBillingInformation | Error> {
+		const billingInfo = await this.userRepository.findOneBillingInfo(id);
+		if (!billingInfo) return new NotFoundException('No billing info found');
+		if (billingInfo instanceof Error) return new Error(billingInfo.message);
 
-        return billingInfo;
-    }
+		return billingInfo;
+	}
 
-    async getStatistics(id: string): Promise<SelectUserStatistics | Error> {
-        const statistics = await this.userRepository.findOneStats(id);
-        if (!statistics) return new NotFoundException('No statistics found');
-        if (statistics instanceof Error) return new Error(statistics.message);
+	async getStatistics(id: string): Promise<SelectUserStatistics | Error> {
+		const statistics = await this.userRepository.findOneStats(id);
+		if (!statistics) return new NotFoundException('No statistics found');
+		if (statistics instanceof Error) return new Error(statistics.message);
 
-        return statistics;
-    }
+		return statistics;
+	}
 
-    async getSettings(id: string): Promise<SelectUserSettings | Error> {
-        const settings = await this.userRepository.findOneSettings(id);
-        if (!settings) return new NotFoundException('No settings found');
-        if (settings instanceof Error) return new Error(settings.message);
+	async getSettings(id: string): Promise<SelectUserSettings | Error> {
+		const settings = await this.userRepository.findOneSettings(id);
+		if (!settings) return new NotFoundException('No settings found');
+		if (settings instanceof Error) return new Error(settings.message);
 
-        return settings;
-    }
+		return settings;
+	}
 
 	async createNewUser(body: CreateUserDTO): Promise<SelectUser | Error> {
 		const user = await this.userRepository.insertOne(body);
@@ -91,6 +98,7 @@ export class UsersService {
 	}
 
 	async insertNewCompletedQuiz(id: string, quizId: string): Promise<string | Error> {
+		console.log('UserService');
 		const user = await this.userRepository.insertNewCompletedQuiz(id, quizId);
 		if (user instanceof Error) return new Error(user.message);
 		if (!user) return new Error('User update failed');
@@ -130,14 +138,13 @@ export class UsersService {
 		return user;
 	}
 
-    async setVerificationStatus(id: string, status: boolean): Promise<string | Error> {
-        const user = await this.userRepository.setVerificationStatus(id, status);
-        if (user instanceof Error) return new Error(user.message);
+	async setVerificationStatus(id: string, status: boolean): Promise<string | Error> {
+		const user = await this.userRepository.setVerificationStatus(id, status);
+		if (user instanceof Error) return new Error(user.message);
 		if (!user) return new Error('User update failed');
 
-        return user;
-    
-    }
+		return user;
+	}
 
 	async updateStatistics(id: string, body: UpdateUserStatisticsDTO): Promise<string | Error> {
 		const user = await this.userRepository.updateOneStats(id, body);
