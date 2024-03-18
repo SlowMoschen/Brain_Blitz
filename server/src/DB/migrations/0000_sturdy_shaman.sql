@@ -25,8 +25,6 @@ CREATE TABLE IF NOT EXISTS "completed_quizzes" (
 CREATE TABLE IF NOT EXISTS "highscores" (
 	"user_id" text NOT NULL,
 	"quiz_id" text NOT NULL,
-	"score" integer NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
 	CONSTRAINT "highscores_user_id_quiz_id_pk" PRIMARY KEY("user_id","quiz_id")
 );
 --> statement-breakpoint
