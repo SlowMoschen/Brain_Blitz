@@ -23,8 +23,8 @@ import { Roles } from 'src/Decorators/roles.decorator';
 import { Role } from 'src/Enums/role.enum';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { RolesGuard } from 'src/Guards/roles.guard';
-import { UpdateUserBillingInfoDTO } from './dto/update-user-billingInfo.dto';
-import { UsersService } from './users.service';
+import { UpdateUserBillingInfoDTO } from '../dto/update-user-billingInfo.dto';
+import { UsersService } from '../users.service';
 import { User } from 'src/Decorators/user.decorator';
 
 @ApiTags('users/billing-info')

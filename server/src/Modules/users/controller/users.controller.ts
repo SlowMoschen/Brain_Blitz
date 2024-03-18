@@ -26,8 +26,8 @@ import { Roles } from 'src/Decorators/roles.decorator';
 import { Role } from 'src/Enums/role.enum';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { RolesGuard } from 'src/Guards/roles.guard';
-import { UpdateUserCredentialsDTO } from './dto/update-user-credentials.dto';
-import { UsersService } from './users.service';
+import { UpdateUserCredentialsDTO } from '../dto/update-user-credentials.dto';
+import { UsersService } from '../users.service';
 import { User } from 'src/Decorators/user.decorator';
 
 @ApiTags('users')
