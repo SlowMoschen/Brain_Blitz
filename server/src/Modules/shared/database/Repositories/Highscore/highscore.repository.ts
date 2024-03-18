@@ -75,13 +75,6 @@ export class HighscoreRepository {
 	 */
 	async insertOne(createHighscoreDTO: CreateHighscoreDTO): Promise<string | Error> {
 		try {
-			const existingHighscore = await this.findOne(createHighscoreDTO.user_id, createHighscoreDTO.quiz_id);
-			if (existingHighscore instanceof Error) return existingHighscore;
-			// If user already has a highscore for this quiz, check if new highscore is higher and delete old highscore
-			if (existingHighscore) {
-				if (existingHighscore.score < createHighscoreDTO.score) this.deleteOne(existingHighscore.id);
-			}
-
 			const createdHighscoreID = await this.db
 				.insert(schema.quizHighscoresTable)
 				.values(createHighscoreDTO)
@@ -100,6 +93,7 @@ export class HighscoreRepository {
 	 */
 	async deleteOne(id: string): Promise<string | Error> {
 		try {
+			await this.db.delete(schema.highscores).where(eq(schema.highscores.highscore_id, id));
 			await this.db.delete(schema.quizHighscoresTable).where(eq(schema.quizHighscoresTable.id, id));
 			return id;
 		} catch (error) {
