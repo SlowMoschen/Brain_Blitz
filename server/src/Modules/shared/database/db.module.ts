@@ -7,6 +7,7 @@ import { BillingInfoRepository } from './Repositories/User/billingInfo.repositor
 import { SettingsRepository } from './Repositories/User/settings.repository';
 import { StatisticsRepository } from './Repositories/User/statistics.repository';
 import { TimestampsRepository } from './Repositories/User/timestamps.repository';
+import { QuizRepository } from './Repositories/Quiz/quiz.repository';
 
 @Module({
 	imports: [],
@@ -18,7 +19,8 @@ import { TimestampsRepository } from './Repositories/User/timestamps.repository'
 		SettingsRepository,
 		StatisticsRepository,
 		TimestampsRepository,
+		QuizRepository,
 	],
-	exports: [DB_CONNECTION, UserRepository, databaseProvider, TokenRepository],
+	exports: [DB_CONNECTION, UserRepository, databaseProvider, TokenRepository, QuizRepository],
 })
 export class DatabaseModule {}
