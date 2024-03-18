@@ -16,7 +16,7 @@ export class MailService {
     @OnEvent('mail.verify-email')
 	async sendConfirmationEmail(payLoad: SendVerifyMailEvent): Promise<void | Error> {
 		try {
-			const url = `http://localhost:3000/auth/verify-email/${payLoad.userID}/${payLoad.token}`;
+			const url = `${process.env.BASE_VERIFICATION_URL}${payLoad.userID}/${payLoad.token}`;
 
 			await this.mailerService.sendMail({
 				to: payLoad.email,
