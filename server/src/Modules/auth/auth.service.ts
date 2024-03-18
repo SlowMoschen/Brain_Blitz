@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { SendVerifyMailEvent } from 'src/Events/send.verify.mail.event';
 import { SelectUserWithoutPassword } from 'src/Utils/Types/model.types';
-import { MailService } from '../mail/mail.service';
 import { EncryptionService } from '../shared/encryption/encryption.service';
 import { UsersService } from '../users/users.service';
 import { CreateUserDTO } from './dto/create-user.dto';
@@ -10,7 +11,7 @@ export class AuthService {
 	constructor(
 		private readonly usersService: UsersService,
 		private readonly encryptionService: EncryptionService,
-		private readonly mailService: MailService,
+		private readonly eventEmitter: EventEmitter2,
 	) {}
 
 	/**
@@ -64,11 +65,7 @@ export class AuthService {
 			return new HttpException('Token generation failed', HttpStatus.INTERNAL_SERVER_ERROR);
 		} 
 
-		const mail = await this.mailService.sendConfirmationEmail(createdUser, token);
-		if (mail instanceof Error) {
-			await this.usersService.deleteUser(userID);
-			return new HttpException('Sending email failed', HttpStatus.INTERNAL_SERVER_ERROR)
-		} 
+		this.eventEmitter.emit('mail.verify-email', new SendVerifyMailEvent(userID, createUserDTO.email, createUserDTO.first_name, token)); 
 
         return userID;
 	}
@@ -125,7 +122,7 @@ export class AuthService {
         const token = await this.encryptionService.generateToken(user.id);
         if (token instanceof Error) return new HttpException('Generieren vom Token fehlgeschlagen', HttpStatus.INTERNAL_SERVER_ERROR);
 
-        await this.mailService.sendConfirmationEmail(user, token);
+        this.eventEmitter.emit('mail.verify-email', new SendVerifyMailEvent(user.id, user.email, user.first_name, token));
 
         return user.id;
 	}

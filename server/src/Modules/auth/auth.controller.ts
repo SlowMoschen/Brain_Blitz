@@ -149,9 +149,8 @@ export class AuthController {
 
 	@ApiOperation({ summary: 'Render page to request a new verification email' })
 	@ApiOkResponse({ description: 'renders the Handlebars view for resending a verification email' })
-	@Render('email-not-verified')
 	@Get('resend-email-verification')
-	async resendEmailVerificationPage() {
-		return { header: 'Verifikation erneut durchführen', message: 'Bitte gib deine E-Mail ein', url: '/auth/resend-email-verification'};
+	async resendEmailVerificationPage(@Res() res){
+		return res.render('email-not-verified', { header: 'Verifikation erneut durchführen', message: 'Bitte gib deine E-Mail ein', url: '/auth/resend-email-verification'});
 	}
 }
