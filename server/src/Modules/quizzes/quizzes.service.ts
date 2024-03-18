@@ -111,36 +111,30 @@ export class QuizService {
 		// Check if the user has a highscore for the quiz and update it if necessary - if not, create a new highscore
 		const existingHighscore = await this.highscoreService.getSpecificHighscore(userId, quizId);
 		if (existingHighscore instanceof Error) return existingHighscore;
+		
 		if (existingHighscore) {
 			if (existingHighscore.score < completedQuizDTO.score) {
 				const deletedHighscore = await this.highscoreService.deleteHighscore(existingHighscore.id);
 				if (deletedHighscore instanceof Error) return deletedHighscore;
-
-				const createdHighscore = await this.highscoreService.createHighscore({
-					user_id: userId,
-					quiz_id: quizId,
-					score: completedQuizDTO.score,
-				});
-				if (createdHighscore instanceof Error) return createdHighscore;
 				returnValue.highscore = 'updated';
+			} else {
+				returnValue.highscore = 'not updated';
 				return returnValue;
 			}
 		} else {
-			const createdHighscore = await this.highscoreService.createHighscore({
-				user_id: userId,
-				quiz_id: quizId,
-				score: completedQuizDTO.score,
-			});
-			if (createdHighscore instanceof Error) return createdHighscore;
 			returnValue.highscore = 'created';
-
-			const highscoreJunction = await this.userService.insertNewHighscore(userId, createdHighscore);
-			if (highscoreJunction instanceof Error) return highscoreJunction;
-
-			return returnValue;
 		}
 		
-		returnValue.highscore = 'not updated';
+		const createdHighscore = await this.highscoreService.createHighscore({
+			user_id: userId,
+			quiz_id: quizId,
+			score: completedQuizDTO.score,
+		});
+		if (createdHighscore instanceof Error) return createdHighscore;
+
+		const highscoreJunction = await this.userService.insertNewHighscore(userId, createdHighscore);
+		if (highscoreJunction instanceof Error) return highscoreJunction;
+
 		return returnValue;
 	}
 }
