@@ -57,9 +57,9 @@ export type SelectQuizQuestion = typeof quizQuestionsTable.$inferSelect;
 export type InsertQuizQuestion = typeof quizQuestionsTable.$inferInsert;
 
 export type SelectUserWithAllTables = typeof usersTable.$inferSelect & {
-	unlocked_quizzes: SelectUnlockedQuizzes;
-	completed_quizzes: SelectCompletedQuizzes;
-	unlocked_achievements: SelectUnlockedAchievements;
+	unlocked_quizzes: SelectUnlockedQuizzes[];
+	completed_quizzes: SelectCompletedQuizzes[];
+	unlocked_achievements: SelectUnlockedAchievements[];
 	highscores: SelectHighscores;
 	settings: SelectUserSettings;
 	statistics: SelectUserStatistics;
