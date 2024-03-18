@@ -6,8 +6,9 @@ import { RolesGuard } from "src/Guards/roles.guard";
 import { QuestionService } from "../questions.service";
 import { CreateQuestionDTO } from "../dto/create-question.dto";
 import { UpdateQuestionDTO } from "../dto/update-question.dto";
-import { ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOperation } from "@nestjs/swagger";
+import { ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 
+@ApiTags('quizzes/questions')
 @UseGuards(AuthenticationGuard, RolesGuard)
 @Controller('quizzes/questions')
 export class QuestionsController {

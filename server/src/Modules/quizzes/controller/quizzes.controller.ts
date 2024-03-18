@@ -7,8 +7,9 @@ import { RolesGuard } from 'src/Guards/roles.guard';
 import { QuizService } from '../quizzes.service';
 import { CreateQuizDTO } from '../dto/create-quiz.dto';
 import { CompletedQuizDTO } from '../dto/completed-quiz.dto';
-import { ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import { ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('quizzes')
 @UseGuards(AuthenticationGuard, RolesGuard)
 @Controller('quizzes')
 export class QuizzesController {
