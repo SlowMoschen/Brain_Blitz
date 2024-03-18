@@ -36,11 +36,6 @@ import { User } from 'src/Decorators/user.decorator';
 export class UsersController {
 	constructor(private readonly usersService: UsersService) {}
 
-	@Get('dev')
-	async dev() {
-		return this.usersService.getAllUsers();
-	}
-
 	@ApiOperation({ summary: 'Get user data via session cookie' })
 	@ApiOkResponse({ description: 'returns user data without the hashed password' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
