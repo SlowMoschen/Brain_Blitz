@@ -30,12 +30,16 @@ import { AuthService } from './auth.service';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { LoginUserDTO } from './dto/login-user.dto';
 import { ResendVerificationEmailDto } from './dto/resendVerficationEmail.dto';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { UserLogEvent } from 'src/Events/user.events';
+import { User } from 'src/Decorators/user.decorator';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
 	constructor(
 		private readonly authService: AuthService,
+		private readonly eventEmitter: EventEmitter2,
 	) {}
 
 	@ApiOperation({ summary: 'Login user' })
@@ -45,7 +49,8 @@ export class AuthController {
 	@Post('login')
 	@UseGuards(LocalAuthGuard)
 	@HttpCode(HttpStatus.OK)
-	async login() {
+	async login(@User('id') id: string) {
+		this.eventEmitter.emit('user.login', new UserLogEvent(id));
 		return { message: 'Login successful' };
 	}
 
@@ -57,6 +62,7 @@ export class AuthController {
 		req.logout((err) => {
 			if (err) throw new HttpException('Logout failed', HttpStatus.INTERNAL_SERVER_ERROR);
 		});
+		this.eventEmitter.emit('user.logout', new UserLogEvent(req.user.id));
 		return { message: 'Logout successful' };
 	}
 
