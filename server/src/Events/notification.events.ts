@@ -6,3 +6,13 @@ export class SendVerifyMailEvent {
 		public readonly token: string,
 	) {}
 }
+
+export class SendForgotPasswordMailEvent extends SendVerifyMailEvent {}
+
+export class PasswordChangedEvent {
+	constructor(
+		public readonly userID: string,
+		public readonly email: string,
+		public readonly firstName: string,
+	) {}
+}
