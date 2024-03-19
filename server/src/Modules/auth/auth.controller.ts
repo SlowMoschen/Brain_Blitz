@@ -33,6 +33,8 @@ import { ResendVerificationEmailDto } from './dto/resendVerficationEmail.dto';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { UserLogEvent } from 'src/Events/user.events';
 import { User } from 'src/Decorators/user.decorator';
+import { ForgotPasswordDTO } from './dto/forgot-password.dto';
+import { ResetPasswordDTO } from './dto/reset-password.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -158,5 +160,30 @@ export class AuthController {
 	@Get('resend-email-verification')
 	async resendEmailVerificationPage(@Res() res){
 		return res.render('email-not-verified', { header: 'Verifikation erneut durchführen', message: 'Bitte gib deine E-Mail ein', url: '/auth/resend-email-verification'});
+	}
+
+	@Post('forgot-password')
+	@UsePipes(new ValidationPipe())
+	async forgotPassword(@Body() body: ForgotPasswordDTO) {
+		const forgot = await this.authService.forgotPassword(body);
+		if (forgot instanceof Error) throw forgot;
+		return { message: 'E-Mail wurde erfolgreich gesendet', userID: forgot };
+	}
+
+	@Get('reset-password/:id/:token')
+	async resetPassword(@Param('id') id: string, @Param('token') token: string, @Res() res) {
+		const userID = await this.authService.verifyPasswordResetToken(id, token);
+		if (userID instanceof Error) return res.render('reset-password', { error: userID.message });
+		if (userID !== id) return res.render('reset-password', { error: 'Der Token stimmt nicht mit der User ID überein.' });
+		
+		return res.render('reset-password', { userID, token });
+	}
+
+	@Post('reset-password')
+	@UsePipes(new ValidationPipe())
+	async resetPasswordPost(@Body() body: ResetPasswordDTO) {
+		const reset = await this.authService.resetPassword(body);
+		if (reset instanceof Error) throw reset;
+		return { message: 'Passwort wurde erfolgreich zurückgesetztz, du kannst diese Seite nun schließen.', userID: reset};
 	}
 }
