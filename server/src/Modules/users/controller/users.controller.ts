@@ -128,7 +128,7 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'if user update failed' })
 	@Roles(Role.ADMIN)
 	@UsePipes(new ValidationPipe())
-	@Put(':id')
+	@Patch(':id')
 	async updateUser(@Param('id') id: string, @Body() body: UpdateUserCredentialsDTO) {
 		const updatedUser = await this.usersService.updateUserCredentials(id, body);
 
