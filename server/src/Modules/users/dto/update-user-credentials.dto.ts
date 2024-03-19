@@ -7,19 +7,19 @@ export class UpdateUserCredentialsDTO {
     @IsOptional()
     @IsString()
     @MinLength(2, { message: 'First name is too short' })
-    first_name: string;
+    first_name?: string;
 
     @ApiProperty()
     @IsOptional()
     @IsString()
     @MinLength(2, { message: 'Last name is too short' })
-    last_name: string;
+    last_name?: string;
 
     @ApiProperty()
     @IsOptional()
     @IsString()
     @IsEmail()
-    email: string;
+    email?: string;
 
     @ApiProperty()
     @IsOptional()
@@ -29,5 +29,5 @@ export class UpdateUserCredentialsDTO {
     @Matches(/[A-Z]/, { message: 'Password must contain at least one uppercase letter' })
     @Matches(/[a-z]/, { message: 'Password must contain at least one lowercase letter' })
     @Matches(/[0-9]/, { message: 'Password must contain at least one number' })
-    password: string;
+    password?: string;
 }
