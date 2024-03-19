@@ -4,6 +4,7 @@ import { CompleteQuizEvent } from 'src/Events/quiz.events';
 import { UserCreatedEvent } from 'src/Events/user.events';
 import { QuizRepository } from '../shared/database/Repositories/Quiz/quiz.repository';
 import { UsersService } from '../users/users.service';
+import { SelectUser, SelectUserWithAllTables } from 'src/Utils/Types/model.types';
 
 @Injectable()
 export class GameService {
@@ -36,16 +37,17 @@ export class GameService {
     /**
      * @description - Unlocks the a random quiz for the user
      * @param completeQuizEvent
-     * @returns {string | Error} - Returns the unlocked quiz id or an error
+     * @returns {Promise<string | Error>} - Returns the unlocked quiz id or an error
      */
 	@OnEvent('quiz.completed')
-	async unlockNextQuiz(completeQuizEvent: CompleteQuizEvent) {
+	async unlockNextQuiz(completeQuizEvent: CompleteQuizEvent): Promise<string | Error>{
 		const { user_id, quiz_id } = completeQuizEvent;
+        
 		const user = await this.userService.getUserByID(user_id);
 		if (user instanceof Error) return user;
 		if (!user) return new NotFoundException('User not found');
-		if (user.completed_quizzes.some((ref) => ref.quiz_id === quiz_id))
-			return new ConflictException('Quiz already completed, cannot unlock next quiz');
+		
+        if (this.isQuizCompleted(user, quiz_id)) return new ConflictException('Quiz already completed');
 
 		const newUnlockedQuiz = await this.getRandomNewQuiz(user_id);
         if (newUnlockedQuiz instanceof Error) return newUnlockedQuiz;
@@ -63,7 +65,7 @@ export class GameService {
      /**
      * @description - Unlocks the first quizzes for a new user
      * @param user_id
-     * @returns {string | Error} - Returns the unlocked quiz id or an error
+     * @returns {void | Error} - Returns the unlocked quiz id or an error
      */
      @OnEvent('user.created')
      async unlockFirstQuiz({user_id}: UserCreatedEvent): Promise<void | Error>{
@@ -101,4 +103,8 @@ export class GameService {
 
         return lockedQuizzes[randomIndex];
 	}
+
+    private isQuizCompleted(user: SelectUserWithAllTables, quiz_id: string): boolean {
+        return user.completed_quizzes.some((ref) => ref.quiz_id === quiz_id);
+    }
 }
