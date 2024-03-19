@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcrypt';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Client } from 'pg';
 import { InsertQuiz } from 'src/Utils/Types/model.types';
@@ -36,6 +37,13 @@ const quizzesToInsert: InsertQuiz[] = [
 	},
 ];
 
+const adminUser = {
+	first_name: 'Admin',
+	last_name: 'User',
+	password: 'admin',
+	email: 'admin@test.com',
+}
+
 /**
  * This script will insert quizzes into the database
  *
@@ -69,11 +77,47 @@ const seedQuizzes = async () => {
 	}
 };
 
+const seedAdminUser = async () => {
+	try {
+		console.log('Seeding admin user');
+		const hashedPassword = await bcrypt.hash(adminUser.password, 10);
+
+		const user = await db.insert(schema.usersTable).values({
+			...adminUser,
+			password: hashedPassword,
+		}).returning({ id: schema.usersTable.id });
+		const userId = user[0].id;
+
+		await db.insert(schema.usersSettingsTable).values({
+			user_id: userId,
+			roles: 'admin',
+			is_verified: true,
+		});
+
+		await db.insert(schema.usersStatisticsTable).values({
+			user_id: userId,
+		});
+
+		await db.insert(schema.usersBillingInformationTable).values({
+			user_id: userId,
+		});
+
+		await db.insert(schema.usersTimestampsTable).values({
+			user_id: userId,
+		});
+
+	} catch (err) {
+		console.error(err);
+	}
+
+}
+
 const main = async () => {
 	try {
 		await client.connect();
 		await clearDB(db);
 		await seedQuizzes();
+		await seedAdminUser();
 		await client.end();
 	} catch (err) {
 		console.error(err);
