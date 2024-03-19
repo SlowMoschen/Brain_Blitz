@@ -192,6 +192,10 @@ export class UserRepository {
 	 */
 	async deleteOneByID(id: string): Promise<string | Error> {
 		try {
+			await this.db.delete(schema.unlockedQuizzes).where(eq(schema.unlockedQuizzes.user_id, id));
+			await this.db.delete(schema.completedQuizzes).where(eq(schema.completedQuizzes.user_id, id));
+			await this.db.delete(schema.highscores).where(eq(schema.highscores.user_id, id));
+			await this.db.delete(schema.unlockedAchievements).where(eq(schema.unlockedAchievements.user_id, id));
 			await this.tokenRepository.deleteTokensByUserId(id);
 			await this.settingsRepository.deleteOne(id);
 			await this.statisticsRepository.deleteOne(id);
