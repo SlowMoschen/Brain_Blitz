@@ -12,6 +12,7 @@ import { CreateUserDTO } from '../auth/dto/create-user.dto';
 import { UpdateUserBillingInfoDTO } from './dto/update-user-billingInfo.dto';
 import { UpdateUserSettingsDTO } from './dto/update-user-settings.dto';
 import { UpdateUserStatisticsDTO } from './dto/update-user-statistics.dto';
+import { UpdateUserCredentialsDTO } from './dto/update-user-credentials.dto';
 
 @Injectable()
 export class UsersService {
@@ -21,10 +22,7 @@ export class UsersService {
 		const user = await this.userRepository.findByID(id);
 		if (!user) return new NotFoundException('User not found');
 		if (user instanceof Error) return user;
-
-		const { password, ...rest } = user;
-
-		return rest as SelectUserWithAllTables;
+		return user as SelectUserWithAllTables;
 	}
 
 	async getUserByEmail(email: string): Promise<SelectUserWithAllTables | Error> {
@@ -114,7 +112,7 @@ export class UsersService {
 		return user;
 	}
 
-	async updateUserCredentials(id: string, body: CreateUserDTO): Promise<string | Error> {
+	async updateUserCredentials(id: string, body: UpdateUserCredentialsDTO): Promise<string | Error> {
 		const user = await this.userRepository.updateOneCredentials(id, body);
 		if (user instanceof Error) return new Error(user.message);
 		if (!user) return new Error('User update failed');
