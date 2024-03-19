@@ -1,4 +1,5 @@
 import {
+	BadRequestException,
 	CallHandler,
 	ExecutionContext,
 	HttpCode,
@@ -42,11 +43,12 @@ export class ResponseInterceptor implements NestInterceptor {
 		const response = ctx.getResponse();
 
 		const status = exeption instanceof HttpException ? exeption.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
-
+		const message = exeption instanceof BadRequestException ? exeption.getResponse()['message'][0] : exeption.message;
+		
 		response.status(status).json({
 			status: 'error',
 			statusCode: status,
-			message: exeption.message,
+			message: message,
 			request: {
 				method: request.method,
 				path: request.url,
