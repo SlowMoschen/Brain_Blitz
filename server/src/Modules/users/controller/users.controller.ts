@@ -10,6 +10,7 @@ import {
 	Put,
 	Req,
 	UseGuards,
+	UseInterceptors,
 	UsePipes,
 	ValidationPipe,
 } from '@nestjs/common';
@@ -29,6 +30,7 @@ import { RolesGuard } from 'src/Guards/roles.guard';
 import { UpdateUserCredentialsDTO } from '../dto/update-user-credentials.dto';
 import { UsersService } from '../users.service';
 import { User } from 'src/Decorators/user.decorator';
+import { UserDataInterceptor } from 'src/Interceptors/userData.interceptor';
 
 @ApiTags('users')
 @Controller('users')
@@ -42,6 +44,7 @@ export class UsersController {
 	@ApiNotFoundResponse({ description: 'if no user was found' })
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.USER, Role.ADMIN)
+	@UseInterceptors(new UserDataInterceptor())
 	@Get()
 	async getCompleteUserBySession(@User('id') id: string) {
 		return await this.usersService.getUserByID(id);
@@ -82,6 +85,7 @@ export class UsersController {
 	@ApiNotFoundResponse({ description: 'if no users were found' })
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
+	@UseInterceptors(new UserDataInterceptor())
 	@Get('all')
 	async getCompleteUsers() {
 		return await this.usersService.getAllUsers();
@@ -93,6 +97,7 @@ export class UsersController {
 	@ApiNotFoundResponse({ description: 'if no user was found' })
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.ADMIN)
+	@UseInterceptors(new UserDataInterceptor())
 	@Get(':id')
 	async getCompleteUserById(@Param('id') id: string) {
 		return await this.usersService.getUserByID(id);
