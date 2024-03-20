@@ -15,6 +15,7 @@ import { UsersService } from '../users/users.service';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { ForgotPasswordDTO } from './dto/forgot-password.dto';
 import { ResetPasswordDTO } from './dto/reset-password.dto';
+import { TOKEN_EXPIRED_ERROR_CODE } from 'src/Utils/constants';
 
 @Injectable()
 export class AuthService {
@@ -87,7 +88,7 @@ export class AuthService {
 
 		const existingToken = await this.encryptionService.getTokensByUserId(userID);
 		if (!existingToken.includes(token))
-			return new UnauthorizedException('Token is invalid or expired, please request a new one');
+			return new HttpException('Der Token für die E-Mail-Verifizierung ist ungültig oder abgelaufen', TOKEN_EXPIRED_ERROR_CODE);
 
 		const isTokenValid = await this.encryptionService.verifyToken(token);
 		if (isTokenValid instanceof Error) return isTokenValid;
@@ -147,7 +148,7 @@ export class AuthService {
 	async verifyPasswordResetToken(userID: string, token: string): Promise<string | Error> {
 		const existingToken = await this.encryptionService.getTokensByUserId(userID);
 		if (!existingToken.includes(token))
-			return new UnauthorizedException('Der Token für das Zurücksetzen des Passworts ist ungültig oder abgelaufen');
+			return new HttpException('Der Token für das Zurücksetzen des Passworts ist ungültig oder abgelaufen', TOKEN_EXPIRED_ERROR_CODE);
 
 		const decryptedToken = await this.encryptionService.verifyToken(token);
 		if (decryptedToken instanceof Error) return decryptedToken;
