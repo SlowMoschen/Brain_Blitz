@@ -7,7 +7,7 @@ import {
 	unlockedAchievements,
 	unlockedQuizzes,
 	completedQuizzes,
-	highscores
+	highscores,
 } from './users.model';
 
 import { quizzesTable, quizHighscoresTable, quizQuestionsTable } from './quizzes.model';
@@ -30,5 +30,5 @@ export {
 	unlockedAchievements,
 	completedQuizzes,
 	unlockedQuizzes,
-	highscores
+	highscores,
 };

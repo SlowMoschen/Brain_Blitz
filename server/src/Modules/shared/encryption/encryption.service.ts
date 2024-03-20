@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { TokenRepository } from '../database/Repositories/Token/token.repository';
 import { JwtService } from '@nestjs/jwt';
@@ -19,7 +19,7 @@ export class EncryptionService {
 		return await bcrypt.compare(plainTextPassword, hashedPassword);
 	}
 
-	async generateToken(userID: string): Promise<string | Error> {
+	async generateToken(userID: string): Promise<string> {
 		const jwt = this.jwtService.sign({ userID });
 
 		const token = {
@@ -27,35 +27,28 @@ export class EncryptionService {
 			token: jwt,
 		};
 
-		const insertedToken = await this.tokenRepo.insertToken(token);
-		if (insertedToken instanceof Error) return insertedToken;
+		await this.tokenRepo.insertToken(token);
 
 		return jwt;
 	}
 
 	async verifyToken(token: string): Promise<string | Error> {
 		const tokenRows = await this.tokenRepo.getTokensByToken(token);
-		if (tokenRows instanceof Error) return new Error('Token not found');
 
 		const decodedPayload = this.jwtService.verify(token);
 		const userID = tokenRows[0].user_id;
 
-		if (decodedPayload.userID !== userID) return new Error('Token does not match user');
+		if (decodedPayload.userID !== userID) return new ConflictException('Token does not match user');
 
 		return userID;
 	}
 
-    async deleteToken(token: string): Promise<string | Error> {
-        const deletedToken = await this.tokenRepo.deleteToken(token);
-        if (deletedToken instanceof Error) return deletedToken;
+	async deleteToken(token: string): Promise<string> {
+		return await this.tokenRepo.deleteToken(token);
+	}
 
-        return deletedToken;
-    }
-
-    async getTokensByUserId(userID: string): Promise<string[] | Error> {
-        const tokens = await this.tokenRepo.getTokensByUserId(userID);
-        if (tokens instanceof Error) return tokens;
-
-        return tokens.map((token) => token.token);
-    }
+	async getTokensByUserId(userID: string): Promise<string[]> {
+		const tokens = await this.tokenRepo.getTokensByUserId(userID);
+		return tokens.map((token) => token.token);
+	}
 }

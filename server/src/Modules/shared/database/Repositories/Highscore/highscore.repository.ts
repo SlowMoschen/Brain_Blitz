@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, NotImplementedException } from '@nestjs/common';
 import { and, eq } from 'drizzle-orm';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { InjectDatabase } from 'src/Decorators/injectDatabase.decorator';
@@ -12,92 +12,85 @@ export class HighscoreRepository {
 
 	/**
 	 * @description Find all highscores
-	 * @returns {Promise<SelectQuizHighscore[] | Error>}
+	 * @returns {Promise<SelectQuizHighscore[]>}
 	 */
 
-	async findAll(): Promise<SelectQuizHighscore[] | Error> {
-		try {
-			return await this.db.select().from(schema.quizHighscoresTable);
-		} catch (error) {
-			return error;
-		}
+	async findAll(): Promise<SelectQuizHighscore[]> {
+		const highscores = await this.db.select().from(schema.quizHighscoresTable);
+		if (highscores instanceof Error) throw highscores;
+		if (highscores.length === 0) throw new NotFoundException('No highscores found');
+		return highscores;
 	}
 
 	/**
 	 * @description Find highscore by id
 	 * @param {string} id
-	 * @returns {Promise<SelectQuizHighscore | Error>}
+	 * @returns {Promise<SelectQuizHighscore>}
 	 */
-	async findOne(userID: string, quizID: string): Promise<SelectQuizHighscore | Error> {
-		try {
-			return await this.db.query.quizHighscoresTable.findFirst({
-				where: and(eq(schema.quizHighscoresTable.user_id, userID), eq(schema.quizHighscoresTable.quiz_id, quizID)),
-			});
-		} catch (error) {
-			return error;
-		}
+	async findOne(userID: string, quizID: string): Promise<SelectQuizHighscore> {
+		const highscore = await this.db.query.quizHighscoresTable.findFirst({
+			where: and(eq(schema.quizHighscoresTable.user_id, userID), eq(schema.quizHighscoresTable.quiz_id, quizID)),
+		});
+		if (highscore instanceof Error) throw highscore;
+		if (!highscore) throw new NotFoundException('Highscore not found');
+		return highscore;
 	}
 
 	/**
 	 * @description Find highscores by user
 	 * @param {string} userID
-	 * @returns {Promise<SelectQuizHighscore[] | Error>}
+	 * @returns {Promise<SelectQuizHighscore[]>}
 	 */
-	async findByUser(userID: string): Promise<SelectQuizHighscore[] | Error> {
-		try {
-			return await this.db.query.quizHighscoresTable.findMany({
-				where: eq(schema.quizHighscoresTable.user_id, userID),
-			});
-		} catch (error) {
-			return error;
-		}
+	async findAllByUser(userID: string): Promise<SelectQuizHighscore[]> {
+		const highscores = await this.db.query.quizHighscoresTable.findMany({
+			where: eq(schema.quizHighscoresTable.user_id, userID),
+		});
+		if (highscores instanceof Error) throw highscores;
+		if (highscores.length === 0) throw new NotFoundException('No highscores found');
+		return highscores;
 	}
 
 	/**
 	 * @description Find highscores by quiz
 	 * @param {string} quizID
-	 * @returns {Promise<SelectQuizHighscore[] | Error>}
+	 * @returns {Promise<SelectQuizHighscore[]>}
 	 */
-	async findByQuiz(quizID: string): Promise<SelectQuizHighscore[] | Error> {
-		try {
-			return await this.db.query.quizHighscoresTable.findMany({
-				where: eq(schema.quizHighscoresTable.quiz_id, quizID),
-			});
-		} catch (error) {
-			return error;
-		}
+	async findAllByQuiz(quizID: string): Promise<SelectQuizHighscore[]> {
+		const highscores = await this.db.query.quizHighscoresTable.findMany({
+			where: eq(schema.quizHighscoresTable.quiz_id, quizID),
+		});
+		if (highscores instanceof Error) throw highscores;
+		if (highscores.length === 0) throw new NotFoundException('No highscores found');
+		return highscores;
 	}
 
 	/**
 	 * @description Insert one highscore
 	 * @param {CreateHighscoreDTO} createHighscoreDTO
-	 * @returns {Promise<string | Error>} - id of created highscore
+	 * @returns {Promise<string>} - id of created highscore
 	 */
-	async insertOne(createHighscoreDTO: CreateHighscoreDTO): Promise<string | Error> {
-		try {
-			const createdHighscoreID = await this.db
-				.insert(schema.quizHighscoresTable)
-				.values(createHighscoreDTO)
-				.returning({ id: schema.quizHighscoresTable.id });
-
-			return createdHighscoreID[0].id;
-		} catch (error) {
-			return error;
-		}
+	async insertOne(createHighscoreDTO: CreateHighscoreDTO): Promise<string> {
+		const highscore = await this.db
+			.insert(schema.quizHighscoresTable)
+			.values(createHighscoreDTO)
+			.returning({ id: schema.quizHighscoresTable.id });
+		if (highscore instanceof Error) throw highscore;
+		if (!highscore[0]) throw new NotImplementedException('Could not create highscore');
+		return highscore[0].id;
 	}
 
 	/**
 	 * @description Delete one highscore
 	 * @param id - highscore id
-	 * @returns {Promise<string | Error>} - id of deleted highscore
+	 * @returns {Promise<string>} - id of deleted highscore
 	 */
-	async deleteOne(id: string): Promise<string | Error> {
-		try {
-			await this.db.delete(schema.highscores).where(eq(schema.highscores.highscore_id, id));
-			await this.db.delete(schema.quizHighscoresTable).where(eq(schema.quizHighscoresTable.id, id));
-			return id;
-		} catch (error) {
-			return error;
-		}
+	async deleteOne(id: string): Promise<string> {
+		const highscore = await this.db
+			.delete(schema.quizHighscoresTable)
+			.where(eq(schema.quizHighscoresTable.id, id))
+			.returning({ id: schema.quizHighscoresTable.id });
+		if (highscore instanceof Error) throw highscore;
+		if (!highscore[0]) throw new NotFoundException('No highscore found');
+		return highscore[0].id;
 	}
 }

@@ -42,7 +42,7 @@ const adminUser = {
 	last_name: 'User',
 	password: 'admin',
 	email: 'admin@test.com',
-}
+};
 
 /**
  * This script will insert quizzes into the database
@@ -82,10 +82,13 @@ const seedAdminUser = async () => {
 		console.log('Seeding admin user');
 		const hashedPassword = await bcrypt.hash(adminUser.password, 10);
 
-		const user = await db.insert(schema.usersTable).values({
-			...adminUser,
-			password: hashedPassword,
-		}).returning({ id: schema.usersTable.id });
+		const user = await db
+			.insert(schema.usersTable)
+			.values({
+				...adminUser,
+				password: hashedPassword,
+			})
+			.returning({ id: schema.usersTable.id });
 		const userId = user[0].id;
 
 		await db.insert(schema.usersSettingsTable).values({
@@ -105,12 +108,10 @@ const seedAdminUser = async () => {
 		await db.insert(schema.usersTimestampsTable).values({
 			user_id: userId,
 		});
-
 	} catch (err) {
 		console.error(err);
 	}
-
-}
+};
 
 const main = async () => {
 	try {
@@ -122,5 +123,5 @@ const main = async () => {
 	} catch (err) {
 		console.error(err);
 	}
-}
+};
 main();

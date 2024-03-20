@@ -1,15 +1,13 @@
 import {
 	Body,
 	Controller,
+	ForbiddenException,
 	Get,
-	HttpException,
-	NotFoundException,
 	Param,
 	Patch,
-	Req,
 	UseGuards,
 	UsePipes,
-	ValidationPipe
+	ValidationPipe,
 } from '@nestjs/common';
 import {
 	ApiForbiddenResponse,
@@ -19,22 +17,19 @@ import {
 	ApiOperation,
 	ApiTags,
 } from '@nestjs/swagger';
-import { Request } from 'express';
 import { Roles } from 'src/Decorators/roles.decorator';
+import { User } from 'src/Decorators/user.decorator';
 import { Role } from 'src/Enums/role.enum';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { RolesGuard } from 'src/Guards/roles.guard';
 import { UpdateUserSettingsDTO } from '../dto/update-user-settings.dto';
 import { UsersService } from '../users.service';
-import { User } from 'src/Decorators/user.decorator';
 
 @ApiTags('users/settings')
 @Controller('users/settings')
 @UseGuards(AuthenticationGuard, RolesGuard)
 export class UsersSettingsController {
-	constructor(
-		private readonly usersService: UsersService,
-	) {}
+	constructor(private readonly usersService: UsersService) {}
 
 	@ApiOperation({ summary: 'Get user settings via session cookie' })
 	@ApiOkResponse({ description: 'returns user settings table' })
@@ -44,12 +39,7 @@ export class UsersSettingsController {
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
 	async getUserSettingsBySession(@User('id') id: string) {
-		const settings = await this.usersService.getSettings(id);
-
-		if (!settings) throw new NotFoundException('No settings found');
-		if (settings instanceof Error) throw settings;
-
-		return settings;
+		return await this.usersService.getSettings(id);
 	}
 
 	@ApiOperation({ summary: 'Update user settings via session cookie' })
@@ -65,14 +55,8 @@ export class UsersSettingsController {
 		@User('roles') roles: string[],
 		@Body() body: UpdateUserSettingsDTO,
 	) {
-		if (roles[0] === Role.USER && body.roles) throw new HttpException('Forbidden', 403);
-		
-		const updatedSettings = await this.usersService.updateSettings(id, body);
-
-		if (!updatedSettings) throw new NotFoundException('No settings found');
-		if (updatedSettings instanceof Error) throw updatedSettings;
-
-		return updatedSettings;
+		if (roles[0] === Role.USER && body.roles) throw new ForbiddenException('Keine Berechtigung für diese Aktion');
+		return await this.usersService.updateSettings(id, body);
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Get user settings by ID' })
@@ -83,12 +67,7 @@ export class UsersSettingsController {
 	@Roles(Role.ADMIN)
 	@Get(':id')
 	async getUserSettingsById(id: string) {
-		const settings = await this.usersService.getSettings(id);
-
-		if (!settings) throw new NotFoundException('No settings found');
-		if (settings instanceof Error) throw settings;
-
-		return settings;
+		return await this.usersService.getSettings(id);
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Update user settings by ID' })
@@ -99,12 +78,7 @@ export class UsersSettingsController {
 	@Roles(Role.ADMIN)
 	@UsePipes(new ValidationPipe())
 	@Patch(':id')
-	async updateUserSettings(@Param('id') userID: string, @Body() body: UpdateUserSettingsDTO){
-		const updatedSettings = await this.usersService.updateSettings(userID, body);
-
-		if (!updatedSettings) throw new NotFoundException('No settings found');
-		if (updatedSettings instanceof Error) throw updatedSettings;
-
-		return updatedSettings;
+	async updateUserSettings(@Param('id') userID: string, @Body() body: UpdateUserSettingsDTO) {
+		return await this.usersService.updateSettings(userID, body);
 	}
 }

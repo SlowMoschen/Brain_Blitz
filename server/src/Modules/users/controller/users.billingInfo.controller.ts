@@ -8,7 +8,7 @@ import {
 	Req,
 	UseGuards,
 	UsePipes,
-	ValidationPipe
+	ValidationPipe,
 } from '@nestjs/common';
 import {
 	ApiForbiddenResponse,
@@ -31,9 +31,7 @@ import { User } from 'src/Decorators/user.decorator';
 @UseGuards(AuthenticationGuard, RolesGuard)
 @Controller('users/billing-info')
 export class UsersBillingInfoController {
-	constructor(
-		private readonly usersService: UsersService,
-	) {}
+	constructor(private readonly usersService: UsersService) {}
 
 	@ApiOperation({ summary: 'Get user billing info via session cookie' })
 	@ApiOkResponse({ description: 'returns user billing info' })
@@ -43,12 +41,7 @@ export class UsersBillingInfoController {
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
 	async getBillingInfoBySession(@User('id') id: string) {
-		const billingInfo = await this.usersService.getBillingInfo(id);
-		
-		if (!billingInfo) throw new NotFoundException('No billing info found');
-		if (billingInfo instanceof Error) throw billingInfo;
-
-		return billingInfo;
+		return await this.usersService.getBillingInfo(id);
 	}
 
 	@ApiOperation({ summary: 'Update user billing info via session cookie' })
@@ -59,16 +52,8 @@ export class UsersBillingInfoController {
 	@UsePipes(new ValidationPipe())
 	@Roles(Role.USER, Role.ADMIN)
 	@Patch()
-	async updateBillingInfoBySession(
-		@User('id') id: string,
-		@Body() updateBillingInfoDTO: UpdateUserBillingInfoDTO,
-	) {
-		const updatedBillingInfo = await this.usersService.updateBillingInfo(id, updateBillingInfoDTO);
-
-		if (!updatedBillingInfo) throw new NotFoundException('No billing info found');
-		if (updatedBillingInfo instanceof Error) throw updatedBillingInfo;
-
-		return updatedBillingInfo;
+	async updateBillingInfoBySession(@User('id') id: string, @Body() updateBillingInfoDTO: UpdateUserBillingInfoDTO) {
+		return await this.usersService.updateBillingInfo(id, updateBillingInfoDTO);
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Get billing info by id' })
@@ -79,12 +64,7 @@ export class UsersBillingInfoController {
 	@Roles(Role.ADMIN)
 	@Get(':id')
 	async getBillingInfoById(@Param() id: string) {
-		const billingInfo = await this.usersService.getBillingInfo(id);
-
-		if (!billingInfo) throw new NotFoundException('No billing info found');
-		if (billingInfo instanceof Error) throw billingInfo;
-
-		return billingInfo;
+		return await this.usersService.getBillingInfo(id);
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Update billing info by id' })
@@ -95,15 +75,7 @@ export class UsersBillingInfoController {
 	@UsePipes(new ValidationPipe())
 	@Roles(Role.ADMIN)
 	@Patch(':id')
-	async updateBillingInfoById(
-		@Param() id: string,
-		@Body() updateBillingInfoDTO: UpdateUserBillingInfoDTO,
-	) {
-		const updatedBillingInfo = await this.usersService.updateBillingInfo(id, updateBillingInfoDTO);
-		
-		if (!updatedBillingInfo) throw new NotFoundException('No billing info found');
-		if (updatedBillingInfo instanceof Error) throw updatedBillingInfo;
-
-		return updatedBillingInfo;
+	async updateBillingInfoById(@Param() id: string, @Body() updateBillingInfoDTO: UpdateUserBillingInfoDTO) {
+		return await this.usersService.updateBillingInfo(id, updateBillingInfoDTO);
 	}
 }

@@ -1,91 +1,85 @@
-import { Injectable } from "@nestjs/common";
-import { NodePgDatabase } from "drizzle-orm/node-postgres";
-import { InjectDatabase } from "src/Decorators/injectDatabase.decorator";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { eq } from 'drizzle-orm';
+import { NodePgDatabase } from 'drizzle-orm/node-postgres';
+import { InjectDatabase } from 'src/Decorators/injectDatabase.decorator';
+import { SelectUserBillingInformation } from 'src/Utils/Types/model.types';
 import * as schema from '../../../../../Models/_index';
-import { SelectUserBillingInformation } from "src/Utils/Types/model.types";
-import { eq } from "drizzle-orm";
 
 @Injectable()
 export class BillingInfoRepository {
-    constructor(@InjectDatabase() private readonly db: NodePgDatabase<typeof schema>) {}
+	constructor(@InjectDatabase() private readonly db: NodePgDatabase<typeof schema>) {}
 
-    /**
-     * @description - Queries the database for all billing information
-     * @returns {Promise<SelectUserBillingInformation[] | Error>} - Returns all billing information or an empty array if no billing information is found and an error if an error occurs
-     */
-    async findAll(): Promise<SelectUserBillingInformation[] | Error> {
-        try {
-            return await this.db.select().from(schema.usersBillingInformationTable);
-        } catch (error) {
-            return error;
-        }
-    }
+	/**
+	 * Queries the database for all billing information.
+	 * @returns {Promise<SelectUserBillingInformation[]>} - Returns all billing information or throws a NotFoundException if no billing information is found.
+	 */
+	async findAll(): Promise<SelectUserBillingInformation[]> {
+		const billingInfo = await this.db.select().from(schema.usersBillingInformationTable);
+		if (billingInfo instanceof Error) throw billingInfo;
+		if (billingInfo.length === 0) throw new NotFoundException('No billing info found');
+		return billingInfo;
+	}
 
-    /**
-     * @description - Queries the database for a billing information by id
-     * @param id - The id of the billing information
-     * @returns {Promise<SelectUserBillingInformation | Error>} - Returns a billing information or an empty array if no billing information is found and an error if an error occurs
-     */
-    async findByID(id: string): Promise<SelectUserBillingInformation | Error> {
-        try {
-            return await this.db.query.usersBillingInformationTable.findFirst({
-                where: eq(schema.usersBillingInformationTable.user_id, id)
-            });
-        } catch (error) {
-            return error;
-        }
-    }
+	/**
+	 * Queries the database for a billing information by id.
+	 * @param id - The id of the billing information.
+	 * @returns {Promise<SelectUserBillingInformation>} - Returns a billing information or throws a NotFoundException if no billing information is found.
+	 */
+	async findByID(id: string): Promise<SelectUserBillingInformation> {
+		const billingInfo = await this.db.query.usersBillingInformationTable.findFirst({
+			where: eq(schema.usersBillingInformationTable.user_id, id),
+		});
+		if (billingInfo instanceof Error) throw billingInfo;
+		if (!billingInfo) throw new NotFoundException('No billing info found');
+		return billingInfo;
+	}
 
-    /**
-     * @description - Inserts a new billing information into the database
-     * @param {string} id - The id of the user
-     * @returns {Promise<string | Error>} - Returns the id of the user or null if an error occurs
-     */
-    async insertDefaultTable(id: string): Promise<string | Error> {
-        try {
-            const billingInfo = await this.db
-                .insert(schema.usersBillingInformationTable)
-                .values({ user_id: id })
-                .returning({ user_id: schema.usersBillingInformationTable.user_id });
-            return billingInfo[0].user_id;
-        } catch (error) {
-            return error;
-        }
-    }
+	/**
+	 * Inserts a new billing information into the database.
+	 * @param {string} id - The id of the user.
+	 * @returns {Promise<string>} - Returns the id of the user or throws a NotFoundException if no billing information is found.
+	 */
+	async insertDefaultTable(id: string): Promise<string> {
+		const billingInfo = await this.db
+			.insert(schema.usersBillingInformationTable)
+			.values({ user_id: id })
+			.returning({ user_id: schema.usersBillingInformationTable.user_id });
+		if (billingInfo instanceof Error) throw billingInfo;
+		if (!billingInfo[0]) throw new NotFoundException('No billing info found');
+		return billingInfo[0].user_id;
+	}
 
-    /**
-     * @description - Updates a billing information by id
-     * @param id - The id of the billing information
-     * @param body - The body of the request
-     * @returns {Promise<string | Error>} - Returns the userID or an empty array if no billing information is found and an error if an error occurs
-     */
-    async updateOne(id: string, body: any): Promise<string | Error> {
-        try {
-            const billingInfo = await this.db
-                .update(schema.usersBillingInformationTable)
-                .set(body)
-                .where(eq(schema.usersBillingInformationTable.user_id, id))
-                .returning({ user_id: schema.usersBillingInformationTable.user_id });
-            return billingInfo[0].user_id;
-        } catch (error) {
-            return error;
-        }
-    }
+	/**
+	 * Updates a billing information by id.
+	 * @param id - The id of the billing information.
+	 * @param body - The body of the request.
+	 * @returns {Promise<string>} - Returns the userID or throws a NotFoundException if no billing information is found.
+	 */
+	async updateOne(id: string, body: any): Promise<string> {
+		const updatedBillingInfo = await this.db
+			.update(schema.usersBillingInformationTable)
+			.set(body)
+			.where(eq(schema.usersBillingInformationTable.user_id, id))
+			.returning({ user_id: schema.usersBillingInformationTable.user_id });
+		if (updatedBillingInfo instanceof Error) throw updatedBillingInfo;
+		if (!updatedBillingInfo[0]) throw new NotFoundException('No billing info found');
 
-    /**
-     * @description - Deletes a billing information by id
-     * @param id - The id of the billing information
-     * @returns {Promise<string | Error>} - Returns the userID or an empty array if no billing information is found and an error if an error occurs
-     */
-    async deleteOne(id: string): Promise<string | Error> {
-        try {
-            const billingInfo = await this.db
-                .delete(schema.usersBillingInformationTable)
-                .where(eq(schema.usersBillingInformationTable.user_id, id))
-                .returning({ user_id: schema.usersBillingInformationTable.user_id });
-            return billingInfo[0].user_id;
-        } catch (error) {
-            return error;
-        }
-    }
+		return updatedBillingInfo[0].user_id;
+	}
+
+	/**
+	 * Deletes a billing information by id.
+	 * @param id - The id of the billing information.
+	 * @returns {Promise<string>} - Returns the userID or throws a NotFoundException if no billing information is found.
+	 */
+	async deleteOne(id: string): Promise<string> {
+		const deletedBillingInfo = await this.db
+			.delete(schema.usersBillingInformationTable)
+			.where(eq(schema.usersBillingInformationTable.user_id, id))
+			.returning({ user_id: schema.usersBillingInformationTable.user_id });
+		if (deletedBillingInfo instanceof Error) throw deletedBillingInfo;
+		if (!deletedBillingInfo[0]) throw new NotFoundException('No billing info found');
+
+		return deletedBillingInfo[0].user_id;
+	}
 }

@@ -44,12 +44,12 @@ export class UpdateUserBillingInfoDTO {
 	payment_status: SQL;
 
 	@ApiProperty({ enum: PaymentMethod, enumName: 'PaymentMethod', examples: ['PAYPAL', 'BANK_TRANSFER'] })
-    @IsOptional()
-    @IsString()
+	@IsOptional()
+	@IsString()
 	payment_method: SQL;
 
-    @ApiProperty({ required: false, example: '2021-10-10' })
-    @IsOptional()
-    @IsString()
-    payment_date: Date;
+	@ApiProperty({ required: false, example: '2021-10-10' })
+	@IsOptional()
+	@IsString()
+	payment_date: Date;
 }

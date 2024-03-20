@@ -8,33 +8,19 @@ export class QuestionService {
 	constructor(private readonly quizRepository: QuizRepository) {}
 
 	async getQuestion(questionId: string) {
-		const question = await this.quizRepository.findOneQuestion(questionId);
-		if (question instanceof Error) return question;
-		if (!question) return new NotFoundException('Question not found');
-		return question;
+		return await this.quizRepository.findOneQuestion(questionId);
 	}
 
-	async createQuestion(quizId: string, question: CreateQuestionDTO): Promise<string | Error> {
-		const quiz = await this.quizRepository.findOne(quizId);
-		if (quiz instanceof Error) return quiz;
-		if (!quiz) return new NotFoundException('Quiz not found');
-
-		const questionId = await this.quizRepository.insertOneQuestion(quizId, question);
-		if (questionId instanceof Error) return questionId;
-		return questionId;
+	async createQuestion(quizId: string, question: CreateQuestionDTO): Promise<string> {
+		await this.quizRepository.findOne(quizId);
+		return await this.quizRepository.insertOneQuestion(quizId, question);
 	}
 
-	async updateQuestion(questionId: string, body: UpdateQuestionDTO): Promise<string | Error> {
-		const updatedQuestion = await this.quizRepository.updateOneQuestion(questionId, body);
-		if (updatedQuestion instanceof Error) return updatedQuestion;
-		if (!updatedQuestion) return new NotFoundException('Question not found');
-		return updatedQuestion;
+	async updateQuestion(questionId: string, body: UpdateQuestionDTO): Promise<string> {
+		return await this.quizRepository.updateOneQuestion(questionId, body);
 	}
 
-	async deleteQuestion(questionId: string): Promise<string | Error> {
-		const deletedQuestion = await this.quizRepository.deleteOneQuestion(questionId);
-		if (deletedQuestion instanceof Error) return deletedQuestion;
-		if (!deletedQuestion) return new NotFoundException('Question not found');
-		return deletedQuestion;
+	async deleteQuestion(questionId: string): Promise<string> {
+		return await this.quizRepository.deleteOneQuestion(questionId);
 	}
 }
