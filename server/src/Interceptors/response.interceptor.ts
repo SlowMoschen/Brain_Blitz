@@ -10,6 +10,38 @@ import {
 } from '@nestjs/common';
 import { Observable, catchError, map, throwError } from 'rxjs';
 
+// This interceptor is used to handle the response of the server
+// It will format the response to a standard format
+// It will also handle the errors and format them to a standard format
+
+// The standard format for a successful request will be:
+// {
+//     status: 'ok' | 'error',
+//     statusCode: number,
+//     message: string,
+//     data: any, (this will be the data returned from the server)
+//     request: {
+//         method: string,
+//         path: string,
+//     },
+// }
+//
+// The status and statusCode will be used to determine if the request was successful or not
+// The message will be used to display the error message
+// The data will be used to display the data returned from the server
+// The request will be used to display the request method and path
+
+// The standard format for an error request will be:
+// {
+//     status: 'ok' | 'error',
+//     statusCode: number,
+//     message: string,
+//     request: {
+//         method: string,
+//         path: string,
+//     },
+// }
+
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
 	intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<Observable<any>> {
