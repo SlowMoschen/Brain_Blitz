@@ -3,6 +3,7 @@ import { Observable, map } from 'rxjs';
 
 // This interceptor is used to remove valuable data from the users
 // Will be used specificly on the routes we want it to apply
+// It will remove the password from the user object
 
 @Injectable()
 export class UserDataInterceptor implements NestInterceptor {
