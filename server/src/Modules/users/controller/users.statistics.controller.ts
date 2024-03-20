@@ -1,13 +1,4 @@
-import {
-	Body,
-	Controller,
-	Get,
-	Param,
-	Patch,
-	UseGuards,
-	UsePipes,
-	ValidationPipe
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import {
 	ApiForbiddenResponse,
 	ApiInternalServerErrorResponse,
@@ -28,9 +19,7 @@ import { UsersService } from '../users.service';
 @UseGuards(AuthenticationGuard, RolesGuard)
 @Controller('users/statistics')
 export class UsersStatisticsController {
-	constructor(
-		private readonly usersService: UsersService,
-	) {}
+	constructor(private readonly usersService: UsersService) {}
 
 	@ApiOperation({ summary: 'Get user statistics via session cookie' })
 	@ApiOkResponse({ description: 'returns user statistics table' })
@@ -39,7 +28,7 @@ export class UsersStatisticsController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
-	async getUserStatisticsBySession(@User('id') id: string){
+	async getUserStatisticsBySession(@User('id') id: string) {
 		return await this.usersService.getStatistics(id);
 	}
 
@@ -51,10 +40,7 @@ export class UsersStatisticsController {
 	@UsePipes(new ValidationPipe())
 	@Roles(Role.USER, Role.ADMIN)
 	@Patch()
-	async updateUserStatisticsBySession(
-		@User('id') id: string,
-		@Body() body: UpdateUserStatisticsDTO,
-	) {
+	async updateUserStatisticsBySession(@User('id') id: string, @Body() body: UpdateUserStatisticsDTO) {
 		return await this.usersService.updateStatistics(id, body);
 	}
 

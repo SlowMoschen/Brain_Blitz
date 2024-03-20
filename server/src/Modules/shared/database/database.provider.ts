@@ -16,8 +16,8 @@ export const databaseProvider: Provider = {
 		const client = new Client({
 			connectionString: DB_URL,
 		});
-        await client.connect();
-        const db = drizzle(client, { schema });
+		await client.connect();
+		const db = drizzle(client, { schema });
 		return db;
 	},
 };

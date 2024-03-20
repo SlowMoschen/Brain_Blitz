@@ -88,7 +88,10 @@ export class AuthService {
 
 		const existingToken = await this.encryptionService.getTokensByUserId(userID);
 		if (!existingToken.includes(token))
-			return new HttpException('Der Token für die E-Mail-Verifizierung ist ungültig oder abgelaufen', TOKEN_EXPIRED_ERROR_CODE);
+			return new HttpException(
+				'Der Token für die E-Mail-Verifizierung ist ungültig oder abgelaufen',
+				TOKEN_EXPIRED_ERROR_CODE,
+			);
 
 		const isTokenValid = await this.encryptionService.verifyToken(token);
 		if (isTokenValid instanceof Error) return isTokenValid;
@@ -148,7 +151,10 @@ export class AuthService {
 	async verifyPasswordResetToken(userID: string, token: string): Promise<string | Error> {
 		const existingToken = await this.encryptionService.getTokensByUserId(userID);
 		if (!existingToken.includes(token))
-			return new HttpException('Der Token für das Zurücksetzen des Passworts ist ungültig oder abgelaufen', TOKEN_EXPIRED_ERROR_CODE);
+			return new HttpException(
+				'Der Token für das Zurücksetzen des Passworts ist ungültig oder abgelaufen',
+				TOKEN_EXPIRED_ERROR_CODE,
+			);
 
 		const decryptedToken = await this.encryptionService.verifyToken(token);
 		if (decryptedToken instanceof Error) return decryptedToken;

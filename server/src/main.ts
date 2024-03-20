@@ -14,60 +14,60 @@ import { ResponseInterceptor } from './Interceptors/response.interceptor';
 const pgSession = connectPGSession(session);
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    cors: {
-      origin: '*',
-      credentials: true,
-    },
-  });
+	const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+		cors: {
+			origin: '*',
+			credentials: true,
+		},
+	});
 
-  const hbsConfig = create({
-    extname: '.hbs',
-    layoutsDir: join(__dirname, 'Views/Layouts'),
-    partialsDir: join(__dirname, 'Views/Partials'),
-    defaultLayout: 'main',
-  });
+	const hbsConfig = create({
+		extname: '.hbs',
+		layoutsDir: join(__dirname, 'Views/Layouts'),
+		partialsDir: join(__dirname, 'Views/Partials'),
+		defaultLayout: 'main',
+	});
 
-  app.use(helmet());
-  app.use(loggerMiddleware);
-  app.useGlobalInterceptors(new ResponseInterceptor());
+	app.use(helmet());
+	app.use(loggerMiddleware);
+	app.useGlobalInterceptors(new ResponseInterceptor());
 
-  app.useStaticAssets(join(__dirname, 'Public'));
-  app.useStaticAssets(join(__dirname, 'Public/CSS'));
-  app.setBaseViewsDir(join(__dirname, 'Views'));
-  app.engine('hbs', hbsConfig.engine);
-  app.setViewEngine('hbs');
-  
-  app.use(
-    session({
-      store: new pgSession({
-        conString: process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : process.env.DATABASE_DEV_URL,
-        tableName: 'user_sessions',
-        createTableIfMissing: true,
-        ttl: Number(process.env.SESSION_MAX_AGE),
-      }),
-      secret: process.env.SESSION_SECRET,
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-        maxAge: Number(process.env.SESSION_MAX_AGE),
-        sameSite: true,
-      },
-    }),
-  );
+	app.useStaticAssets(join(__dirname, 'Public'));
+	app.useStaticAssets(join(__dirname, 'Public/CSS'));
+	app.setBaseViewsDir(join(__dirname, 'Views'));
+	app.engine('hbs', hbsConfig.engine);
+	app.setViewEngine('hbs');
 
-  app.use(passport.initialize());
-  app.use(passport.session());
+	app.use(
+		session({
+			store: new pgSession({
+				conString: process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : process.env.DATABASE_DEV_URL,
+				tableName: 'user_sessions',
+				createTableIfMissing: true,
+				ttl: Number(process.env.SESSION_MAX_AGE),
+			}),
+			secret: process.env.SESSION_SECRET,
+			resave: false,
+			saveUninitialized: false,
+			cookie: {
+				maxAge: Number(process.env.SESSION_MAX_AGE),
+				sameSite: true,
+			},
+		}),
+	);
 
-  const config = new DocumentBuilder()
-  .setTitle('Brain Blitz API')
-  .setDescription('Brain Blitz API documentation')
-  .setVersion('0.5.0')
-  .build();
+	app.use(passport.initialize());
+	app.use(passport.session());
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document);
+	const config = new DocumentBuilder()
+		.setTitle('Brain Blitz API')
+		.setDescription('Brain Blitz API documentation')
+		.setVersion('0.5.0')
+		.build();
 
-  await app.listen(3000);
+	const document = SwaggerModule.createDocument(app, config);
+	SwaggerModule.setup('docs', app, document);
+
+	await app.listen(3000);
 }
 bootstrap();

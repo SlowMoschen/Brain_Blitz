@@ -43,7 +43,7 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
-	async getCompleteUserBySession(@User('id') id: string){
+	async getCompleteUserBySession(@User('id') id: string) {
 		return await this.usersService.getUserByID(id);
 	}
 
@@ -66,7 +66,7 @@ export class UsersController {
 	@ApiInternalServerErrorResponse({ description: 'if user delete failed' })
 	@Roles(Role.USER, Role.ADMIN)
 	@Delete()
-	async deleteUserBySession(@User('id') id: string, @Req() req: Request){
+	async deleteUserBySession(@User('id') id: string, @Req() req: Request) {
 		req.session.destroy((err) => {
 			if (err) throw new Error('Session destroy failed');
 		});

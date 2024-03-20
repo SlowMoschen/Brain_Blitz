@@ -13,7 +13,9 @@ export const tokensTable = pgTable('tokens', {
 		.references(() => usersTable.id),
 	token: text('token').notNull(),
 	created_at: timestamp('created_at').notNull().defaultNow(),
-	expires_at: timestamp('expires_at').notNull().$defaultFn(() => sql`now() + interval '1 day'`), //Token expires after 1 day
+	expires_at: timestamp('expires_at')
+		.notNull()
+		.$defaultFn(() => sql`now() + interval '1 day'`), //Token expires after 1 day
 });
 
 export const tokenRelations = relations(tokensTable, ({ one }) => ({

@@ -50,11 +50,7 @@ export class QuizService {
 	 * @param {CompletedQuizDTO} completedQuizDTO - The user's quiz data
 	 * @returns {Promise<CompletedQuiz>} - Returns the completed quiz or an error
 	 */
-	async completeQuiz(
-		quizId: string,
-		userId: string,
-		completedQuizDTO: CompletedQuizDTO,
-	): Promise<CompletedQuiz> {
+	async completeQuiz(quizId: string, userId: string, completedQuizDTO: CompletedQuizDTO): Promise<CompletedQuiz> {
 		// Object to be returned for consice information
 		const returnValue: CompletedQuiz = {
 			completed: false,
@@ -89,7 +85,7 @@ export class QuizService {
 
 		// Check if the user has a highscore for the quiz and update it if necessary - if not, create a new highscore
 		const existingHighscore = await this.highscoreService.getSpecificHighscore(userId, quizId);
-		
+
 		if (existingHighscore) {
 			if (existingHighscore.score < completedQuizDTO.score) {
 				await this.highscoreService.deleteHighscore(existingHighscore.id);
@@ -101,7 +97,7 @@ export class QuizService {
 		} else {
 			returnValue.highscore = 'created';
 		}
-		
+
 		// Create a new highscore for the user
 		const createdHighscoreID = await this.highscoreService.createHighscore({
 			user_id: userId,

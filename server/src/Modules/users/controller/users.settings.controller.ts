@@ -7,7 +7,7 @@ import {
 	Patch,
 	UseGuards,
 	UsePipes,
-	ValidationPipe
+	ValidationPipe,
 } from '@nestjs/common';
 import {
 	ApiForbiddenResponse,
@@ -29,9 +29,7 @@ import { UsersService } from '../users.service';
 @Controller('users/settings')
 @UseGuards(AuthenticationGuard, RolesGuard)
 export class UsersSettingsController {
-	constructor(
-		private readonly usersService: UsersService,
-	) {}
+	constructor(private readonly usersService: UsersService) {}
 
 	@ApiOperation({ summary: 'Get user settings via session cookie' })
 	@ApiOkResponse({ description: 'returns user settings table' })
@@ -80,7 +78,7 @@ export class UsersSettingsController {
 	@Roles(Role.ADMIN)
 	@UsePipes(new ValidationPipe())
 	@Patch(':id')
-	async updateUserSettings(@Param('id') userID: string, @Body() body: UpdateUserSettingsDTO){
+	async updateUserSettings(@Param('id') userID: string, @Body() body: UpdateUserSettingsDTO) {
 		return await this.usersService.updateSettings(userID, body);
 	}
 }

@@ -92,44 +92,60 @@ export const usersBillingInformationTable = pgTable('users_billing_information',
 export const unlockedQuizzes = pgTable(
 	'unlocked_quizzes',
 	{
-		user_id: text('user_id').notNull().references(() => usersTable.id),
-		quiz_id: text('quiz_id').notNull().references(() => quizzesTable.id),
+		user_id: text('user_id')
+			.notNull()
+			.references(() => usersTable.id),
+		quiz_id: text('quiz_id')
+			.notNull()
+			.references(() => quizzesTable.id),
 	},
 	(t) => ({
-		cpk: primaryKey({ name: 'composite_pk', columns: [t.user_id, t.quiz_id]}),
+		cpk: primaryKey({ name: 'composite_pk', columns: [t.user_id, t.quiz_id] }),
 	}),
 );
 
 export const completedQuizzes = pgTable(
 	'completed_quizzes',
 	{
-		user_id: text('user_id').notNull().references(() => usersTable.id),
-		quiz_id: text('quiz_id').notNull().references(() => quizzesTable.id),
+		user_id: text('user_id')
+			.notNull()
+			.references(() => usersTable.id),
+		quiz_id: text('quiz_id')
+			.notNull()
+			.references(() => quizzesTable.id),
 	},
 	(t) => ({
-		cpk: primaryKey({ name: 'composite_pk', columns: [t.user_id, t.quiz_id]}),
+		cpk: primaryKey({ name: 'composite_pk', columns: [t.user_id, t.quiz_id] }),
 	}),
 );
 
 export const unlockedAchievements = pgTable(
 	'unlocked_achievements',
 	{
-		user_id: text('user_id').notNull().references(() => usersTable.id),
-		achievement_id: text('achievement_id').notNull().references(() => achievementsTable.id),
+		user_id: text('user_id')
+			.notNull()
+			.references(() => usersTable.id),
+		achievement_id: text('achievement_id')
+			.notNull()
+			.references(() => achievementsTable.id),
 	},
 	(t) => ({
-		cpk: primaryKey({ name: 'composite_pk', columns: [t.user_id, t.achievement_id]}),
+		cpk: primaryKey({ name: 'composite_pk', columns: [t.user_id, t.achievement_id] }),
 	}),
 );
 
 export const highscores = pgTable(
 	'highscores',
 	{
-		user_id: text('user_id').notNull().references(() => usersTable.id),
-		highscore_id: text('quiz_id').notNull().references(() => quizHighscoresTable.id),
+		user_id: text('user_id')
+			.notNull()
+			.references(() => usersTable.id),
+		highscore_id: text('quiz_id')
+			.notNull()
+			.references(() => quizHighscoresTable.id),
 	},
 	(t) => ({
-		cpk: primaryKey({ name: 'composite_pk', columns: [t.user_id, t.highscore_id]}),
+		cpk: primaryKey({ name: 'composite_pk', columns: [t.user_id, t.highscore_id] }),
 	}),
 );
 

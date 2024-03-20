@@ -10,7 +10,7 @@ import {
 	usersSettingsTable,
 	usersStatisticsTable,
 	usersTable,
-	usersTimestampsTable
+	usersTimestampsTable,
 } from '../../Models/users.model';
 
 export type SelectUser = typeof usersTable.$inferSelect;

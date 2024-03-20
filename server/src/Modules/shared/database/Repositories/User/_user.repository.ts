@@ -119,7 +119,10 @@ export class UserRepository {
 	async insertOne(body: CreateUserDTO): Promise<SelectUser> {
 		const user = await this.db.insert(schema.usersTable).values(body).returning({ id: schema.usersTable.id });
 		if (user instanceof Error) {
-			if (user.message.includes('duplicate key value violates unique constraint') || user.message.includes('User with this email already exists'))
+			if (
+				user.message.includes('duplicate key value violates unique constraint') ||
+				user.message.includes('User with this email already exists')
+			)
 				throw new Error('User existiert bereits');
 			throw user;
 		}

@@ -97,7 +97,7 @@ export class AuthController {
 	async verifyEmail(@Param('id') id: string, @Param('token') token: string, @Res() res) {
 		const verified = await this.authService.verifyEmail(id, token);
 		if (verified instanceof Error) {
-			let data: {header?: string, message?: string, url?: string} = new Object();
+			let data: { header?: string; message?: string; url?: string } = new Object();
 			switch (verified.message) {
 				case 'User not found':
 					data.header = 'Der Benutzer wurde nicht gefunden';
@@ -112,7 +112,7 @@ export class AuthController {
 				case 'Your token is invalid or expired, please request a new one':
 					data.header = 'Der Verifizierungslink ist ungültig oder abgelaufen';
 					data.message = 'Fordere erneut eine E-Mail an';
-					data.url= '/auth/resend-email-verification';
+					data.url = '/auth/resend-email-verification';
 					break;
 				case 'Token does not match user':
 					data.header = 'Verifizierungslink passt nicht zum Benutzer';
@@ -141,22 +141,30 @@ export class AuthController {
 	@ApiInternalServerErrorResponse({ description: 'if email resend failed' })
 	@Post('resend-email-verification')
 	@UsePipes(new ValidationPipe())
-	async resendEmailVerification(
-		@Body() verficiationDTO: ResendVerificationEmailDto,
-		@Res() res,
-	) {
+	async resendEmailVerification(@Body() verficiationDTO: ResendVerificationEmailDto, @Res() res) {
 		const resent = await this.authService.resendVerificationEmail(verficiationDTO.email);
 		if (resent instanceof Error)
-			return res.render('email-not-verified', { header: 'Senden fehlgeschlagen', message: resent.message, url: '/auth/resend-email-verification' });
+			return res.render('email-not-verified', {
+				header: 'Senden fehlgeschlagen',
+				message: resent.message,
+				url: '/auth/resend-email-verification',
+			});
 
-		return res.render('email-not-verified', { header: 'E-Mail wurde erneut gesendet', message: 'Bitte überprüfe deine E-Mails'});
+		return res.render('email-not-verified', {
+			header: 'E-Mail wurde erneut gesendet',
+			message: 'Bitte überprüfe deine E-Mails',
+		});
 	}
 
 	@ApiOperation({ summary: 'Render page to request a new verification email' })
 	@ApiOkResponse({ description: 'renders the Handlebars view for resending a verification email' })
 	@Get('resend-email-verification')
-	async resendEmailVerificationPage(@Res() res){
-		return res.render('email-not-verified', { header: 'Verifikation erneut durchführen', message: 'Bitte gib deine E-Mail ein', url: '/auth/resend-email-verification'});
+	async resendEmailVerificationPage(@Res() res) {
+		return res.render('email-not-verified', {
+			header: 'Verifikation erneut durchführen',
+			message: 'Bitte gib deine E-Mail ein',
+			url: '/auth/resend-email-verification',
+		});
 	}
 
 	@Post('forgot-password')
@@ -170,8 +178,9 @@ export class AuthController {
 	async resetPassword(@Param('id') id: string, @Param('token') token: string, @Res() res) {
 		const userID = await this.authService.verifyPasswordResetToken(id, token);
 		if (userID instanceof Error) return res.render('reset-password', { error: userID.message });
-		if (userID !== id) return res.render('reset-password', { error: 'Der Token stimmt nicht mit der User ID überein.' });
-		
+		if (userID !== id)
+			return res.render('reset-password', { error: 'Der Token stimmt nicht mit der User ID überein.' });
+
 		return res.render('reset-password', { userID, token });
 	}
 
@@ -180,6 +189,9 @@ export class AuthController {
 	async resetPasswordPost(@Body() body: ResetPasswordDTO) {
 		const reset = await this.authService.resetPassword(body);
 		if (reset instanceof Error) throw reset;
-		return { message: 'Passwort wurde erfolgreich zurückgesetztz, du kannst diese Seite nun schließen.', userID: reset};
+		return {
+			message: 'Passwort wurde erfolgreich zurückgesetztz, du kannst diese Seite nun schließen.',
+			userID: reset,
+		};
 	}
 }

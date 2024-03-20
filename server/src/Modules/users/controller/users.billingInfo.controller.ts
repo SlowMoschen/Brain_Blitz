@@ -8,7 +8,7 @@ import {
 	Req,
 	UseGuards,
 	UsePipes,
-	ValidationPipe
+	ValidationPipe,
 } from '@nestjs/common';
 import {
 	ApiForbiddenResponse,
@@ -31,9 +31,7 @@ import { User } from 'src/Decorators/user.decorator';
 @UseGuards(AuthenticationGuard, RolesGuard)
 @Controller('users/billing-info')
 export class UsersBillingInfoController {
-	constructor(
-		private readonly usersService: UsersService,
-	) {}
+	constructor(private readonly usersService: UsersService) {}
 
 	@ApiOperation({ summary: 'Get user billing info via session cookie' })
 	@ApiOkResponse({ description: 'returns user billing info' })
@@ -54,10 +52,7 @@ export class UsersBillingInfoController {
 	@UsePipes(new ValidationPipe())
 	@Roles(Role.USER, Role.ADMIN)
 	@Patch()
-	async updateBillingInfoBySession(
-		@User('id') id: string,
-		@Body() updateBillingInfoDTO: UpdateUserBillingInfoDTO,
-	) {
+	async updateBillingInfoBySession(@User('id') id: string, @Body() updateBillingInfoDTO: UpdateUserBillingInfoDTO) {
 		return await this.usersService.updateBillingInfo(id, updateBillingInfoDTO);
 	}
 
@@ -80,10 +75,7 @@ export class UsersBillingInfoController {
 	@UsePipes(new ValidationPipe())
 	@Roles(Role.ADMIN)
 	@Patch(':id')
-	async updateBillingInfoById(
-		@Param() id: string,
-		@Body() updateBillingInfoDTO: UpdateUserBillingInfoDTO,
-	) {
+	async updateBillingInfoById(@Param() id: string, @Body() updateBillingInfoDTO: UpdateUserBillingInfoDTO) {
 		return await this.usersService.updateBillingInfo(id, updateBillingInfoDTO);
 	}
 }

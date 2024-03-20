@@ -1,14 +1,13 @@
-
 export enum PaymentStatus {
-    PAID = "PAID",
-    UNPAID = "UNPAID",
-    PENDING = "PENDING",
-    CANCELLED = "CANCELLED",
-    REFUNDED = "REFUNDED",
-    FAILED = "FAILED"
+	PAID = 'PAID',
+	UNPAID = 'UNPAID',
+	PENDING = 'PENDING',
+	CANCELLED = 'CANCELLED',
+	REFUNDED = 'REFUNDED',
+	FAILED = 'FAILED',
 }
 
 export enum PaymentMethod {
-    PAYPAL = "PAYPAL",
-    BANK_TRANSFER = "BANK_TRANSFER",
+	PAYPAL = 'PAYPAL',
+	BANK_TRANSFER = 'BANK_TRANSFER',
 }
