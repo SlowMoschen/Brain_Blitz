@@ -1,4 +1,11 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+	ConflictException,
+	HttpException,
+	HttpStatus,
+	Injectable,
+	NotFoundException,
+	UnauthorizedException,
+} from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PasswordChangedEvent, SendForgotPasswordMailEvent, SendVerifyMailEvent } from 'src/Events/notification.events';
 import { UserCreatedEvent } from 'src/Events/user.events';
@@ -46,27 +53,15 @@ export class AuthService {
 	 * @param {CreateUserDTO} createUserDTO - The user's data
 	 * @throws {HttpException} - Throws an error if the user already exists
 	 * @throws {HttpException} - Throws an error if the token generation fails
-	 * @returns {Promise<string | Error>} - Returns the user's id or an error
+	 * @returns {Promise<string>} - Returns the user's id or an error
 	 */
-	async createUser(createUserDTO: CreateUserDTO): Promise<string | Error> {
+	async createUser(createUserDTO: CreateUserDTO): Promise<string> {
 		const hashedPassword = await this.encryptionService.hashPassword(createUserDTO.password);
 
 		const createdUser = await this.usersService.createNewUser({ ...createUserDTO, password: hashedPassword });
-
-		if (createdUser instanceof Error) {
-			if (createdUser.message === 'User with this email already exists') {
-				return new HttpException('User with this email already exists', HttpStatus.CONFLICT);
-			}
-			return createdUser;
-		}
-
 		const userID = createdUser.id;
 
 		const token = await this.encryptionService.generateToken(userID);
-		if (token instanceof Error) {
-			await this.usersService.deleteUser(userID);
-			return new HttpException('Token generation failed', HttpStatus.INTERNAL_SERVER_ERROR);
-		}
 
 		this.eventEmitter.emit('user.created', new UserCreatedEvent(userID));
 		this.eventEmitter.emit(
@@ -84,31 +79,23 @@ export class AuthService {
 	 * @throws {HttpException} - Throws an error if the email is already verified
 	 * @throws {HttpException} - Throws an error if the token is invalid or expired
 	 * @throws {UnauthorizedException} - Throws an error if the token does not match the user
-	 * @returns {Promise<string | Error>} - Returns the user's id or an error
+	 * @returns {Promise<string | >} - Returns the user's id or an error
 	 */
 	async verifyEmail(userID: string, token: string): Promise<string | Error> {
-		try {
-			const user = await this.usersService.getUserByID(userID);
-			if (Array.isArray(user) && user.length === 0) return new NotFoundException('User not found');
-			if (user instanceof Error) return user;
+		const user = await this.usersService.getUserByID(userID);
+		if (user.settings.is_verified) return new ConflictException('Email already verified');
 
-			if (user.settings.is_verified) return new HttpException('Email already verified', HttpStatus.CONFLICT);
+		const existingToken = await this.encryptionService.getTokensByUserId(userID);
+		if (!existingToken.includes(token))
+			return new UnauthorizedException('Token is invalid or expired, please request a new one');
 
-			const existingToken = await this.encryptionService.getTokensByUserId(userID);
-			if (existingToken instanceof Error) return existingToken;
-			if (!existingToken.includes(token))
-				return new UnauthorizedException('Token is invalid or expired, please request a new one');
+		const isTokenValid = await this.encryptionService.verifyToken(token);
+		if (isTokenValid instanceof Error) return isTokenValid;
 
-			const isTokenValid = await this.encryptionService.verifyToken(token);
-			if (isTokenValid instanceof Error) return isTokenValid;
+		await this.encryptionService.deleteToken(token);
+		await this.usersService.setVerificationStatus(userID, true);
 
-			await this.encryptionService.deleteToken(token);
-			await this.usersService.setVerificationStatus(userID, true);
-
-			return userID;
-		} catch (error) {
-			return error;
-		}
+		return userID;
 	}
 
 	/**
@@ -121,14 +108,10 @@ export class AuthService {
 	 */
 	async resendVerificationEmail(email: string): Promise<string | Error> {
 		const user = await this.usersService.getUserByEmail(email);
-		if (user instanceof Error) return user;
-		if (!user) return new HttpException('E-Mail konnte nicht gefunden werden', HttpStatus.NOT_FOUND);
-
-		if (user.settings.is_verified) return new HttpException('E-Mail wurde schon verifiziert', HttpStatus.CONFLICT);
+		if (!user) return new NotFoundException('E-Mail konnte nicht gefunden werden');
+		if (user.settings.is_verified) return new ConflictException('E-Mail wurde schon verifiziert');
 
 		const token = await this.encryptionService.generateToken(user.id);
-		if (token instanceof Error)
-			return new HttpException('Generieren vom Token fehlgeschlagen', HttpStatus.INTERNAL_SERVER_ERROR);
 
 		this.eventEmitter.emit('mail.verify-email', new SendVerifyMailEvent(user.id, user.email, user.first_name, token));
 
@@ -140,16 +123,11 @@ export class AuthService {
 	 * @param {ForgotPasswordDTO} email - The user's email
 	 * @throws {HttpException} - Throws an error if the email is not found
 	 * @throws {HttpException} - Throws an error if the token generation fails
-	 * @returns {Promise<string | Error>} - Returns the user's id or an error
+	 * @returns {Promise<string>} - Returns the user's id or an error
 	 */
-	async forgotPassword({ email }: ForgotPasswordDTO): Promise<string | Error> {
+	async forgotPassword({ email }: ForgotPasswordDTO): Promise<string> {
 		const user = await this.usersService.getUserByEmail(email);
-		if (user instanceof Error) return user;
-		if (!user) return new HttpException('E-Mail konnte nicht gefunden werden', HttpStatus.NOT_FOUND);
-
 		const token = await this.encryptionService.generateToken(user.id);
-		if (token instanceof Error)
-			return new HttpException('Generieren vom Token fehlgeschlagen', HttpStatus.INTERNAL_SERVER_ERROR);
 
 		this.eventEmitter.emit(
 			'mail.forgot-password',
@@ -168,7 +146,6 @@ export class AuthService {
 	 */
 	async verifyPasswordResetToken(userID: string, token: string): Promise<string | Error> {
 		const existingToken = await this.encryptionService.getTokensByUserId(userID);
-		if (existingToken instanceof Error) return existingToken;
 		if (!existingToken.includes(token))
 			return new UnauthorizedException('Der Token für das Zurücksetzen des Passworts ist ungültig oder abgelaufen');
 
@@ -190,20 +167,14 @@ export class AuthService {
 	 */
 	async resetPassword({ password, userID, token }: ResetPasswordDTO): Promise<string | Error> {
 		const user = await this.usersService.getUserByID(userID);
-		if (user instanceof Error) return user;
-		if (!user) return new NotFoundException('User not found');
 		if (!user.settings.is_verified) return new UnauthorizedException('Email not verified');
 
 		if (await this.encryptionService.comparePassword(password, user.password))
-			return new HttpException('Das neue Passwort darf nicht mit dem alten Passwort identisch sein', HttpStatus.CONFLICT);
+			return new ConflictException('Das neue Passwort darf nicht mit dem alten Passwort identisch sein');
 
 		const hashedPassword = await this.encryptionService.hashPassword(password);
-
 		const updatedUserID = await this.usersService.updateUserCredentials(userID, { password: hashedPassword });
-		if (updatedUserID instanceof Error) return updatedUserID;
-
-		const deletedToken = await this.encryptionService.deleteToken(token);
-		if (deletedToken instanceof Error) return deletedToken;
+		await this.encryptionService.deleteToken(token);
 
 		this.eventEmitter.emit('mail.password-changed', new PasswordChangedEvent(user.id, user.email, user.first_name));
 

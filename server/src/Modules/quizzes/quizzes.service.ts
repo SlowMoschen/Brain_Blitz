@@ -19,45 +19,28 @@ export class QuizService {
 		private readonly userService: UsersService,
 	) {}
 
-	async getAllQuizzes(): Promise<SelectQuiz[] | Error> {
-		const quizzes = await this.quizRepository.findAll();
-		if (quizzes instanceof Error) return quizzes;
-		if (quizzes.length === 0) return new NotFoundException('No quizzes found');
-		return quizzes;
+	async getAllQuizzes(): Promise<SelectQuiz[]> {
+		return await this.quizRepository.findAll();
 	}
 
-	async getQuiz(id: string): Promise<SelectQuiz | Error> {
-		const quiz = await this.quizRepository.findOne(id);
-		if (quiz instanceof Error) return quiz;
-		if (!quiz) return new NotFoundException('Quiz not found');
-		return quiz;
+	async getQuiz(id: string): Promise<SelectQuiz> {
+		return await this.quizRepository.findOne(id);
 	}
 
-	async createQuiz(quiz: CreateQuizDTO): Promise<string | Error> {
-		const createdQuiz = await this.quizRepository.insertOne(quiz);
-		if (createdQuiz instanceof Error) return createdQuiz;
-		if (!createdQuiz) return new HttpException('Failed to create quiz', 500);
-		return createdQuiz;
+	async createQuiz(quiz: CreateQuizDTO): Promise<string> {
+		return await this.quizRepository.insertOne(quiz);
 	}
 
-	async updateQuiz(id: string, quiz: UpdateQuizDTO): Promise<string | Error> {
-		const updatedQuiz = await this.quizRepository.updateOne(id, quiz);
-		if (updatedQuiz instanceof Error) return updatedQuiz;
-		if (!updatedQuiz) return new NotFoundException('Quiz not found');
-		return updatedQuiz;
+	async updateQuiz(id: string, quiz: UpdateQuizDTO): Promise<string> {
+		return await this.quizRepository.updateOne(id, quiz);
 	}
 
-	async deleteQuiz(id: string): Promise<string | Error> {
-		const deletedQuiz = await this.quizRepository.deleteOne(id);
-		if (deletedQuiz instanceof Error) return deletedQuiz;
-		return deletedQuiz;
+	async deleteQuiz(id: string): Promise<string> {
+		return await this.quizRepository.deleteOne(id);
 	}
 
-	async getQuizzesByCategory(category: string): Promise<SelectQuiz[] | Error> {
-		const quizzes = await this.quizRepository.findByCategory(category);
-		if (quizzes instanceof Error) return quizzes;
-		if (quizzes.length === 0) return new NotFoundException('No quizzes found');
-		return quizzes;
+	async getQuizzesByCategory(category: string): Promise<SelectQuiz[]> {
+		return await this.quizRepository.findByCategory(category);
 	}
 
 	/**
@@ -65,13 +48,13 @@ export class QuizService {
 	 * @param {string} quizId - The quiz's id
 	 * @param {string} userId - The user's id
 	 * @param {CompletedQuizDTO} completedQuizDTO - The user's quiz data
-	 * @returns {Promise<CompletedQuiz | Error>} - Returns the completed quiz or an error
+	 * @returns {Promise<CompletedQuiz>} - Returns the completed quiz or an error
 	 */
 	async completeQuiz(
 		quizId: string,
 		userId: string,
 		completedQuizDTO: CompletedQuizDTO,
-	): Promise<CompletedQuiz | Error> {
+	): Promise<CompletedQuiz> {
 		// Object to be returned for consice information
 		const returnValue: CompletedQuiz = {
 			completed: false,
@@ -81,20 +64,16 @@ export class QuizService {
 		};
 
 		// Check if the quiz exists
-		const quiz = await this.quizRepository.findOne(quizId);
-		if (!quiz) throw new NotFoundException('Quiz not found');
+		await this.quizRepository.findOne(quizId);
 
 		// Update the user's statistics
-		const userStats = await this.userService.getStatistics(userId);
-		if (userStats instanceof Error) return userStats;
-
-		const updatedStats = await this.userService.updateStatistics(userId, {
-			completed_quizzes: userStats.completed_quizzes + 1,
-			points: userStats.points + completedQuizDTO.score,
-			correct_answers: userStats.correct_answers + completedQuizDTO.correct_answers,
-			incorrect_answers: userStats.incorrect_answers + completedQuizDTO.incorrect_answers,
+		const currentStats = await this.userService.getStatistics(userId);
+		await this.userService.updateStatistics(userId, {
+			completed_quizzes: currentStats.completed_quizzes + 1,
+			points: currentStats.points + completedQuizDTO.score,
+			correct_answers: currentStats.correct_answers + completedQuizDTO.correct_answers,
+			incorrect_answers: currentStats.incorrect_answers + completedQuizDTO.incorrect_answers,
 		});
-		if (updatedStats instanceof Error) return updatedStats;
 
 		// Check if the threshold for unlocking a new quiz has been reached - if so, emit an event to complete the quiz and unlock a new one
 		if (completedQuizDTO.score >= parseInt(process.env.QUIZ_UNLOCK_THRESHOLD)) {
@@ -110,12 +89,10 @@ export class QuizService {
 
 		// Check if the user has a highscore for the quiz and update it if necessary - if not, create a new highscore
 		const existingHighscore = await this.highscoreService.getSpecificHighscore(userId, quizId);
-		if (existingHighscore instanceof Error) return existingHighscore;
 		
 		if (existingHighscore) {
 			if (existingHighscore.score < completedQuizDTO.score) {
-				const deletedHighscore = await this.highscoreService.deleteHighscore(existingHighscore.id);
-				if (deletedHighscore instanceof Error) return deletedHighscore;
+				await this.highscoreService.deleteHighscore(existingHighscore.id);
 				returnValue.highscore = 'updated';
 			} else {
 				returnValue.highscore = 'not updated';
@@ -125,15 +102,15 @@ export class QuizService {
 			returnValue.highscore = 'created';
 		}
 		
-		const createdHighscore = await this.highscoreService.createHighscore({
+		// Create a new highscore for the user
+		const createdHighscoreID = await this.highscoreService.createHighscore({
 			user_id: userId,
 			quiz_id: quizId,
 			score: completedQuizDTO.score,
 		});
-		if (createdHighscore instanceof Error) return createdHighscore;
 
-		const highscoreJunction = await this.userService.insertNewHighscore(userId, createdHighscore);
-		if (highscoreJunction instanceof Error) return highscoreJunction;
+		// Insert a junction table entry for the highscore
+		await this.userService.insertNewHighscore(userId, createdHighscoreID);
 
 		return returnValue;
 	}

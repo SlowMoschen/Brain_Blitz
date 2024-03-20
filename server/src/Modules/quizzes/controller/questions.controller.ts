@@ -22,8 +22,7 @@ export class QuestionsController {
     @Post(':quizID')
     @UsePipes(new ValidationPipe())
     async createQuestion(@Body() body: CreateQuestionDTO, @Param('quizID') quizID: string) {
-        const createdQuestion = await this.questionService.createQuestion(quizID, body);
-        return createdQuestion;
+        return await this.questionService.createQuestion(quizID, body);
     }
 
     @ApiOperation({ summary: 'Get a question by ID' })
@@ -33,8 +32,7 @@ export class QuestionsController {
     @Roles(Role.USER, Role.ADMIN)
     @Get(":id")
     async getQuestion(@Param("id") id: string) {
-        const question = await this.questionService.getQuestion(id);
-        return question;
+        return await this.questionService.getQuestion(id);
     }
 
     @ApiOperation({ summary: 'ADMIN ROUTE - Update a question' })
@@ -44,8 +42,7 @@ export class QuestionsController {
     @Roles(Role.ADMIN)
     @Patch(":id")
     async updateQuestion(@Param("id") id: string, @Body() body: UpdateQuestionDTO){
-        const updatedQuestion = await this.questionService.updateQuestion(id, body);
-        return updatedQuestion;
+        return await this.questionService.updateQuestion(id, body);
     }
 
     @ApiOperation({ summary: 'ADMIN ROUTE - Delete a question' })
@@ -55,7 +52,6 @@ export class QuestionsController {
     @Roles(Role.ADMIN)
     @Delete(":id")
     async deleteQuestion(@Param("id") id: string) {
-        const deletedQuestion = await this.questionService.deleteQuestion(id);
-        return deletedQuestion;
+        return await this.questionService.deleteQuestion(id);
     }
 }

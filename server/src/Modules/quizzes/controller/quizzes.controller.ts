@@ -8,6 +8,7 @@ import { QuizService } from '../quizzes.service';
 import { CreateQuizDTO } from '../dto/create-quiz.dto';
 import { CompletedQuizDTO } from '../dto/completed-quiz.dto';
 import { ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { UpdateQuizDTO } from '../dto/update-quiz.dto';
 
 @ApiTags('quizzes')
 @UseGuards(AuthenticationGuard, RolesGuard)
@@ -23,9 +24,7 @@ export class QuizzesController {
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
 	async getQuizzesByCategory(@Query('category') category: string) {
-		const quizzes = await this.quizService.getQuizzesByCategory(category);
-		if (quizzes instanceof Error) return quizzes;
-		return quizzes;
+		return await this.quizService.getQuizzesByCategory(category);
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Get all quizzes' })
@@ -36,9 +35,7 @@ export class QuizzesController {
 	@Roles(Role.ADMIN)
 	@Get('all')
 	async getAllQuizzes() {
-		const quizzes = await this.quizService.getAllQuizzes();
-		if (quizzes instanceof Error) return quizzes;
-		return quizzes;
+		return await this.quizService.getAllQuizzes();
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Create a new quiz' })
@@ -49,9 +46,7 @@ export class QuizzesController {
 	@UsePipes(new ValidationPipe())
 	@Post()
 	async createQuiz(@Body() quiz: CreateQuizDTO) {
-		const createdQuiz = await this.quizService.createQuiz(quiz);
-		if (createdQuiz instanceof Error) return createdQuiz;
-		return createdQuiz;
+		return await this.quizService.createQuiz(quiz);
 	}
 
 	@ApiOperation({ summary: 'If score threshhold is surpassed - completes Quiz and unlocks new one - saves highscore ' })
@@ -66,9 +61,7 @@ export class QuizzesController {
 		@Param('id') quizId: string,
 		@User('id') userId: string,
 	) {
-		const completedQuiz = await this.quizService.completeQuiz(quizId, userId, completedQuizDTO);
-		if (completedQuiz instanceof Error) return completedQuiz;
-		return completedQuiz;
+		return await this.quizService.completeQuiz(quizId, userId, completedQuizDTO);
 	}
 
 	@ApiOperation({ summary: 'Get a quiz by ID' })
@@ -79,9 +72,7 @@ export class QuizzesController {
 	@Roles(Role.USER, Role.ADMIN)
 	@Get(':id')
 	async getQuiz(@Param('id') quizID: string) {
-		const quiz = await this.quizService.getQuiz(quizID);
-		if (quiz instanceof Error) return quiz;
-		return quiz;
+		return await this.quizService.getQuiz(quizID);
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Update a quiz by ID' })
@@ -92,10 +83,8 @@ export class QuizzesController {
 	@Roles(Role.ADMIN)
 	@UsePipes(new ValidationPipe())
 	@Patch(':id')
-	async updateQuiz(@Param('id') quizID: string, @Body() quiz: CreateQuizDTO) {
-		const updatedQuiz = await this.quizService.updateQuiz(quizID, quiz);
-		if (updatedQuiz instanceof Error) return updatedQuiz;
-		return updatedQuiz;
+	async updateQuiz(@Param('id') quizID: string, @Body() quiz: UpdateQuizDTO) {
+		return await this.quizService.updateQuiz(quizID, quiz);
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Delete a quiz by ID' })
@@ -106,8 +95,6 @@ export class QuizzesController {
 	@Roles(Role.ADMIN)
 	@Delete(':id')
 	async deleteQuiz(@Param('id') quizID: string) {
-		const deletedQuiz = await this.quizService.deleteQuiz(quizID);
-		if (deletedQuiz instanceof Error) return deletedQuiz;
-		return deletedQuiz;
+		return await this.quizService.deleteQuiz(quizID);
 	}
 }

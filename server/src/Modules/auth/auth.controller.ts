@@ -84,10 +84,7 @@ export class AuthController {
 	@Post('register')
 	@UsePipes(new ValidationPipe())
 	async register(@Body() createUserDTO: CreateUserDTO) {
-		const user = await this.authService.createUser(createUserDTO);
-		if (user instanceof HttpException) throw new HttpException(user.message, user.getStatus());
-
-		return user;
+		return await this.authService.createUser(createUserDTO);
 	}
 
 	@ApiOperation({ summary: 'verify User with provided link in sent email' })
@@ -149,7 +146,7 @@ export class AuthController {
 		@Res() res,
 	) {
 		const resent = await this.authService.resendVerificationEmail(verficiationDTO.email);
-		if (resent instanceof HttpException)
+		if (resent instanceof Error)
 			return res.render('email-not-verified', { header: 'Senden fehlgeschlagen', message: resent.message, url: '/auth/resend-email-verification' });
 
 		return res.render('email-not-verified', { header: 'E-Mail wurde erneut gesendet', message: 'Bitte überprüfe deine E-Mails'});
@@ -166,7 +163,6 @@ export class AuthController {
 	@UsePipes(new ValidationPipe())
 	async forgotPassword(@Body() body: ForgotPasswordDTO) {
 		const forgot = await this.authService.forgotPassword(body);
-		if (forgot instanceof Error) throw forgot;
 		return { message: 'E-Mail wurde erfolgreich gesendet', userID: forgot };
 	}
 

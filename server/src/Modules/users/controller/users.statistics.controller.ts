@@ -2,10 +2,8 @@ import {
 	Body,
 	Controller,
 	Get,
-	NotFoundException,
 	Param,
 	Patch,
-	Req,
 	UseGuards,
 	UsePipes,
 	ValidationPipe
@@ -18,14 +16,13 @@ import {
 	ApiOperation,
 	ApiTags,
 } from '@nestjs/swagger';
-import { Request } from 'express';
 import { Roles } from 'src/Decorators/roles.decorator';
+import { User } from 'src/Decorators/user.decorator';
 import { Role } from 'src/Enums/role.enum';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { RolesGuard } from 'src/Guards/roles.guard';
 import { UpdateUserStatisticsDTO } from '../dto/update-user-statistics.dto';
 import { UsersService } from '../users.service';
-import { User } from 'src/Decorators/user.decorator';
 
 @ApiTags('users/statistics')
 @UseGuards(AuthenticationGuard, RolesGuard)
@@ -43,12 +40,7 @@ export class UsersStatisticsController {
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
 	async getUserStatisticsBySession(@User('id') id: string){
-		const stats = await this.usersService.getStatistics(id);
-
-		if (!stats) throw new NotFoundException('No statistics found');
-		if (stats instanceof Error) throw stats;
-
-		return stats;
+		return await this.usersService.getStatistics(id);
 	}
 
 	@ApiOperation({ summary: 'Update user statistics via session cookie' })
@@ -63,12 +55,7 @@ export class UsersStatisticsController {
 		@User('id') id: string,
 		@Body() body: UpdateUserStatisticsDTO,
 	) {
-		const stats = await this.usersService.updateStatistics(id, body);
-
-		if (!stats) throw new NotFoundException('No statistics found');
-		if (stats instanceof Error) throw stats;
-
-		return stats;
+		return await this.usersService.updateStatistics(id, body);
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Get user statistics by ID' })
@@ -79,12 +66,7 @@ export class UsersStatisticsController {
 	@Roles(Role.ADMIN)
 	@Get(':id')
 	async getUserStatisticsById(@Param('id') id: string) {
-		const stats = await this.usersService.getStatistics(id);
-
-		if (!stats) throw new NotFoundException('No statistics found');
-		if (stats instanceof Error) throw stats;
-
-		return stats;
+		return await this.usersService.getStatistics(id);
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Update user statistics by ID' })
@@ -96,11 +78,6 @@ export class UsersStatisticsController {
 	@Roles(Role.ADMIN)
 	@Patch(':id')
 	async updateUserStatistics(@Param('id') id: string, @Body() body: UpdateUserStatisticsDTO) {
-		const stats = await this.usersService.updateStatistics(id, body);
-
-		if (!stats) throw new NotFoundException('No statistics found');
-		if (stats instanceof Error) throw stats;
-
-		return stats;
+		return await this.usersService.updateStatistics(id, body);
 	}
 }
