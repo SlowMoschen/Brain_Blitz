@@ -30,14 +30,7 @@ export class UsersService {
 
 	async getAllUsers(): Promise<SelectUserWithoutPassword[]> {
 		const users = await this.userRepository.findAll();
-
-		// exclude password from response
-		const usersWithoutPassword = users.map((user) => {
-			const { password, ...rest } = user;
-			return rest;
-		});
-
-		return usersWithoutPassword;
+		return users;
 	}
 
 	async getBillingInfo(id: string): Promise<SelectUserBillingInformation> {
