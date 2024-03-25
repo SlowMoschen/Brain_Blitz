@@ -134,37 +134,16 @@ export class AuthController {
 	}
 
 	@ApiOperation({ summary: 'Resend email verification' })
-	@ApiOkResponse({ description: 'returns message if email was resent' })
+	@ApiOkResponse({ description: 'returns message if email was sent' })
 	@ApiNotFoundResponse({ description: 'if user not found' })
 	@ApiConflictResponse({ description: 'if email already verified' })
-	@ApiInternalServerErrorResponse({ description: 'if email resend failed' })
+	@ApiInternalServerErrorResponse({ description: 'if email sending failed' })
 	@Throttle({ default: { limit: 1, ttl: 60 * 60 * 24 * 1000 } })
 	@Post('resend-email-verification')
 	@UsePipes(new ValidationPipe())
-	async resendEmailVerification(@Body() verficiationDTO: EmailDTO, @Res() res) {
-		const resent = await this.authService.resendVerificationEmail(verficiationDTO.email);
-		if (resent instanceof Error)
-			return res.render('email-not-verified', {
-				header: 'Senden fehlgeschlagen',
-				message: resent.message,
-				url: '/auth/resend-email-verification',
-			});
-
-		return res.render('email-not-verified', {
-			header: 'E-Mail wurde erneut gesendet',
-			message: 'Bitte überprüfe deine E-Mails',
-		});
-	}
-
-	@ApiOperation({ summary: 'Render page to request a new verification email' })
-	@ApiOkResponse({ description: 'renders the Handlebars view for resending a verification email' })
-	@Get('resend-email-verification')
-	async resendEmailVerificationPage(@Res() res) {
-		return res.render('email-not-verified', {
-			header: 'Verifikation erneut durchführen',
-			message: 'Bitte gib deine E-Mail ein',
-			url: '/auth/resend-email-verification',
-		});
+	async resendEmailVerification(@Body() { email }: EmailDTO) {
+		const resentMail = await this.authService.resendVerificationEmail(email);
+		return { message: 'E-Mail wurde erfolgreich gesendet', userID: resentMail };
 	}
 
 	@ApiOperation({ summary: 'Sends an email for reseting user password' })
@@ -175,8 +154,8 @@ export class AuthController {
 	@Throttle({ default: { limit: 3, ttl: 60 * 60 * 24 * 1000 } })
 	@Post('forgot-password')
 	@UsePipes(new ValidationPipe())
-	async forgotPassword(@Body() body: EmailDTO) {
-		const forgot = await this.authService.forgotPassword(body);
+	async forgotPassword(@Body() { email }: EmailDTO) {
+		const forgot = await this.authService.forgotPassword(email);
 		return { message: 'E-Mail wurde erfolgreich gesendet', userID: forgot };
 	}
 

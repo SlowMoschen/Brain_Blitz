@@ -111,8 +111,8 @@ export class AuthService {
 	 */
 	async resendVerificationEmail(email: string): Promise<string | Error> {
 		const user = await this.usersService.getUserByEmail(email);
-		if (!user) return new NotFoundException('E-Mail konnte nicht gefunden werden');
-		if (user.settings.is_verified) return new ConflictException('E-Mail wurde schon verifiziert');
+		if (!user) throw new NotFoundException('E-Mail konnte nicht gefunden werden');
+		if (user.settings.is_verified) throw new ConflictException('E-Mail wurde schon verifiziert');
 
 		const token = await this.encryptionService.generateToken(user.id);
 
@@ -128,7 +128,7 @@ export class AuthService {
 	 * @throws {HttpException} - Throws an error if the token generation fails
 	 * @returns {Promise<string>} - Returns the user's id or an error
 	 */
-	async forgotPassword({ email }: EmailDTO): Promise<string> {
+	async forgotPassword(email: string): Promise<string> {
 		const user = await this.usersService.getUserByEmail(email);
 		const token = await this.encryptionService.generateToken(user.id);
 
