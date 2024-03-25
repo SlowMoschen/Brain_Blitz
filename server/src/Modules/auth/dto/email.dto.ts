@@ -1,9 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsLowercase, IsNotEmpty, IsString } from 'class-validator';
 
-export class ResendVerificationEmailDto {
+export class EmailDTO {
 	@ApiProperty()
 	@IsEmail()
+	@IsLowercase()
 	@IsString()
 	@IsNotEmpty()
 	email: string;
