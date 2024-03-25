@@ -1,21 +1,20 @@
 import {
 	ConflictException,
 	HttpException,
-	HttpStatus,
 	Injectable,
 	NotFoundException,
-	UnauthorizedException,
+	UnauthorizedException
 } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PasswordChangedEvent, SendForgotPasswordMailEvent, SendVerifyMailEvent } from 'src/Events/notification.events';
 import { UserCreatedEvent } from 'src/Events/user.events';
 import { SelectUserWithoutPassword } from 'src/Utils/Types/model.types';
+import { TOKEN_EXPIRED_ERROR_CODE } from 'src/Utils/constants';
 import { EncryptionService } from '../shared/encryption/encryption.service';
 import { UsersService } from '../users/users.service';
 import { CreateUserDTO } from './dto/create-user.dto';
-import { ForgotPasswordDTO } from './dto/forgot-password.dto';
+import { EmailDTO } from './dto/email.dto';
 import { ResetPasswordDTO } from './dto/reset-password.dto';
-import { TOKEN_EXPIRED_ERROR_CODE } from 'src/Utils/constants';
 
 @Injectable()
 export class AuthService {
@@ -124,12 +123,12 @@ export class AuthService {
 
 	/**
 	 * @description - Sends a password reset email
-	 * @param {ForgotPasswordDTO} email - The user's email
+	 * @param {EmailDTO} email - The user's email
 	 * @throws {HttpException} - Throws an error if the email is not found
 	 * @throws {HttpException} - Throws an error if the token generation fails
 	 * @returns {Promise<string>} - Returns the user's id or an error
 	 */
-	async forgotPassword({ email }: ForgotPasswordDTO): Promise<string> {
+	async forgotPassword({ email }: EmailDTO): Promise<string> {
 		const user = await this.usersService.getUserByEmail(email);
 		const token = await this.encryptionService.generateToken(user.id);
 

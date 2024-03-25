@@ -2,11 +2,10 @@ import {
 	BadRequestException,
 	CallHandler,
 	ExecutionContext,
-	HttpCode,
 	HttpException,
 	HttpStatus,
 	Injectable,
-	NestInterceptor,
+	NestInterceptor
 } from '@nestjs/common';
 import { Observable, catchError, map, throwError } from 'rxjs';
 
@@ -16,7 +15,7 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 
 // The standard format for a successful request will be:
 // {
-//     status: 'ok' | 'error',
+//     status: 'ok',
 //     statusCode: number,
 //     message: string,
 //     data: any, (this will be the data returned from the server)
@@ -33,7 +32,7 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 
 // The standard format for an error request will be:
 // {
-//     status: 'ok' | 'error',
+//     status: 'error',
 //     statusCode: number,
 //     message: string,
 //     request: {

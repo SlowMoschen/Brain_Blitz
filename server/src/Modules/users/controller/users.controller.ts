@@ -3,16 +3,13 @@ import {
 	Controller,
 	Delete,
 	Get,
-	HttpException,
-	NotFoundException,
 	Param,
 	Patch,
-	Put,
 	Req,
 	UseGuards,
 	UseInterceptors,
 	UsePipes,
-	ValidationPipe,
+	ValidationPipe
 } from '@nestjs/common';
 import {
 	ApiForbiddenResponse,
@@ -24,13 +21,13 @@ import {
 } from '@nestjs/swagger';
 import { Request } from 'express';
 import { Roles } from 'src/Decorators/roles.decorator';
+import { User } from 'src/Decorators/user.decorator';
 import { Role } from 'src/Enums/role.enum';
 import { AuthenticationGuard } from 'src/Guards/auth.guard';
 import { RolesGuard } from 'src/Guards/roles.guard';
+import { UserDataInterceptor } from 'src/Interceptors/userData.interceptor';
 import { UpdateUserCredentialsDTO } from '../dto/update-user-credentials.dto';
 import { UsersService } from '../users.service';
-import { User } from 'src/Decorators/user.decorator';
-import { UserDataInterceptor } from 'src/Interceptors/userData.interceptor';
 
 @ApiTags('users')
 @Controller('users')
