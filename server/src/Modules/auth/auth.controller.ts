@@ -33,6 +33,7 @@ import { CreateUserDTO } from './dto/create-user.dto';
 import { EmailDTO } from './dto/email.dto';
 import { LoginUserDTO } from './dto/login-user.dto';
 import { ResetPasswordDTO } from './dto/reset-password.dto';
+import { SkipThrottle, Throttle } from '@nestjs/throttler';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -137,6 +138,7 @@ export class AuthController {
 	@ApiNotFoundResponse({ description: 'if user not found' })
 	@ApiConflictResponse({ description: 'if email already verified' })
 	@ApiInternalServerErrorResponse({ description: 'if email resend failed' })
+	@Throttle({ default: { limit: 1, ttl: 60 * 60 * 24 * 1000 } })
 	@Post('resend-email-verification')
 	@UsePipes(new ValidationPipe())
 	async resendEmailVerification(@Body() verficiationDTO: EmailDTO, @Res() res) {
@@ -165,6 +167,12 @@ export class AuthController {
 		});
 	}
 
+	@ApiOperation({ summary: 'Sends an email for reseting user password' })
+	@ApiOkResponse({ description: 'returns message if email was sent' })
+	@ApiNotFoundResponse({ description: 'if user not found' })
+	@ApiInternalServerErrorResponse({ description: 'if email sending failed' })
+	@ApiBody({ description: 'email', type: EmailDTO })
+	@Throttle({ default: { limit: 3, ttl: 60 * 60 * 24 * 1000 } })
 	@Post('forgot-password')
 	@UsePipes(new ValidationPipe())
 	async forgotPassword(@Body() body: EmailDTO) {
@@ -172,6 +180,10 @@ export class AuthController {
 		return { message: 'E-Mail wurde erfolgreich gesendet', userID: forgot };
 	}
 
+	@ApiOperation({ summary: 'Render page to reset user password' })
+	@ApiOkResponse({ description: 'renders the Handlebars view for resetting the password' })
+	@ApiNotFoundResponse({ description: 'if user or token is not found' })
+	@ApiForbiddenResponse({ description: 'if token does not match user' })
 	@Get('reset-password/:id/:token')
 	async resetPassword(@Param('id') id: string, @Param('token') token: string, @Res() res) {
 		const userID = await this.authService.verifyPasswordResetToken(id, token);
@@ -182,6 +194,10 @@ export class AuthController {
 		return res.render('reset-password', { userID, token });
 	}
 
+	@ApiOperation({ summary: 'Reset user password' })
+	@ApiOkResponse({ description: 'returns message if password was reset' })
+	@ApiInternalServerErrorResponse({ description: 'if password reset failed' })
+	@ApiBody({ description: 'new password and user id', type: ResetPasswordDTO })
 	@Post('reset-password')
 	@UsePipes(new ValidationPipe())
 	async resetPasswordPost(@Body() body: ResetPasswordDTO) {

@@ -9,7 +9,9 @@ export class CustomThrottlerGuard extends ThrottlerGuard{
 
         switch (req.url) {
             case '/auth/forgot-password':
-                throw new ThrottlerException('Too many requests for forgot password');
+                throw new ThrottlerException('Das zurücksetzen des Passworts ist nur 3 mal pro Tag möglich');
+            case '/auth/resend-email-verification':
+                throw new ThrottlerException('Das erneute senden der E-Mail-Verifizierung ist nur 1 mal pro Tag möglich');
             default:
                 return super.throwThrottlingException(context, throttlerLimitDetail);
         }
