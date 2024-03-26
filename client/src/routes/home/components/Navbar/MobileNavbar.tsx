@@ -9,7 +9,7 @@ export default function MobileRootNavbar(): JSX.Element {
 
   return (
     <>
-      <nav className="fixed w-full">
+      <nav className="sticky top-0 w-full">
         <section className="relative w-full bg-bg-secondary">
           <div className="flex justify-between p-3">
             <span className="material-symbols-outlined text-4xl" onClick={() => setOpen(!isOpen)}>
@@ -39,7 +39,7 @@ export default function MobileRootNavbar(): JSX.Element {
             </li>
             <li className="text-xl my-1">
             <Link to="/faq" className="hover:text-primary focus:text-primary">
-              Wie funktioniert Brain Blitz?
+              FAQ
             </Link>
           </li>
           <li className="text-xl my-1">

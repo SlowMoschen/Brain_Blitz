@@ -7,7 +7,7 @@ export default function RootNavbar(): JSX.Element {
 
   return (
     <>
-      <nav className="fixed w-full bg-bg-secondary flex justify-between p-3">
+      <nav className="sticky top-0 w-full bg-bg-secondary flex justify-between p-3">
         <menu className="flex items-center justify-evenly w-3/4">
           <li className="my-1">
             <Link
@@ -19,7 +19,7 @@ export default function RootNavbar(): JSX.Element {
           </li>
           <li className="text-xl my-1">
             <Link to="/faq" className="hover:text-primary focus:text-primary">
-              Wie funktioniert Brain Blitz?
+              FAQ
             </Link>
           </li>
           <li className="text-xl my-1">
