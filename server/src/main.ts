@@ -62,7 +62,7 @@ async function bootstrap() {
 	const config = new DocumentBuilder()
 		.setTitle('Brain Blitz API')
 		.setDescription('Brain Blitz API documentation')
-		.setVersion('0.5.0')
+		.setVersion('1.0')
 		.build();
 
 	const document = SwaggerModule.createDocument(app, config);
