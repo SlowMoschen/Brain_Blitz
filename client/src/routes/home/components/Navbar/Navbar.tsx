@@ -19,17 +19,17 @@ export default function RootNavbar(): JSX.Element {
           </li>
           <li className="text-xl my-1">
             <Link to="/faq" className="hover:text-primary focus:text-primary">
-              FAQ
+              Wie funktioniert Brain Blitz?
+            </Link>
+          </li>
+          <li className="text-xl my-1">
+            <Link to="/memberships" className="hover:text-primary focus:text-primary">
+              Memberships
             </Link>
           </li>
           <li className="text-xl my-1">
             <Link to="/about" className="hover:text-primary focus:text-primary">
               Über uns
-            </Link>
-          </li>
-          <li className="text-xl my-1">
-            <Link to="/contact" className="hover:text-primary focus:text-primary">
-              Kontakt
             </Link>
           </li>
         </menu>

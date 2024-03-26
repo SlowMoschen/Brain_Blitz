@@ -12,7 +12,7 @@ body {
     background-color: #1a1a1a;
     color: #fcfcfc;
     font-family: 'Poppins', sans-serif;
-    height: 100vh;
+    height: fit-content;
 }
 
 .animated-bg {

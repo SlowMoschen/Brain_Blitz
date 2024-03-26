@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import MobileRootNavbar from "../components/Navbar/MobileNavbar";
-import RootFooter from "../components/Footer";
+import RootFooter from "../components/Footer/Footer";
 import { BREAKPOINTS } from "../../../shared/constants/breakpoints";
 import RootNavbar from "../components/Navbar/Navbar";
 import { useEffect, useState } from "react";
@@ -18,7 +18,7 @@ export default function Root() {
 
   return (
     <>
-      {deviceWidth < BREAKPOINTS.md ? <MobileRootNavbar /> : <RootNavbar />}
+      {deviceWidth <= BREAKPOINTS.md ? <MobileRootNavbar /> : <RootNavbar />}
       <div id="detail" className="h-screen">
         <Outlet />
       </div>
