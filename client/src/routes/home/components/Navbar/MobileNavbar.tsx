@@ -9,7 +9,7 @@ export default function MobileRootNavbar(): JSX.Element {
 
   return (
     <>
-      <nav className="sticky top-0 w-full">
+      <nav className="sticky top-0 z-50 w-full">
         <section className="relative w-full bg-bg-secondary">
           <div className="flex justify-between p-3">
             <span className="material-symbols-outlined text-4xl" onClick={() => setOpen(!isOpen)}>

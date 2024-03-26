@@ -7,7 +7,7 @@ export default function RootNavbar(): JSX.Element {
 
   return (
     <>
-      <nav className="sticky top-0 w-full bg-bg-secondary flex justify-between p-3">
+      <nav className="sticky top-0 z-50 w-full bg-bg-secondary flex justify-between p-3">
         <menu className="flex items-center justify-evenly w-3/4">
           <li className="my-1">
             <Link
