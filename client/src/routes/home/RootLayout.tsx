@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
-import MobileRootNavbar from "../components/Navbar/MobileNavbar";
-import RootFooter from "../components/Footer/Footer";
-import { BREAKPOINTS } from "../../../shared/constants/breakpoints";
-import RootNavbar from "../components/Navbar/Navbar";
+import MobileRootNavbar from "./components/Navbar/MobileNavbar";
+import RootFooter from "./components/Footer/Footer";
+import { BREAKPOINTS } from "../../shared/constants/breakpoints";
+import RootNavbar from "./components/Navbar/Navbar";
 import { useEffect, useState } from "react";
 
-export default function Root() {
+export default function RootLayout() {
   const [deviceWidth, setDeviceWidth] = useState<number>(window.innerWidth);
 
   useEffect(() => {
