@@ -9,13 +9,18 @@ export default {
      'bg-primary': '#1a1a1a',
       'bg-secondary': '#2b2b2b',
       'text-primary': '#fcfcfc',
-      'text-secondary': '#c4c4c4',
+      'text-secondary': '#1a1a1a',
       'primary': '#c10000',
       'primary-light': '#241818',
+      'secondary': '#c4c4c4',
       'accent': '#99ff66',
       'accent-light': '#465c2f',
     },
-    extend: {},
+    extend: {
+      dropShadow: {
+        primary: '0 0 30px #c10000',
+      }
+    },
   },
   plugins: [],
 }
