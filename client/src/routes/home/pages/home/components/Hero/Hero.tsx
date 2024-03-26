@@ -5,7 +5,7 @@ export default function HeroSection(): JSX.Element {
   const redirect = useNavigate();
 
   return (
-    <section className="bg-bg-primary w-full h-screen flex flex-col items-center justify-evenly my-16 px-5 lg:flex-row">
+    <section className="bg-bg-primary w-full h-screen flex flex-col items-center justify-evenly px-5 lg:flex-row">
       {/* Titles */}
       <section className="flex flex-col justify-center items-center text-center lg:text-left">
         <h1 className="animated-bg text-8xl 2xl:text-9xl tracking-wide font-bold w-full">
