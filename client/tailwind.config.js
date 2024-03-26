@@ -18,7 +18,7 @@ export default {
     },
     extend: {
       dropShadow: {
-        primary: '0 0 30px #c10000',
+        primary: '0 0 .75rem #c10000',
       }
     },
   },
