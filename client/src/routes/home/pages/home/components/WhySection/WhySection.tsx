@@ -1,9 +1,9 @@
-import Header from "../../../../shared/components/Header";
+import Header from "../../../../../../shared/components/Header";
 import WhyCard from "./WhyCard/WhyCard";
 
 export default function WhySection() {
     return (
-    <section id="why-section" className="p-5 m-5">
+    <section id="why-section" className="p-5 my-20">
         <Header content="Warum Brain Blitz?" className="big" />
         <section className="flex flex-col lg:flex-row justify-center items-center my-2">
           <WhyCard

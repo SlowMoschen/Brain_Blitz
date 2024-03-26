@@ -19,7 +19,7 @@ export default function Root() {
   return (
     <>
       {deviceWidth <= BREAKPOINTS.md ? <MobileRootNavbar /> : <RootNavbar />}
-      <main id="content" className="h-fit">
+      <main id="content" className="h-fit flex flex-col items-center">
         <Outlet />
       </main>
       <RootFooter />
