@@ -110,4 +110,26 @@ export class QuizService {
 
 		return returnValue;
 	}
+
+	/**
+	 * @description - Returns statistics about the quizzes
+	 * @returns {Promise<{ totalQuestions: number, totalQuizzes: number, uniqueCategories: number, categoryStats: { category: string, totalQuestions: number, totalQuizzes: number }[] }>}
+	 */
+	async getStats() {
+		const quizzes = await this.quizRepository.findAll();
+
+		const uniqueCategories = [...new Set(quizzes.map((quiz) => quiz.category))];
+		const categoryStats = uniqueCategories.map((category) => {
+			const categoryQuizzes = quizzes.filter((quiz) => quiz.category === category);
+			const totalQuestions = categoryQuizzes.reduce((acc, quiz) => acc + quiz.questions.length, 0);
+			return {
+				category,
+				totalQuestions,
+				totalQuizzes: categoryQuizzes.length,
+			};
+		});
+		const totalQuestions = quizzes.reduce((acc, quiz) => acc + quiz.questions.length, 0);
+
+		return { totalQuestions, totalQuizzes: quizzes.length, uniqueCategories: uniqueCategories.length, categoryStats };
+	}
 }

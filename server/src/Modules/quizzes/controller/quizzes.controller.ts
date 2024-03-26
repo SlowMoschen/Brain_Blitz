@@ -11,14 +11,6 @@ import {
 	UsePipes,
 	ValidationPipe,
 } from '@nestjs/common';
-import { Roles } from 'src/Decorators/roles.decorator';
-import { User } from 'src/Decorators/user.decorator';
-import { Role } from 'src/Enums/role.enum';
-import { AuthenticationGuard } from 'src/Guards/auth.guard';
-import { RolesGuard } from 'src/Guards/roles.guard';
-import { QuizService } from '../quizzes.service';
-import { CreateQuizDTO } from '../dto/create-quiz.dto';
-import { CompletedQuizDTO } from '../dto/completed-quiz.dto';
 import {
 	ApiForbiddenResponse,
 	ApiInternalServerErrorResponse,
@@ -27,7 +19,15 @@ import {
 	ApiOperation,
 	ApiTags,
 } from '@nestjs/swagger';
+import { Roles } from 'src/Decorators/roles.decorator';
+import { User } from 'src/Decorators/user.decorator';
+import { Role } from 'src/Enums/role.enum';
+import { AuthenticationGuard } from 'src/Guards/auth.guard';
+import { RolesGuard } from 'src/Guards/roles.guard';
+import { CompletedQuizDTO } from '../dto/completed-quiz.dto';
+import { CreateQuizDTO } from '../dto/create-quiz.dto';
 import { UpdateQuizDTO } from '../dto/update-quiz.dto';
+import { QuizService } from '../quizzes.service';
 
 @ApiTags('quizzes')
 @UseGuards(AuthenticationGuard, RolesGuard)
