@@ -7,6 +7,8 @@ interface ButtonProps {
     onClick: () => void;
     maxWidth?: string;
     maxHeight?: string;
+    height?: string;
+    width?: string;
     children: React.ReactNode;
 }
 
@@ -19,6 +21,8 @@ export default function Button(props: ButtonProps): JSX.Element {
                 style={{
                     maxWidth: props.maxWidth,
                     maxHeight: props.maxHeight,
+                    height: props.height,
+                    width: props.width
                 }}
                 type={props.type || "button"}
             >
