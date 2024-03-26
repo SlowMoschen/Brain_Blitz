@@ -11,7 +11,7 @@ export default function Header(props: HeaderProps): JSX.Element {
             case 'semi-big':
                 return 'text-2xl font-bold';
             case 'big':
-                return 'text-5xl font-bold';
+                return 'text-4xl font-bold';
             case 'small':
                 return 'text-lg font-bold';
             case 'semi-small':
