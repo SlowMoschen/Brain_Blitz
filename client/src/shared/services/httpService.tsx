@@ -13,7 +13,7 @@ export class HttpService {
 
   constructor(private readonly _baseUrl: string = APPLICATION.API_URL) {}
 
-  get defaultHeaders() {
+  private get defaultHeaders() {
     return {
       "Content-Type": "application/json",
     };
