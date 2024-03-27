@@ -10,7 +10,7 @@ export class AppController {
         return 'Server is up and running!'
     }
 
-    @Get('about/stats')
+    @Get('quiz-data')
     async getStats() {
         return await this.quizService.getStats();
     }
