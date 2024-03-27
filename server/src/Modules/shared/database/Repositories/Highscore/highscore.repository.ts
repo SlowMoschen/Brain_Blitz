@@ -32,7 +32,6 @@ export class HighscoreRepository {
 			where: and(eq(schema.quizHighscoresTable.user_id, userID), eq(schema.quizHighscoresTable.quiz_id, quizID)),
 		});
 		if (highscore instanceof Error) throw highscore;
-		if (!highscore) throw new NotFoundException('Highscore not found');
 		return highscore;
 	}
 
