@@ -8,6 +8,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { CustomThrottlerGuard } from './Guards/throttler.guard';
+import { AppController } from './app.controller';
 
 @Module({
 	imports: [
@@ -30,5 +31,6 @@ import { CustomThrottlerGuard } from './Guards/throttler.guard';
 			useClass: CustomThrottlerGuard,
 		},
 	],
+	controllers: [AppController],
 })
 export class AppModule {}
