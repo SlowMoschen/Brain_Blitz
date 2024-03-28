@@ -45,8 +45,8 @@ export default function QuizDataCard(): JSX.Element {
       className={clsx(
         "bg-bg-secondary text-bg-secondary rounded-lg my-10 mx-5 p-5 w-5/6",
         screenSize.width <= BREAKPOINTS.sm && "flex flex-col gap-3",
-        screen.width >= BREAKPOINTS.md && "grid grid-cols-7 grid-rows-2 gap-3",
-        error && "bg-primary"
+        screen.width >= BREAKPOINTS.md && !error && "grid grid-cols-7 grid-rows-2 gap-3",
+        error && "flex justify-center items-center text-xl font-bold text-primary"
       )}
     >
       {quizData ? (
@@ -109,7 +109,7 @@ export default function QuizDataCard(): JSX.Element {
           </div>
         </>
       ) : (
-        <div>{error}</div>
+        <div className="text-center">{error}</div>
       )}
     </section>
   );
