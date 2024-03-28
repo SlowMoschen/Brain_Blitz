@@ -44,7 +44,7 @@ export default function QuizDataCard(): JSX.Element {
     <section
       className={clsx(
         "bg-bg-secondary text-bg-secondary rounded-lg my-10 mx-5 p-5 w-5/6",
-        screenSize.width <= BREAKPOINTS.sm && "grid grid-cols-1 grid-rows-4 gap-3",
+        screenSize.width <= BREAKPOINTS.sm && "flex flex-col gap-3",
         screen.width >= BREAKPOINTS.md && "grid grid-cols-7 grid-rows-2 gap-3",
         error && "bg-primary"
       )}
