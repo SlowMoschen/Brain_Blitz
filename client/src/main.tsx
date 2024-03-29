@@ -11,6 +11,7 @@ import Imprint from './routes/home/pages/imprint/Imprint.tsx'
 import Privacy from './routes/home/pages/privacy/Privacy.tsx'
 import Terms from './routes/home/pages/terms/Terms.tsx'
 import FAQ from './routes/home/pages/faq/FAQ.tsx'
+import Contact from './routes/home/pages/contact/Contact.tsx'
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: '/about',
         element: <About />,
+      },
+      {
+        path: '/contact',
+        element: <Contact />,
       },
       {
         path: '/imprint',
