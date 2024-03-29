@@ -1,7 +1,7 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { PasswordChangedEvent, SendForgotPasswordMailEvent, SendVerifyMailEvent } from 'src/Events/notification.events';
+import { PasswordChangedEvent, SendContactFormEvent, SendForgotPasswordMailEvent, SendVerifyMailEvent } from 'src/Events/notification.events';
 
 @Injectable()
 export class MailService {
@@ -84,6 +84,46 @@ export class MailService {
 			context: {
 				name: payLoad.firstName,
 				url,
+			},
+		});
+	}
+
+	/**
+	 * @description - Listens to the mail.contact-form event to send the message to our serivce email
+	 * @param {SendContactFormEvent} payLoad - The user instance for which to send the contact form email
+	 * @returns {Promise<void>} - Returns void
+	 * @returns {Promise<Error>} - Returns an error if the email fails to send
+	 */
+	@OnEvent('mail.contact-form')
+	async sendContactForm(payLoad: SendContactFormEvent): Promise<void | Error> {
+		this.sendContactFormConfirmation(payLoad);
+		return await this.sendMail({
+			to: process.env.EMAIL_USER,
+			subject: 'Kontaktformular',
+			template: './contact-form',
+			context: {
+				name: payLoad.name,
+				email: payLoad.email,
+				message: payLoad.message,
+			},
+		});
+	}
+
+	/**
+	 * @description - Sends a confirmation email to the user who submitted the contact form
+	 * @param {SendContactFormEvent} payLoad - The user instance for which to send the confirmation email
+	 * @returns {void} - Returns void
+	 * @returns {Error} - Returns an error if the email fails to send
+	 */
+	private sendContactFormConfirmation(payLoad: SendContactFormEvent): void {
+		this.sendMail({
+			to: payLoad.email,
+			subject: 'Kontaktformular',
+			template: './contact-form-confirmation',
+			context: {
+				name: payLoad.name,
+				email: payLoad.email,
+				message: payLoad.message,
 			},
 		});
 	}
