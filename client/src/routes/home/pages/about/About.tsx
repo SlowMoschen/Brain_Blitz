@@ -1,16 +1,9 @@
 import Article from "../../../../shared/components/Article";
-import QuizDataCard from "./components/dataCard";
-import brainPNG from "../../../../assets/brain.png";
-import useScreenSize from "../../../../shared/hooks/useScreenSize";
-import { BREAKPOINTS } from "../../../../shared/constants/breakpoints";
+import QuizDataCard from "./components/DataSection";
 
 export default function AboutPage(): JSX.Element {
-
-  const screenSize = useScreenSize();
-
   return (
     <>
-      <img src={brainPNG} alt="" className={`absolute top-2/4 -left-36 rotate-12 ${screenSize.width <= BREAKPOINTS["2xl"] ? 'hidden' : '' }`}/>
       <QuizDataCard />
       <Article
         title={{
