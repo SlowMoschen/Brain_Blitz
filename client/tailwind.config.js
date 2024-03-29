@@ -19,6 +19,9 @@ export default {
     extend: {
       dropShadow: {
         primary: '0 0 .75rem #c10000',
+      },
+      transitionProperty: {
+        'max-height': 'max-height',
       }
     },
   },
