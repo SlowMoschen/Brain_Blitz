@@ -93,6 +93,7 @@ export default function Contact() {
           message={error}
           className={`min-h-11 ${wasSuccess ? "text-accent" : "text-primary"}`}
         />
+        <p className="text-sm opacity-50 p-5">Indem Sie dieses Kontaktformular absenden, erklären Sie sich damit einverstanden, eine Bestätigungs-E-Mail zu erhalten. Diese E-Mail dient lediglich der Bestätigung des Eingangs Ihrer Anfrage und wird nicht für Marketingzwecke verwendet. Ihre Daten werden gemäß unserer Datenschutzrichtlinie vertraulich behandelt.</p>
       </Form>
     </>
   );
