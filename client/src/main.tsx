@@ -9,6 +9,7 @@ import About from './routes/home/pages/about/About.tsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Imprint from './routes/home/pages/imprint/Imprint.tsx'
 import Privacy from './routes/home/pages/privacy/Privacy.tsx'
+import Terms from './routes/home/pages/terms/Terms.tsx'
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: '/privacy',
         element: <Privacy />,
+      },
+      {
+        path: '/terms',
+        element: <Terms />,
       }
     ],
   },
