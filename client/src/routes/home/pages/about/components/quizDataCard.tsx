@@ -109,7 +109,7 @@ export default function QuizDataCard(): JSX.Element {
           </div>
         </>
       ) : (
-        <div className="text-center">{error}</div>
+        <div className="flex justify-center items-center text-center min-h-20">{error}</div>
       )}
     </section>
   );
