@@ -1,15 +1,17 @@
 export default function Imprint() {
   return (
-    <section className="bg-bg-secondary w-5/6 max-w-4xl p-10 m-10 rounded-lg flex flex-col justify-center items-center">
+    <section className="bg-bg-secondary w-5/6 max-w-4xl p-10 m-10 rounded-lg flex flex-col justify-center">
       <h1 className="text-2xl font-bold border-b-8 border-accent-light text-center">Verantwortlich für den Inhalt dieser Quiz-App:</h1>
 
-      <div className="p-5 m-3 rounded-lg  items-center">
+      <div className="p-5 m-3 rounded-lg w-full flex justify-center items-center">
+        <div>
         <p className="text-xl underline">Kontakt:</p>
         <p>Philipp Millner</p>
         <p>Hütteldorferstraße 185</p>
         <p>1140 Wien</p>
         <p>+43 676 9487 225</p>
         <p>service@brain-blitz.com</p>
+        </div>
       </div>
 
       <p className="leading-7 tracking-wide my-3">
