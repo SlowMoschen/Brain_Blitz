@@ -1,18 +1,18 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../../shared/components/Button";
 import Logo from "../../../../shared/components/Logo";
+import useToggle from "../../../../shared/hooks/useToggle";
 
 export default function MobileRootNavbar(): JSX.Element {
   const redirect = useNavigate();
-  const [isOpen, setOpen] = useState<boolean>(false);
-
+  const [isOpen, toggleIsOpen] = useToggle();
+  
   return (
     <>
       <nav className="sticky top-0 z-50 w-full">
         <section className="relative w-full bg-bg-secondary">
           <div className="flex justify-between p-3">
-            <span className="material-symbols-outlined text-4xl" onClick={() => setOpen(!isOpen)}>
+            <span className="material-symbols-outlined text-4xl" onClick={() => toggleIsOpen()}>
               {isOpen ? "close" : "menu"}
             </span>
             <section>
@@ -29,7 +29,7 @@ export default function MobileRootNavbar(): JSX.Element {
               isOpen ? "left-0" : "-left-full"
             }`}
           >
-            <li className="my-1" onClick={() => setOpen(!isOpen)}>
+            <li className="my-1" onClick={() => toggleIsOpen()}>
               <Link
                 to="/"
                 className="hover:drop-shadow-primary focus:drop-shadow-primary transition-all duration-4 00"
@@ -37,18 +37,18 @@ export default function MobileRootNavbar(): JSX.Element {
                 <Logo maxHeight="50px" maxWidth="150px" />
               </Link>
             </li>
-            <li className="text-xl my-1" onClick={() => setOpen(!isOpen)}>
+            <li className="text-xl my-1" onClick={() => toggleIsOpen()}>
             <Link to="/faq" className="hover:text-primary focus:text-primary">
               FAQ
             </Link>
           </li>
-          <li className="text-xl my-1" onClick={() => setOpen(!isOpen)}>
+          <li className="text-xl my-1" onClick={() => toggleIsOpen()}>
             <Link to="/memberships" className="hover:text-primary focus:text-primary">
               Memberships
             </Link>
           </li>
           <li className="text-xl my-1">
-            <Link to="/about" className="hover:text-primary focus:text-primary" onClick={() => setOpen(!isOpen)}>
+            <Link to="/about" className="hover:text-primary focus:text-primary" onClick={() => toggleIsOpen()}>
               Über uns
             </Link>
           </li>
