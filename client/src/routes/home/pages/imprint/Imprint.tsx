@@ -1,7 +1,7 @@
 export default function Imprint() {
   return (
     <section className="bg-bg-secondary w-5/6 max-w-4xl p-10 m-10 rounded-lg flex flex-col justify-center items-center">
-      <h1 className="text-2xl border-b-8 border-accent-light text-center">Verantwortlich für den Inhalt dieser Quiz-App:</h1>
+      <h1 className="text-2xl font-bold border-b-8 border-accent-light text-center">Verantwortlich für den Inhalt dieser Quiz-App:</h1>
 
       <div className="bg-secondary w-full max-w-md p-5 m-3 rounded-lg text-bg-secondary items-center">
         <p className="text-xl underline">Kontakt:</p>
