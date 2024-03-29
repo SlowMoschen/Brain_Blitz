@@ -96,8 +96,7 @@ export class MailService {
 	 */
 	@OnEvent('mail.contact-form')
 	async sendContactForm(payLoad: SendContactFormEvent): Promise<void | Error> {
-		this.sendContactFormConfirmation(payLoad);
-		return await this.sendMail({
+		await this.sendMail({
 			to: process.env.EMAIL_USER,
 			subject: 'Kontaktformular',
 			template: './contact-form',
@@ -107,6 +106,7 @@ export class MailService {
 				message: payLoad.message,
 			},
 		});
+		return this.sendContactFormConfirmation(payLoad);
 	}
 
 	/**
