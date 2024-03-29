@@ -1,4 +1,4 @@
-import { Controller, Get } from "@nestjs/common";
+import { Body, Controller, Get, Post } from "@nestjs/common";
 import { QuizService } from "./Modules/quizzes/quizzes.service";
 import { SkipThrottle } from "@nestjs/throttler";
 
@@ -15,5 +15,11 @@ export class AppController {
     @Get('quiz-data')
     async getStats() {
         return await this.quizService.getStats();
+    }
+
+    @Post('contact')
+    async sendContactForm(@Body() body: any) {
+        console.log(body);
+        return 'Contact form submitted!';
     }
 }
