@@ -41,6 +41,9 @@ export default function DataCountCard({ containerProps, counterProps, textProps 
           >
             <CountUp
               end={counterProps.countEnd}
+              enableScrollSpy={true}
+              scrollSpyOnce={true}
+              scrollSpyDelay={TIMES.COUNT_UP_DELAY}
               duration={TIMES.COUNT_UP_DURATION}
               delay={TIMES.COUNT_UP_DELAY}
               className={`text-5xl font-bold md:text-6xl lg:text-7xl mx-3 ${counterProps.className}`}

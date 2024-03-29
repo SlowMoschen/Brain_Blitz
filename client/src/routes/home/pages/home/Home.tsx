@@ -1,3 +1,4 @@
+import QuizDataCard from "./components/DataSection";
 import EndSection from "./components/EndSection/EndSection";
 import HeroSection from "./components/Hero/Hero";
 import HowSection from "./components/HowSection/HowSection";
@@ -9,6 +10,7 @@ export default function Home(): JSX.Element {
       <HeroSection />
       <WhySection />
       <HowSection />
+      <QuizDataCard />
       <EndSection />
     </>
   );

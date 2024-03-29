@@ -1,10 +1,24 @@
+import clsx from "clsx";
+import about from "../../../../assets/about.svg";
+import about_dev from "../../../../assets/about_dev.svg";
 import Article from "../../../../shared/components/Article";
-import QuizDataCard from "./components/DataSection";
+import { BREAKPOINTS } from "../../../../shared/constants/breakpoints";
+import useScreenSize from "../../../../shared/hooks/useScreenSize";
 
 export default function AboutPage(): JSX.Element {
+
+  const screenSize = useScreenSize();
+
   return (
     <>
-      <QuizDataCard />
+      <img src={about} alt="" className={clsx(
+        "absolute left-5 top-20 h-52" ,
+        screenSize.width >= BREAKPOINTS["2xl"] ? '' : 'hidden'
+      )}/>
+      <img src={about_dev} alt="" className={clsx(
+        "absolute h-60 bottom-20 right-5 -z-10",
+        screenSize.width >= BREAKPOINTS["2xl"] ? '' : 'hidden'
+      )} />
       <Article
         title={{
           content: "Über Brain Blitz",
