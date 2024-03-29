@@ -37,18 +37,18 @@ export default function MobileRootNavbar(): JSX.Element {
                 <Logo maxHeight="50px" maxWidth="150px" />
               </Link>
             </li>
-            <li className="text-xl my-1">
+            <li className="text-xl my-1" onClick={() => setOpen(!isOpen)}>
             <Link to="/faq" className="hover:text-primary focus:text-primary">
               FAQ
             </Link>
           </li>
-          <li className="text-xl my-1">
+          <li className="text-xl my-1" onClick={() => setOpen(!isOpen)}>
             <Link to="/memberships" className="hover:text-primary focus:text-primary">
               Memberships
             </Link>
           </li>
           <li className="text-xl my-1">
-            <Link to="/about" className="hover:text-primary focus:text-primary">
+            <Link to="/about" className="hover:text-primary focus:text-primary" onClick={() => setOpen(!isOpen)}>
               Über uns
             </Link>
           </li>
