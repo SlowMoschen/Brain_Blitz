@@ -1,9 +1,25 @@
 import Article from "../../../../shared/components/Article";
 import FaqAccordion from "./FAQAccordion";
+import faq_person from "../../../../assets/faq_person.svg";
+import faq_question from "../../../../assets/faq_question_mark.svg";
+import clsx from "clsx";
+import useScreenSize from "../../../../shared/hooks/useScreenSize";
+import { BREAKPOINTS } from "../../../../shared/constants/breakpoints";
 
 export default function FAQ(): JSX.Element {
+
+  const screenSize = useScreenSize();
+
   return (
     <>
+    <img src={faq_person} alt="" className={clsx(
+      'absolute right-10 top-10 h-96',
+      screenSize.width >= BREAKPOINTS["2xl"] ? '' : 'hidden'
+    )}/>
+    <img src={faq_question} alt="" className={clsx(
+      'absolute left-5 bottom-10 h-52 -z-10',
+      screenSize.width >= BREAKPOINTS["2xl"] ? '' : 'hidden'
+    )}/>
       <Article
         title={{ content: "Häufig gestellte Fragen", border_b: true }}
         para1="Unsere FAQ-Seite bietet eine kompakte Zusammenfassung von Informationen und Antworten auf gängige Fragen zur Nutzung unserer Quiz-App."
