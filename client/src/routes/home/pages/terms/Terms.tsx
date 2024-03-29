@@ -46,7 +46,7 @@ export default function Terms(): JSX.Element {
 
       <div>
         <h2 className="text-xl font-bold mt-5">
-          <span className="text-accent">4.</span> Haftungsausschluss
+          <span className="text-accent">4.</span> Datenschutz
         </h2>
         <p>
           Der Anbieter beachtet die geltenden Datenschutzbestimmungen. Nähere
