@@ -7,6 +7,7 @@ import RootLayout from './routes/home/RootLayout.tsx'
 import Home from './routes/home/pages/home/Home.tsx'
 import About from './routes/home/pages/about/About.tsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import Imprint from './routes/home/pages/imprint/Imprint.tsx'
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
         path: '/about',
         element: <About />,
       },
+      {
+        path: '/imprint',
+        element: <Imprint />,
+      }
     ],
   },
 ])
