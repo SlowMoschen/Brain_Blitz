@@ -19,12 +19,12 @@ export default function RootNavbar(): JSX.Element {
           </li>
           <li className="text-xl my-1">
             <Link to="/faq" className="hover:text-primary focus:text-primary">
-              FAQ
+              F A Q
             </Link>
           </li>
           <li className="text-xl my-1">
             <Link to="/memberships" className="hover:text-primary focus:text-primary">
-              Memberships
+            Mitgliedschaften
             </Link>
           </li>
           <li className="text-xl my-1">

@@ -39,12 +39,12 @@ export default function MobileRootNavbar(): JSX.Element {
             </li>
             <li className="text-xl my-1" onClick={() => toggleIsOpen()}>
             <Link to="/faq" className="hover:text-primary focus:text-primary">
-              FAQ
+              F A Q
             </Link>
           </li>
           <li className="text-xl my-1" onClick={() => toggleIsOpen()}>
             <Link to="/memberships" className="hover:text-primary focus:text-primary">
-              Memberships
+              Mitgliedschaften
             </Link>
           </li>
           <li className="text-xl my-1">
