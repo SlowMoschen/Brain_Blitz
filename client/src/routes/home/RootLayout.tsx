@@ -13,7 +13,7 @@ export default function RootLayout() {
     <>
       <ScrollToTop />
       {screenSize.width <= BREAKPOINTS.md ? <MobileRootNavbar /> : <RootNavbar />}
-      <main id="content" className="h-fit flex flex-col items-center">
+      <main id="content" className="h-fit flex flex-col items-center relative">
         <Outlet />
       </main>
       <RootFooter />
