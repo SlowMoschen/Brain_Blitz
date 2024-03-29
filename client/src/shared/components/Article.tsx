@@ -1,13 +1,13 @@
 interface ArticleProps {
   containerClass?: string;
-  title: {
+  title?: {
     content: string;
     textColor?:
       | "text-text-primary"
       | "text-text-secondary"
       | "text-primary"
       | "animated-bg";
-    "border-b": boolean;
+    border_b: boolean;
   };
   para1: string;
   para2?: string;
@@ -26,11 +26,11 @@ function Article({
   return (
     <article className={`flex flex-col items-center justify-center w-full h-full p-4 max-w-5xl ${containerClass}`}>
       <h1
-        className={`text-4xl font-bold text-center my-3 ${title.textColor} ${
-          title["border-b"] ? "border-b-8 border-accent-light" : ""
+        className={`text-4xl font-bold text-center my-3 ${title?.textColor} ${
+          title?.border_b ? "border-b-8 border-accent-light" : ""
         }`}
       >
-        {title.content}
+        {title?.content}
       </h1>
       <p className={`text-lg my-2 ${textColor}`}>{para1}</p>
       {para2 && <p className={`text-lg my-2 ${textColor}`}>{para2}</p>}
