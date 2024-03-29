@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import CountUp from "react-countup";
 import LoadingSpinner from "../../../../../../shared/components/LodingSpinner";
 import {
@@ -28,13 +28,19 @@ interface ContainerProps {
 }
 
 export default function QuizDataCard(): JSX.Element {
-  const [quizData, setQuizData] = useState<IQuizData>();
   const screenSize = useScreenSize();
 
   const fetchQuizData = async () => {
     const httpService = new HttpService();
     return httpService.get(APPLICATION.QUIZ_DATA_ENDPOINT);
   };
+
+  const { isPending, isError, data } = useQuery({
+    queryKey: ["quizData"],
+    queryFn: fetchQuizData,
+  });
+  const quizData: IQuizData = data?.data;
+
 
   const Container = ({ children }: ContainerProps): JSX.Element => {
     return (
@@ -53,12 +59,6 @@ export default function QuizDataCard(): JSX.Element {
       </section>
     );
   };
-
-  const { isPending, isError, data } = useQuery({
-    queryKey: ["quizData"],
-    queryFn: fetchQuizData,
-  });
-  if (data) setQuizData(data);
 
   if (isPending)
     return (
