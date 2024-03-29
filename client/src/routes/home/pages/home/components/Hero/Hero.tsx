@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import Button from "../../../../../../shared/components/Button";
+import brainPNG from '../../../../../../assets/brain.png';
 
 export default function HeroSection(): JSX.Element {
   const redirect = useNavigate();
 
   return (
-    <section className="bg-bg-primary w-full h-screen flex flex-col items-center justify-evenly mt-10 px-5 lg:flex-row">
+    <section className="bg-bg-primary w-full h-screen flex flex-col items-center justify-evenly mt-10 mb-20 px-5 lg:flex-row">
       {/* Titles */}
       <section className="flex flex-col justify-center items-center text-center lg:text-left">
         <h1 className="animated-bg text-8xl 2xl:text-9xl tracking-wide font-bold w-full">
@@ -27,7 +28,9 @@ export default function HeroSection(): JSX.Element {
 
       {/* Pictures */}
       <section className="flex items-center justify-center mx-2">
-        <div className="bg-accent-light h-[200px] w-[200px] md:h-[400px] md:w-[400px]"></div>
+        <a href="https://www.glazestock.com/image/9vabNnwyy" target="_blank">
+        <img src={brainPNG} alt="" />
+        </a>
       </section>
     </section>
   );
