@@ -23,6 +23,7 @@ export default function Privacy(): JSX.Element {
         <h2 className="text-xl font-bold my-4">
           <span className="text-accent">1.</span> Personenbezogene Daten
         </h2>
+
         <h3 className="font-semibold">
           <span className="text-accent">1.1</span> Benutzeranmeldung:
         </h3>
@@ -50,11 +51,25 @@ export default function Privacy(): JSX.Element {
 
       <div className="my-1">
         <h2 className="text-xl font-bold my-4">
-        <span className="text-accent">2.</span> Verwendung von Google Icons:
+        <span className="text-accent">2.</span> Verwendung von Google-Services:
         </h2>
-        <p>
+
+        <h3 className="font-semibold">
+          <span className="text-accent">2.1</span> Google-Icons:
+        </h3>
+        <p className="py-3">
           Wir verwenden Google-Icons in unserer App, um das Benutzererlebnis zu
           verbessern und eine intuitive Navigation zu ermöglichen. Diese Icons
+          sind Eigentum von Google und unterliegen den Datenschutzbestimmungen
+          von Google.
+        </p>
+
+        <h3 className="font-semibold">
+          <span className="text-accent">2.1</span> Google-Fonts:
+        </h3>
+        <p className="py-3">
+          Wir verwenden Google-Fonts in unserer App, um eine ansprechende
+          Darstellung von Texten und Schriftarten zu gewährleisten. Diese Fonts
           sind Eigentum von Google und unterliegen den Datenschutzbestimmungen
           von Google.
         </p>
