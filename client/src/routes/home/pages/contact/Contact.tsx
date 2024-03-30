@@ -62,7 +62,7 @@ export default function Contact() {
       />
       <Form
         onSubmit={(e) => handleSubmit(e)}
-        className="flex flex-col justify-center items-center max-w-5xl h-full w-10/12 bg-bg-secondary my-10 rounded-lg"
+        className="flex flex-col justify-center items-center max-w-5xl h-full w-10/12 bg-bg-secondary my-10 p-5 rounded-lg"
         btnText="Senden"
       >
         <Input
@@ -79,7 +79,7 @@ export default function Contact() {
           className="input rounded-md py-2 px-1 outline-none text-bg-primary w-full"
           required
         />
-        <div className="w-full p-5">
+        <div className="w-full p-2">
           <label htmlFor="message" className="text-xl my-2">
             Deine Nachricht
           </label>
