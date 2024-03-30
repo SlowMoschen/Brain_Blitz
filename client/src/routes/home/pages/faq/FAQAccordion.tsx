@@ -30,7 +30,7 @@ export default function FaqAccordion({ title, content }: AccordionProps) {
       </div>
       <div
         className={clsx(
-            'max-h-0 overflow-hidden transition-max-height duration-1000 mt-5 pt-1 leading-7 tracking-wide border-t border-accent-light',
+            'max-h-0 overflow-hidden transition-max-height duration-500 mt-5 pt-1 leading-7 tracking-wide border-t border-accent-light',
             isOpen && screenSize.width <= BREAKPOINTS.sm && 'max-h-64',
             isOpen && screenSize.width > BREAKPOINTS.sm && 'max-h-40'
         )}
