@@ -4,6 +4,7 @@ import brainPNG from '../../../../../../assets/brain.png';
 import useScreenSize from "../../../../../../shared/hooks/useScreenSize";
 import clsx from "clsx";
 import { BREAKPOINTS } from "../../../../../../shared/constants/breakpoints";
+import { scrollTo } from "../../../../../../shared/utils/helpers";
 
 export default function HeroSection(): JSX.Element {
   const redirect = useNavigate();
@@ -18,7 +19,7 @@ export default function HeroSection(): JSX.Element {
         </h1>
         <p className="text-4xl 2xl:text-5xl">Baue dein Wissen auf, Kategorie für Kategorie</p>
         <section className="my-5 w-full">
-          <Button className="secondary min-w-[300px] lg:w-[400px]" onClick={() => redirect("/faq")}>
+          <Button className="secondary min-w-[300px] lg:w-[400px]" onClick={() => scrollTo('how-section', 100)}>
             Wie funktioniert Brain Blitz?
           </Button>
           <Button
