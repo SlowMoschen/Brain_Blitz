@@ -63,6 +63,7 @@ export default function Contact() {
       <Form
         onSubmit={(e) => handleSubmit(e)}
         className="flex flex-col justify-center items-center max-w-5xl h-full w-10/12 bg-bg-secondary my-10 rounded-lg"
+        btnText="Senden"
       >
         <Input
           type="text"
