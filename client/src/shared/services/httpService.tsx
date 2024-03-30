@@ -23,6 +23,7 @@ export class HttpService {
     const response = await fetch(this._baseUrl + endpoint, {
       method,
       headers: this.defaultHeaders,
+      credentials: "include",
       body: JSON.stringify(data),
     });
     return this.hanldedResponse(response);
@@ -37,7 +38,7 @@ export class HttpService {
     return this._fetch("GET", endpoint);
   }
 
-  public post(endpoint: string, data: unknown) {
+  public post(endpoint: string, data?: unknown) {
     return this._fetch("POST", endpoint, data);
   }
 
