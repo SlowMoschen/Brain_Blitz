@@ -12,6 +12,7 @@ import Privacy from './routes/home/pages/privacy/Privacy.tsx'
 import Terms from './routes/home/pages/terms/Terms.tsx'
 import FAQ from './routes/home/pages/faq/FAQ.tsx'
 import Contact from './routes/home/pages/contact/Contact.tsx'
+import Memberships from './routes/home/pages/memberships/Memeberships.tsx'
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,14 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />,
+      },
+      {
+        path: '/faq',
+        element: <FAQ />,
+      },
+      {
+        path: 'memberships',
+        element: <Memberships />,
       },
       {
         path: '/about',
@@ -46,10 +55,6 @@ const router = createBrowserRouter([
         path: '/terms',
         element: <Terms />,
       },
-      {
-        path: '/faq',
-        element: <FAQ />,
-      }
     ],
   },
 ])
