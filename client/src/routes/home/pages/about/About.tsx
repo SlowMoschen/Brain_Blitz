@@ -22,7 +22,6 @@ export default function AboutPage(): JSX.Element {
       <Article
         title={{
           content: "Über Brain Blitz",
-          textColor: "text-primary",
           border_b: true,
         }}
         para1="Hier finden Sie eine vielfältige Auswahl an Quiz-Kategorien, darunter Geschichte, Popkultur, Biologie, das Universum, Geopolitik und vieles mehr. Jedes Quiz ist mit einer Zeitbegrenzung versehen, bei der richtige Antworten Punkte bringen und falsche Antworten Punkte abziehen. Zusätzlich erhalten Spieler für jede verbleibende Sekunde Extra-Punkte, um die Rangliste des jeweiligen Quiz spannend zu gestalten."
@@ -31,7 +30,6 @@ export default function AboutPage(): JSX.Element {
       <Article
         title={{
           content: "Über die Entwicklung von Brain Blitz",
-          textColor: "text-primary",
           border_b: true,
         }}
         para1="Ich bin Philipp, und es erfüllt mich mit Stolz, diese Quiz-App als Abschlussprojekt meines Softwareentwicklungs-Kurses allein entwickelt zu haben. Im Laufe von etwa zwei Monaten habe ich meine Zeit und Energie in das Design und die Programmierung dieses Projekts investiert. Als langjähriger Liebhaber von Quiz-Apps habe ich mich schon immer gerne in triviales Wissen vertieft, was mich zusätzlich motiviert hat, diese App zu kreieren."
