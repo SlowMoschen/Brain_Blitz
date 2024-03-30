@@ -17,7 +17,6 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 // {
 //     status: 'ok',
 //     statusCode: number,
-//     message: string,
 //     data: any, (this will be the data returned from the server)
 //     request: {
 //         method: string,
