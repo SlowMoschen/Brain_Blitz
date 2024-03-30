@@ -16,7 +16,7 @@ const pgSession = connectPGSession(session);
 async function bootstrap() {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule, {
 		cors: {
-			origin: '*',
+			origin: 'http://localhost:5173',
 			credentials: true,
 		},
 	});
@@ -52,6 +52,7 @@ async function bootstrap() {
 			cookie: {
 				maxAge: Number(process.env.SESSION_MAX_AGE),
 				sameSite: true,
+				httpOnly: false,
 			},
 		}),
 	);
