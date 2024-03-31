@@ -62,6 +62,7 @@ export default function Login() {
           placeholder="Muster@email.com"
           className="text-bg-primary rounded-sm py-1 px-2 outline-none"
           name="email"
+          labelContent="E-Mail-Adresse"
           required
         />
         <Input

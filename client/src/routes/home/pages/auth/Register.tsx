@@ -118,6 +118,7 @@ export default function Register(): JSX.Element {
             placeholder="Muster@email.com"
             className="text-bg-primary rounded-sm py-1 px-2 outline-none"
             name="email"
+            labelContent="E-Mail-Adresse"
             required
           />
           <div
