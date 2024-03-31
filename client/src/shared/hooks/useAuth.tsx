@@ -71,5 +71,19 @@ export const useAuth = () => {
     }
   };
 
-  return { login, logout, isAuthenticated, register, resetPassword };
+  const resendVerification = async (body: { email: string }) => {
+    try {
+      const response = await httpService.post("/auth/resend-verification-email", body);
+      if (response.data) {
+        return response.data;
+      }
+    } catch (error) {
+      console.error(error);
+      if (error instanceof Error) {
+        return error;
+      }
+    }
+  };
+
+  return { login, logout, isAuthenticated, register, resetPassword, resendVerification };
 };
