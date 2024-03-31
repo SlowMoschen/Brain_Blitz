@@ -1,11 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import Input from "../../../../../../shared/components/Input";
-import MessageBox from "../../../../../../shared/components/MessageBox";
-import { useAuth } from "../../../../../../shared/hooks/useAuth";
-import useError from "../../../../../../shared/hooks/useError";
-import { ValidationService } from "../../../../../../shared/services/validationService";
-import Form from "../../../../../../shared/components/Form";
-
+import Input from "../../../../shared/components/Input";
+import MessageBox from "../../../../shared/components/MessageBox";
+import { useAuth } from "../../../../shared/hooks/useAuth";
+import useError from "../../../../shared/hooks/useError";
+import { ValidationService } from "../../../../shared/services/validationService";
+import Form from "../../../../shared/components/Form";
 
 export default function Login() {
   const [error, handleError] = useError(true);
@@ -16,8 +15,8 @@ export default function Login() {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const email = formData.get("email")?.toString().toLowerCase() as string;
-    const password = formData.get("password")?.toString() as string;
+    const email = formData.get("email")?.toString().trim().toLowerCase() as string;
+    const password = formData.get("password")?.toString().trim() as string;
 
     try {
       await ValidationService.validate(email, ["isRequired", "isEmail"]);
@@ -31,7 +30,6 @@ export default function Login() {
       console.error(error);
 
       if (error instanceof Error) {
-        
         if (error.message === "Not Found") {
           handleError(
             "Benutzer nicht gefunden oder Passwort falsch. Bitte versuchen Sie es erneut."
@@ -62,15 +60,16 @@ export default function Login() {
         <Input
           type="email"
           placeholder="Muster@email.com"
-          className="text-bg-primary rounded-md py-1 px-2 outline-none"
+          className="text-bg-primary rounded-sm py-1 px-2 outline-none"
           name="email"
           required
         />
         <Input
           type="password"
           placeholder="min. 8 Zeichen"
-          className="text-bg-primary rounded-md py-1 px-2 outline-none"
+          className="text-bg-primary rounded-sm py-1 px-2 outline-none"
           name="password"
+          passwordToggle
           required
         />
         <div className="my-3 w-full">
