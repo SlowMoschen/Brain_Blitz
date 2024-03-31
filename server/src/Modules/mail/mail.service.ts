@@ -1,11 +1,20 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { PasswordChangedEvent, SendContactFormEvent, SendForgotPasswordMailEvent, SendVerifyMailEvent } from 'src/Events/notification.events';
+import {
+	PasswordChangedEvent,
+	SendContactFormEvent,
+	SendForgotPasswordMailEvent,
+	SendVerifyMailEvent,
+} from 'src/Events/notification.events';
+import { StringService } from '../shared/string-manipulation/string.service';
 
 @Injectable()
 export class MailService {
-	constructor(private readonly mailerService: MailerService) {}
+	constructor(
+		private readonly mailerService: MailerService,
+		private readonly stringService: StringService,
+	) {}
 
 	private async sendMail(options: {
 		to: string;
@@ -42,7 +51,7 @@ export class MailService {
 			subject: 'Willkommen bei Brain Blitz! Bitte bestätige deine E-Mail-Adresse',
 			template: './confirmation',
 			context: {
-				name: payLoad.firstName,
+				name: this.stringService.capitalize(payLoad.firstName),
 				url,
 			},
 		});
@@ -62,7 +71,7 @@ export class MailService {
 			subject: 'Passwort zurücksetzen',
 			template: './forgot-password',
 			context: {
-				name: payLoad.firstName,
+				name: this.stringService.capitalize(payLoad.firstName),
 				url,
 			},
 		});
@@ -82,7 +91,7 @@ export class MailService {
 			subject: 'Passwort wurde geändert',
 			template: './password-changed',
 			context: {
-				name: payLoad.firstName,
+				name: this.stringService.capitalize(payLoad.firstName),
 				url,
 			},
 		});
@@ -101,7 +110,7 @@ export class MailService {
 			subject: 'Kontaktformular',
 			template: './contact-form',
 			context: {
-				name: payLoad.name,
+				name: this.stringService.capitalize(payLoad.name),
 				email: payLoad.email,
 				message: payLoad.message,
 			},
