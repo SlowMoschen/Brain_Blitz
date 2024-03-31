@@ -43,5 +43,19 @@ export const useAuth = () => {
     }
   };
 
-  return { login, logout, isAuthenticated };
+  const register = async (body: { first_name: string; last_name: string; email: string; password: string }) => {
+    try {
+      const response = await httpService.post("/auth/register", body);
+      if (response.data) {
+        return response.data;
+      }
+    } catch (error) {
+      console.error(error);
+      if (error instanceof Error) {
+        return error;
+      }
+    }
+  };
+
+  return { login, logout, isAuthenticated, register };
 };
