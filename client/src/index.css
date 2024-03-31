@@ -23,16 +23,16 @@ body {
     animation: rotatingBG 5s ease-in-out infinite;
 }
 
-.btn:hover, .btn:focus {
+.btn:hover, .btn:active {
     transform: scale(1.05);
     outline: none;
 }
 
-.btn-primary:hover, .btn-primary:focus {
+.btn-primary:hover, .btn-primary:active {
     filter: drop-shadow(0 0 0.75rem #c10000);
 }
 
-.btn-secondary:hover, .btn-secondary:focus {
+.btn-secondary:hover, .btn-secondary:active {
     filter: drop-shadow(0 0 0.75rem #c4c4c4);
 }
 
