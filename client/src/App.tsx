@@ -16,6 +16,7 @@ import Terms from "./routes/home/pages/terms/Terms";
 import { LoginLoader } from "./shared/loaders/login.loader";
 import Register from "./routes/home/pages/auth/Register";
 import ForgotPassword from "./routes/home/pages/auth/Forgot-Password";
+import ResendVerification from "./routes/home/pages/auth/Resend-Verification";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -71,6 +72,10 @@ export default function App() {
         {
           path: "/auth/forgot-password",
           element: <ForgotPassword />,
+        },
+        {
+          path: "/auth/resend-verification-email",
+          element: <ResendVerification />,
         }
       ],
     },
