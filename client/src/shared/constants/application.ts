@@ -2,6 +2,13 @@ export const APPLICATION ={
     API_URL: "http://localhost:3000",
     QUIZ_DATA_ENDPOINT: "/quiz-data",
     CONTACT_ENDPOINT: "/contact",
+    PASSWORD_RESET_ENDPOINT: "/password-reset",
+    RESEND_CONFIRMATION_ENDPOINT: "/resend-confirmation",
+    LOGIN_ENDPOINT: "/auth/login",
+    REGISTER_ENDPOINT: "/auth/register",
+    LOGOUT_ENDPOINT: "/auth/logout",
+    PASSWORD_MIN_LEN: 8,
+    PASSWORD_MAX_LEN: 30,
 }
 
 export const COLORS = {
