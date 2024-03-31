@@ -15,7 +15,7 @@ import { AppController } from './app.controller';
 		ThrottlerModule.forRoot([
 			{
 				ttl: 60000,
-				limit: 10,
+				limit: 25,
 			}
 		]),
 		ConfigModule.forRoot({ isGlobal: true }),
