@@ -151,7 +151,6 @@ export class AuthController {
 	@ApiNotFoundResponse({ description: 'if user not found' })
 	@ApiInternalServerErrorResponse({ description: 'if email sending failed' })
 	@ApiBody({ description: 'email', type: EmailDTO })
-	@Throttle({ default: { limit: 3, ttl: 60 * 60 * 24 * 1000 } })
 	@Post('forgot-password')
 	@UsePipes(new ValidationPipe())
 	async forgotPassword(@Body() { email }: EmailDTO) {
