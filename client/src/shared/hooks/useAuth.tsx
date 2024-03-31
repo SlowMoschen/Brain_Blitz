@@ -57,5 +57,19 @@ export const useAuth = () => {
     }
   };
 
-  return { login, logout, isAuthenticated, register };
+  const resetPassword = async (body: { email: string }) => {
+    try {
+      const response = await httpService.post("/auth/forgot-password", body);
+      if (response.data) {
+        return response.data;
+      }
+    } catch (error) {
+      console.error(error);
+      if (error instanceof Error) {
+        return error;
+      }
+    }
+  };
+
+  return { login, logout, isAuthenticated, register, resetPassword };
 };
