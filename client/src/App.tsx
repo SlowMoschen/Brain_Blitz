@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Login from "./routes/home/pages/auth/pages/login/Login";
+import Login from "./routes/home/pages/auth/Login";
 import DashboardLayout from "./routes/dashboard/DashBoardLayout";
 import Dashboard from "./routes/dashboard/pages/root/Dashboard";
 import ErrorPage from "./routes/error/ErrorPage";
@@ -14,6 +14,7 @@ import Memberships from "./routes/home/pages/memberships/Memeberships";
 import Privacy from "./routes/home/pages/privacy/Privacy";
 import Terms from "./routes/home/pages/terms/Terms";
 import { LoginLoader } from "./shared/loaders/login.loader";
+import Register from "./routes/home/pages/auth/Register";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -61,7 +62,11 @@ export default function App() {
           path: "/auth/login",
           element: <Login />,
           loader: async () => await LoginLoader(),
-      }
+        },
+        {
+          path: "/auth/register",
+          element: <Register />,
+        }
       ],
     },
     {
