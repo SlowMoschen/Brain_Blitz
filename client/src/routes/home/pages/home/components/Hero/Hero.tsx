@@ -5,6 +5,7 @@ import useScreenSize from "../../../../../../shared/hooks/useScreenSize";
 import clsx from "clsx";
 import { BREAKPOINTS } from "../../../../../../shared/constants/breakpoints";
 import { scrollTo } from "../../../../../../shared/utils/helpers";
+import { APPLICATION } from "../../../../../../shared/constants/application";
 
 export default function HeroSection(): JSX.Element {
   const redirect = useNavigate();
@@ -24,7 +25,7 @@ export default function HeroSection(): JSX.Element {
           </Button>
           <Button
             className="primary min-w-[300px] lg:w-[400px]"
-            onClick={() => redirect("/auth/register")}
+            onClick={() => redirect(APPLICATION.REGISTER_ENDPOINT)}
           >
             Jetzt loslegen!
           </Button>

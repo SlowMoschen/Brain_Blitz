@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../../shared/components/Button";
 import Logo from "../../../../shared/components/Logo";
 import useToggle from "../../../../shared/hooks/useToggle";
+import { APPLICATION } from "../../../../shared/constants/application";
 
 export default function MobileRootNavbar(): JSX.Element {
   const redirect = useNavigate();
@@ -16,10 +17,10 @@ export default function MobileRootNavbar(): JSX.Element {
               {isOpen ? "close" : "menu"}
             </span>
             <section>
-              <Button className="secondary" onClick={() => redirect("/auth/login")}>
+              <Button className="secondary" onClick={() => redirect(APPLICATION.LOGIN_ENDPOINT)}>
                 Login
               </Button>
-              <Button className="primary" onClick={() => redirect("/auth/register")}>
+              <Button className="primary" onClick={() => redirect(APPLICATION.REGISTER_ENDPOINT)}>
                 Anmelden
               </Button>
             </section>

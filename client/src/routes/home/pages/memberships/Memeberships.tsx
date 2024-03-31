@@ -4,6 +4,7 @@ import useScreenSize from "../../../../shared/hooks/useScreenSize";
 import MembershipCard from "./MembershipCard";
 import { BREAKPOINTS } from "../../../../shared/constants/breakpoints";
 import { useNavigate } from "react-router-dom";
+import { APPLICATION } from "../../../../shared/constants/application";
 
 export default function Memberships() {
   const screenSize = useScreenSize();
@@ -20,7 +21,7 @@ export default function Memberships() {
       title: "Basic",
       price: "Gratis",
       features: defaultFeatures,
-      btnOnClick: () => redirect("/auth/register"),
+      btnOnClick: () => redirect(APPLICATION.REGISTER_ENDPOINT),
       btnText: "Jetzt loslegen",
       isAvailable: true,
     },
