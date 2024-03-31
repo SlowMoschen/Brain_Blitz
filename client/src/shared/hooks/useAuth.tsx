@@ -1,37 +1,47 @@
 import { HttpService } from "../services/httpService";
-import { useUser } from "./useUser";
 
 export const useAuth = () => {
-    const { user, addUser, removeUser, setUser } = useUser();
-    const httpService = new HttpService();
+  const httpService = new HttpService();
 
-    const login = async () => {
-        try {
-            const response = await httpService.get("/auth/login");
-            if (response.data) {
-                addUser();
-                return;
-            }
-
-            throw new Error(response.message);
-        } catch (error) {
-            console.error(error);
-        }
+  const login = async (body: { email: string; password: string }): Promise<Error | void> => {
+    try {
+      const response = await httpService.post("/auth/login", body);
+      if (response.data) {
+        return response.data;
+      }
+    } catch (error) {
+      console.error(error);
+      if (error instanceof Error) {
+        return error;
+      }
     }
+  };
 
-    const logout = async () => {
-        try {
-            const response = await httpService.get("/auth/logout");
-            if (response.data) {
-                removeUser();
-                return;
-            }
+  const logout = async () => {
+    try {
+      const response = await httpService.get("/auth/logout");
+      if (response.data) {
+        return response.data;
+      }
 
-            throw new Error(response.message);
-        } catch (error) {
-            console.error(error);
-        }
+      throw new Error(response.message);
+    } catch (error) {
+      console.error(error);
     }
+  };
 
-    return { user, login, logout, setUser };
-}
+  const isAuthenticated = async () => {
+    try {
+      const response = await httpService.get("/auth/session");
+      if (response.data) {
+        return response.data;
+      }
+
+      throw new Error(response.message);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return { login, logout, isAuthenticated };
+};
