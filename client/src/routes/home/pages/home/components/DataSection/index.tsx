@@ -1,11 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import { ReactNode } from "react";
-import LoadingSpinner from "../../../../../../shared/components/LodingSpinner";
-import { APPLICATION, COLORS } from "../../../../../../shared/constants/application";
+import { useOutletContext } from "react-router-dom";
 import { BREAKPOINTS } from "../../../../../../shared/constants/breakpoints";
 import useScreenSize from "../../../../../../shared/hooks/useScreenSize";
-import { HttpService } from "../../../../../../shared/services/httpService";
 import DataCountCard from "./DataCard";
 
 interface IQuizData {
@@ -25,39 +22,24 @@ interface ContainerProps {
 
 export default function QuizDataCard(): JSX.Element {
   const screenSize = useScreenSize();
+  const fetchedData: { quizData: IQuizData } = useOutletContext();
 
-  const fetchQuizData = async () => {
-    const httpService = new HttpService();
-    return httpService.get(APPLICATION.QUIZ_DATA_ENDPOINT);
-  };
-
-  const { isPending, isError, data } = useQuery({
-    queryKey: ["quizData"],
-    queryFn: fetchQuizData,
-  });
-  const quizData: IQuizData = data?.data;
+  const { quizData } = fetchedData;
 
   const Container = ({ children }: ContainerProps): JSX.Element => {
     return (
       <section
         className={clsx(
           "bg-bg-secondary text-bg-secondary rounded-lg my-10 mx-5 p-5 w-11/12 max-w-[1500px] min-h-24 relative",
-          isError || (isPending && "flex justify-center items-center text-xl font-bold"),
+          fetchedData instanceof Error && "flex justify-center items-center text-xl font-bold",
           screenSize.width <= BREAKPOINTS.sm && "flex flex-col gap-3",
-          screenSize.width >= BREAKPOINTS.md && !isError && "grid grid-cols-7 grid-rows-2 gap-3"
+          screenSize.width >= BREAKPOINTS.md && quizData && "grid grid-cols-7 grid-rows-2 gap-3"
         )}
       >
         {children}
       </section>
     );
   };
-
-  if (isPending)
-    return (
-      <Container>
-        <LoadingSpinner className="absolute right-2/4" color={COLORS.ACCENT} size={30} />
-      </Container>
-    );
 
   return (
     <Container>
