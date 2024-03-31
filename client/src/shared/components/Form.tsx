@@ -11,7 +11,7 @@ export default function Form({ onSubmit, className, children, btnText = 'Submit'
     return (
         <form className={className} onSubmit={onSubmit}>
             {children}
-            <Button type="submit" className='primary w-full my-2' maxWidth="200px" onClick={() => console.log('form submit')} children={btnText} />
+            <Button type="submit" className='primary w-full my-2' maxWidth="250px" onClick={() => console.log('form submit')} children={btnText} />
         </form>
     );
 }
