@@ -4,6 +4,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   type: "text" | "email" | "password";
   placeholder: string;
   className: string;
+  passwordToggle?: boolean;
+  labelContent?: string;
 }
 
 export default function Input({
@@ -11,6 +13,8 @@ export default function Input({
   placeholder,
   className,
   name,
+  passwordToggle,
+  labelContent,
   onChange,
   ...rest
 }: InputProps) {
@@ -24,7 +28,7 @@ export default function Input({
     <>
       <div className="flex flex-col w-full p-2 relative">
         <label htmlFor={name} className="text-xl my-1">
-          {capitalize(name)}
+          {labelContent ? capitalize(labelContent) : capitalize(name)}
         </label>
         <input
           type={type === "password" ? (showPassword ? "text" : "password") : type}
@@ -35,7 +39,7 @@ export default function Input({
           {...rest}
         />
         {rest.required && <p className="text-xs opacity-50 my-1">*Pflichtfeld</p>}
-        {type === "password" && (
+        {type === "password" && passwordToggle && (
           <span
             className="material-symbols-outlined text-bg-primary absolute right-4 top-12 cursor-pointer"
             onClick={() => toggleShowPassword()}
