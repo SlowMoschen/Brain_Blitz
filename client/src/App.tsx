@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Login from "./routes/auth/pages/login/Login";
+import Login from "./routes/home/pages/auth/pages/login/Login";
 import DashboardLayout from "./routes/dashboard/DashBoardLayout";
 import Dashboard from "./routes/dashboard/pages/root/Dashboard";
 import ErrorPage from "./routes/error/ErrorPage";
