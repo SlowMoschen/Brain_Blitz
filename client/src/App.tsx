@@ -1,4 +1,8 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Login from "./routes/auth/pages/login/Login";
+import DashboardLayout from "./routes/dashboard/DashBoardLayout";
+import Dashboard from "./routes/dashboard/pages/root/Dashboard";
 import ErrorPage from "./routes/error/ErrorPage";
 import RootLayout from "./routes/home/RootLayout";
 import About from "./routes/home/pages/about/About";
@@ -9,11 +13,6 @@ import Imprint from "./routes/home/pages/imprint/Imprint";
 import Memberships from "./routes/home/pages/memberships/Memeberships";
 import Privacy from "./routes/home/pages/privacy/Privacy";
 import Terms from "./routes/home/pages/terms/Terms";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useAuth } from "./shared/hooks/useAuth";
-import { AuthContext } from "./shared/context/AuthContext";
-import AuthLayout from "./routes/auth/AuthLayout";
-import Login from "./routes/auth/pages/login/Login";
 import { LoginLoader } from "./shared/loaders/login.loader";
 
 export default function App() {
@@ -58,29 +57,30 @@ export default function App() {
           path: "/terms",
           element: <Terms />,
         },
+        {
+          path: "/auth/login",
+          element: <Login />,
+          loader: async () => await LoginLoader(),
+      }
       ],
     },
     {
-        element: <AuthLayout />,
-        children: [
-            {
-                path: "/auth/login",
-                element: <Login />,
-                loader: async () => await LoginLoader(),
-            }
-        ]
+      element: <DashboardLayout />,
+      children: [
+        {
+          path: "/dashboard",
+          element: <Dashboard />,
+        },
+      ],
     },
   ]);
 
   const queryClient = new QueryClient();
-  const { user, setUser } = useAuth();
 
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <AuthContext.Provider value={{ user, setUser }}>
         <RouterProvider router={router} />
-        </AuthContext.Provider>
       </QueryClientProvider>
     </>
   );
