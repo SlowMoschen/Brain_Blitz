@@ -1,15 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import Form from "../../../../shared/components/Form";
 import Input from "../../../../shared/components/Input";
-import Logo from "../../../../shared/components/Logo";
 import MessageBox from "../../../../shared/components/MessageBox";
+import { useAuth } from "../../../../shared/hooks/useAuth";
 import useError from "../../../../shared/hooks/useError";
-import { HttpService } from "../../../../shared/services/httpService";
 import { ValidationService } from "../../../../shared/services/validationService";
 
 export default function Login() {
-  const httpService = new HttpService();
   const [error, handleError] = useError(true);
+  const { login } = useAuth();
   const redirect = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -23,22 +22,17 @@ export default function Login() {
       await ValidationService.validate(email, ["isRequired", "isEmail"]);
       await ValidationService.validate(password, ["isRequired", "minLen", "maxLen", "isPassword"]);
 
-      const response = await httpService.post("/auth/login", {
-        email,
-        password,
-      });
-      if (response.data) {
-        console.log(response.data);
-        redirect("/dashboard");
-        return;
-      }
+      const res = await login({ email, password });
+      if (res instanceof Error) throw res;
 
-      throw new Error(response.message);
+      redirect("/dashboard");
     } catch (error) {
       console.error(error);
       if (error instanceof Error) {
         if (error.message === "Not Found") {
-          handleError("Benutzer nicht gefunden oder Passwort falsch. Bitte versuchen Sie es erneut.");
+          handleError(
+            "Benutzer nicht gefunden oder Passwort falsch. Bitte versuchen Sie es erneut."
+          );
           return;
         }
 
@@ -53,10 +47,9 @@ export default function Login() {
 
   return (
     <>
-      <Logo maxHeight="120px" maxWidth="200px" className="my-2" />
       <Form
         onSubmit={(e) => handleSubmit(e)}
-        className="bg-bg-secondary py-5 px-2 m-5 rounded-lg w-11/12 max-w-5xl flex flex-col items-center"
+        className="bg-bg-secondary py-5 px-2 m-5 my-10 rounded-lg w-11/12 max-w-5xl flex flex-col items-center"
         btnText="Login"
       >
         <h1 className="text-3xl font-bold border-b-4 border-accent-light w-full px-2">Login</h1>
