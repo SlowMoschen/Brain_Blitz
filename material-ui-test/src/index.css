@@ -9,6 +9,9 @@ body {
 
 #root {
     padding-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .animated-bg {

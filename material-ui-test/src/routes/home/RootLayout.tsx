@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { BREAKPOINTS } from "../../configs/Breakpoints";
 import useScreenSize from "../../shared/hooks/useScreenSize";
-import Footer from "./components/Footer";
+import Footer from "./components/footer/Footer";
 import MobileNavbar from "./components/navbar/_MobileNavbar.main";
 import Navbar from "./components/navbar/_Navbar.main";
 

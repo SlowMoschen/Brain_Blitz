@@ -8,8 +8,9 @@ interface RouterButtonProps extends ButtonProps {
 }
 
 export default function RouterButton({ to, text, color, ...rest }: RouterButtonProps) {
+
     return (
-        <Button component={RouterLink} to={to} {...rest} variant="text" color={color}>
+        <Button component={RouterLink} to={to} variant="text" color={color} {...rest}>
             {text}
         </Button>
     )
