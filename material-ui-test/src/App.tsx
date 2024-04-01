@@ -5,9 +5,14 @@ import Home from "./routes/home/pages/root/Root";
 import { ThemeProvider } from "@emotion/react";
 import customTheme from "./configs/CustomTheme";
 import { CssBaseline } from "@mui/material";
+import ErrorPage from "./routes/error/ErrorPage";
 
 export default function App() {
   const router = createBrowserRouter([
+    {
+      path: "*",
+      element: <ErrorPage />,
+    },
     {
       path: "/",
       element: <RootLayout />,
