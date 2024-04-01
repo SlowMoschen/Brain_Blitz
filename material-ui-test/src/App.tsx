@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import RootLayout from "./routes/home/RootLayout";
-import Home from "./routes/home/Home";
+import Home from "./routes/home/pages/root/Root";
 import { ThemeProvider } from "@emotion/react";
 import customTheme from "./configs/CustomTheme";
 import { CssBaseline } from "@mui/material";

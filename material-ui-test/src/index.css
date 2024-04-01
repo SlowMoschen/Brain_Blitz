@@ -4,7 +4,11 @@
 
 body {
     margin: 0;
-    height: 100vh;
+    height: fit-content;
+}
+
+#root {
+    padding-bottom: 1rem;
 }
 
 .animated-bg {
