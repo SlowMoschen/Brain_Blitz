@@ -25,7 +25,7 @@ const defaultMenuItems = [
 export default function NavMenu() {
   const { width } = useScreenSize();
 
-  const isMobile = width <= BREAKPOINTS.sm;
+  const isMobile = width <= BREAKPOINTS.md;
   const isDesktop = width > BREAKPOINTS.lg;
 
   const BoxStyles = {
