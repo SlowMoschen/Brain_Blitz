@@ -51,12 +51,12 @@ export default function Herosection() {
   const subTitleStyle = {
     fontWeight: "400",
     textAlign: isDesktop ? "left" : "center",
-    fontSize: isXL ? "2.5rem" : isDesktop ? "1.8rem" : "1.5rem",
+    fontSize: isXL ? "2.5rem" : isDesktop ? "2.2rem" : "2rem",
     letterSpacing: "0.1rem",
   };
 
   const buttonStyle = {
-    width: isXL ? "350px" : "250px",
+    width: isXL ? "350px" : "300px",
     m: 0.5,
     p: 1,
     fontWeight: "600",
