@@ -5,7 +5,7 @@ import useScreenSize from "../../../../shared/hooks/useScreenSize";
 
 const defaultMenuItems = [
   {
-    text: "Home",
+    text: "Startseite",
     to: "/",
   },
   {
