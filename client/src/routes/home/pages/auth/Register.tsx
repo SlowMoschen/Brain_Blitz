@@ -28,9 +28,9 @@ export default function Register(): JSX.Element {
     const confirm_password = e.currentTarget.confirm_password.value.trim();
 
     if (password !== confirm_password) {
-        e.currentTarget.password.value = "";
-        e.currentTarget.confirm_password.value = "";
-        handleError("Passwörter stimmen nicht überein.");
+      e.currentTarget.password.value = "";
+      e.currentTarget.confirm_password.value = "";
+      handleError("Passwörter stimmen nicht überein.");
       return;
     }
 
@@ -145,7 +145,26 @@ export default function Register(): JSX.Element {
               required
             />
           </div>
+          <MessageBox message={error} className="min-h-11 text-primary" />
           <div className="my-3 w-full">
+            <input
+              type="checkbox"
+              name="terms"
+              id="terms-cb"
+              className="text-sm px-2 mt-1 mx-2"
+              required
+            />
+            <label htmlFor="terms-cb" className="text-sm mt-1">
+              Ich akzeptiere die{" "}
+              <a href="/terms" className="text-primary underline">
+                Nutzungsbedingungen
+              </a>{" "}
+              und die{" "}
+              <a href="/privacy" className="text-primary underline">
+                Datenschutzerklärung
+              </a>
+              .
+            </label>
             <p className="text-sm px-2 mt-1 w-full">
               Hast du schon einen Account?{" "}
               <a href="/auth/login" className="text-primary underline">
@@ -153,7 +172,6 @@ export default function Register(): JSX.Element {
               </a>
             </p>
           </div>
-          <MessageBox message={error} className="min-h-11 text-primary" />
         </Form>
       </>
     );
