@@ -7,6 +7,7 @@ declare module '@mui/material/styles' {
 
     interface TypeText {
         dark: string;
+        main: string;
     }
 }
 
@@ -16,6 +17,12 @@ declare module '@mui/material/styles' {
     }
     interface PaletteOptions {
         accent: SimplePaletteColorOptions;
+    }
+}
+
+declare module '@mui/material/Button' {
+    interface ButtonPropsColorOverrides {
+        text: true;
     }
 }
 
@@ -40,7 +47,8 @@ const customTheme = createTheme({
             primary: '#ffffff',
             secondary: '#c4c4c4',
             disabled: '#7f7f7f',
-            dark: '#000000'
+            dark: '#000000',
+            main: '#ffffff'
         }
     },
     typography: {
