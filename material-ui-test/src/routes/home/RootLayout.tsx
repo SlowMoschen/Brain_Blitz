@@ -1,9 +1,10 @@
 import { Outlet } from "react-router-dom";
 import { Container } from "@mui/material";
-import { MobileNavbar, Navbar } from "./components/Navbar";
 import useScreenSize from "../../shared/hooks/useScreenSize";
 import { BREAKPOINTS } from "../../configs/Breakpoints";
 import Footer from "./components/Footer";
+import Navbar from "./components/navbar/_Navbar.main";
+import MobileNavbar from "./components/navbar/_MobileNavbar.main";
 
 export default function RootLayout() {
   const { width } = useScreenSize();
