@@ -32,6 +32,12 @@ declare module '@mui/material/AccordionSummary' {
     }
 }
 
+declare module '@mui/material/TextField' {
+    interface TextFieldPropsColorOverrides {
+        accent: true;
+    }
+}
+
 const customTheme = createTheme({
     palette: {
         primary: {

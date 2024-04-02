@@ -12,4 +12,7 @@ export const URLS = {
   FORGOT_PASSWORD: "/auth/forgot-password",
   RESEND_VERIFICATION_EMAIL: "/auth/resend-verification-email",
   DASBOARD: "/dashboard",
+  API_URL: "http://localhost:3000",
+  QUIZ_DATA_ENDPOINT: "/quiz-data",
+  CONTACT_ENDPOINT: "/contact",
 };
