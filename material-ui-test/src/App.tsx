@@ -9,6 +9,9 @@ import ErrorPage from "./routes/error/ErrorPage";
 import About from "./routes/home/pages/about/About";
 import FAQ from "./routes/home/pages/faq/FAQ";
 import Memberships from "./routes/home/pages/memberships/Memberships";
+import Imprint from "./routes/home/pages/imprint/Imprint";
+import Terms from "./routes/home/pages/terms/Terms";
+import Privacy from "./routes/home/pages/privacy/Privacy";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -24,6 +27,9 @@ export default function App() {
         { path: "/about", element: <About /> },
         { path: "/faq", element: <FAQ />},
         { path: '/memberships', element: <Memberships /> },
+        { path: "/imprint", element: <Imprint />},
+        { path: "/terms-and-conditions", element: <Terms />},
+        { path: "/privacy", element: <Privacy />}
       ],
     },
   ]);
