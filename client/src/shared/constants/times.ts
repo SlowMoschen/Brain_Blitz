@@ -1,5 +1,0 @@
-export const TIMES = {
-    ERROR_MESSAGE_DURATION: 3000,
-    COUNT_UP_DELAY: 0.3,
-    COUNT_UP_DURATION: 2,
-}

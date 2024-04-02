@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TIMES } from "../constants/times";
+import { TIMES } from "../../../../client/src/shared/constants/times";
 
 
 /**

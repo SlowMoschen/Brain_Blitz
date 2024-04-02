@@ -1,0 +1,18 @@
+export const URLS = {
+  HOME: "/",
+  ABOUT: "/about",
+  FAQ: "/faq",
+  MEMBERSHIPS: "/memberships",
+  CONTACT: "/contact",
+  IMPRINT: "/imprint",
+  PRIVACY: "/privacy",
+  TERMS_AND_CONDITIONS: "/terms-and-conditions",
+  LOGIN: "/auth/login",
+  REGISTER: "/auth/register",
+  FORGOT_PASSWORD: "/auth/forgot-password",
+  RESEND_VERIFICATION_EMAIL: "/auth/resend-verification-email",
+  DASBOARD: "/dashboard",
+  API_URL: "http://localhost:3000",
+  QUIZ_DATA_ENDPOINT: "/quiz-data",
+  CONTACT_ENDPOINT: "/contact",
+};

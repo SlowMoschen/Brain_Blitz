@@ -1,120 +1,135 @@
-import { Link } from "react-router-dom";
+import { Box, Divider, Typography } from "@mui/material";
 import Logo from "../../../../shared/components/Logo";
-import { BREAKPOINTS } from "../../../../shared/constants/breakpoints";
+import RouterButton from "../../../../shared/components/buttons/RouterButton";
+import { accountLinks, legalLinks, navigationLinks } from "./links";
+import useScreenSize from "../../../../shared/hooks/useScreenSize";
+import { BREAKPOINTS } from "../../../../configs/Breakpoints";
 
-export default function RootFooter(): JSX.Element {
+export default function Footer() {
+  const { width } = useScreenSize();
+
+  const isMobile = width < BREAKPOINTS.md;
+
+  const footerStyles = {
+    bgcolor: "background.secondary",
+    mx: 1,
+    py: 2,
+    borderRadius: '.375rem',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "95%",
+  };
+
+  const containerStyles = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: isMobile ? "flex-start" : "center",
+    flexDirection: isMobile ? "column" : "row",
+    p: 2,
+    width: "100%",
+  };
+
+  const linkContainerStyles = {
+    display: "flex",
+    flexDirection: isMobile ? "column" : "row",
+    alignItems: "flex-start",
+    width: "70%",
+  };
+
+  const imgContainerStyles = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: isMobile ? "100%" : "30%",
+  };
+
+  const linkBoxStyles = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    flexDirection: "column",
+    p: 2,
+    width: "100%",
+  };
+
+  const linkBoxHeaderStyles = {
+    opacity: "50%",
+    textDecoration: "underline",
+    textUnderlineOffset: "4px",
+    mb: 1,
+  };
+
+  const btnStyles = {
+    p: 0,
+    textAlign: "left",
+    my: 0.2,
+    justifyContent: "flex-start",
+  };
+
   return (
-    <>
-      <footer className="bg-bg-secondary m-5 p-5 rounded-lg flex flex-col justify-center items-center ">
-        <section
-          className={
-            window.innerWidth >= BREAKPOINTS.md
-              ? "flex justify-evenly items-center w-full my-2"
-              : ""
-          }
-        >
-          <Logo maxHeight="70px" maxWidth="200px" />
-
-          <section className={ `flex my-2 ${window.innerWidth >= BREAKPOINTS.md ? "justify-evenly w-1/2" : "flex-col"}`}>
-            {/* Navigation Links */}
-            <section className="my-2">
-              <p className="underline opacity-50 underline-offset-4">Navigation</p>
-              <menu className="text-left my-2 text-xl">
-                <li>
-                  <Link to="/" className="hover:text-primary active:text-primary">
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/faq" className="hover:text-primary active:text-primary">
-                    FAQ
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/about" className="hover:text-primary active:text-primary">
-                    Über uns
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/memberships" className="hover:text-primary active:text-primary">
-                    Memberships
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/dashboard" className="hover:text-primary active:text-primary">
-                    Dashboard
-                  </Link>
-                </li>
-              </menu>
-            </section>
-
-            {/* Rechtliche Links */}
-            <section className="my-2">
-              <p className="underline opacity-50 underline-offset-4">Rechtliches</p>
-              <menu className="text-left my-2 text-xl">
-                <li>
-                  <Link to="/imprint" className="hover:text-primary active:text-primary">
-                    Impressum
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/privacy" className="hover:text-primary active:text-primary">
-                    Datenschutz
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/terms" className="hover:text-primary active:text-primary">
-                    AGB
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/contact" className="hover:text-primary active:text-primary">
-                    Kontakt
-                  </Link>
-                </li>
-              </menu>
-            </section>
-
-            {/* Account Links */}
-            <section className="my-2">
-              <p className="underline opacity-50 underline-offset-4">Account</p>
-              <menu className="text-left my-2 text-xl">
-              <li>
-                  <Link to="/auth/login" className="hover:text-primary active:text-primary">
-                    Login
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/auth/register" className="hover:text-primary active:text-primary">
-                    Registrieren
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/auth/forgot-password" className="hover:text-primary active:text-primary">
-                    Passwort vergessen
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/auth/resend-verification-email" className="hover:text-primary active:text-primary">
-                    Verifizierung erneut senden
-                  </Link>
-                </li>
-              </menu>
-            </section>
-          </section>
-        </section>
-
-        {/* Divider */}
-        <div className="w-full bg-secondary h-[.1rem] opacity-50 my-2"></div>
-
-        {/* Foot Note */}
-        <section className="w-full flex flex-col justify-start">
-          <p className="">
-            &copy; {new Date().getFullYear()} <span className="font-bold">Brain Blitz</span>
-          </p>
-          <p>Website made with ❤ by Philipp Millner</p>
-        </section>
-      </footer>
-    </>
+    <Box sx={{ ...footerStyles }}>
+      <Box sx={{ ...containerStyles }}>
+        <Box sx={{ ...imgContainerStyles }}>
+          <Logo maxWidth="200px" />
+        </Box>
+        <Box sx={{ ...linkContainerStyles }}>
+          <Box sx={{ ...linkBoxStyles }}>
+            <Typography sx={{ ...linkBoxHeaderStyles }}>Navigation</Typography>
+            {navigationLinks.map((link, index) => (
+              <RouterButton
+                key={index}
+                to={link.to}
+                variant="text"
+                text={link.text}
+                color="text"
+                sx={{ ...btnStyles }}
+              />
+            ))}
+          </Box>
+          <Box sx={{ ...linkBoxStyles }}>
+            <Typography sx={{ ...linkBoxHeaderStyles }}>Account</Typography>
+            {accountLinks.map((link, index) => (
+              <RouterButton
+                key={index}
+                to={link.to}
+                variant="text"
+                text={link.text}
+                color="text"
+                sx={{ ...btnStyles }}
+              />
+            ))}
+          </Box>
+          <Box sx={{ ...linkBoxStyles }}>
+            <Typography sx={{ ...linkBoxHeaderStyles }}>Rechtliches</Typography>
+            {legalLinks.map((link, index) => (
+              <RouterButton
+                key={index}
+                to={link.to}
+                variant="text"
+                text={link.text}
+                color="text"
+                sx={{ ...btnStyles }}
+              />
+            ))}
+          </Box>
+        </Box>
+      </Box>
+      <Divider sx={{ width: "98%", opacity: "50%", bgcolor: "secondary.main" }} />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "flex-start",
+          flexDirection: "column",
+          p: 2,
+          width: "100%",
+        }}
+      >
+        <Typography>© {new Date().getFullYear()} Brain Blitz</Typography>
+        <Typography>Made with ❤️ by Philipp Millner</Typography>
+      </Box>
+    </Box>
   );
 }

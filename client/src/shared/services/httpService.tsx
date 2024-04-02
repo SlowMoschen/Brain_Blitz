@@ -7,11 +7,12 @@
  * The response is parsed as JSON and returned.
  */
 
-import { APPLICATION } from "../constants/application";
+import { URLS } from "../../configs/Links";
+
 
 export class HttpService {
 
-  constructor(private readonly _baseUrl: string = APPLICATION.API_URL) {}
+  constructor(private readonly _baseUrl: string = URLS.API_URL) {}
 
   private get defaultHeaders() {
     return {

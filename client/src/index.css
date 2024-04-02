@@ -1,18 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-*, *::before, *::after{
-    margin: 0;
-    padding: 0;
+* {
     box-sizing: border-box;
 }
 
 body {
-    background-color: #1a1a1a;
-    color: #fcfcfc;
-    font-family: 'Roboto', sans-serif;
-    height: 100%;
+    margin: 0;
+    height: fit-content;
+}
+
+#root {
+    padding-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .animated-bg {
@@ -23,17 +22,12 @@ body {
     animation: rotatingBG 5s ease-in-out infinite;
 }
 
-.btn:hover, .btn:active {
-    transform: scale(1.05);
-    outline: none;
+.enlarged-icon {
+    transform: scale(2);
 }
 
-.btn-primary:hover, .btn-primary:active {
-    filter: drop-shadow(0 0 0.75rem #c10000);
-}
-
-.btn-secondary:hover, .btn-secondary:active {
-    filter: drop-shadow(0 0 0.75rem #c4c4c4);
+.border-b-accent {
+    border-bottom: 8px solid #465c2f;
 }
 
 @keyframes rotatingBG {

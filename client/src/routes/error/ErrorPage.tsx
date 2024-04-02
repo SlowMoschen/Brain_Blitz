@@ -1,34 +1,40 @@
-import logo from "../../assets/logoNoText.png";
+import { Container, Link, Typography } from "@mui/material";
+import logoNoText from "../../assets/logoNoText.png";
+import { URLS } from "../../configs/Links";
 
-/**
- * @description Page for 404 error - redirects to previous page or contact page
- * @returns ErrorPage component
- */
+export default function ErrorPage() {
+  const containerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+  };
 
-export default function ErrorPage(): JSX.Element {
-  function goBack(): void {
+  const goBack = () => {
     window.history.back();
-  }
+  };
 
   return (
     <>
-      <div className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 flex flex-col justify-center items-center w-full">
-        <img src={logo} alt="Logo" className="max-w-[8rem]" />
-        <h1 className="text-8xl font-bold text-center animated-bg tracking-wide">404</h1>
-        <h2 className="text-2xl opacity-50">Page not found</h2>
-        <p className="leading-6 text-pretty m-3">
-          Die angeforderte Seite ist nicht verfügbar oder es ist ein Fehler aufgetreten.
-          <br />{" "}
-          <button className="underline text-primary" onClick={() => goBack()}>
+      <Container sx={{ ...containerStyle }}>
+        <img src={logoNoText} alt="Brain Blitz Logo without Text" />
+        <Typography variant="h1" className="animated-bg" fontWeight={600} fontSize={150}>
+          404
+        </Typography>
+        <Typography variant="h2" fontSize={20} sx={{ opacity: "50%", mb: 2 }}>
+          Seite nicht gefunden
+        </Typography>
+        <Typography variant="body1">
+          Die angeforderte Seite ist nicht verfügbar oder es ist ein Fehler aufgetretten.
+        </Typography>
+        <Typography variant="body1">
+          <Link onClick={() => goBack()} sx={{ cursor: "pointer" }}>
             Gehe zurück
-          </button>{" "}
-          oder{" "}
-          <a href="/contact" className="underline text-primary">
-            kontaktiere unseren Support
-          </a>
-          .
-        </p>
-      </div>
+          </Link>{" "}
+          oder <Link href={URLS.CONTACT}>kontaktiere unseren Support</Link>
+        </Typography>
+      </Container>
     </>
   );
 }
