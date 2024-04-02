@@ -83,6 +83,8 @@ export default function Privacy() {
           subSteps={step.subSteps}
         />
       ))}
+      
+      <Typography sx={{ opacity: '.5', fontSize: '.8rem'}}>Diese Datenschutzerklärung wurde zuletzt am 02.04.2024 aktualisiert.</Typography>
     </Box>
   );
 }
