@@ -11,6 +11,12 @@ interface WhyCardProps {
   description: string;
 }
 
+/**
+ * This component is responsible for rendering a card with an icon, title, and description.
+ * The card contains information about why the user should use the application.
+ * The component is responsive and displays the card in a column on mobile devices.
+ * The card has a title, description, and an icon.
+ */
 function WhyCard({ icon, title, description }: WhyCardProps) {
   const cardStyles = {
     display: "flex",
@@ -46,6 +52,11 @@ function WhyCard({ icon, title, description }: WhyCardProps) {
   );
 }
 
+
+/**
+ * This is the main component that renders the why section.
+ * It displays three cards with icons, titles, and descriptions.
+ */
 export default function WhySection() {
   const { width } = useScreenSize();
 
