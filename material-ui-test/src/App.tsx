@@ -12,6 +12,7 @@ import Memberships from "./routes/home/pages/memberships/Memberships";
 import Imprint from "./routes/home/pages/imprint/Imprint";
 import Terms from "./routes/home/pages/terms/Terms";
 import Privacy from "./routes/home/pages/privacy/Privacy";
+import Contact from "./routes/home/pages/contact/Contact";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -29,7 +30,8 @@ export default function App() {
         { path: '/memberships', element: <Memberships /> },
         { path: "/imprint", element: <Imprint />},
         { path: "/terms-and-conditions", element: <Terms />},
-        { path: "/privacy", element: <Privacy />}
+        { path: "/privacy", element: <Privacy />},
+        { path: '/contact', element: <Contact />}
       ],
     },
   ]);
