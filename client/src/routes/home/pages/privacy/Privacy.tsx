@@ -70,7 +70,7 @@ export default function Privacy() {
       </Typography>
       <Typography variant="body1" my={2}>
         Wir bei Brain Blitz, erreichbar unter der E-Mail-Adresse service@brain-blitz.com, legen
-        großen Wert auf den Schutz Ihrer persönlichen Daten. Diese Datenschutzerklärung erläutert,
+        großen Wert auf den Schutz deiner persönlichen Daten. Diese Datenschutzerklärung erläutert,
         wie wir deine Informationen sammeln, verwenden, offenlegen und schützen, wenn du unsere
         Quiz-App nützt.
       </Typography>
