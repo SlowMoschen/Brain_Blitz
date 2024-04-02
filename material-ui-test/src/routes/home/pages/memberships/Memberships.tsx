@@ -81,7 +81,7 @@ export default function Memberships() {
   return (
     <>
       <Box sx={{ maxWidth: BREAKPOINTS.lg, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Typography variant="h4" sx={{ m: 2, textAlign: "center",  }} className="border-b-accent">
+        <Typography variant="h4" sx={{ m: 2, textAlign: "center", fontWeight: 600 }} className="border-b-accent">
           Unsere Mitgliedschaften
         </Typography>
         <Typography px={2}>
