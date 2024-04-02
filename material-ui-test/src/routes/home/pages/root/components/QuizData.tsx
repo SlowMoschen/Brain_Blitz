@@ -1,9 +1,9 @@
 import { Box, Grid, Typography } from "@mui/material";
 import CountUp from "react-countup";
-import { useOutletContext } from "react-router-dom";
 import { TIMES } from "../../../../../configs/Application";
-import useScreenSize from "../../../../../shared/hooks/useScreenSize";
 import { BREAKPOINTS } from "../../../../../configs/Breakpoints";
+import { useQuizDataFetch } from "../../../../../shared/hooks/api/useQuizDataFetch";
+import useScreenSize from "../../../../../shared/hooks/useScreenSize";
 
 interface DataCountUpCardProps {
   count: number;
@@ -69,12 +69,13 @@ function DataCountUpCard({ count, textContent, bgColor, isColumn }: DataCountUpC
 }
 
 export default function QuizData() {
-  const data = useOutletContext<IQuizData>();
+  const { data: response } = useQuizDataFetch();
+  const data = response?.data as IQuizData;
 
   if (!data) {
     return (
       <Typography variant="h4" textAlign="center" color="error.main">
-        Daten konnten nicht geladen werden
+        Quiz Daten konnten nicht geladen werden
       </Typography>
     );
   }
