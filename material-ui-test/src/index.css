@@ -26,6 +26,10 @@ body {
     transform: scale(2);
 }
 
+.border-b-accent {
+    border-bottom: 8px solid #465c2f;
+}
+
 @keyframes rotatingBG {
     0% {
         background-position: 0% 50%;
