@@ -8,80 +8,94 @@ interface StepProps {
   description: string;
 }
 
+/**
+ * This component represents a step in the how section.
+ * It takes a number, title and description as props.
+ * The number is accent colored, the title is displayed as a heading and the description is displayed as a paragraph.
+ */
 function Step({ number, title, description }: StepProps) {
+  const containerStyles = {
+    display: "flex",
+    gap: "1rem",
+  };
 
-    const containerStyles = {
-        display: "flex",
-        gap: "1rem",
-    }
+  const numberStyles = {
+    fontSize: "2rem",
+    fontWeight: "bold",
+    color: "accent.main",
+    mr: 1,
+    display: "flex",
+    alignItems: "flex-start",
+    height: "100%",
+  };
 
-    const numberStyles = {
-        fontSize: "2rem",
-        fontWeight: "bold",
-        color: "accent.main",
-        mr: 1,
-        display: "flex",
-        alignItems: "flex-start",
-        height: "100%"
-    }
-
-    const titleStyles = {
-        fontSize: "1.3rem",
-        borderBottom: "4px solid",
-        borderColor: "accent.light",
-        mb: 1,
-        width: "fit-content",
-        letterSpacing: "0.1rem",
-    }
+  const titleStyles = {
+    fontSize: "1.3rem",
+    borderBottom: "4px solid",
+    borderColor: "accent.light",
+    mb: 1,
+    width: "fit-content",
+    letterSpacing: "0.1rem",
+  };
 
   return (
     <Box sx={{ ...containerStyles }}>
       <Box sx={{ ...numberStyles }}>{number}</Box>
       <Box>
-        <Typography variant="h5" sx={{ ...titleStyles }}>{title}</Typography>
-        <Typography lineHeight={2} >{description}</Typography>
+        <Typography variant="h5" sx={{ ...titleStyles }}>
+          {title}
+        </Typography>
+        <Typography lineHeight={2}>{description}</Typography>
       </Box>
     </Box>
   );
 }
 
+/**
+ * This component represents the how section.
+ * It displays a header and 4 steps.
+ * The steps are displayed in a grid on desktop and in a column on mobile.
+ * Each step has a number, title and description.
+ */
 export default function HowSection() {
-    const { width } = useScreenSize();
+  const { width } = useScreenSize();
 
-    const isMobile = width < BREAKPOINTS.lg;
+  const isMobile = width < BREAKPOINTS.lg;
 
-    const containerStyles = {
-        display: "flex",
-        flexDirection: isMobile ? "column" : "row",
-        bgcolor: "background.secondary",
-        borderRadius: ".375rem",
-        p: 5,
-        m: 5,
-        width: "90%",
-        maxWidth: "1500px",
-        minHeight: "500px",
-    }
+  const containerStyles = {
+    display: "flex",
+    flexDirection: isMobile ? "column" : "row",
+    bgcolor: "background.secondary",
+    borderRadius: ".375rem",
+    p: 5,
+    m: 5,
+    width: "90%",
+    maxWidth: "1500px",
+    minHeight: "500px",
+  };
 
-    const headerStyles = {
-        textAlign: "center",
-        fontWeight: "bold",
-        fontSize: isMobile ? "2rem" : "3.2rem",
-    }
+  const headerStyles = {
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: isMobile ? "2rem" : "3.2rem",
+  };
 
-    const stepContainerStyles = {
-        display: isMobile ? "flex" : "grid",
-        flexDirection: "column",
-        gap: "1.5rem",
-        gridTemplateColumns: "repeat(2, 1fr)",
-        width: "100%",
-    }
+  const stepContainerStyles = {
+    display: isMobile ? "flex" : "grid",
+    flexDirection: "column",
+    gap: "1.5rem",
+    gridTemplateColumns: "repeat(2, 1fr)",
+    width: "100%",
+  };
 
   return (
     <Box sx={{ ...containerStyles }}>
-        <div id="how-section"></div>
+      <div id="how-section"></div>
       <Box mb={2}>
-        <Typography variant="h4" sx={{ ...headerStyles }}>Wie funktioniert Brain Blitz?</Typography>
-        <Typography textAlign={'center'}>In 4 Schritten zu mehr Wissen!</Typography>
+        <Typography variant="h4" sx={{ ...headerStyles }}>
+          Wie funktioniert Brain Blitz?
+        </Typography>
+        <Typography textAlign={"center"}>In 4 Schritten zu mehr Wissen!</Typography>
       </Box>
       <Box sx={{ ...stepContainerStyles }}>
         <Step
