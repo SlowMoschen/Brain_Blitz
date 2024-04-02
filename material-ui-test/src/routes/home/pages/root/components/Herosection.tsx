@@ -53,14 +53,12 @@ export default function Herosection() {
     fontWeight: "600",
     textAlign: isDesktop ? "left" : "center",
     fontSize: isXL ? "10rem" : isDesktop ? "8rem" : "6rem",
-    // letterSpacing: "0.3rem",
   };
 
   const subTitleStyle = {
     fontWeight: "400",
     textAlign: isDesktop ? "left" : "center",
     fontSize: isXL ? "2.5rem" : isDesktop ? "2.2rem" : "2rem",
-    // letterSpacing: "0.1rem",
   };
 
   const buttonStyle = {

@@ -23,6 +23,12 @@ interface IQuizData {
   }[];
 }
 
+/**
+ * DataCountUpCard component
+ * Displays a card with a count up component and text content
+ * @param {DataCountUpCardProps} props
+ * @returns {JSX.Element}
+ */
 function DataCountUpCard({ count, textContent, bgColor, isColumn }: DataCountUpCardProps) {
   const { width } = useScreenSize();
   const isMobile = width <= BREAKPOINTS.md;
@@ -68,6 +74,13 @@ function DataCountUpCard({ count, textContent, bgColor, isColumn }: DataCountUpC
   );
 }
 
+
+/**
+ * QuizData component - used on the landing page
+ * Displays the quiz data fetched from the API
+ * @description Displays the total number of quizzes, questions, unique categories and a free section
+ * @returns {JSX.Element}
+ */
 export default function QuizData() {
   const { data: response } = useQuizDataFetch();
   const data = response?.data as IQuizData;

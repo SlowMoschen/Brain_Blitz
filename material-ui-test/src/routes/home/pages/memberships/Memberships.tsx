@@ -23,6 +23,12 @@ export interface MembershipCardProps {
   btnText?: string;
 }
 
+/**
+ * MembershipCard component 
+ * Renders a card with membership information
+ * @param {MembershipCardProps} props
+ * @returns {JSX.Element}
+ */
 function MembershipCard({
   title,
   price,
@@ -65,6 +71,12 @@ function MembershipCard({
   );
 }
 
+
+/**
+ * Memberships component for the memberships page
+ * Renders a list of MembershipCard components
+ * @returns {JSX.Element}
+ */
 export default function Memberships() {
   const { width } = useScreenSize();
   const isMobile = width <= BREAKPOINTS.md;
