@@ -6,6 +6,14 @@ import SecondaryButton from "../../../../../shared/components/buttons/SecondaryB
 import useScreenSize from "../../../../../shared/hooks/useScreenSize";
 import { useNavigate } from "react-router-dom";
 
+
+/**
+ * This component represents the hero section.
+ * It displays a title, a subtitle, two buttons and an image.
+ * The title and subtitle are displayed in a column on mobile and in a row on desktop.
+ * The buttons are displayed in a row on mobile and in a column on desktop.
+ * The image is displayed below the text on mobile and to the right on desktop.
+ */
 export default function Herosection() {
   const { width } = useScreenSize();
   const redirect = useNavigate();
