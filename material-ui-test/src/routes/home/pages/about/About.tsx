@@ -23,8 +23,6 @@ function Article({ title, body1, body2, body3 }: ArticleProps) {
   };
 
   const titleStyles = {
-    borderBottom: "8px solid",
-    borderColor: "accent.light",
     marginBottom: "16px",
     fontWeight: "bold",
   };
@@ -35,7 +33,7 @@ function Article({ title, body1, body2, body3 }: ArticleProps) {
 
   return (
     <Box sx={{ ...containerStyles }}>
-      <Typography variant="h4" sx={{ ...titleStyles }}>
+      <Typography variant="h4" sx={{ ...titleStyles }} className="border-b-accent">
         {title}
       </Typography>
       <Typography variant="body1" sx={{ ...bodyStyles }}>
@@ -76,12 +74,12 @@ export default function About() {
           <img
             src={dev}
             alt="dev"
-            style={{ maxWidth: "250px", position: "absolute", right: "2%", bottom: "0%"}}
+            style={{ maxWidth: "250px", position: "absolute", right: "2%", bottom: "10%"}}
           />
           <img
             src={team}
             alt="team"
-            style={{ maxWidth: "250px", position: "absolute", left: "2%", top: "20%"}}
+            style={{ maxWidth: "250px", position: "absolute", left: "2%", top: "10%"}}
           />
         </>
       )}
