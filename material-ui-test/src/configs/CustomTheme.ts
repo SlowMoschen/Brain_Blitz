@@ -53,6 +53,25 @@ const customTheme = createTheme({
     },
     typography: {
         fontFamily: 'Roboto, sans-serif',
+    },
+    components: {
+        MuiButton: {
+            styleOverrides: {
+                text: {
+                    color: '#ffffff',
+                    '&:hover': {
+                        color: '#c10000',
+                        backgroundColor: 'transparent'
+                    },
+                }
+            }
+        },
+        MuiTypography: {
+            defaultProps: {
+                lineHeight: 1.5,
+                letterSpacing: '.1rem'
+            }
+        }
     }
 })
 

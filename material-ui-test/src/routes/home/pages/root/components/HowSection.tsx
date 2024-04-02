@@ -35,7 +35,6 @@ function Step({ number, title, description }: StepProps) {
     borderColor: "accent.light",
     mb: 1,
     width: "fit-content",
-    letterSpacing: "0.1rem",
   };
 
   return (

@@ -66,10 +66,6 @@ export default function Footer() {
     textAlign: "left",
     my: 0.2,
     justifyContent: "flex-start",
-    "&:hover": {
-      bgcolor: "transparent",
-      color: "primary.main",
-    },
   };
 
   return (
