@@ -22,11 +22,11 @@ export const navigationLinks = [
 export const accountLinks = [
   {
     text: "Login",
-    to: URLS.LOGIN,
+    to: URLS.SIGNIN,
   },
   {
     text: "Registrieren",
-    to: URLS.REGISTER,
+    to: URLS.SIGNUP,
   },
   {
     text: "Passwort vergessen",
