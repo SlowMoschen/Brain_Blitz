@@ -1,32 +1,33 @@
-import { useQuery } from "@tanstack/react-query";
+import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
+import { BREAKPOINTS } from "../../configs/Breakpoints";
 import ScrollToTop from "../../shared/components/ScrollToTop";
-import { APPLICATION } from "../../shared/constants/application";
-import { BREAKPOINTS } from "../../shared/constants/breakpoints";
 import useScreenSize from "../../shared/hooks/useScreenSize";
-import { HttpService } from "../../shared/services/httpService";
-import RootFooter from "./components/Footer/Footer";
-import MobileRootNavbar from "./components/Navbar/MobileNavbar";
-import RootNavbar from "./components/Navbar/Navbar";
+import Footer from "./components/footer/Footer";
+import MobileNavbar from "./components/navbar/_MobileNavbar.main";
+import Navbar from "./components/navbar/_Navbar.main";
 
 export default function RootLayout() {
-  const screenSize = useScreenSize();
-
-  const fetchQuizData = async () => {
-    const httpService = new HttpService();
-    return await httpService.get(APPLICATION.QUIZ_DATA_ENDPOINT);
-  }
-
-  const { data: response } = useQuery({ queryKey: ["quizData"], queryFn: fetchQuizData });
+  const { width } = useScreenSize();
 
   return (
     <>
       <ScrollToTop />
-      {screenSize.width <= BREAKPOINTS.md ? <MobileRootNavbar /> : <RootNavbar />}
-      <main id="content" className="h-fit flex flex-col items-center relative">
-        <Outlet context={{ quizData: response?.data }} />
-      </main>
-      <RootFooter />
+      {width > BREAKPOINTS.md ? <Navbar /> : <MobileNavbar />}
+      <Box
+        sx={{
+          height: "fit-content",
+          width: "100%",
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Outlet />
+      </Box>
+      <Footer />
     </>
   );
 }

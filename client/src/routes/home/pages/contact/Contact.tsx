@@ -1,101 +1,173 @@
-import { useMutation } from "@tanstack/react-query";
-import { FormEvent, useState } from "react";
-import Article from "../../../../shared/components/Article";
-import Form from "../../../../shared/components/Form";
-import Input from "../../../../shared/components/Input";
-import MessageBox from "../../../../shared/components/MessageBox";
-import { APPLICATION } from "../../../../shared/constants/application";
-import useError from "../../../../shared/hooks/useError";
-import { HttpService } from "../../../../shared/services/httpService";
-import { TIMES } from "../../../../shared/constants/times";
-
-interface ContactDto {
-  name: string;
-  email: string;
-  message: string;
-}
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Snackbar,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { useState } from "react";
+import { BREAKPOINTS } from "../../../../configs/Breakpoints";
+import { ContactDto, useContactFetch } from "../../../../shared/hooks/api/useContactFetch";
+import useToggle from "../../../../shared/hooks/useToggle";
+import { TIMES } from "../../../../configs/Application";
+import { formResetter } from "../../../../shared/services/formResetter";
 
 export default function Contact() {
-  const [error, handleError] = useError(true);
-  const [wasSuccess, setWasSuccess] = useState(false);
-
-  const httpService = new HttpService();
-
-  const mutation = useMutation({
-    mutationFn: sendData,
-    onError: (err) => handleError(err.message),
-    onSuccess: () => {
-      handleError("Ihre Nachricht wurde erfolgreich gesendet!");
-      setWasSuccess(true);
-      setTimeout(() => {
-        setWasSuccess(false);
-      }, TIMES.ERROR_MESSAGE_DURATION);
-    },
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
+  const [isSnackbarOpen, toggleSnackbarOpen] = useToggle(false);
+  const [snackBarMessage, setSnackBarMessage] = useState<string>("");
+  const [error, setError] = useState<{
+    name: string | null;
+    email: string | null;
+    message: string | null;
+  }>({
+    name: null,
+    email: null,
+    message: null,
   });
+  
+  const handleError = (err: string) => {
+    console.error(err);
+    setSnackBarMessage("Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.");
+  };
+  const handleSuccess = () => setSnackBarMessage("Ihre Nachricht wurde erfolgreich gesendet.");
+  const mutation = useContactFetch(handleSuccess, handleError);
 
-  function sendData(body: ContactDto) {
-    return httpService.post(APPLICATION.CONTACT_ENDPOINT, body);
-  }
-
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
 
-    if (!formData.get("name") || !formData.get("email") || !formData.get("message"))
-      return handleError("Bitte füllen Sie alle Felder aus.");
+    if (!name || !email || !message) {
+      setError({
+        name: !name ? "Dein Name wird benötigt." : null,
+        email: !email ? "Eine E-Mail wird benötigt." : null,
+        message: !message ? "Eine Nachricht wird benötigt." : null,
+      });
+      return;
+    }
 
     const body: ContactDto = {
-      name: formData.get("name") as string,
-      email: formData.get("email") as string,
-      message: formData.get("message") as string,
+      name,
+      email,
+      message,
     };
 
     mutation.mutate(body);
-    e.currentTarget.reset();
-  }
+    toggleSnackbarOpen();
+    formResetter(e, [setName, setEmail, setMessage]);
+  };
+
+  const containerStyles = {
+    p: 4,
+    my: 5,
+    bgcolor: "background.secondary",
+    borderRadius: ".375rem",
+    width: "100%",
+    maxWidth: BREAKPOINTS.lg,
+    wordBreak: "break-all",
+  };
+
+  const inputStyles = {
+    my: 2,
+    borderRadius: ".375rem",
+  };
 
   return (
     <>
-      <Article
-        title={{ content: "Kontakt", border_b: true }}
-        para1="Wir freuen uns über Ihr Interesse an unserer Quiz-App! Bitte nutzen Sie das untenstehende Kontaktformular, um uns Ihr Feedback, Fragen oder Anliegen mitzuteilen. Unser Team steht Ihnen gerne zur Verfügung und wird sich bemühen, Ihnen so schnell wie möglich zu antworten. Vielen Dank für Ihre Unterstützung!"
-      />
-      <Form
-        onSubmit={(e) => handleSubmit(e)}
-        className="flex flex-col justify-center items-center max-w-5xl h-full w-10/12 bg-bg-secondary my-10 p-5 rounded-lg"
-        btnText="Senden"
+      <Box
+        sx={{
+          maxWidth: BREAKPOINTS.lg,
+          width: "90%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          my: 5,
+        }}
       >
-        <Input
-          type="text"
-          name="name"
-          placeholder="Name"
-          className="input rounded-md py-2 px-1 outline-none text-bg-primary w-full"
-          required
+        <Typography
+          variant="h5"
+          mb={2}
+          textAlign={"center"}
+          fontWeight={600}
+          fontSize={"2rem"}
+          className="border-b-accent"
+        >
+          Kontakt
+        </Typography>
+        <Typography>
+          Wir freuen uns über Ihr Interesse an unserer Quiz-App! Bitte nutzen Sie das untenstehende
+          Kontaktformular, um uns Ihr Feedback, Fragen oder Anliegen mitzuteilen. Unser Team steht
+          Ihnen gerne zur Verfügung und wird sich bemühen, Ihnen so schnell wie möglich zu
+          antworten. Vielen Dank für Ihre Unterstützung!
+        </Typography>
+        <Box sx={{ ...containerStyles }}>
+          <form onSubmit={(e) => handleSubmit(e)}>
+            <FormControl>
+              <FormLabel htmlFor="name">Name</FormLabel>
+              <TextField
+                type="text"
+                name="name"
+                placeholder="Max Mustermann"
+                fullWidth
+                sx={inputStyles}
+                variant="filled"
+                onChange={(e) => setName(e.target.value)}
+                helperText={error.name}
+                error={!!error.name}
+                color="accent"
+              />
+              <FormLabel htmlFor="email">E-Mail</FormLabel>
+              <TextField
+                type="email"
+                name="email"
+                placeholder="beispiel@mail.com"
+                fullWidth
+                sx={inputStyles}
+                variant="filled"
+                onChange={(e) => setEmail(e.target.value)}
+                helperText={error.email}
+                error={!!error.email}
+                color="accent"
+              />
+              <FormLabel htmlFor="message">Nachricht</FormLabel>
+              <TextField
+                name="message"
+                placeholder="Ihre Nachricht..."
+                fullWidth
+                multiline
+                rows={4}
+                sx={inputStyles}
+                variant="filled"
+                onChange={(e) => setMessage(e.target.value)}
+                helperText={error.message}
+                error={!!error.message}
+                color="accent"
+              />
+              <Typography
+                variant="caption"
+                sx={{ fontSize: ".7rem", lineHeight: 1.1, opacity: 0.5, my: 2 }}
+              >
+                Indem Sie dieses Kontaktformular absenden, erklären Sie sich damit einverstanden,
+                eine Bestätigungs-E-Mail zu erhalten. Diese E-Mail dient lediglich der Bestätigung
+                des Eingangs Ihrer Anfrage und wird nicht für Marketingzwecke verwendet. Ihre Daten
+                werden gemäß unserer Datenschutzrichtlinie vertraulich behandelt.
+              </Typography>
+              <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
+                Senden
+              </Button>
+            </FormControl>
+          </form>
+        </Box>
+        <Snackbar
+          open={isSnackbarOpen}
+          autoHideDuration={TIMES.SNACKBAR_DELAY}
+          onClose={toggleSnackbarOpen}
+          message={snackBarMessage}
         />
-        <Input
-          type="email"
-          name="email"
-          placeholder="Email"
-          className="input rounded-md py-2 px-1 outline-none text-bg-primary w-full"
-          required
-        />
-        <div className="w-full p-2">
-          <label htmlFor="message" className="text-xl my-2">
-            Deine Nachricht
-          </label>
-          <textarea
-            name="message"
-            placeholder="Message"
-            className="input rounded-md resize-none py-2 px-1 outline-none text-bg-primary w-full h-40"
-            required
-          />
-        </div>
-        <MessageBox
-          message={error}
-          className={`min-h-11 ${wasSuccess ? "text-accent" : "text-primary"}`}
-        />
-        <p className="text-sm opacity-50 p-5">Indem Sie dieses Kontaktformular absenden, erklären Sie sich damit einverstanden, eine Bestätigungs-E-Mail zu erhalten. Diese E-Mail dient lediglich der Bestätigung des Eingangs Ihrer Anfrage und wird nicht für Marketingzwecke verwendet. Ihre Daten werden gemäß unserer Datenschutzrichtlinie vertraulich behandelt.</p>
-      </Form>
+      </Box>
     </>
   );
 }

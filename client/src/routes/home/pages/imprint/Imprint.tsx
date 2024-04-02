@@ -1,44 +1,61 @@
+import { Box, Link, Typography } from "@mui/material";
+import { BREAKPOINTS } from "../../../../configs/Breakpoints";
+
 export default function Imprint() {
+  const containerStyles = {
+    p: 5,
+    my: 15,
+    bgcolor: "background.secondary",
+    borderRadius: ".375rem",
+    width: "90%",
+    maxWidth: BREAKPOINTS.lg,
+  };
+
   return (
-    <section className="bg-bg-secondary w-5/6 max-w-4xl p-10 m-10 rounded-lg flex flex-col justify-center">
-      <h1 className="text-2xl font-bold border-b-8 border-accent-light text-center">Verantwortlich für den Inhalt dieser Quiz-App:</h1>
+    <Box sx={{ ...containerStyles }}>
+      <Typography variant="h5" textAlign={'center'} className="border-b-accent">
+        Verantwortlich für den Inhalt dieser Quiz-App:
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          my: 5,
+        }}
+      >
+        <Box>
+          <Typography variant="subtitle1">Kontak:</Typography>
+          <Typography>Philipp Millner</Typography>
+          <Typography>Hütteldorferstraße 185</Typography>
+          <Typography>1140 Wien</Typography>
+          <Typography>service@brain-blitz.com</Typography>
+        </Box>
+      </Box>
 
-      <div className="p-5 m-3 rounded-lg w-full flex justify-center items-center">
-        <div>
-        <p className="text-xl underline">Kontakt:</p>
-        <p>Philipp Millner</p>
-        <p>Hütteldorferstraße 185</p>
-        <p>1140 Wien</p>
-        <p>+43 676 9487 225</p>
-        <p>service@brain-blitz.com</p>
-        </div>
-      </div>
+      <Typography variant="body1" my={2}>
+        Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, die
+        Sie unter{" "}
+        <Link href="http://ec.europa.eu/consumers/odr" sx={{ wordBreak: 'break-all'}}>http://ec.europa.eu/consumers/odr</Link>{" "}
+        finden. Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
+        Verbraucherschlichtungsstelle teilzunehmen.
+      </Typography>
 
-      <p className="leading-7 tracking-wide my-3">
-        Die Europäische Kommission stellt eine Plattform zur
-        Online-Streitbeilegung (OS) bereit, die Sie unter {" "} 
-        <a className="text-primary break-all underline" href="http://ec.europa.eu/consumers/odr" target="_blank">
-          http://ec.europa.eu/consumers/odr
-        </a>{" "}
-        finden. Wir sind nicht bereit oder verpflichtet, an
-        Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
-        teilzunehmen.
-      </p>
+      <Typography my={2}>
+        Diese Angaben gelten auch für unsere{" "}
+        <Link href="https://linktr.ee/BrainBlitz">Social-Media-Profile</Link>
+      </Typography>
 
-      <p className="leading-7 tracking-wide my-10 text-lg w-full">
-        Diese Angaben gelten auch für unsere {" "}
-        <a className="text-primary break-all underline" href="https://linktr.ee/BrainBlitz" target="_blank">Social-Media-Profile</a>
-      </p>
+      <Typography my={2}>
+        Wir weisen darauf hin, dass jegliche unerlaubte Verwendung von Inhalten unserer App oder
+        Teilen davon, einschließlich der Vervielfältigung, Verbreitung oder Verwendung in anderen
+        elektronischen oder gedruckten Publikationen, ohne unsere ausdrückliche Zustimmung
+        rechtliche Schritte nach sich ziehen kann.
+      </Typography>
 
-      <p className="leading-7 tracking-wide my-3">
-        Wir weisen darauf hin, dass jegliche unerlaubte Verwendung von Inhalten
-        unserer App oder Teilen davon, einschließlich der Vervielfältigung,
-        Verbreitung oder Verwendung in anderen elektronischen oder gedruckten
-        Publikationen, ohne unsere ausdrückliche Zustimmung rechtliche Schritte
-        nach sich ziehen kann.
-      </p>
-
-      <p className="text-sm mt-3 opacity-50">Dieses Impressum wurde zuletzt am 29.03.2024 aktualisiert.</p>
-    </section>
+      <Typography sx={{ opacity: '.5', fontSize: '.8rem'}}>Dieses Impressum wurde zuletzt am 29.03.2024 aktualisiert.</Typography>
+    </Box>
   );
 }
