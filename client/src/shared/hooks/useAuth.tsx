@@ -1,4 +1,4 @@
-import { HttpService } from "../../../../client/src/shared/services/httpService";
+import { HttpService } from "../services/httpService";
 
 export const useAuth = () => {
   const httpService = new HttpService();
