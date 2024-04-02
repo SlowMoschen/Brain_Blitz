@@ -32,9 +32,9 @@ export default function Contact() {
   
   const handleError = (err: string) => {
     console.error(err);
-    setSnackBarMessage("Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.");
+    setSnackBarMessage("Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.");
   };
-  const handleSuccess = () => setSnackBarMessage("Ihre Nachricht wurde erfolgreich gesendet.");
+  const handleSuccess = () => setSnackBarMessage("Deine Nachricht wurde erfolgreich gesendet.");
   const mutation = useContactFetch(handleSuccess, handleError);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -98,10 +98,10 @@ export default function Contact() {
           Kontakt
         </Typography>
         <Typography>
-          Wir freuen uns über Ihr Interesse an unserer Quiz-App! Bitte nutzen Sie das untenstehende
-          Kontaktformular, um uns Ihr Feedback, Fragen oder Anliegen mitzuteilen. Unser Team steht
-          Ihnen gerne zur Verfügung und wird sich bemühen, Ihnen so schnell wie möglich zu
-          antworten. Vielen Dank für Ihre Unterstützung!
+          Wir freuen uns über dein Interesse an unserer Quiz-App! Bitte nutze das untenstehende
+          Kontaktformular, um uns dein Feedback, Fragen oder Anliegen mitzuteilen. Unser Team steht
+          dir gerne zur Verfügung und wird sich bemühen, so schnell wie möglich bei dir zu
+          melden. Vielen Dank für deine Unterstützung!
         </Typography>
         <Box sx={{ ...containerStyles }}>
           <form onSubmit={(e) => handleSubmit(e)}>
@@ -135,7 +135,7 @@ export default function Contact() {
               <FormLabel htmlFor="message">Nachricht</FormLabel>
               <TextField
                 name="message"
-                placeholder="Ihre Nachricht..."
+                placeholder="Deine Nachricht..."
                 fullWidth
                 multiline
                 rows={4}
@@ -150,9 +150,9 @@ export default function Contact() {
                 variant="caption"
                 sx={{ fontSize: ".7rem", lineHeight: 1.1, opacity: 0.5, my: 2 }}
               >
-                Indem Sie dieses Kontaktformular absenden, erklären Sie sich damit einverstanden,
+                Indem du dieses Kontaktformular absendest, erklärst du dich damit einverstanden,
                 eine Bestätigungs-E-Mail zu erhalten. Diese E-Mail dient lediglich der Bestätigung
-                des Eingangs Ihrer Anfrage und wird nicht für Marketingzwecke verwendet. Ihre Daten
+                des Eingangs deiner Anfrage und wird nicht für Marketingzwecke verwendet. Deine Daten
                 werden gemäß unserer Datenschutzrichtlinie vertraulich behandelt.
               </Typography>
               <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>

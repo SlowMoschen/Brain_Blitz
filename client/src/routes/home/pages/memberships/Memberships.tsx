@@ -101,7 +101,7 @@ export default function Memberships() {
           verfügbar sein wird. Zusätzlich arbeiten wir derzeit an der Entwicklung einer
           Support-Mitgliedschaft, um unseren Nutzern noch mehr Vorteile und Funktionen bieten zu
           können. Darüber hinaus befindet sich auch eine Team-Mitgliedschaft in der Entwicklung, um
-          Gruppen und Teams eine verbesserte Nutzungserfahrung zu ermöglichen. Bleiben Sie gespannt
+          Gruppen und Teams eine verbesserte Nutzungserfahrung zu ermöglichen. Sei gespannt
           auf weitere Updates und Features!
         </Typography>
       </Box>

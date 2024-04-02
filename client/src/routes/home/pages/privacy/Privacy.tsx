@@ -71,8 +71,8 @@ export default function Privacy() {
       <Typography variant="body1" my={2}>
         Wir bei Brain Blitz, erreichbar unter der E-Mail-Adresse service@brain-blitz.com, legen
         großen Wert auf den Schutz Ihrer persönlichen Daten. Diese Datenschutzerklärung erläutert,
-        wie wir Ihre Informationen sammeln, verwenden, offenlegen und schützen, wenn Sie unsere
-        Quiz-App nutzen.
+        wie wir deine Informationen sammeln, verwenden, offenlegen und schützen, wenn du unsere
+        Quiz-App nützt.
       </Typography>
       {privacySteps.map((step, index) => (
         <Step

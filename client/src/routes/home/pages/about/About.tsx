@@ -85,8 +85,8 @@ export default function About() {
       )}
       <Article
         title="Über Brain Blitz"
-        body1="Hier finden Sie eine vielfältige Auswahl an Quiz-Kategorien, darunter Geschichte, Popkultur, Biologie, das Universum, Geopolitik und vieles mehr. Jedes Quiz ist mit einer Zeitbegrenzung versehen, bei der richtige Antworten Punkte bringen und falsche Antworten Punkte abziehen. Zusätzlich erhalten Spieler für jede verbleibende Sekunde Extra-Punkte, um die Rangliste des jeweiligen Quiz spannend zu gestalten."
-        body2="Nach Abschluss eines Quiz wird der Highscore des Benutzers gespeichert, und die Rangliste wird aktualisiert, sodass jeder Benutzer seine Leistung vergleichen kann. Tauchen Sie ein in ein interaktives Quiz-Erlebnis, das Wissen und Unterhaltung vereint - viel Spaß beim Spielen!"
+        body1="Hier findest du eine vielfältige Auswahl an Quiz-Kategorien, darunter Geschichte, Popkultur, Biologie, das Universum, Geopolitik und vieles mehr. Jedes Quiz ist mit einer Zeitbegrenzung versehen, bei der richtige Antworten Punkte bringen und falsche Antworten Punkte abziehen. Zusätzlich erhalten Spieler für jede verbleibende Sekunde Extra-Punkte, um die Rangliste des jeweiligen Quiz spannend zu gestalten."
+        body2="Nach Abschluss eines Quiz wird der Highscore des Benutzers gespeichert, und die Rangliste wird aktualisiert, sodass jeder Benutzer seine Leistung vergleichen kann. Tauche ein in ein interaktives Quiz-Erlebnis, das Wissen und Unterhaltung vereint - viel Spaß beim Spielen!"
       />
 
       <Article

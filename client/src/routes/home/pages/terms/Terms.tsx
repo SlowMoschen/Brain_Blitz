@@ -39,7 +39,7 @@ export default function Terms() {
         Allgemeine Geschäftsbedingungen (AGB)
       </Typography>
       {terms.map((term, index) => (
-        <Term number={index + 1} title={term.title} text={term.text} />
+        <Term number={index + 1} title={term.title} text={term.text} key={index} />
       ))}
       <Typography sx={{ opacity: ".5", fontSize: ".8rem" }}>
         Diese AGB wurden zuletzt am 29.03.2024 aktualisiert.

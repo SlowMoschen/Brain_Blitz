@@ -37,7 +37,7 @@ export default function Imprint() {
 
       <Typography variant="body1" my={2}>
         Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, die
-        Sie unter{" "}
+        du unter{" "}
         <Link href="http://ec.europa.eu/consumers/odr" sx={{ wordBreak: 'break-all'}}>http://ec.europa.eu/consumers/odr</Link>{" "}
         finden. Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
         Verbraucherschlichtungsstelle teilzunehmen.
