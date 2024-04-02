@@ -14,12 +14,12 @@ export default function Footer() {
     bgcolor: "background.secondary",
     mx: 1,
     py: 2,
-    borderRadius: 1,
+    borderRadius: '.375rem',
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    width: "90%",
+    width: "95%",
   };
 
   const containerStyles = {
