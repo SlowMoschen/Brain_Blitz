@@ -13,14 +13,16 @@ import CallToAction from "../../../../shared/components/buttons/CallToAction";
 import { memberships } from "./content";
 import useScreenSize from "../../../../shared/hooks/useScreenSize";
 import { BREAKPOINTS } from "../../../../configs/Breakpoints";
+import { useNavigate } from "react-router-dom";
 
-export interface MembershipCardProps {
+interface MembershipCardProps {
   title: string;
   price: string;
   features: string[];
   bgcolor: string;
   isAvailable?: boolean;
   btnText?: string;
+  btnOnClick?: () => void;
 }
 
 /**
@@ -36,6 +38,7 @@ function MembershipCard({
   bgcolor,
   isAvailable,
   btnText,
+  btnOnClick,
 }: MembershipCardProps) {
   const cardStyles = {
     m: 2,
@@ -66,7 +69,7 @@ function MembershipCard({
           )}
         </List>
       </CardContent>
-      <CardActions>{isAvailable && <CallToAction text={btnText || ""} />}</CardActions>
+      <CardActions onClick={btnOnClick}>{isAvailable && <CallToAction text={btnText || ""} />}</CardActions>
     </Card>
   );
 }
@@ -80,6 +83,7 @@ function MembershipCard({
 export default function Memberships() {
   const { width } = useScreenSize();
   const isMobile = width <= BREAKPOINTS.md;
+  const redirect = useNavigate();
 
   const containerStyles = {
     display: "flex",
@@ -114,6 +118,7 @@ export default function Memberships() {
             bgcolor={membership.bgcolor}
             isAvailable={membership.isAvailable}
             btnText={membership.btnText}
+            btnOnClick={() => redirect(membership.redirctUrl || "")}
           />
         ))}
       </Box>

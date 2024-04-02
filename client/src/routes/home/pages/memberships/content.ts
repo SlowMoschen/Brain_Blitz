@@ -1,6 +1,16 @@
-import { MembershipCardProps } from "./Memberships";
+import { URLS } from "../../../../configs/Links";
 
-export const memberships: MembershipCardProps[] = [
+interface memberships {
+  title: string;
+  price: string;
+  features: string[];
+  bgcolor: string;
+  isAvailable?: boolean;
+  btnText?: string;
+  redirctUrl?: string;
+}
+
+export const memberships: memberships[] = [
   {
     title: "Basic",
     price: "Gratis",
@@ -8,6 +18,7 @@ export const memberships: MembershipCardProps[] = [
     bgcolor: "background.secondary",
     isAvailable: true,
     btnText: "Jetzt anmelden",
+    redirctUrl: URLS.SIGNUP,
   },
   {
     title: "Supporter",
