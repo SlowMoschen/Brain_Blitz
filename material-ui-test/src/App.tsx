@@ -8,6 +8,7 @@ import { CssBaseline } from "@mui/material";
 import ErrorPage from "./routes/error/ErrorPage";
 import About from "./routes/home/pages/about/About";
 import FAQ from "./routes/home/pages/faq/FAQ";
+import Memberships from "./routes/home/pages/memberships/Memberships";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -21,7 +22,8 @@ export default function App() {
       children: [
         { path: "/", element: <Home /> },
         { path: "/about", element: <About /> },
-        { path: "/faq", element: <FAQ />}
+        { path: "/faq", element: <FAQ />},
+        { path: '/memberships', element: <Memberships /> },
       ],
     },
   ]);
