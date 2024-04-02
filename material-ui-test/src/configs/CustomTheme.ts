@@ -26,6 +26,12 @@ declare module '@mui/material/Button' {
     }
 }
 
+declare module '@mui/material/AccordionSummary' {
+    interface AccordionSummaryColorOverrides {
+        accent: true;
+    }
+}
+
 const customTheme = createTheme({
     palette: {
         primary: {
@@ -69,7 +75,7 @@ const customTheme = createTheme({
         MuiTypography: {
             defaultProps: {
                 lineHeight: 1.5,
-                letterSpacing: '.1rem'
+                letterSpacing: '.08rem'
             }
         }
     }
