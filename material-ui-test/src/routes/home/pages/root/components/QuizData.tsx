@@ -128,7 +128,7 @@ export default function QuizData() {
         </Grid>
         <Grid item xs={12} md={5}>
           <Box sx={{ ...freeContainerStyles }}>
-            <Typography variant="h4" fontWeight={500} sx={{ textDecoration: "underline" }}>
+            <Typography variant="h4" fontWeight={500} sx={{ textDecoration: "underline", fontSize: '3rem' }}>
               100% Gratis
             </Typography>
             <Typography variant="body1">für immer...</Typography>
