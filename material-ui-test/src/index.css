@@ -22,6 +22,10 @@ body {
     animation: rotatingBG 5s ease-in-out infinite;
 }
 
+.enlarged-icon {
+    transform: scale(2);
+}
+
 @keyframes rotatingBG {
     0% {
         background-position: 0% 50%;
