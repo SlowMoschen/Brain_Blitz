@@ -12,6 +12,7 @@ import { BREAKPOINTS } from "../../../../configs/Breakpoints";
 import { ContactDto, useContactFetch } from "../../../../shared/hooks/api/useContactFetch";
 import useToggle from "../../../../shared/hooks/useToggle";
 import { TIMES } from "../../../../configs/Application";
+import { formResetter } from "../../../../shared/services/formResetter";
 
 export default function Contact() {
   const [name, setName] = useState<string>("");
@@ -28,26 +29,13 @@ export default function Contact() {
     email: null,
     message: null,
   });
-
+  
   const handleError = (err: string) => {
     console.error(err);
     setSnackBarMessage("Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.");
   };
   const handleSuccess = () => setSnackBarMessage("Ihre Nachricht wurde erfolgreich gesendet.");
-
   const mutation = useContactFetch(handleSuccess, handleError);
-
-  const resetForm = (e: React.FormEvent<HTMLFormElement>) => {
-    setName("");
-    setEmail("");
-    setMessage("");
-    setError({
-        name: null,
-        email: null,
-        message: null,
-        });
-    e.currentTarget.reset();
-  }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -69,7 +57,7 @@ export default function Contact() {
 
     mutation.mutate(body);
     toggleSnackbarOpen();
-    resetForm(e);
+    formResetter(e, [setName, setEmail, setMessage]);
   };
 
   const containerStyles = {
