@@ -82,7 +82,7 @@ export default function Herosection() {
             <SecondaryButton
               text="Wie funktioniert Brain Blitz?"
               sx={{ ...buttonStyle }}
-              onClick={() => scrollTo("how-section")}
+              onClick={() => scrollTo("how-section", 200)}
             />
             <CallToAction
               text="Jetzt loslegen!"
