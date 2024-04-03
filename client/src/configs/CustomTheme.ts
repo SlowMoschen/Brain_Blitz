@@ -38,6 +38,12 @@ declare module '@mui/material/TextField' {
     }
 }
 
+declare module '@mui/material/InputBase' {
+    interface InputBasePropsColorOverrides {
+        accent: true;
+    }
+}
+
 const customTheme = createTheme({
     palette: {
         primary: {
