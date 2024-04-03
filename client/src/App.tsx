@@ -13,6 +13,11 @@ import Imprint from "./routes/home/pages/imprint/Imprint";
 import Terms from "./routes/home/pages/terms/Terms";
 import Privacy from "./routes/home/pages/privacy/Privacy";
 import Contact from "./routes/home/pages/contact/Contact";
+import SignIn from "./routes/auth/pages/SignIn";
+import SignUp from "./routes/auth/pages/SignUp";
+import ForgotPassword from "./routes/auth/pages/ForgotPassword";
+import ResendVerification from "./routes/auth/pages/ResendVerification";
+import AuthLayout from "./routes/auth/AuthLayout";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -25,13 +30,23 @@ export default function App() {
       element: <RootLayout />,
       children: [
         { path: "/", element: <Home /> },
-        { path: "/about", element: <About /> },
-        { path: "/faq", element: <FAQ />},
-        { path: '/memberships', element: <Memberships /> },
-        { path: "/imprint", element: <Imprint />},
-        { path: "/terms-and-conditions", element: <Terms />},
-        { path: "/privacy", element: <Privacy />},
-        { path: '/contact', element: <Contact />}
+        { path: "about", element: <About /> },
+        { path: "faq", element: <FAQ /> },
+        { path: "memberships", element: <Memberships /> },
+        { path: "imprint", element: <Imprint /> },
+        { path: "terms-and-conditions", element: <Terms /> },
+        { path: "privacy", element: <Privacy /> },
+        { path: "contact", element: <Contact /> },
+      ],
+    },
+    {
+      path: "/auth",
+      element: <AuthLayout />,
+      children: [
+        { path: "signin", element: <SignIn /> },
+        { path: "signup", element: <SignUp /> },
+        { path: "forgot-password", element: <ForgotPassword /> },
+        { path: "resend-verification-email", element: <ResendVerification /> },
       ],
     },
   ]);
