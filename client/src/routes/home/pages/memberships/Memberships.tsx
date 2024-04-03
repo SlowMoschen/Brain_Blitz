@@ -119,6 +119,7 @@ export default function Memberships() {
             isAvailable={membership.isAvailable}
             btnText={membership.btnText}
             btnOnClick={() => redirect(membership.redirctUrl || "")}
+            key={membership.title}
           />
         ))}
       </Box>
