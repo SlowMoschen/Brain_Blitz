@@ -4,6 +4,7 @@ import { BREAKPOINTS } from "../../../../configs/Breakpoints";
 import SecondaryButton from "../../../../shared/components/buttons/SecondaryButton";
 import useScreenSize from "../../../../shared/hooks/useScreenSize";
 import CallToAction from "../../../../shared/components/buttons/CallToAction";
+import { URLS } from "../../../../configs/Links";
 
 export default function AuthMenu() {
   const redirect = useNavigate();
@@ -19,12 +20,12 @@ export default function AuthMenu() {
     <Box sx={{ display: "flex" }}>
       <SecondaryButton
         text="Login"
-        onClick={() => redirect("/auth/login")}
+        onClick={() => redirect(URLS.SIGNIN)}
         sx={{ ...defaultStyles }}
       />
       <CallToAction
         text="Anmelden"
-        onClick={() => redirect("/auth/register")}
+        onClick={() => redirect(URLS.SIGNUP)}
         sx={{ ...defaultStyles }}
       />
     </Box>

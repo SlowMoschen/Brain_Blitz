@@ -5,6 +5,7 @@ import CallToAction from "../../../../../shared/components/buttons/CallToAction"
 import SecondaryButton from "../../../../../shared/components/buttons/SecondaryButton";
 import useScreenSize from "../../../../../shared/hooks/useScreenSize";
 import { useNavigate } from "react-router-dom";
+import { URLS } from "../../../../../configs/Links";
 
 
 /**
@@ -93,7 +94,7 @@ export default function Herosection() {
             <CallToAction
               text="Jetzt loslegen!"
               sx={{ ...buttonStyle }}
-              onClick={() => redirect("/auth/register")}
+              onClick={() => redirect(URLS.SIGNUP)}
             />
           </Box>
         </Box>
