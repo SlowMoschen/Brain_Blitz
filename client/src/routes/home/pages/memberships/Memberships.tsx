@@ -7,13 +7,12 @@ import {
   CardHeader,
   List,
   ListItem,
+  Stack,
   Typography,
 } from "@mui/material";
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { BREAKPOINTS } from "../../../../configs/Breakpoints";
 import CallToAction from "../../../../shared/components/buttons/CallToAction";
-import { WindowContext } from "../../../../shared/context/ScreenSize.context";
 import { memberships } from "./content";
 
 interface MembershipCardProps {
@@ -82,19 +81,8 @@ function MembershipCard({
  * @returns {JSX.Element}
  */
 export default function Memberships() {
-  const { width } = useContext(WindowContext);
-  const isMobile = width <= BREAKPOINTS.md;
   const redirect = useNavigate();
-
-  const containerStyles = {
-    display: "flex",
-    flexDirection: isMobile ? "column" : "row",
-    justifyContent: "center",
-    alignItems: "center",
-    p: 5,
-    width: "100%",
-  };
-
+  
   return (
     <>
       <Box sx={{ maxWidth: BREAKPOINTS.lg, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -110,7 +98,7 @@ export default function Memberships() {
           auf weitere Updates und Features!
         </Typography>
       </Box>
-      <Box sx={{ ...containerStyles }}>
+      <Stack direction={{ lg: 'row' }} width={ '100%' } alignItems={ 'center' } p={ 5 }>
         {memberships.map((membership) => (
           <MembershipCard
             title={membership.title}
@@ -123,7 +111,7 @@ export default function Memberships() {
             key={membership.title}
           />
         ))}
-      </Box>
+      </Stack>
     </>
   );
 }
