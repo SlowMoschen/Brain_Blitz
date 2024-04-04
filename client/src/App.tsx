@@ -18,6 +18,7 @@ import SignUp from "./routes/auth/pages/SignUp";
 import ForgotPassword from "./routes/auth/pages/ForgotPassword";
 import ResendVerification from "./routes/auth/pages/ResendVerification";
 import AuthLayout from "./routes/auth/AuthLayout";
+import { WindowContextProvider } from "./shared/context/ScreenSize.context";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -58,7 +59,9 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={customTheme}>
           <CssBaseline />
-          <RouterProvider router={router} />
+          <WindowContextProvider>
+            <RouterProvider router={router} />
+          </WindowContextProvider>
         </ThemeProvider>
       </QueryClientProvider>
     </>

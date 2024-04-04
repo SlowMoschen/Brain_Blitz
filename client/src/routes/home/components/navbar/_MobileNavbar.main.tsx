@@ -1,6 +1,6 @@
 import MenuIcon from "@mui/icons-material/Menu";
 import { AppBar, Box, IconButton, Toolbar } from "@mui/material";
-import useToggle from "../../../../shared/hooks/useToggle";
+import useToggle from "../../../../shared/hooks/useToggle.hook";
 import AuthMenu from "./AuthMenu";
 import NavMenu from "./NavMenu";
 import { defaultNavbarStyles } from "./navbar.styles";

@@ -1,13 +1,14 @@
 import { Box, Typography } from "@mui/material";
-import { content } from "./content";
-import CustomAccordion from "../../../../shared/components/Accordion";
+import { useContext } from "react";
 import person from "../../../../assets/faq_person.svg";
 import questionMark from "../../../../assets/faq_question_mark.svg";
-import useScreenSize from "../../../../shared/hooks/useScreenSize";
 import { BREAKPOINTS } from "../../../../configs/Breakpoints";
+import CustomAccordion from "../../../../shared/components/Accordion";
+import { WindowContext } from "../../../../shared/context/ScreenSize.context";
+import { content } from "./content";
 
 export default function FAQ() {
-  const { width } = useScreenSize();
+  const { width } = useContext(WindowContext);
   const isXL = width >= BREAKPOINTS["2xl"];
 
   const containerStyles = {

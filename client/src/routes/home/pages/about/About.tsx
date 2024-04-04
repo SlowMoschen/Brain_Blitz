@@ -1,8 +1,9 @@
 import { Box, Typography } from "@mui/material";
+import { useContext } from "react";
 import team from "../../../../assets/about.svg";
 import dev from "../../../../assets/about_dev.svg";
-import useScreenSize from "../../../../shared/hooks/useScreenSize";
 import { BREAKPOINTS } from "../../../../configs/Breakpoints";
+import { WindowContext } from "../../../../shared/context/ScreenSize.context";
 
 interface ArticleProps {
   title: string;
@@ -54,7 +55,7 @@ function Article({ title, body1, body2, body3 }: ArticleProps) {
 }
 
 export default function About() {
-  const { width } = useScreenSize();
+  const { width } = useContext(WindowContext);
 
   const isXL = width >= BREAKPOINTS["2xl"];
 

@@ -9,11 +9,12 @@ import {
   ListItem,
   Typography,
 } from "@mui/material";
-import CallToAction from "../../../../shared/components/buttons/CallToAction";
-import { memberships } from "./content";
-import useScreenSize from "../../../../shared/hooks/useScreenSize";
-import { BREAKPOINTS } from "../../../../configs/Breakpoints";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { BREAKPOINTS } from "../../../../configs/Breakpoints";
+import CallToAction from "../../../../shared/components/buttons/CallToAction";
+import { WindowContext } from "../../../../shared/context/ScreenSize.context";
+import { memberships } from "./content";
 
 interface MembershipCardProps {
   title: string;
@@ -81,7 +82,7 @@ function MembershipCard({
  * @returns {JSX.Element}
  */
 export default function Memberships() {
-  const { width } = useScreenSize();
+  const { width } = useContext(WindowContext);
   const isMobile = width <= BREAKPOINTS.md;
   const redirect = useNavigate();
 

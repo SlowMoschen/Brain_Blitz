@@ -1,12 +1,13 @@
 import { Box, Divider, Typography } from "@mui/material";
+import { useContext } from "react";
+import { BREAKPOINTS } from "../../../../configs/Breakpoints";
 import Logo from "../../../../shared/components/Logo";
 import RouterButton from "../../../../shared/components/buttons/RouterButton";
+import { WindowContext } from "../../../../shared/context/ScreenSize.context";
 import { accountLinks, legalLinks, navigationLinks } from "./links";
-import useScreenSize from "../../../../shared/hooks/useScreenSize";
-import { BREAKPOINTS } from "../../../../configs/Breakpoints";
 
 export default function Footer() {
-  const { width } = useScreenSize();
+  const { width } = useContext(WindowContext);
 
   const isMobile = width < BREAKPOINTS.md;
 

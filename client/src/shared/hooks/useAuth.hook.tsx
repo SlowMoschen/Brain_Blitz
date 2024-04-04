@@ -1,4 +1,4 @@
-import { HttpService } from "../services/httpService";
+import { HttpService } from "../services/httpService.service";
 
 export const useAuth = () => {
   const httpService = new HttpService();

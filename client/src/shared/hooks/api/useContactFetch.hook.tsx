@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { URLS } from "../../../configs/Links";
-import { HttpService } from "../../services/httpService";
+import { HttpService } from "../../services/httpService.service";
 
 export interface ContactDto {
   name: string;

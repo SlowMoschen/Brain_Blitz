@@ -1,10 +1,11 @@
 import { Box, Typography } from "@mui/material";
-import CallToAction from "../../../../../shared/components/buttons/CallToAction";
-import useScreenSize from "../../../../../shared/hooks/useScreenSize";
+import { useContext } from "react";
 import { BREAKPOINTS } from "../../../../../configs/Breakpoints";
+import CallToAction from "../../../../../shared/components/buttons/CallToAction";
+import { WindowContext } from "../../../../../shared/context/ScreenSize.context";
 
 export default function EndSection() {
-    const { width } = useScreenSize();
+    const { width } = useContext(WindowContext);
 
     const isMobile = width < BREAKPOINTS.md;
 
