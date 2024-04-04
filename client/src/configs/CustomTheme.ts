@@ -69,6 +69,15 @@ const customTheme = createTheme({
             main: '#ffffff'
         }
     },
+    breakpoints: {
+        values: {
+            xs: 0,
+            sm: 640,
+            md: 786,
+            lg: 1024,
+            xl: 1536
+        }
+    },
     typography: {
         fontFamily: 'Roboto, sans-serif',
     },
