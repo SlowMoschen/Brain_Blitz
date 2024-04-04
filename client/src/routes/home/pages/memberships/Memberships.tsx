@@ -26,7 +26,7 @@ interface MembershipCardProps {
 }
 
 /**
- * MembershipCard component 
+ * MembershipCard component
  * Renders a card with membership information
  * @param {MembershipCardProps} props
  * @returns {JSX.Element}
@@ -53,8 +53,12 @@ function MembershipCard({
   };
 
   return (
-    <Card sx={{ ...cardStyles }}>
-      <CardHeader title={title} subheader={price} sx={{ textAlign: "center" }} />
+    <Card sx={cardStyles}>
+      <CardHeader
+        title={title}
+        subheader={price}
+        sx={{ textAlign: "center" }}
+      />
       <CardContent>
         <List>
           {isAvailable ? (
@@ -69,11 +73,12 @@ function MembershipCard({
           )}
         </List>
       </CardContent>
-      <CardActions onClick={btnOnClick}>{isAvailable && <CallToAction text={btnText || ""} />}</CardActions>
+      <CardActions onClick={btnOnClick}>
+        {isAvailable && <CallToAction text={btnText || ""} />}
+      </CardActions>
     </Card>
   );
 }
-
 
 /**
  * Memberships component for the memberships page
@@ -82,23 +87,40 @@ function MembershipCard({
  */
 export default function Memberships() {
   const redirect = useNavigate();
-  
+
   return (
     <>
-      <Box sx={{ maxWidth: BREAKPOINTS.lg, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Typography variant="h4" sx={{ m: 2, textAlign: "center", fontWeight: 600 }} className="border-b-accent">
+      <Box
+        sx={{
+          maxWidth: BREAKPOINTS.lg,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography
+          variant="h4"
+          sx={{ m: 2, textAlign: "center", fontWeight: 600 }}
+          className="border-b-accent"
+        >
           Unsere Mitgliedschaften
         </Typography>
         <Typography px={2}>
-          Aktuell bieten wir ausschließlich unsere kostenlose Mitgliedschaft an, die auch dauerhaft
-          verfügbar sein wird. Zusätzlich arbeiten wir derzeit an der Entwicklung einer
-          Support-Mitgliedschaft, um unseren Nutzern noch mehr Vorteile und Funktionen bieten zu
-          können. Darüber hinaus befindet sich auch eine Team-Mitgliedschaft in der Entwicklung, um
-          Gruppen und Teams eine verbesserte Nutzungserfahrung zu ermöglichen. Sei gespannt
-          auf weitere Updates und Features!
+          Aktuell bieten wir ausschließlich unsere kostenlose Mitgliedschaft an,
+          die auch dauerhaft verfügbar sein wird. Zusätzlich arbeiten wir
+          derzeit an der Entwicklung einer Support-Mitgliedschaft, um unseren
+          Nutzern noch mehr Vorteile und Funktionen bieten zu können. Darüber
+          hinaus befindet sich auch eine Team-Mitgliedschaft in der Entwicklung,
+          um Gruppen und Teams eine verbesserte Nutzungserfahrung zu
+          ermöglichen. Sei gespannt auf weitere Updates und Features!
         </Typography>
       </Box>
-      <Stack direction={{ lg: 'row' }} width={ '100%' } alignItems={ 'center' } p={ 5 }>
+      <Stack
+        direction={{ lg: "row" }}
+        width={"100%"}
+        alignItems={"center"}
+        p={5}
+      >
         {memberships.map((membership) => (
           <MembershipCard
             title={membership.title}

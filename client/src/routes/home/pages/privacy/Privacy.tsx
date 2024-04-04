@@ -22,7 +22,10 @@ function Step({ number, headerTitle, mainText, subSteps }: StepProps) {
   return (
     <Box my={5}>
       <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-        <Typography variant="h5" sx={{ color: "accent.main", mr: 1, fontWeight: '600' }}>
+        <Typography
+          variant="h5"
+          sx={{ color: "accent.main", mr: 1, fontWeight: "600" }}
+        >
           {number}.
         </Typography>
         <Typography variant="h5" fontWeight={600}>
@@ -35,10 +38,18 @@ function Step({ number, headerTitle, mainText, subSteps }: StepProps) {
         subSteps.map((subStep, index) => (
           <Box key={index} my={3}>
             <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-              <Typography variant="caption" fontSize={'1.1rem'} sx={{ color: "accent.main", mr: 1, fontWeight: '500' }}>
+              <Typography
+                variant="caption"
+                fontSize={"1.1rem"}
+                sx={{ color: "accent.main", mr: 1, fontWeight: "500" }}
+              >
                 {number}.{index + 1}
               </Typography>
-              <Typography variant="caption" fontSize={'1.1rem'} fontWeight={600}>
+              <Typography
+                variant="caption"
+                fontSize={"1.1rem"}
+                fontWeight={600}
+              >
                 {subStep.title}
               </Typography>
             </Box>
@@ -64,15 +75,16 @@ export default function Privacy() {
   };
 
   return (
-    <Box sx={{ ...containerStyles }}>
+    <Box sx={ containerStyles }>
       <Typography variant="h5" textAlign={"center"} className="border-b-accent">
         Datenschutzerklärung
       </Typography>
       <Typography variant="body1" my={2}>
-        Wir bei Brain Blitz, erreichbar unter der E-Mail-Adresse service@brain-blitz.com, legen
-        großen Wert auf den Schutz deiner persönlichen Daten. Diese Datenschutzerklärung erläutert,
-        wie wir deine Informationen sammeln, verwenden, offenlegen und schützen, wenn du unsere
-        Quiz-App nützt.
+        Wir bei Brain Blitz, erreichbar unter der E-Mail-Adresse
+        service@brain-blitz.com, legen großen Wert auf den Schutz deiner
+        persönlichen Daten. Diese Datenschutzerklärung erläutert, wie wir deine
+        Informationen sammeln, verwenden, offenlegen und schützen, wenn du
+        unsere Quiz-App nützt.
       </Typography>
       {privacySteps.map((step, index) => (
         <Step
@@ -83,8 +95,10 @@ export default function Privacy() {
           subSteps={step.subSteps}
         />
       ))}
-      
-      <Typography sx={{ opacity: '.5', fontSize: '.8rem'}}>Diese Datenschutzerklärung wurde zuletzt am 02.04.2024 aktualisiert.</Typography>
+
+      <Typography sx={{ opacity: ".5", fontSize: ".8rem" }}>
+        Diese Datenschutzerklärung wurde zuletzt am 02.04.2024 aktualisiert.
+      </Typography>
     </Box>
   );
 }
