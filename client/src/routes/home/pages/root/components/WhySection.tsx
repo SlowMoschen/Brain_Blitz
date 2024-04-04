@@ -2,9 +2,6 @@ import CastForEducationOutlinedIcon from "@mui/icons-material/CastForEducationOu
 import LocalLibraryOutlinedIcon from "@mui/icons-material/LocalLibraryOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import { Box, Typography } from "@mui/material";
-import { useContext } from "react";
-import { BREAKPOINTS } from "../../../../../configs/Breakpoints";
-import { WindowContext } from "../../../../../shared/context/ScreenSize.context";
 
 interface WhyCardProps {
   icon: React.ReactNode;
@@ -29,7 +26,7 @@ function WhyCard({ icon, title, description }: WhyCardProps) {
     m: 1,
     p: 5,
     minHeight: "450px",
-    width: '100%',
+    width: "100%",
     borderRadius: ".375rem",
   };
 
@@ -48,21 +45,16 @@ function WhyCard({ icon, title, description }: WhyCardProps) {
       <Typography variant="h5" sx={{ ...titleStyles }}>
         {title}
       </Typography>
-      <Typography textAlign={'center'}>{description}</Typography>
+      <Typography textAlign={"center"}>{description}</Typography>
     </Box>
   );
 }
-
 
 /**
  * This is the main component that renders the why section.
  * It displays three cards with icons, titles, and descriptions.
  */
 export default function WhySection() {
-  const { width } = useContext(WindowContext);
-
-  const isMobile = width < BREAKPOINTS.lg;
-
   const containerStyles = {
     display: "flex",
     flexDirection: "column",
@@ -70,23 +62,23 @@ export default function WhySection() {
     justifyContent: "center",
     width: "100%",
     p: 5,
-    m: 10
+    m: 10,
   };
 
   const cardContainerStyles = {
     display: "flex",
-    flexDirection: isMobile ? "column" : "row",
+    flexDirection: { xs: "column", lg: "row" },
     alignItems: "flex-start",
     justifyContent: "center",
     gap: "2rem",
     width: "100%",
     mt: 2,
-    px: isMobile ? 0 : 5,
+    px: { xs: 0, lg: 5 },
   };
 
   return (
     <Box sx={{ ...containerStyles }}>
-      <Typography variant="h4" fontWeight={500} textAlign={'center'}>
+      <Typography variant="h4" fontWeight={500} textAlign={"center"}>
         Warum Brain Blitz?
       </Typography>
       <Box sx={{ ...cardContainerStyles }}>

@@ -1,13 +1,7 @@
 import { Box, Typography } from "@mui/material";
-import { useContext } from "react";
-import { BREAKPOINTS } from "../../../../../configs/Breakpoints";
 import CallToAction from "../../../../../shared/components/buttons/CallToAction";
-import { WindowContext } from "../../../../../shared/context/ScreenSize.context";
 
 export default function EndSection() {
-    const { width } = useContext(WindowContext);
-
-    const isMobile = width < BREAKPOINTS.md;
 
     const containerStyles = {
         display: 'flex',
@@ -19,7 +13,7 @@ export default function EndSection() {
 
     const titleStyles = {
         fontWeight: 600,
-        fontSize: isMobile ? '2.2rem' : '6rem',
+        fontSize: { xs: '2.2rem', sm: '3rem', md: '5rem', lg: '6rem'},
     }
     return (
         <Box sx={{ ...containerStyles }}>

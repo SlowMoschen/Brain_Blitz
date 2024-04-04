@@ -34,7 +34,7 @@ export default function Terms() {
   };
 
   return (
-    <Box sx={{ ...containerStyles }}>
+    <Box sx={ containerStyles }>
       <Typography variant="h5" mb={2} textAlign={"center"} className="border-b-accent">
         Allgemeine Geschäftsbedingungen (AGB)
       </Typography>

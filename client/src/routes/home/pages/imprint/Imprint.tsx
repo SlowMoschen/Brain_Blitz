@@ -12,7 +12,7 @@ export default function Imprint() {
   };
 
   return (
-    <Box sx={{ ...containerStyles }}>
+    <Box sx={ containerStyles }>
       <Typography variant="h5" textAlign={'center'} className="border-b-accent">
         Verantwortlich für den Inhalt dieser Quiz-App:
       </Typography>

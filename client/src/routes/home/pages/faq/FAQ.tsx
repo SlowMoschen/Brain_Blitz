@@ -22,7 +22,7 @@ export default function FAQ() {
   };
 
   return (
-    <Box sx={{ ...containerStyles }}>
+    <Box sx={ containerStyles }>
       {isXL && (
         <>
           <img

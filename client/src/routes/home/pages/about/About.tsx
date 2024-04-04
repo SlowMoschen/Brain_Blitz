@@ -33,20 +33,20 @@ function Article({ title, body1, body2, body3 }: ArticleProps) {
   };
 
   return (
-    <Box sx={{ ...containerStyles }}>
-      <Typography variant="h4" sx={{ ...titleStyles }} className="border-b-accent">
+    <Box sx={ containerStyles }>
+      <Typography variant="h4" sx={ titleStyles } className="border-b-accent">
         {title}
       </Typography>
-      <Typography variant="body1" sx={{ ...bodyStyles }}>
+      <Typography variant="body1" sx={ bodyStyles }>
         {body1}
       </Typography>
       {body2 && (
-        <Typography variant="body1" sx={{ ...bodyStyles }}>
+        <Typography variant="body1" sx={ bodyStyles }>
           {body2}
         </Typography>
       )}
       {body3 && (
-        <Typography variant="body1" sx={{ ...bodyStyles }}>
+        <Typography variant="body1" sx={ bodyStyles }>
           {body3}
         </Typography>
       )}
@@ -69,7 +69,7 @@ export default function About() {
   };
 
   return (
-    <Box sx={{ ...containerStyles }}>
+    <Box sx={ containerStyles }>
       {isXL && (
         <>
           <img

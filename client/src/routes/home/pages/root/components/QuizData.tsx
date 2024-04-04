@@ -36,6 +36,8 @@ function DataCountUpCard({
   bgColor,
   isColumn,
 }: DataCountUpCardProps) {
+
+  // WindowContext is used here to set the flexDirection of the container and style the CountUp component(no MUI styling possible here)
   const { width } = useContext(WindowContext);
   const isMobile = width <= BREAKPOINTS.md;
 
@@ -58,13 +60,13 @@ function DataCountUpCard({
   };
 
   const textStyles = {
-    fontSize: isMobile ? "1.5rem" : "2rem",
+    fontSize: { xs: "1.5rem", md: "2rem" },
     textAlign: "center",
     ml: 1,
   };
 
   return (
-    <Box sx={{ ...containerStyles }}>
+    <Box sx={containerStyles}>
       <CountUp
         end={count}
         enableScrollSpy
@@ -73,7 +75,7 @@ function DataCountUpCard({
         duration={TIMES.COUNT_UP_DURATION}
         style={countUpStyles}
       />
-      <Typography variant="h5" sx={{ ...textStyles }}>
+      <Typography variant="h5" sx={textStyles}>
         {textContent}
       </Typography>
     </Box>
@@ -92,7 +94,7 @@ export default function QuizData() {
 
   if (!data) {
     return (
-      <Typography variant="h4" textAlign="center" color="error.main">
+      <Typography variant="h4" textAlign="center" color="error.main" my={5}>
         Quiz Daten konnten nicht geladen werden
       </Typography>
     );
@@ -121,7 +123,7 @@ export default function QuizData() {
   };
 
   return (
-    <Box sx={{ ...containerStyles }}>
+    <Box sx={containerStyles}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={9}>
           <DataCountUpCard
@@ -146,7 +148,7 @@ export default function QuizData() {
           />
         </Grid>
         <Grid item xs={12} md={5}>
-          <Box sx={{ ...freeContainerStyles }}>
+          <Box sx={freeContainerStyles}>
             <Typography
               variant="h4"
               fontWeight={500}
