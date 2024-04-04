@@ -1,63 +1,58 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
   Button,
   FormControl,
-  FormLabel,
   Snackbar,
-  TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useState } from "react";
-import { BREAKPOINTS } from "../../../../configs/Breakpoints";
-import { ContactDto, useContactFetch } from "../../../../shared/hooks/api/useContactFetch.hook";
-import useToggle from "../../../../shared/hooks/useToggle.hook";
+import { useForm } from "react-hook-form";
 import { TIMES } from "../../../../configs/Application";
-import { formResetter } from "../../../../shared/services/formResetter.service";
+import { BREAKPOINTS } from "../../../../configs/Breakpoints";
+import InputText from "../../../../shared/components/form/InputText";
+import {
+  ContactDto,
+  useContactFetch,
+} from "../../../../shared/hooks/api/useContactFetch.hook";
+import useToggle from "../../../../shared/hooks/useToggle.hook";
+import { ContactSchema } from "./contact.schema";
+
+interface IContactFormInput {
+  name: string;
+  email: string;
+  message: string;
+}
+
+const defaultValues: IContactFormInput = {
+  name: "",
+  email: "",
+  message: "",
+};
 
 export default function Contact() {
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
   const [isSnackbarOpen, toggleSnackbarOpen] = useToggle(false);
   const [snackBarMessage, setSnackBarMessage] = useState<string>("");
-  const [error, setError] = useState<{
-    name: string | null;
-    email: string | null;
-    message: string | null;
-  }>({
-    name: null,
-    email: null,
-    message: null,
+
+  const { control, handleSubmit, reset } = useForm<IContactFormInput>({
+    defaultValues,
+    resolver: zodResolver(ContactSchema),
   });
-  
+
   const handleError = (err: string) => {
     console.error(err);
-    setSnackBarMessage("Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.");
+    setSnackBarMessage(
+      "Es ist ein Fehler aufgetreten. Bitte versuche es später erneut."
+    );
   };
-  const handleSuccess = () => setSnackBarMessage("Deine Nachricht wurde erfolgreich gesendet.");
+  const handleSuccess = () =>
+    setSnackBarMessage("Deine Nachricht wurde erfolgreich gesendet.");
   const mutation = useContactFetch(handleSuccess, handleError);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!name || !email || !message) {
-      setError({
-        name: !name ? "Dein Name wird benötigt." : null,
-        email: !email ? "Eine E-Mail wird benötigt." : null,
-        message: !message ? "Eine Nachricht wird benötigt." : null,
-      });
-      return;
-    }
-
-    const body: ContactDto = {
-      name,
-      email,
-      message,
-    };
-
-    mutation.mutate(body);
-    toggleSnackbarOpen();
-    formResetter(e, [setName, setEmail, setMessage]);
+  const onSubmit = (data: IContactFormInput) => {
+    console.log(data);
+    mutation.mutate(data as ContactDto);
+    reset(defaultValues);
   };
 
   const containerStyles = {
@@ -98,64 +93,58 @@ export default function Contact() {
           Kontakt
         </Typography>
         <Typography>
-          Wir freuen uns über dein Interesse an unserer Quiz-App! Bitte nutze das untenstehende
-          Kontaktformular, um uns dein Feedback, Fragen oder Anliegen mitzuteilen. Unser Team steht
-          dir gerne zur Verfügung und wird sich bemühen, so schnell wie möglich bei dir zu
-          melden. Vielen Dank für deine Unterstützung!
+          Wir freuen uns über dein Interesse an unserer Quiz-App! Bitte nutze
+          das untenstehende Kontaktformular, um uns dein Feedback, Fragen oder
+          Anliegen mitzuteilen. Unser Team steht dir gerne zur Verfügung und
+          wird sich bemühen, so schnell wie möglich bei dir zu melden. Vielen
+          Dank für deine Unterstützung!
         </Typography>
         <Box sx={{ ...containerStyles }}>
-          <form onSubmit={(e) => handleSubmit(e)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl>
-              <FormLabel htmlFor="name">Name</FormLabel>
-              <TextField
-                type="text"
+              <InputText
                 name="name"
+                label="Name"
+                control={control}
+                type="text"
                 placeholder="Max Mustermann"
-                fullWidth
                 sx={inputStyles}
-                variant="filled"
-                onChange={(e) => setName(e.target.value)}
-                helperText={error.name}
-                error={!!error.name}
-                color="accent"
               />
-              <FormLabel htmlFor="email">E-Mail</FormLabel>
-              <TextField
-                type="email"
+              <InputText
                 name="email"
+                label="E-Mail"
+                control={control}
+                type="text"
                 placeholder="beispiel@mail.com"
-                fullWidth
                 sx={inputStyles}
-                variant="filled"
-                onChange={(e) => setEmail(e.target.value)}
-                helperText={error.email}
-                error={!!error.email}
-                color="accent"
               />
-              <FormLabel htmlFor="message">Nachricht</FormLabel>
-              <TextField
+              <InputText
                 name="message"
+                label="Nachricht"
+                control={control}
+                type="text"
                 placeholder="Deine Nachricht..."
-                fullWidth
-                multiline
-                rows={4}
                 sx={inputStyles}
-                variant="filled"
-                onChange={(e) => setMessage(e.target.value)}
-                helperText={error.message}
-                error={!!error.message}
-                color="accent"
+                rows={4}
+                multiline
               />
               <Typography
                 variant="caption"
                 sx={{ fontSize: ".7rem", lineHeight: 1.1, opacity: 0.5, my: 2 }}
               >
-                Indem du dieses Kontaktformular absendest, erklärst du dich damit einverstanden,
-                eine Bestätigungs-E-Mail zu erhalten. Diese E-Mail dient lediglich der Bestätigung
-                des Eingangs deiner Anfrage und wird nicht für Marketingzwecke verwendet. Deine Daten
-                werden gemäß unserer Datenschutzrichtlinie vertraulich behandelt.
+                Indem du dieses Kontaktformular absendest, erklärst du dich
+                damit einverstanden, eine Bestätigungs-E-Mail zu erhalten. Diese
+                E-Mail dient lediglich der Bestätigung des Eingangs deiner
+                Anfrage und wird nicht für Marketingzwecke verwendet. Deine
+                Daten werden gemäß unserer Datenschutzrichtlinie vertraulich
+                behandelt.
               </Typography>
-              <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                sx={{ mt: 2 }}
+              >
                 Senden
               </Button>
             </FormControl>
