@@ -1,7 +1,4 @@
 import { Box, Typography } from "@mui/material";
-import { useContext } from "react";
-import { BREAKPOINTS } from "../../../../../configs/Breakpoints";
-import { WindowContext } from "../../../../../shared/context/ScreenSize.context";
 
 interface StepProps {
   number: number;
@@ -39,10 +36,10 @@ function Step({ number, title, description }: StepProps) {
   };
 
   return (
-    <Box sx={{ ...containerStyles }}>
-      <Box sx={{ ...numberStyles }}>{number}</Box>
+    <Box sx={containerStyles}>
+      <Box sx={numberStyles}>{number}</Box>
       <Box>
-        <Typography variant="h5" sx={{ ...titleStyles }}>
+        <Typography variant="h5" sx={titleStyles}>
           {title}
         </Typography>
         <Typography lineHeight={2}>{description}</Typography>
@@ -58,13 +55,9 @@ function Step({ number, title, description }: StepProps) {
  * Each step has a number, title and description.
  */
 export default function HowSection() {
-  const { width } = useContext(WindowContext);
-
-  const isMobile = width < BREAKPOINTS.lg;
-
   const containerStyles = {
     display: "flex",
-    flexDirection: isMobile ? "column" : "row",
+    flexDirection: { xs: "column", lg: "row" },
     bgcolor: "background.secondary",
     borderRadius: ".375rem",
     p: 5,
@@ -77,11 +70,11 @@ export default function HowSection() {
   const headerStyles = {
     textAlign: "center",
     fontWeight: "bold",
-    fontSize: isMobile ? "2rem" : "3.2rem",
+    fontSize: { xs: "2rem", lg: "3.2rem" },
   };
 
   const stepContainerStyles = {
-    display: isMobile ? "flex" : "grid",
+    display: { xs: "flex", lg: "grid" },
     flexDirection: "column",
     gap: "1.5rem",
     gridTemplateColumns: "repeat(2, 1fr)",
@@ -89,15 +82,17 @@ export default function HowSection() {
   };
 
   return (
-    <Box sx={{ ...containerStyles }}>
+    <Box sx={containerStyles}>
       <div id="how-section"></div>
       <Box mb={2}>
-        <Typography variant="h4" sx={{ ...headerStyles }}>
+        <Typography variant="h4" sx={headerStyles}>
           Wie funktioniert Brain Blitz?
         </Typography>
-        <Typography textAlign={"center"}>In 4 Schritten zu mehr Wissen!</Typography>
+        <Typography textAlign={"center"}>
+          In 4 Schritten zu mehr Wissen!
+        </Typography>
       </Box>
-      <Box sx={{ ...stepContainerStyles }}>
+      <Box sx={stepContainerStyles}>
         <Step
           number={1}
           title="Registrieren"

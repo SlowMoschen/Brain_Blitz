@@ -1,13 +1,9 @@
 import { Box, Typography } from "@mui/material";
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import brainPNG from "../../../../../assets/brain.png";
-import { BREAKPOINTS } from "../../../../../configs/Breakpoints";
 import { URLS } from "../../../../../configs/Links";
 import CallToAction from "../../../../../shared/components/buttons/CallToAction";
 import SecondaryButton from "../../../../../shared/components/buttons/SecondaryButton";
-import { WindowContext } from "../../../../../shared/context/ScreenSize.context";
-
 
 /**
  * This component represents the hero section.
@@ -17,7 +13,6 @@ import { WindowContext } from "../../../../../shared/context/ScreenSize.context"
  * The image is displayed below the text on mobile and to the right on desktop.
  */
 export default function Herosection() {
-  const { width } = useContext(WindowContext);
   const redirect = useNavigate();
 
   const scrollTo = (id: string, offset = 0) => {
@@ -30,41 +25,37 @@ export default function Herosection() {
     }
   };
 
-  const isDesktop = width >= BREAKPOINTS.lg;
-  const isMobile = width <= BREAKPOINTS.md;
-  const isXL = width >= BREAKPOINTS.xl;
-
   const mainContainerStyle = {
     display: "flex",
-    flexDirection: isDesktop ? "row" : "column",
-    justifyContent: isDesktop ? "space-evenly" : "center",
+    flexDirection: { xs: "column", lg: "row" },
+    justifyContent: { lg: "space-evenly", xs: "center" },
     alignItems: "center",
     height: "100vh",
     width: "100%",
-    mt: isDesktop ? 0 : 10,
+    mt: { xs: 10, lg: 0 },
   };
 
   const containerStyle = {
     display: "flex",
-    flexDirection: isMobile ? "column" : "row",
-    justifyContent: isDesktop ? "flex-start" : "center",
+    flexDirection: { lg: "row", xs: "column" },
+    justifyContent: { lg: "flex-start", xs: "center" },
     alignItems: "center",
   };
 
   const titleStyle = {
     fontWeight: "600",
-    textAlign: isDesktop ? "left" : "center",
-    fontSize: isXL ? "10rem" : isDesktop ? "8rem" : "6rem",
+    textAlign: { lg: "left", xs: "center" },
+    fontSize: { xl: "10rem", lg: "8rem", xs: "6rem" },
   };
 
   const subTitleStyle = {
     fontWeight: "400",
-    textAlign: isDesktop ? "left" : "center",
-    fontSize: isXL ? "2.5rem" : isDesktop ? "2.2rem" : "2rem",
+    textAlign: { lg: "left", xs: "center" },
+    fontSize: { xl: "2.5rem", lg: "2.2rem", xs: "2rem" },
   };
 
   const buttonStyle = {
-    width: isXL ? "350px" : "300px",
+    width: { xl: "350px", xs: "300px" },
     m: 0.5,
     p: 1,
     fontWeight: "600",
@@ -73,35 +64,45 @@ export default function Herosection() {
   const imageStyle = {
     width: "100%",
     height: "auto",
-    maxWidth: isXL ? "450px" : isDesktop ? "300px" : "200px",
+    maxWidth: { xl: "450px", lg: "300px", xs: "200px" },
+    my: 1,
   };
 
   return (
     <>
-      <Box sx={{ ...mainContainerStyle }}>
-        <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
-          <Typography variant="h1" sx={{ ...titleStyle }} className="animated-bg">
+      <Box sx={mainContainerStyle}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+          }}
+        >
+          <Typography variant="h1" sx={titleStyle} className="animated-bg">
             Brain Blitz
           </Typography>
-          <Typography variant="h4" sx={{ ...subTitleStyle }}>
+          <Typography variant="h4" sx={subTitleStyle}>
             Baue dein Wissen auf, Kategorie für Kategorie
           </Typography>
-          <Box sx={{ ...containerStyle, my: 1 }}>
+          <Box sx={containerStyle}>
             <SecondaryButton
               text="Wie funktioniert Brain Blitz?"
-              sx={{ ...buttonStyle }}
+              sx={buttonStyle}
               onClick={() => scrollTo("how-section", 200)}
             />
             <CallToAction
               text="Jetzt loslegen!"
-              sx={{ ...buttonStyle }}
+              sx={buttonStyle}
               onClick={() => redirect(URLS.SIGNUP)}
             />
           </Box>
         </Box>
-        <Box sx={{ my: 1 }}>
-          <img src={brainPNG} style={{ ...imageStyle }} />
-        </Box>
+        <Box
+          sx={imageStyle}
+          component={"img"}
+          src={brainPNG}
+          alt="Wired Brain Header"
+        ></Box>
       </Box>
     </>
   );
