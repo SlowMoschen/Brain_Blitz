@@ -26,10 +26,10 @@ export default function CustomAccordion({ question, answer }: CustomAccordionPro
   };
 
   return (
-    <Accordion sx={{ ...accordionStyles }}>
+    <Accordion sx={ accordionStyles }>
       <AccordionSummary
         sx={{ ...dividerStyles }}
-        expandIcon={<ExpandMoreIcon sx={{ ...iconStyles }} />}
+        expandIcon={<ExpandMoreIcon sx={ iconStyles } />}
       >
         <Typography fontSize={'1.2rem'}>{question}</Typography>
       </AccordionSummary>
