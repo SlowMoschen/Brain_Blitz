@@ -23,7 +23,12 @@ const defaultMenuItems = [
   },
 ];
 
-export default function NavMenu() {
+interface NavMenuProps {
+  // Function to toggle the mobile menu
+  toggleIsOpen?: () => void;
+}
+
+export default function NavMenu({ toggleIsOpen }: NavMenuProps) {
   const { width } = useContext(WindowContext);
 
   const isMobile = width <= BREAKPOINTS.md;
@@ -50,7 +55,7 @@ export default function NavMenu() {
     <Box sx={{ ...BoxStyles }}>
       {defaultMenuItems.map((item, index) => (
         <ListItem key={index} sx={{ ...ListItemStyles }}>
-          <RouterButton to={item.to} text={item.text} color="text" sx={{ fontSize }} />
+          <RouterButton to={item.to} text={item.text} color="text" sx={{ fontSize }} onClick={toggleIsOpen} />
         </ListItem>
       ))}
     </Box>

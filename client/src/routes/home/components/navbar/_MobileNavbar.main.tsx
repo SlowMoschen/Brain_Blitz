@@ -31,7 +31,7 @@ export default function MobileNavbar() {
         <AuthMenu />
         <Box sx={{ ...drawerStyles }}>
           <Logo maxWidth="150px" />
-          <NavMenu />
+          <NavMenu toggleIsOpen={toggleIsOpen} />
         </Box>
       </Toolbar>
     </AppBar>
