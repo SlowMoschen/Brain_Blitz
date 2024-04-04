@@ -1,9 +1,10 @@
 import { Box, Grid, Typography } from "@mui/material";
+import { useContext } from "react";
 import CountUp from "react-countup";
 import { TIMES } from "../../../../../configs/Application";
 import { BREAKPOINTS } from "../../../../../configs/Breakpoints";
-import { useQuizDataFetch } from "../../../../../shared/hooks/api/useQuizDataFetch";
-import useScreenSize from "../../../../../shared/hooks/useScreenSize";
+import { WindowContext } from "../../../../../shared/context/ScreenSize.context";
+import { useQuizDataFetch } from "../../../../../shared/hooks/api/useQuizDataFetch.hook";
 
 interface DataCountUpCardProps {
   count: number;
@@ -29,8 +30,13 @@ interface IQuizData {
  * @param {DataCountUpCardProps} props
  * @returns {JSX.Element}
  */
-function DataCountUpCard({ count, textContent, bgColor, isColumn }: DataCountUpCardProps) {
-  const { width } = useScreenSize();
+function DataCountUpCard({
+  count,
+  textContent,
+  bgColor,
+  isColumn,
+}: DataCountUpCardProps) {
+  const { width } = useContext(WindowContext);
   const isMobile = width <= BREAKPOINTS.md;
 
   const containerStyles = {
@@ -74,7 +80,6 @@ function DataCountUpCard({ count, textContent, bgColor, isColumn }: DataCountUpC
   );
 }
 
-
 /**
  * QuizData component - used on the landing page
  * Displays the quiz data fetched from the API
@@ -98,7 +103,7 @@ export default function QuizData() {
     width: "90%",
     bgcolor: "background.secondary",
     p: 3,
-    m:10,
+    m: 10,
     borderRadius: ".375rem",
     maxWidth: "1500px",
   };
@@ -142,7 +147,11 @@ export default function QuizData() {
         </Grid>
         <Grid item xs={12} md={5}>
           <Box sx={{ ...freeContainerStyles }}>
-            <Typography variant="h4" fontWeight={500} sx={{ textDecoration: "underline", fontSize: '3rem' }}>
+            <Typography
+              variant="h4"
+              fontWeight={500}
+              sx={{ textDecoration: "underline", fontSize: "3rem" }}
+            >
               100% Gratis
             </Typography>
             <Typography variant="body1">für immer...</Typography>

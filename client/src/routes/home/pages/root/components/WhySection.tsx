@@ -2,8 +2,9 @@ import CastForEducationOutlinedIcon from "@mui/icons-material/CastForEducationOu
 import LocalLibraryOutlinedIcon from "@mui/icons-material/LocalLibraryOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import { Box, Typography } from "@mui/material";
-import useScreenSize from "../../../../../shared/hooks/useScreenSize";
+import { useContext } from "react";
 import { BREAKPOINTS } from "../../../../../configs/Breakpoints";
+import { WindowContext } from "../../../../../shared/context/ScreenSize.context";
 
 interface WhyCardProps {
   icon: React.ReactNode;
@@ -58,7 +59,7 @@ function WhyCard({ icon, title, description }: WhyCardProps) {
  * It displays three cards with icons, titles, and descriptions.
  */
 export default function WhySection() {
-  const { width } = useScreenSize();
+  const { width } = useContext(WindowContext);
 
   const isMobile = width < BREAKPOINTS.lg;
 

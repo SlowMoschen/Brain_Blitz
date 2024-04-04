@@ -7,7 +7,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import useToggle from "../../../shared/hooks/useToggle";
+import useToggle from "../../../shared/hooks/useToggle.hook";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import CallToAction from "../../../shared/components/buttons/CallToAction";

@@ -1,7 +1,8 @@
 import { Box, ListItem } from "@mui/material";
+import { useContext } from "react";
 import { BREAKPOINTS } from "../../../../configs/Breakpoints";
 import RouterButton from "../../../../shared/components/buttons/RouterButton";
-import useScreenSize from "../../../../shared/hooks/useScreenSize";
+import { WindowContext } from "../../../../shared/context/ScreenSize.context";
 
 const defaultMenuItems = [
   {
@@ -23,7 +24,7 @@ const defaultMenuItems = [
 ];
 
 export default function NavMenu() {
-  const { width } = useScreenSize();
+  const { width } = useContext(WindowContext);
 
   const isMobile = width <= BREAKPOINTS.md;
   const isDesktop = width > BREAKPOINTS.lg;

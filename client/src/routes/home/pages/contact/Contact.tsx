@@ -9,10 +9,10 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { BREAKPOINTS } from "../../../../configs/Breakpoints";
-import { ContactDto, useContactFetch } from "../../../../shared/hooks/api/useContactFetch";
-import useToggle from "../../../../shared/hooks/useToggle";
+import { ContactDto, useContactFetch } from "../../../../shared/hooks/api/useContactFetch.hook";
+import useToggle from "../../../../shared/hooks/useToggle.hook";
 import { TIMES } from "../../../../configs/Application";
-import { formResetter } from "../../../../shared/services/formResetter";
+import { formResetter } from "../../../../shared/services/formResetter.service";
 
 export default function Contact() {
   const [name, setName] = useState<string>("");

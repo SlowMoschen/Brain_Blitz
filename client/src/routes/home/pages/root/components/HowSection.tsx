@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
-import useScreenSize from "../../../../../shared/hooks/useScreenSize";
+import { useContext } from "react";
 import { BREAKPOINTS } from "../../../../../configs/Breakpoints";
+import { WindowContext } from "../../../../../shared/context/ScreenSize.context";
 
 interface StepProps {
   number: number;
@@ -57,7 +58,7 @@ function Step({ number, title, description }: StepProps) {
  * Each step has a number, title and description.
  */
 export default function HowSection() {
-  const { width } = useScreenSize();
+  const { width } = useContext(WindowContext);
 
   const isMobile = width < BREAKPOINTS.lg;
 

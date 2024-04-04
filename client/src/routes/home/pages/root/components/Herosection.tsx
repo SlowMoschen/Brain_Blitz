@@ -1,11 +1,12 @@
 import { Box, Typography } from "@mui/material";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import brainPNG from "../../../../../assets/brain.png";
 import { BREAKPOINTS } from "../../../../../configs/Breakpoints";
+import { URLS } from "../../../../../configs/Links";
 import CallToAction from "../../../../../shared/components/buttons/CallToAction";
 import SecondaryButton from "../../../../../shared/components/buttons/SecondaryButton";
-import useScreenSize from "../../../../../shared/hooks/useScreenSize";
-import { useNavigate } from "react-router-dom";
-import { URLS } from "../../../../../configs/Links";
+import { WindowContext } from "../../../../../shared/context/ScreenSize.context";
 
 
 /**
@@ -16,7 +17,7 @@ import { URLS } from "../../../../../configs/Links";
  * The image is displayed below the text on mobile and to the right on desktop.
  */
 export default function Herosection() {
-  const { width } = useScreenSize();
+  const { width } = useContext(WindowContext);
   const redirect = useNavigate();
 
   const scrollTo = (id: string, offset = 0) => {
