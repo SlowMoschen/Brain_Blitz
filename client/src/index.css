@@ -30,6 +30,10 @@ body {
     border-bottom: 8px solid #465c2f;
 }
 
+.border-b-primary {
+    border-bottom: 8px solid #c10000;
+}
+
 @keyframes rotatingBG {
     0% {
         background-position: 0% 50%;
