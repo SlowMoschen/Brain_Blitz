@@ -5,6 +5,7 @@ interface InputTextProps extends BaseTextFieldProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>;
   name: string;
+  type: 'text' | 'email' | 'tel';
 }
 
 export default function InputText({
