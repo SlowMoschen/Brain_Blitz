@@ -138,7 +138,7 @@ export class AuthController {
 	@ApiNotFoundResponse({ description: 'if user not found' })
 	@ApiConflictResponse({ description: 'if email already verified' })
 	@ApiInternalServerErrorResponse({ description: 'if email sending failed' })
-	@Throttle({ default: { limit: 1, ttl: 60 * 60 * 24 * 1000 } })
+	// @Throttle({ default: { limit: 1, ttl: 60 * 60 * 24 * 1000 } })
 	@Post('resend-verification-email')
 	@UsePipes(new ValidationPipe())
 	async resendEmailVerification(@Body() { email }: EmailDTO) {
