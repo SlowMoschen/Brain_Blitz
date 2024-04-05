@@ -54,7 +54,7 @@ function DataCountUpCard({ count, textContent, bgColor, isColumn }: DataCountUpC
   };
 
   const textStyles = {
-    fontSize: { xs: "1.5rem", md: "2rem" },
+    fontSize: { xs: "1.5rem", md: "1.5rem", lg: "2rem"},
     textAlign: "center",
     ml: 1,
   };
