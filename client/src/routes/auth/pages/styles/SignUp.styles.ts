@@ -5,7 +5,7 @@ const stackStyles = {
   maxWidth: BREAKPOINTS.xl,
   alignItems: "center",
   justifyContent: "center",
-  mt: { xs: 20, md: 0 },
+  mt: { xs: 50, md: 0 },
 };
 
 const paperStyles = {
