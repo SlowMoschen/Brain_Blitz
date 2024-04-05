@@ -14,6 +14,12 @@ export default function InputText({
   placeholder,
   ...rest
 }: InputTextProps) {
+
+  const inputStyles = {
+    my: 2,
+    borderRadius: ".375rem",
+  };
+
   return (
     <Controller
       name={name}
@@ -30,6 +36,7 @@ export default function InputText({
           value={value}
           color="accent"
           placeholder={placeholder}
+          sx={inputStyles}
           {...rest}
         />
       )}
