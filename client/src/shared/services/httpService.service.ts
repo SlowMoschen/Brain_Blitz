@@ -9,9 +9,7 @@
 
 import { URLS } from "../../configs/Links";
 
-
 export class HttpService {
-
   constructor(private readonly _baseUrl: string = URLS.API_URL) {}
 
   private get defaultHeaders() {
@@ -21,17 +19,20 @@ export class HttpService {
   }
 
   private async _fetch(method: string, endpoint: string, data?: unknown) {
-    const response = await fetch(this._baseUrl + endpoint, {
-      method,
-      headers: this.defaultHeaders,
-      credentials: "include",
-      body: JSON.stringify(data),
-    });
-    return this.hanldedResponse(response);
+      const response = await fetch(this._baseUrl + endpoint, {
+        method,
+        headers: this.defaultHeaders,
+        credentials: "include",
+        body: JSON.stringify(data) || undefined,
+      });
+      return this.hanldedResponse(response);
   }
 
   private async hanldedResponse(response: Response) {
-    if (!response.ok) throw new Error(response.statusText);
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message);
+    }
     return await response.json();
   }
 
