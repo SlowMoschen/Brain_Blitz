@@ -98,7 +98,16 @@ const customTheme = createTheme({
                 lineHeight: 1.5,
                 letterSpacing: '.08rem'
             }
-        }
+        },
+        MuiInputLabel: {
+            styleOverrides: {
+                root: {
+                    '&.Mui-focused': {
+                        color: '#99ff66'
+                    }
+                }
+            }
+        },
     }
 })
 
