@@ -5,7 +5,7 @@ import { HttpService } from "../../services/httpService.service";
 const httpService = new HttpService();
 
 function fetchQuizData() {
-    return httpService.get(URLS.QUIZ_DATA_ENDPOINT);
+    return httpService.get(URLS.API_ENDPOINTS.APP.QUIZ_DATA);
 }
 
 

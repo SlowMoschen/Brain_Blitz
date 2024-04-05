@@ -11,7 +11,7 @@ export interface ContactDto {
 const httpService = new HttpService();
 
 function sendData(body: ContactDto) {
-  return httpService.post(URLS.CONTACT_ENDPOINT, body);
+  return httpService.post(URLS.API_ENDPOINTS.APP.CONTACT, body);
 }
 
 // This hook is used to send a contact form to the server.
