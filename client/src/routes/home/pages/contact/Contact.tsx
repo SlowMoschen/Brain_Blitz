@@ -1,20 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Box,
-  Button,
-  FormControl,
-  Snackbar,
-  Typography
-} from "@mui/material";
+import { Box, Button, FormControl, Typography } from "@mui/material";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { TIMES } from "../../../../configs/Application";
 import { BREAKPOINTS } from "../../../../configs/Breakpoints";
+import AlertSnackbar from "../../../../shared/components/AlertSnackbar";
 import InputText from "../../../../shared/components/form/InputText";
-import {
-  ContactDto,
-  useContactFetch,
-} from "../../../../shared/hooks/api/useContactFetch.hook";
+import { ContactDto, useContactFetch } from "../../../../shared/hooks/api/useContactFetch.hook";
 import useToggle from "../../../../shared/hooks/useToggle.hook";
 import { ContactSchema } from "./contact.schema";
 
@@ -32,7 +23,13 @@ const defaultValues: IContactFormInput = {
 
 export default function Contact() {
   const [isSnackbarOpen, toggleSnackbarOpen] = useToggle(false);
-  const [snackBarMessage, setSnackBarMessage] = useState<string>("");
+  const [snackBarProps, setSnackbarProps] = useState<{
+    message: string;
+    alertType: "success" | "error";
+  }>({
+    message: "",
+    alertType: "success",
+  });
 
   const { control, handleSubmit, reset } = useForm<IContactFormInput>({
     defaultValues,
@@ -41,17 +38,19 @@ export default function Contact() {
 
   const handleError = (err: string) => {
     console.error(err);
-    setSnackBarMessage(
-      "Es ist ein Fehler aufgetreten. Bitte versuche es später erneut."
-    );
+    setSnackbarProps({ message: "Es ist ein Fehler aufgetreten.", alertType: "error" });
   };
   const handleSuccess = () =>
-    setSnackBarMessage("Deine Nachricht wurde erfolgreich gesendet.");
+    setSnackbarProps({
+      message: "Deine Nachricht wurde erfolgreich versendet.",
+      alertType: "success",
+    });
+
   const mutation = useContactFetch(handleSuccess, handleError);
 
   const onSubmit = (data: IContactFormInput) => {
-    console.log(data);
     mutation.mutate(data as ContactDto);
+    toggleSnackbarOpen();
     reset(defaultValues);
   };
 
@@ -93,11 +92,10 @@ export default function Contact() {
           Kontakt
         </Typography>
         <Typography>
-          Wir freuen uns über dein Interesse an unserer Quiz-App! Bitte nutze
-          das untenstehende Kontaktformular, um uns dein Feedback, Fragen oder
-          Anliegen mitzuteilen. Unser Team steht dir gerne zur Verfügung und
-          wird sich bemühen, so schnell wie möglich bei dir zu melden. Vielen
-          Dank für deine Unterstützung!
+          Wir freuen uns über dein Interesse an unserer Quiz-App! Bitte nutze das untenstehende
+          Kontaktformular, um uns dein Feedback, Fragen oder Anliegen mitzuteilen. Unser Team steht
+          dir gerne zur Verfügung und wird sich bemühen, so schnell wie möglich bei dir zu melden.
+          Vielen Dank für deine Unterstützung!
         </Typography>
         <Box sx={{ ...containerStyles }}>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -132,29 +130,22 @@ export default function Contact() {
                 variant="caption"
                 sx={{ fontSize: ".7rem", lineHeight: 1.1, opacity: 0.5, my: 2 }}
               >
-                Indem du dieses Kontaktformular absendest, erklärst du dich
-                damit einverstanden, eine Bestätigungs-E-Mail zu erhalten. Diese
-                E-Mail dient lediglich der Bestätigung des Eingangs deiner
-                Anfrage und wird nicht für Marketingzwecke verwendet. Deine
-                Daten werden gemäß unserer Datenschutzrichtlinie vertraulich
-                behandelt.
+                Indem du dieses Kontaktformular absendest, erklärst du dich damit einverstanden,
+                eine Bestätigungs-E-Mail zu erhalten. Diese E-Mail dient lediglich der Bestätigung
+                des Eingangs deiner Anfrage und wird nicht für Marketingzwecke verwendet. Deine
+                Daten werden gemäß unserer Datenschutzrichtlinie vertraulich behandelt.
               </Typography>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                sx={{ mt: 2 }}
-              >
+              <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
                 Senden
               </Button>
             </FormControl>
           </form>
         </Box>
-        <Snackbar
+        <AlertSnackbar
+          alertType={snackBarProps.alertType}
+          message={snackBarProps.message}
           open={isSnackbarOpen}
-          autoHideDuration={TIMES.SNACKBAR_DELAY}
           onClose={toggleSnackbarOpen}
-          message={snackBarMessage}
         />
       </Box>
     </>
