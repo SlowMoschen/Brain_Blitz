@@ -30,13 +30,7 @@ interface IQuizData {
  * @param {DataCountUpCardProps} props
  * @returns {JSX.Element}
  */
-function DataCountUpCard({
-  count,
-  textContent,
-  bgColor,
-  isColumn,
-}: DataCountUpCardProps) {
-
+function DataCountUpCard({ count, textContent, bgColor, isColumn }: DataCountUpCardProps) {
   // WindowContext is used here to set the flexDirection of the container and style the CountUp component(no MUI styling possible here)
   const { width } = useContext(WindowContext);
   const isMobile = width <= BREAKPOINTS.md;
@@ -152,6 +146,7 @@ export default function QuizData() {
             <Typography
               variant="h4"
               fontWeight={500}
+              textAlign={"center"}
               sx={{ textDecoration: "underline", fontSize: "3rem" }}
             >
               100% Gratis
