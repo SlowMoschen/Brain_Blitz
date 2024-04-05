@@ -13,6 +13,18 @@ export const URLS = {
   RESEND_VERIFICATION_EMAIL: "/auth/resend-verification-email",
   DASBOARD: "/dashboard",
   API_URL: "http://localhost:3000",
-  QUIZ_DATA_ENDPOINT: "/quiz-data",
-  CONTACT_ENDPOINT: "/contact",
+  API_ENDPOINTS: {
+    APP: {
+      QUIZ_DATA: "/quiz-data",
+      CONTACT: "/contact",
+    },
+    AUTH: {
+      SIGNIN: "/auth/login",
+      SIGNUP: "/auth/register",
+      LOGOUT: "/auth/logout",
+      SESSION: "/auth/session",
+      FORGOT_PASSWORD: "/auth/forgot-password",
+      RESEND_VERIFICATION_EMAIL: "/auth/resend-verification-email",
+    }
+  },
 };
