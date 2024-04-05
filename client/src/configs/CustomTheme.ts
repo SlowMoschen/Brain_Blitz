@@ -73,7 +73,7 @@ const customTheme = createTheme({
         values: {
             xs: 0,
             sm: 640,
-            md: 786,
+            md: 768,
             lg: 1024,
             xl: 1536
         }
