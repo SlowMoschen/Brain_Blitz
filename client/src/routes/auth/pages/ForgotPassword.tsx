@@ -95,7 +95,7 @@ export default function ForgotPassword() {
         text="Bitte überprüfe deinen Posteingang, um dein Passwort zurückzusetzen."
         button={{
           text: "Zurück zum Login",
-          to: URLS.API_ENDPOINTS.AUTH.SIGNIN,
+          to: URLS.SIGNIN,
         }}
       />
     );
