@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Backdrop, Box, CircularProgress, Paper, Stack, Typography } from "@mui/material";
-import { useState } from "react";
+import { Backdrop, Box, CircularProgress, Link, Paper, Stack, Typography } from "@mui/material";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import signup from "../../../assets/signup.svg";
 import { URLS } from "../../../configs/Links";
@@ -14,6 +14,9 @@ import useToggle from "../../../shared/hooks/useToggle.hook";
 import { SignUpSchema } from "../schemas/SignUp.schema";
 import SuccessScreen from "./SuccessScreen";
 import { imagePaperStyles, imageStyles, paperStyles, stackStyles } from "./styles/SignUp.styles";
+import { BREAKPOINTS } from "../../../configs/Breakpoints";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { WindowContext } from "../../../shared/context/ScreenSize.context";
 
 interface ISignUpFormInput {
   first_name: string;
@@ -40,6 +43,7 @@ function getSnackbarMessage(error: string) {
 }
 
 export default function SignUp() {
+  const { width } = useContext(WindowContext);
   const [isSnackbarOpen, toggleSnackbarOpen] = useToggle(false);
   const [wasSuccessful, setWasSuccessful] = useState(false);
   const [snackBarProps, setSnackbarProps] = useState<{
@@ -100,6 +104,11 @@ export default function SignUp() {
             sx={{ width: { xs: "100%", md: "50%" }, height: "100%" }}
             justifyContent={'center'}
           >
+            {width > BREAKPOINTS.md && (
+            <Link href={URLS.HOME} underline="hover" sx={{ alignSelf: "start" }}>
+              <ArrowBackIcon sx={{ fontSize: 30 }} />
+            </Link>
+          )}
             <Typography variant="h4" align="center" className="border-b-primary">
               Herzlich Willkommen!
             </Typography>

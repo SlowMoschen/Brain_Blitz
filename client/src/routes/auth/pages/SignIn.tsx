@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Backdrop, Box, CircularProgress, Paper, Stack, Typography } from "@mui/material";
-import { useState } from "react";
+import { Backdrop, Box, CircularProgress, Link, Paper, Stack, Typography } from "@mui/material";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import signin from "../../../assets/signin.svg";
@@ -14,6 +14,9 @@ import { useAuthFetch } from "../../../shared/hooks/api/useAuthFetch.hook";
 import useToggle from "../../../shared/hooks/useToggle.hook";
 import { SignInSchema } from "../schemas/SignIn.schema";
 import { imagePaperStyles, imageStyles, paperStyles, stackStyles } from "./styles/SignIn.styles";
+import { WindowContext } from "../../../shared/context/ScreenSize.context";
+import { BREAKPOINTS } from "../../../configs/Breakpoints";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 interface ISignInFormInput {
   email: string;
@@ -40,6 +43,7 @@ function getSnackbarMessage(error: string) {
 
 export default function SignIn() {
   const redirect = useNavigate();
+  const { width } = useContext(WindowContext);
   const [isSnackbarOpen, toggleSnackbarOpen] = useToggle(false);
   const [snackBarProps, setSnackbarProps] = useState<{
     message: string;
@@ -85,6 +89,11 @@ export default function SignIn() {
             <Box component={"img"} src={signin} sx={imageStyles} />
           </Paper>
           <Stack sx={{ width: { xs: "100%", md: "50%" } }} justifyContent={"flex-start"}>
+          {width > BREAKPOINTS.md && (
+            <Link href={URLS.HOME} underline="hover" sx={{ alignSelf: "start" }}>
+              <ArrowBackIcon sx={{ fontSize: 30 }} />
+            </Link>
+          )}
             <Typography variant="h4" align="center" className="border-b-primary">
               Willkommen zurück!
             </Typography>
