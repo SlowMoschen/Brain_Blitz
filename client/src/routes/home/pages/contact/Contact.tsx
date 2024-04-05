@@ -63,12 +63,7 @@ export default function Contact() {
     maxWidth: BREAKPOINTS.lg,
     wordBreak: "break-all",
   };
-
-  const inputStyles = {
-    my: 2,
-    borderRadius: ".375rem",
-  };
-
+  
   return (
     <>
       <Box
@@ -106,7 +101,6 @@ export default function Contact() {
                 control={control}
                 type="text"
                 placeholder="Max Mustermann"
-                sx={inputStyles}
               />
               <InputText
                 name="email"
@@ -114,7 +108,6 @@ export default function Contact() {
                 control={control}
                 type="text"
                 placeholder="beispiel@mail.com"
-                sx={inputStyles}
               />
               <InputText
                 name="message"
@@ -122,7 +115,6 @@ export default function Contact() {
                 control={control}
                 type="text"
                 placeholder="Deine Nachricht..."
-                sx={inputStyles}
                 rows={4}
                 multiline
               />
