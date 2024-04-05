@@ -98,7 +98,7 @@ export default function SignUp() {
           </Paper>
           <Stack
             sx={{ width: { xs: "100%", md: "50%" }, height: "100%" }}
-            justifyContent={"flex-start"}
+            justifyContent={'center'}
           >
             <Typography variant="h4" align="center" className="border-b-primary">
               Herzlich Willkommen!
