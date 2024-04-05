@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, NotImplementedException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, NotImplementedException } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { InjectDatabase } from 'src/Decorators/injectDatabase.decorator';
@@ -117,19 +117,16 @@ export class UserRepository {
 	 * @returns {Promise<string>} - Returns the userID or an empty array if no user is found and an error if an error occurs
 	 */
 	async insertOne(body: CreateUserDTO): Promise<SelectUser> {
-		const user = await this.db.insert(schema.usersTable).values(body).returning({ id: schema.usersTable.id });
-		if (user instanceof Error) {
-			if (
-				user.message.includes('duplicate key value violates unique constraint') ||
-				user.message.includes('User with this email already exists')
-			)
-				throw new Error('User existiert bereits');
-			throw user;
+		try {
+			const user = await this.db.insert(schema.usersTable).values(body).returning({ id: schema.usersTable.id });
+			if (!user[0]) throw new NotImplementedException('User creation failed');
+			const userID = user[0].id;
+			await this.insertDefaultUserTables(userID);
+			return await this.findByID(userID);
+		} catch (error) {
+			if (error.code === '23505') throw new ConflictException('User mit dieser E-Mail existiert bereits');
+			throw error;
 		}
-		if (!user[0]) throw new NotImplementedException('User creation failed');
-		const userID = user[0].id;
-		await this.insertDefaultUserTables(userID);
-		return await this.findByID(userID);
 	}
 
 	/**
