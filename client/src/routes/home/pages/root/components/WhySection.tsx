@@ -24,7 +24,6 @@ function WhyCard({ icon, title, description }: WhyCardProps) {
     gap: "1rem",
     bgcolor: "primary.light",
     m: 1,
-    p: 5,
     minHeight: "450px",
     width: "100%",
     borderRadius: ".375rem",
@@ -40,9 +39,9 @@ function WhyCard({ icon, title, description }: WhyCardProps) {
   };
 
   return (
-    <Box sx={{ ...cardStyles }}>
+    <Box sx={cardStyles}>
       {icon}
-      <Typography variant="h5" sx={{ ...titleStyles }}>
+      <Typography variant="h5" sx={titleStyles}>
         {title}
       </Typography>
       <Typography textAlign={"center"}>{description}</Typography>
@@ -68,7 +67,7 @@ export default function WhySection() {
   const cardContainerStyles = {
     display: "flex",
     flexDirection: { xs: "column", lg: "row" },
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "center",
     gap: "2rem",
     width: "100%",
@@ -77,11 +76,11 @@ export default function WhySection() {
   };
 
   return (
-    <Box sx={{ ...containerStyles }}>
+    <Box sx={containerStyles}>
       <Typography variant="h4" fontWeight={500} textAlign={"center"}>
         Warum Brain Blitz?
       </Typography>
-      <Box sx={{ ...cardContainerStyles }}>
+      <Box sx={cardContainerStyles}>
         <WhyCard
           icon={<LocalLibraryOutlinedIcon className="enlarged-icon" />}
           title="Wissen erweitern"
