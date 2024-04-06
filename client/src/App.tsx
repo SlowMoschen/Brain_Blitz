@@ -19,6 +19,8 @@ import Home from "./routes/home/pages/root/Root";
 import Terms from "./routes/home/pages/terms/Terms";
 import LoadingScreen from "./shared/components/LoadingScreen";
 import { WindowContextProvider } from "./shared/context/ScreenSize.context";
+const DashboardLayout = lazy(() => import("./routes/dashboard/DashboardLayout"));
+const DashboardRoot = lazy(() => import("./routes/dashboard/pages/Root"));
 const SignIn = lazy(() => import("./routes/auth/pages/SignIn"));
 const SignUp = lazy(() => import("./routes/auth/pages/SignUp"));
 
@@ -52,6 +54,13 @@ export default function App() {
         { path: "resend-verification-email", element: <ResendVerification /> },
       ],
     },
+    {
+      path: '/dashboard',
+      element: <DashboardLayout />,
+      children: [
+        { path: '/dashboard', element: <DashboardRoot />}
+      ]
+    }
   ]);
 
   const queryClient = new QueryClient();
