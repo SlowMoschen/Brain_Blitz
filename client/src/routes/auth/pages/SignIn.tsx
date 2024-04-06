@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Box, Link, Paper, Stack, Typography } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import signin from "../../../assets/signin.svg";
@@ -15,6 +15,7 @@ import InputPassword from "../../../shared/components/form/InputPassword";
 import InputText from "../../../shared/components/form/InputText";
 import { WindowContext } from "../../../shared/context/ScreenSize.context";
 import { useAuthFetch } from "../../../shared/hooks/api/useAuthFetch.hook";
+import { useSessionFetch } from "../../../shared/hooks/api/useSessionFetch.hook";
 import useToggle from "../../../shared/hooks/useToggle.hook";
 import { SignInSchema } from "../schemas/SignIn.schema";
 import { imagePaperStyles, imageStyles, paperStyles, stackStyles } from "./styles/SignIn.styles";
@@ -46,6 +47,7 @@ export default function SignIn() {
   const redirect = useNavigate();
   const { width } = useContext(WindowContext);
   const [isSnackbarOpen, toggleSnackbarOpen] = useToggle(false);
+  const { isAuthenticated, isPending: isAuthPending } = useSessionFetch();
   const [snackBarProps, setSnackbarProps] = useState<{
     message: string;
     alertType: "success" | "error";
@@ -65,7 +67,7 @@ export default function SignIn() {
 
   const handleSuccess = () => redirect(URLS.DASHBOARD);
 
-  const { mutate, isPending } = useAuthFetch(
+  const { mutate, isPending: isSignInPending } = useAuthFetch(
     handleSuccess,
     handleError,
     URLS.API_ENDPOINTS.AUTH.SIGNIN
@@ -77,22 +79,25 @@ export default function SignIn() {
     reset(defaultValues);
   };
 
+
+  useEffect(() => {
+    if (isAuthenticated) redirect(URLS.DASHBOARD);
+  }, [isAuthenticated]);
+
   return (
     <>
-      {isPending && (
-        <LoadingScreen />
-      )}
+      {isSignInPending || isAuthPending  && <LoadingScreen />}
       <Stack sx={stackStyles}>
         <Paper sx={paperStyles}>
           <Paper elevation={9} sx={imagePaperStyles}>
             <Box component={"img"} src={signin} sx={imageStyles} />
           </Paper>
           <Stack sx={{ width: { xs: "100%", md: "50%" } }} justifyContent={"flex-start"}>
-          {width > BREAKPOINTS.md && (
-            <Link href={URLS.HOME} underline="hover" sx={{ alignSelf: "start" }}>
-              <ArrowBackIcon sx={{ fontSize: 30 }} />
-            </Link>
-          )}
+            {width > BREAKPOINTS.md && (
+              <Link href={URLS.HOME} underline="hover" sx={{ alignSelf: "start" }}>
+                <ArrowBackIcon sx={{ fontSize: 30 }} />
+              </Link>
+            )}
             <Typography variant="h4" align="center" className="border-b-primary">
               Willkommen zurück!
             </Typography>
