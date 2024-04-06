@@ -1,24 +1,26 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import RootLayout from "./routes/home/RootLayout";
-import Home from "./routes/home/pages/root/Root";
 import { ThemeProvider } from "@emotion/react";
-import customTheme from "./configs/CustomTheme";
 import { CssBaseline } from "@mui/material";
-import ErrorPage from "./routes/error/ErrorPage";
-import About from "./routes/home/pages/about/About";
-import FAQ from "./routes/home/pages/faq/FAQ";
-import Memberships from "./routes/home/pages/memberships/Memberships";
-import Imprint from "./routes/home/pages/imprint/Imprint";
-import Terms from "./routes/home/pages/terms/Terms";
-import Privacy from "./routes/home/pages/privacy/Privacy";
-import Contact from "./routes/home/pages/contact/Contact";
-import SignIn from "./routes/auth/pages/SignIn";
-import SignUp from "./routes/auth/pages/SignUp";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Suspense, lazy } from "react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import customTheme from "./configs/CustomTheme";
+import AuthLayout from "./routes/auth/AuthLayout";
 import ForgotPassword from "./routes/auth/pages/ForgotPassword";
 import ResendVerification from "./routes/auth/pages/ResendVerification";
-import AuthLayout from "./routes/auth/AuthLayout";
+import ErrorPage from "./routes/error/ErrorPage";
+import RootLayout from "./routes/home/RootLayout";
+import About from "./routes/home/pages/about/About";
+import Contact from "./routes/home/pages/contact/Contact";
+import FAQ from "./routes/home/pages/faq/FAQ";
+import Imprint from "./routes/home/pages/imprint/Imprint";
+import Memberships from "./routes/home/pages/memberships/Memberships";
+import Privacy from "./routes/home/pages/privacy/Privacy";
+import Home from "./routes/home/pages/root/Root";
+import Terms from "./routes/home/pages/terms/Terms";
+import LoadingScreen from "./shared/components/LoadingScreen";
 import { WindowContextProvider } from "./shared/context/ScreenSize.context";
+const SignIn = lazy(() => import("./routes/auth/pages/SignIn"));
+const SignUp = lazy(() => import("./routes/auth/pages/SignUp"));
 
 export default function App() {
   const router = createBrowserRouter([
@@ -60,7 +62,9 @@ export default function App() {
         <ThemeProvider theme={customTheme}>
           <CssBaseline />
           <WindowContextProvider>
-            <RouterProvider router={router} />
+            <Suspense fallback={<LoadingScreen />}>
+              <RouterProvider router={router} />
+            </Suspense>
           </WindowContextProvider>
         </ThemeProvider>
       </QueryClientProvider>
