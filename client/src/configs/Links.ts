@@ -17,6 +17,7 @@ export const URLS = {
     APP: {
       QUIZ_DATA: "/quiz-data",
       CONTACT: "/contact",
+      USER: "/users",
     },
     AUTH: {
       SIGNIN: "/auth/login",
