@@ -52,7 +52,7 @@ async function bootstrap() {
 			cookie: {
 				maxAge: Number(process.env.SESSION_MAX_AGE),
 				sameSite: true,
-				httpOnly: false,
+				httpOnly: true,
 			},
 		}),
 	);
