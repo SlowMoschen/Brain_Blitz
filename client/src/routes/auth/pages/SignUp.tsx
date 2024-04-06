@@ -1,22 +1,23 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Backdrop, Box, CircularProgress, Link, Paper, Stack, Typography } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Box, Link, Paper, Stack, Typography } from "@mui/material";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import signup from "../../../assets/signup.svg";
+import { BREAKPOINTS } from "../../../configs/Breakpoints";
 import { URLS } from "../../../configs/Links";
 import AlertSnackbar from "../../../shared/components/AlertSnackbar";
+import LoadingScreen from "../../../shared/components/LoadingScreen";
 import CallToAction from "../../../shared/components/buttons/CallToAction";
 import RouterButton from "../../../shared/components/buttons/RouterButton";
 import InputPassword from "../../../shared/components/form/InputPassword";
 import InputText from "../../../shared/components/form/InputText";
+import { WindowContext } from "../../../shared/context/ScreenSize.context";
 import { useAuthFetch } from "../../../shared/hooks/api/useAuthFetch.hook";
 import useToggle from "../../../shared/hooks/useToggle.hook";
 import { SignUpSchema } from "../schemas/SignUp.schema";
 import SuccessScreen from "./SuccessScreen";
 import { imagePaperStyles, imageStyles, paperStyles, stackStyles } from "./styles/SignUp.styles";
-import { BREAKPOINTS } from "../../../configs/Breakpoints";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { WindowContext } from "../../../shared/context/ScreenSize.context";
 
 interface ISignUpFormInput {
   first_name: string;
@@ -91,9 +92,7 @@ export default function SignUp() {
   return (
     <>
       {isPending && (
-        <Backdrop open={isPending} sx={{ zIndex: 100 }}>
-          <CircularProgress color="primary" />
-        </Backdrop>
+        <LoadingScreen />
       )}
       <Stack sx={stackStyles} minHeight={"1000px"}>
         <Paper sx={paperStyles}>

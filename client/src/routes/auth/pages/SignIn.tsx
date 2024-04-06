@@ -1,22 +1,23 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Backdrop, Box, CircularProgress, Link, Paper, Stack, Typography } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Box, Link, Paper, Stack, Typography } from "@mui/material";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import signin from "../../../assets/signin.svg";
+import { BREAKPOINTS } from "../../../configs/Breakpoints";
 import { URLS } from "../../../configs/Links";
 import AlertSnackbar from "../../../shared/components/AlertSnackbar";
+import LoadingScreen from "../../../shared/components/LoadingScreen";
 import CallToAction from "../../../shared/components/buttons/CallToAction";
 import RouterButton from "../../../shared/components/buttons/RouterButton";
 import InputPassword from "../../../shared/components/form/InputPassword";
 import InputText from "../../../shared/components/form/InputText";
+import { WindowContext } from "../../../shared/context/ScreenSize.context";
 import { useAuthFetch } from "../../../shared/hooks/api/useAuthFetch.hook";
 import useToggle from "../../../shared/hooks/useToggle.hook";
 import { SignInSchema } from "../schemas/SignIn.schema";
 import { imagePaperStyles, imageStyles, paperStyles, stackStyles } from "./styles/SignIn.styles";
-import { WindowContext } from "../../../shared/context/ScreenSize.context";
-import { BREAKPOINTS } from "../../../configs/Breakpoints";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 interface ISignInFormInput {
   email: string;
@@ -79,9 +80,7 @@ export default function SignIn() {
   return (
     <>
       {isPending && (
-        <Backdrop open={isPending} sx={{ zIndex: 100 }}>
-          <CircularProgress color="primary" />
-        </Backdrop>
+        <LoadingScreen />
       )}
       <Stack sx={stackStyles}>
         <Paper sx={paperStyles}>
