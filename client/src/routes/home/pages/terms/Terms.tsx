@@ -17,7 +17,7 @@ function Term({ number, title, text }: TermProps) {
         </Typography>
         <Typography variant="h6" fontWeight={600}>{title}</Typography>
       </Box>
-      <Typography>{text}</Typography>
+      <Typography variant="body2">{text}</Typography>
     </Box>
   );
 }
@@ -30,7 +30,6 @@ export default function Terms() {
     borderRadius: ".375rem",
     width: "90%",
     maxWidth: BREAKPOINTS.lg,
-    wordBreak: 'break-all'
   };
 
   return (
