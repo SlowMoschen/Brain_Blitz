@@ -1,25 +1,29 @@
 import { Box } from "@mui/material";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { URLS } from "../../configs/Links";
 import LoadingScreen from "../../shared/components/LoadingScreen";
 import ScrollToTop from "../../shared/components/ScrollToTop";
 import { useUser } from "../../shared/hooks/api/useUser.hook";
 import { UserContext } from "../../shared/types/User";
-import { useContext } from "react";
-import { WindowContext } from "../../shared/context/ScreenSize.context";
-import BottomMenu from "./components/navbar/BottomMenu";
-import { BREAKPOINTS } from "../../configs/Breakpoints";
+import BottomMenu from "./components/navigation/BottomMenu";
 
 export default function DashboardLayout() {
-  const { user, isPending, isError } = useUser();
-  const { width } = useContext(WindowContext);
+  const redirect = useNavigate();
+  const { user, isPending, isError, noAccess } = useUser();
 
   if (isPending) return (
     <LoadingScreen />
   )
 
-  if (isError) return (
-    <div>Something went wrong...</div>
-  )
+  if (isError) {
+    if (noAccess) return redirect(URLS.SIGNIN);
+
+    return (
+      <Box>
+        <h1>Something went wrong</h1>
+      </Box>
+    )
+  }
 
   return (
     <>
@@ -27,11 +31,7 @@ export default function DashboardLayout() {
       <Box>
         <Outlet context={{ user } satisfies UserContext}/>
       </Box>
-      {
-        width <= BREAKPOINTS.md && (
-          <BottomMenu />
-        )
-      }
+      <BottomMenu />
     </>
   );
 }
