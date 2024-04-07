@@ -32,7 +32,7 @@ function Step({ number, title, description }: StepProps) {
   };
 
   return (
-    <Stack gap={"1rem"}>
+    <Stack gap={"1rem"} direction={'row'}>
       <Box sx={numberContainer}>{number}</Box>
       <Stack>
         <Typography variant="h5" sx={header}>
