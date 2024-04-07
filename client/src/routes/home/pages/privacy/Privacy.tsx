@@ -28,7 +28,7 @@ function Step({ number, headerTitle, mainText, subSteps }: StepProps) {
         >
           {number}.
         </Typography>
-        <Typography variant="h5" fontWeight={600}>
+        <Typography variant="subtitle1" fontWeight={600}>
           {headerTitle}
         </Typography>
       </Box>
@@ -39,26 +39,24 @@ function Step({ number, headerTitle, mainText, subSteps }: StepProps) {
           <Box key={index} my={3}>
             <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
               <Typography
-                variant="caption"
-                fontSize={"1.1rem"}
+                variant="subtitle2"
                 sx={{ color: "accent.main", mr: 1, fontWeight: "500" }}
               >
                 {number}.{index + 1}
               </Typography>
               <Typography
-                variant="caption"
-                fontSize={"1.1rem"}
+                variant="subtitle2"
                 fontWeight={600}
               >
                 {subStep.title}
               </Typography>
             </Box>
-            <Typography>{subStep.text}</Typography>
+            <Typography variant="body2">{subStep.text}</Typography>
           </Box>
         ))}
 
       {/* Render Maintext if no subSteps are defined */}
-      {mainText && !subSteps && mainText}
+      {mainText && !subSteps && <Typography variant="body2">{mainText}</Typography>}
     </Box>
   );
 }
@@ -71,7 +69,6 @@ export default function Privacy() {
     borderRadius: ".375rem",
     width: "90%",
     maxWidth: BREAKPOINTS.lg,
-    wordBreak: "break-all",
   };
 
   return (
