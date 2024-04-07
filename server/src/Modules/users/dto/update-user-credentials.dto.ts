@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString, MinLength, IsEmail, Matches } from 'class-validator';
+import { IsOptional, IsString, MinLength, IsEmail, Matches, IsNumber } from 'class-validator';
 
 export class UpdateUserCredentialsDTO {
 	@ApiProperty()
@@ -29,4 +29,9 @@ export class UpdateUserCredentialsDTO {
 	@Matches(/[a-z]/, { message: 'Password must contain at least one lowercase letter' })
 	@Matches(/[0-9]/, { message: 'Password must contain at least one number' })
 	password?: string;
+
+	@ApiProperty()
+	@IsOptional()
+	@IsNumber()
+	energy?: number;
 }
