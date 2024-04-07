@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, FormControl, Typography } from "@mui/material";
+import { Box, Button, FormControl, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BREAKPOINTS } from "../../../../configs/Breakpoints";
@@ -61,17 +61,14 @@ export default function Contact() {
     borderRadius: ".375rem",
     width: "100%",
     maxWidth: BREAKPOINTS.lg,
-    wordBreak: "break-all",
   };
-  
+
   return (
     <>
-      <Box
+      <Stack
         sx={{
           maxWidth: BREAKPOINTS.lg,
           width: "90%",
-          display: "flex",
-          flexDirection: "column",
           alignItems: "center",
           my: 5,
         }}
@@ -92,7 +89,7 @@ export default function Contact() {
           dir gerne zur Verfügung und wird sich bemühen, so schnell wie möglich bei dir zu melden.
           Vielen Dank für deine Unterstützung!
         </Typography>
-        <Box sx={{ ...containerStyles }}>
+        <Box sx={containerStyles}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl>
               <InputText
@@ -139,7 +136,7 @@ export default function Contact() {
           open={isSnackbarOpen}
           onClose={toggleSnackbarOpen}
         />
-      </Box>
+      </Stack>
     </>
   );
 }

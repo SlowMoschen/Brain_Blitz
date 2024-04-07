@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { useContext } from "react";
 import person from "../../../../assets/faq_person.svg";
 import questionMark from "../../../../assets/faq_question_mark.svg";
@@ -11,18 +11,15 @@ export default function FAQ() {
   const { width } = useContext(WindowContext);
   const isXL = width >= BREAKPOINTS["2xl"];
 
-  const containerStyles = {
-    display: "flex",
-    justifyContent: "felex-start",
+  const mainContainer = {
     alignItems: "center",
-    flexDirection: "column",
     maxWidth: "1024px",
     width: "90%",
     my: 5,
   };
 
   return (
-    <Box sx={ containerStyles }>
+    <Stack sx={ mainContainer }>
       {isXL && (
         <>
           <img
@@ -52,6 +49,6 @@ export default function FAQ() {
       {content.map((item, i) => (
         <CustomAccordion key={i} question={item.question} answer={item.answer} />
       ))}
-    </Box>
+    </Stack>
   );
 }
