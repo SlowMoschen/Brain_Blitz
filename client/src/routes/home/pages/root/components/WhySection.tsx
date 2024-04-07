@@ -1,7 +1,7 @@
 import CastForEducationOutlinedIcon from "@mui/icons-material/CastForEducationOutlined";
 import LocalLibraryOutlinedIcon from "@mui/icons-material/LocalLibraryOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import { Box, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
 interface WhyCardProps {
   icon: React.ReactNode;
@@ -16,9 +16,7 @@ interface WhyCardProps {
  * The card has a title, description, and an icon.
  */
 function WhyCard({ icon, title, description }: WhyCardProps) {
-  const cardStyles = {
-    display: "flex",
-    flexDirection: "column",
+  const card = {
     alignItems: "center",
     justifyContent: "center",
     gap: "1rem",
@@ -29,7 +27,7 @@ function WhyCard({ icon, title, description }: WhyCardProps) {
     borderRadius: ".375rem",
   };
 
-  const titleStyles = {
+  const header = {
     fontSize: "1.5rem",
     fontWeight: "bold",
     borderBottom: "8px solid",
@@ -39,13 +37,13 @@ function WhyCard({ icon, title, description }: WhyCardProps) {
   };
 
   return (
-    <Box sx={cardStyles}>
+    <Stack sx={card}>
       {icon}
-      <Typography variant="h5" sx={titleStyles}>
+      <Typography variant="h5" sx={header}>
         {title}
       </Typography>
       <Typography textAlign={"center"}>{description}</Typography>
-    </Box>
+    </Stack>
   );
 }
 
@@ -54,21 +52,16 @@ function WhyCard({ icon, title, description }: WhyCardProps) {
  * It displays three cards with icons, titles, and descriptions.
  */
 export default function WhySection() {
-  const containerStyles = {
-    display: "flex",
-    flexDirection: "column",
+  const mainContainer = {
     alignItems: "center",
-    justifyContent: "center",
     width: "100%",
     p: 5,
     m: 10,
   };
 
-  const cardContainerStyles = {
-    display: "flex",
+  const cardContainer = {
     flexDirection: { xs: "column", lg: "row" },
     alignItems: "center",
-    justifyContent: "center",
     gap: "2rem",
     width: "100%",
     mt: 2,
@@ -76,11 +69,11 @@ export default function WhySection() {
   };
 
   return (
-    <Box sx={containerStyles}>
+    <Stack sx={mainContainer}>
       <Typography variant="h4" fontWeight={500} textAlign={"center"}>
         Warum Brain Blitz?
       </Typography>
-      <Box sx={cardContainerStyles}>
+      <Stack sx={cardContainer}>
         <WhyCard
           icon={<LocalLibraryOutlinedIcon className="enlarged-icon" />}
           title="Wissen erweitern"
@@ -96,7 +89,7 @@ export default function WhySection() {
           title="Bildung und Unterhaltung kombiniert"
           description="Faszinierende Fakten entdecken, Bildung und Unterhaltung vereint!"
         />
-      </Box>
-    </Box>
+      </Stack>
+    </Stack>
   );
 }
