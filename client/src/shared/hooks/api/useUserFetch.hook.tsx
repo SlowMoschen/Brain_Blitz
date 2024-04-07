@@ -8,7 +8,7 @@ const getUser = async () => {
     return await httpService.get(URLS.API_ENDPOINTS.APP.USER);
   }
 
-export function useUser(): { user: User, isPending: boolean, isError: boolean, noAccess: boolean } {
+export function useUserFetch(): { user: User, isPending: boolean, isError: boolean, noAccess: boolean } {
     const { data: res, isPending, isError, error, } = useQuery({ queryKey: ['user'], queryFn: getUser });
 
     const user: User = res?.data;
