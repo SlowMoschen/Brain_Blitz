@@ -44,6 +44,10 @@ function Step({ number, title, description }: StepProps) {
   );
 }
 
+/**
+ * This component displays the steps in a grid on desktop and in a column on mobile.
+ * It maps over the howCardContent array and creates a Step component for each element.
+ */
 function GridSteps() {
   return (
     <>
