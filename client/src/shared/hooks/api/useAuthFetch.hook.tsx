@@ -20,7 +20,6 @@ const sendData = (endpoint: string, body: EmailDTO | SignInDTO | SignUpDTO) => {
   return httpService.post(endpoint, body);
 };
 
-
 /**
  * This hook is used to send a request to the server for authentication.
  * Example: Sign in, sign up, forgot password, resend verification email.

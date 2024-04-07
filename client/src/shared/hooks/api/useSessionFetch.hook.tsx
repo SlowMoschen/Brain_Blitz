@@ -15,10 +15,10 @@ function getSessionData() {
     return httpService.get(URLS.API_ENDPOINTS.AUTH.SESSION);
 }
 
-export function useSessionFetch() {
+export function useSessionFetch(): { isPending: boolean, isAuthenticated: boolean } {
     const { isPending, data } = useQuery({ queryKey: ["session"], queryFn: getSessionData , retry: false});
     
-    const isAuthenticated = data?.status === 'ok' && data?.data?.message === "Authorized" ? true : false;
+    const isAuthenticated: boolean = data?.status === 'ok' && data?.data?.message === "Authorized" ? true : false;
 
     return { isPending, isAuthenticated };
 }
