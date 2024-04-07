@@ -1,4 +1,4 @@
-import { Box, Link, Typography } from "@mui/material";
+import { Box, Link, Stack, Typography } from "@mui/material";
 import { BREAKPOINTS } from "../../../../configs/Breakpoints";
 
 export default function Imprint() {
@@ -16,15 +16,9 @@ export default function Imprint() {
       <Typography variant="h5" textAlign={'center'} className="border-b-accent">
         Verantwortlich für den Inhalt dieser Quiz-App:
       </Typography>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-          my: 5,
-        }}
+      <Stack
+        my={5}
+        alignItems={"center"}
       >
         <Box>
           <Typography variant="subtitle1">Kontak:</Typography>
@@ -33,7 +27,7 @@ export default function Imprint() {
           <Typography>1140 Wien</Typography>
           <Typography>service@brain-blitz.com</Typography>
         </Box>
-      </Box>
+      </Stack>
 
       <Typography variant="body1" my={2}>
         Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, die

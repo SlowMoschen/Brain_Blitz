@@ -1,4 +1,8 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
+import { useContext } from "react";
+import { WindowContext } from "../../../../../shared/context/ScreenSize.context";
+import { howCardContent } from "../content/HowCard.content";
+import { BREAKPOINTS } from "../../../../../configs/Breakpoints";
 
 interface StepProps {
   number: number;
@@ -12,22 +16,14 @@ interface StepProps {
  * The number is accent colored, the title is displayed as a heading and the description is displayed as a paragraph.
  */
 function Step({ number, title, description }: StepProps) {
-  const containerStyles = {
-    display: "flex",
-    gap: "1rem",
-  };
-
-  const numberStyles = {
+  const numberContainer = {
     fontSize: "2rem",
     fontWeight: "bold",
     color: "accent.main",
     mr: 1,
-    display: "flex",
-    alignItems: "flex-start",
-    height: "100%",
   };
 
-  const titleStyles = {
+  const header = {
     fontSize: "1.3rem",
     borderBottom: "4px solid",
     borderColor: "accent.light",
@@ -36,15 +32,55 @@ function Step({ number, title, description }: StepProps) {
   };
 
   return (
-    <Box sx={containerStyles}>
-      <Box sx={numberStyles}>{number}</Box>
-      <Box>
-        <Typography variant="h5" sx={titleStyles}>
+    <Stack gap={"1rem"}>
+      <Box sx={numberContainer}>{number}</Box>
+      <Stack>
+        <Typography variant="h5" sx={header}>
           {title}
         </Typography>
         <Typography lineHeight={2}>{description}</Typography>
-      </Box>
-    </Box>
+      </Stack>
+    </Stack>
+  );
+}
+
+/**
+ * This component displays the steps in a grid on desktop and in a column on mobile.
+ * It maps over the howCardContent array and creates a Step component for each element.
+ */
+function GridSteps() {
+  return (
+    <>
+      <Grid container spacing={2}>
+        {howCardContent.map((content, index) => (
+          <Grid item xs={12} md={6} key={index}>
+            <Step
+              key={index}
+              number={content.number}
+              title={content.title}
+              description={content.description}
+            />
+          </Grid>
+        ))}
+      </Grid>
+    </>
+  );
+}
+
+function ColumnSteps() {
+  return (
+    <>
+      <Stack gap={2}>
+        {howCardContent.map((content, index) => (
+          <Step
+            key={index}
+            number={content.number}
+            title={content.title}
+            description={content.description}
+          />
+        ))}
+      </Stack>
+    </>
   );
 }
 
@@ -55,8 +91,9 @@ function Step({ number, title, description }: StepProps) {
  * Each step has a number, title and description.
  */
 export default function HowSection() {
-  const containerStyles = {
-    display: "flex",
+  const { width } = useContext(WindowContext);
+
+  const mainContainer = {
     flexDirection: { xs: "column", lg: "row" },
     bgcolor: "background.secondary",
     borderRadius: ".375rem",
@@ -67,53 +104,22 @@ export default function HowSection() {
     minHeight: "500px",
   };
 
-  const headerStyles = {
+  const header = {
     textAlign: "center",
     fontWeight: "bold",
     fontSize: { xs: "2rem", lg: "3.2rem" },
   };
 
-  const stepContainerStyles = {
-    display: { xs: "flex", lg: "grid" },
-    flexDirection: "column",
-    gap: "1.5rem",
-    gridTemplateColumns: "repeat(2, 1fr)",
-    width: "100%",
-  };
-
   return (
-    <Box sx={containerStyles}>
+    <Stack sx={mainContainer}>
       <div id="how-section"></div>
       <Box mb={2}>
-        <Typography variant="h4" sx={headerStyles}>
+        <Typography variant="h4" sx={header}>
           Wie funktioniert Brain Blitz?
         </Typography>
-        <Typography textAlign={"center"}>
-          In 4 Schritten zu mehr Wissen!
-        </Typography>
+        <Typography textAlign={"center"}>In 4 Schritten zu mehr Wissen!</Typography>
       </Box>
-      <Box sx={stepContainerStyles}>
-        <Step
-          number={1}
-          title="Registrieren"
-          description="Regestriere dich, kostenlos und unverbindlich!"
-        />
-        <Step
-          number={2}
-          title="Quiz auswählen"
-          description="Wähle eines der Start-Quizzes aus, welches dich interessiert!"
-        />
-        <Step
-          number={3}
-          title="Absolviere das Quiz"
-          description="Beantworte Fragen unter Zeitdruck, sammle Punkte für jede richtige Antwort und sei clever, denn falsche Antworten kosten dich wertvolle Punkte. Aber keine Sorge, die Zeit arbeitet für dich! Je schneller du bist, desto mehr Punkte kannst du zusätzlich verdienen."
-        />
-        <Step
-          number={4}
-          title="Neue Kategorien Freischalten"
-          description="Nach erfolgreichem Absolvieren eines Quiz schaltest du neue faszinierende Quizzes in verschiedenen Kategorien frei, die darauf warten, von dir entdeckt zu werden."
-        />
-      </Box>
-    </Box>
+      {width > BREAKPOINTS.md ? <GridSteps /> : <ColumnSteps />}
+    </Stack>
   );
 }

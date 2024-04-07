@@ -80,10 +80,6 @@ export default function ForgotPassword() {
     my: 5,
     bgcolor: "background.secondary",
     borderRadius: ".375rem",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
     gap: 2,
     width: "100%",
   };
@@ -110,34 +106,38 @@ export default function ForgotPassword() {
       )}
       <Stack sx={stackStyles}>
         <Paper sx={paperStyles}>
-          {width > BREAKPOINTS.md && (
-            <Link href={URLS.HOME} underline="hover" sx={{ alignSelf: "flex-start" }}>
-              <ArrowBackIcon sx={{ fontSize: 30 }} />
-            </Link>
-          )}
-          <Typography variant="h5" align="left" className="border-b-primary">
-            Passwort zurücksetzen
-          </Typography>
-          <Typography variant="body1" align="left">
-            Du hast dein Passwort vergessen? Kein Problem! Gib deine E-Mail-Adresse ein und wir senden dir eine E-Mail mit weiteren Anweisungen. Bitte überprüfe auch deinen Spam-Ordner.
-          </Typography>
-          <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
-            <Stack spacing={2} sx={{ width: "100%" }}>
-              <InputText
-                control={control}
-                name="email"
-                label="E-Mail-Adresse"
-                type="email"
-                placeholder="beispiel@mail.com"
-              />
-              <CallToAction
-                type="submit"
-                text="E-Mail senden"
-                fullWidth
-                onClick={() => handleSubmit(onSubmit)}
-              />
-            </Stack>
-          </form>
+          <Stack gap={2}>
+            {width > BREAKPOINTS.md && (
+              <Link href={URLS.HOME} underline="hover" sx={{ alignSelf: "flex-start" }}>
+                <ArrowBackIcon sx={{ fontSize: 30 }} />
+              </Link>
+            )}
+            <Typography variant="h5" align="left" className="border-b-primary">
+              Passwort zurücksetzen
+            </Typography>
+            <Typography variant="body1" align="left">
+              Du hast dein Passwort vergessen? Kein Problem! Gib deine E-Mail-Adresse ein und wir
+              senden dir eine E-Mail mit weiteren Anweisungen. Bitte überprüfe auch deinen
+              Spam-Ordner.
+            </Typography>
+            <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
+              <Stack spacing={2} sx={{ width: "100%" }}>
+                <InputText
+                  control={control}
+                  name="email"
+                  label="E-Mail-Adresse"
+                  type="email"
+                  placeholder="beispiel@mail.com"
+                />
+                <CallToAction
+                  type="submit"
+                  text="E-Mail senden"
+                  fullWidth
+                  onClick={() => handleSubmit(onSubmit)}
+                />
+              </Stack>
+            </form>
+          </Stack>
         </Paper>
       </Stack>
       <AlertSnackbar

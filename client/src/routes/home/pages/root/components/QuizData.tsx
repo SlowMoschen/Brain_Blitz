@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 import { useContext } from "react";
 import CountUp from "react-countup";
 import { TIMES } from "../../../../../configs/Application";
@@ -35,10 +35,9 @@ function DataCountUpCard({ count, textContent, bgColor, isColumn }: DataCountUpC
   const { width } = useContext(WindowContext);
   const isMobile = width <= BREAKPOINTS.md;
 
-  const containerStyles = {
+  const mainContainer = {
     backgroundColor: bgColor,
     borderRadius: ".375rem",
-    display: "flex",
     flexDirection: isMobile || isColumn ? "column" : "row",
     alignItems: "center",
     justifyContent: "center",
@@ -48,31 +47,31 @@ function DataCountUpCard({ count, textContent, bgColor, isColumn }: DataCountUpC
     p: 5,
   };
 
-  const countUpStyles = {
+  const counter = {
     fontSize: isMobile ? "3rem" : "4.5rem",
     fontWeight: 600,
   };
 
-  const textStyles = {
+  const text = {
     fontSize: { xs: "1.5rem", md: "1.5rem", lg: "2rem"},
     textAlign: "center",
     ml: 1,
   };
 
   return (
-    <Box sx={containerStyles}>
+    <Stack sx={mainContainer}>
       <CountUp
         end={count}
         enableScrollSpy
         scrollSpyOnce
         scrollSpyDelay={TIMES.COUNT_UP_DELAY}
         duration={TIMES.COUNT_UP_DURATION}
-        style={countUpStyles}
+        style={counter}
       />
-      <Typography variant="h5" sx={textStyles}>
+      <Typography variant="h5" sx={text}>
         {textContent}
       </Typography>
-    </Box>
+    </Stack>
   );
 }
 
@@ -105,11 +104,8 @@ export default function QuizData() {
   };
 
   const freeContainerStyles = {
-    display: "flex",
-    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    padding: "1rem",
     color: "accent.main",
     bgcolor: "primary.light",
     borderRadius: ".375rem",
@@ -142,7 +138,7 @@ export default function QuizData() {
           />
         </Grid>
         <Grid item xs={12} md={5}>
-          <Box sx={freeContainerStyles}>
+          <Stack sx={freeContainerStyles}>
             <Typography
               variant="h4"
               fontWeight={500}
@@ -152,7 +148,7 @@ export default function QuizData() {
               100% Gratis
             </Typography>
             <Typography variant="body1">für immer...</Typography>
-          </Box>
+          </Stack>
         </Grid>
       </Grid>
     </Box>

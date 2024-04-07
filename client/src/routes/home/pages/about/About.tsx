@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { useContext } from "react";
 import team from "../../../../assets/about.svg";
 import dev from "../../../../assets/about_dev.svg";
@@ -13,44 +13,41 @@ interface ArticleProps {
 }
 
 function Article({ title, body1, body2, body3 }: ArticleProps) {
-  const containerStyles = {
+  const mainContainer = {
     marginBottom: "24px",
-    display: "flex",
-    flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
     p: 3,
     maxWidth: "1024px",
   };
 
-  const titleStyles = {
+  const header = {
     marginBottom: "16px",
     fontWeight: "bold",
   };
 
-  const bodyStyles = {
+  const textBody = {
     my: 1,
   };
 
   return (
-    <Box sx={ containerStyles }>
-      <Typography variant="h4" sx={ titleStyles } className="border-b-accent">
+    <Stack sx={mainContainer}>
+      <Typography variant="h4" sx={header} className="border-b-accent">
         {title}
       </Typography>
-      <Typography variant="body1" sx={ bodyStyles }>
+      <Typography variant="body1" sx={textBody}>
         {body1}
       </Typography>
       {body2 && (
-        <Typography variant="body1" sx={ bodyStyles }>
+        <Typography variant="body1" sx={textBody}>
           {body2}
         </Typography>
       )}
       {body3 && (
-        <Typography variant="body1" sx={ bodyStyles }>
+        <Typography variant="body1" sx={textBody}>
           {body3}
         </Typography>
       )}
-    </Box>
+    </Stack>
   );
 }
 
@@ -60,27 +57,24 @@ export default function About() {
   const isXL = width >= BREAKPOINTS["2xl"];
 
   const containerStyles = {
-    display: "flex",
-    flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
     p: 3,
     maxWidth: "1024px",
   };
 
   return (
-    <Box sx={ containerStyles }>
+    <Stack sx={containerStyles}>
       {isXL && (
         <>
           <img
             src={dev}
             alt="dev"
-            style={{ maxWidth: "250px", position: "absolute", right: "2%", bottom: "10%"}}
+            style={{ maxWidth: "250px", position: "absolute", right: "2%", bottom: "10%" }}
           />
           <img
             src={team}
             alt="team"
-            style={{ maxWidth: "250px", position: "absolute", left: "2%", top: "10%"}}
+            style={{ maxWidth: "250px", position: "absolute", left: "2%", top: "10%" }}
           />
         </>
       )}
@@ -96,6 +90,6 @@ export default function About() {
         body2="Bei der Entwicklung dieser Quiz-App entschied ich mich für die leistungsfähige Kombination aus NestJS im Backend und React im Frontend. Durch die Verwendung von NestJS, einem robusten Backend-Framework, konnte ich eine zuverlässige REST-API aufbauen, die Sicherheit und Skalierbarkeit gewährleistet. Gleichzeitig ermöglichte mir React als moderne Frontend-Bibliothek eine dynamische und ansprechende Benutzeroberfläche zu gestalten, die reibungslos auf verschiedenen Endgeräten läuft. Diese Technologieauswahl reflektiert meine Priorität, eine hochwertige technische Lösung zu bieten, die gleichzeitig intuitiv und ansprechend für die Benutzer ist."
         body3="Ich hoffe, dass du beim Spielen von Brain Blitz genauso viel Freude haben wie ich bei der Entwicklung dieser App. Vielen Dank für dein Interesse und deine Unterstützung!"
       />
-    </Box>
+    </Stack>
   );
 }

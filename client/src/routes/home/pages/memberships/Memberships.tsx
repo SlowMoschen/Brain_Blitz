@@ -1,6 +1,5 @@
 import DoneIcon from "@mui/icons-material/Done";
 import {
-  Box,
   Card,
   CardActions,
   CardContent,
@@ -8,7 +7,7 @@ import {
   List,
   ListItem,
   Stack,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { BREAKPOINTS } from "../../../../configs/Breakpoints";
@@ -25,7 +24,7 @@ interface MembershipCardProps {
   btnOnClick?: () => void;
 }
 
-/**
+/** 
  * MembershipCard component
  * Renders a card with membership information
  * @param {MembershipCardProps} props
@@ -43,10 +42,6 @@ function MembershipCard({
   const cardStyles = {
     m: 2,
     bgcolor: bgcolor,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
     bordeRadius: ".375rem",
     minHeight: 400,
     width: "100%",
@@ -54,28 +49,26 @@ function MembershipCard({
 
   return (
     <Card sx={cardStyles}>
-      <CardHeader
-        title={title}
-        subheader={price}
-        sx={{ textAlign: "center" }}
-      />
-      <CardContent>
-        <List>
-          {isAvailable ? (
-            features.map((feature) => (
-              <ListItem key={feature}>
-                <DoneIcon sx={{ color: "accent.main", mr: 1 }} />
-                {feature}
-              </ListItem>
-            ))
-          ) : (
-            <ListItem sx={{ color: "accent.main" }}>In Entwicklung</ListItem>
-          )}
-        </List>
-      </CardContent>
-      <CardActions onClick={btnOnClick}>
-        {isAvailable && <CallToAction text={btnText || ""} />}
-      </CardActions>
+      <Stack alignItems={'center'} justifyContent={'center'} minHeight={400} >
+        <CardHeader title={title} subheader={price} sx={{ textAlign: "center" }} />
+        <CardContent>
+          <List>
+            {isAvailable ? (
+              features.map((feature) => (
+                <ListItem key={feature}>
+                  <DoneIcon sx={{ color: "accent.main", mr: 1 }} />
+                  {feature}
+                </ListItem>
+              ))
+            ) : (
+              <ListItem sx={{ color: "accent.main" }}>In Entwicklung</ListItem>
+            )}
+          </List>
+        </CardContent>
+        <CardActions onClick={btnOnClick}>
+          {isAvailable && <CallToAction text={btnText || ""} />}
+        </CardActions>
+      </Stack>
     </Card>
   );
 }
@@ -90,14 +83,7 @@ export default function Memberships() {
 
   return (
     <>
-      <Box
-        sx={{
-          maxWidth: BREAKPOINTS.lg,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
+      <Stack maxWidth={BREAKPOINTS.lg} alignItems={"center"}>
         <Typography
           variant="h4"
           sx={{ m: 2, textAlign: "center", fontWeight: 600 }}
@@ -106,21 +92,15 @@ export default function Memberships() {
           Unsere Mitgliedschaften
         </Typography>
         <Typography px={2}>
-          Aktuell bieten wir ausschließlich unsere kostenlose Mitgliedschaft an,
-          die auch dauerhaft verfügbar sein wird. Zusätzlich arbeiten wir
-          derzeit an der Entwicklung einer Support-Mitgliedschaft, um unseren
-          Nutzern noch mehr Vorteile und Funktionen bieten zu können. Darüber
-          hinaus befindet sich auch eine Team-Mitgliedschaft in der Entwicklung,
-          um Gruppen und Teams eine verbesserte Nutzungserfahrung zu
-          ermöglichen. Sei gespannt auf weitere Updates und Features!
+          Aktuell bieten wir ausschließlich unsere kostenlose Mitgliedschaft an, die auch dauerhaft
+          verfügbar sein wird. Zusätzlich arbeiten wir derzeit an der Entwicklung einer
+          Support-Mitgliedschaft, um unseren Nutzern noch mehr Vorteile und Funktionen bieten zu
+          können. Darüber hinaus befindet sich auch eine Team-Mitgliedschaft in der Entwicklung, um
+          Gruppen und Teams eine verbesserte Nutzungserfahrung zu ermöglichen. Sei gespannt auf
+          weitere Updates und Features!
         </Typography>
-      </Box>
-      <Stack
-        direction={{ lg: "row" }}
-        width={"100%"}
-        alignItems={"center"}
-        p={5}
-      >
+      </Stack>
+      <Stack direction={{ lg: "row" }} width={"100%"} alignItems={"center"} p={5}>
         {memberships.map((membership) => (
           <MembershipCard
             title={membership.title}
