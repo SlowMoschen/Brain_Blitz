@@ -13,17 +13,6 @@ interface DataCountUpCardProps {
   isColumn?: boolean;
 }
 
-interface IQuizData {
-  uniqueCategories: number;
-  totalQuestions: number;
-  totalQuizzes: number;
-  categoryStats: {
-    category: string;
-    totalQuestions: number;
-    totalQuizzes: number;
-  }[];
-}
-
 /**
  * DataCountUpCard component
  * Displays a card with a count up component and text content
@@ -82,10 +71,9 @@ function DataCountUpCard({ count, textContent, bgColor, isColumn }: DataCountUpC
  * @returns {JSX.Element}
  */
 export default function QuizData() {
-  const { data: response } = useQuizDataFetch();
-  const data = response?.data as IQuizData;
+  const { quizData } = useQuizDataFetch();
 
-  if (!data) {
+  if (!quizData) {
     return (
       <Typography variant="h4" textAlign="center" color="error.main" my={5}>
         Quiz Daten konnten nicht geladen werden
@@ -117,14 +105,14 @@ export default function QuizData() {
       <Grid container spacing={2}>
         <Grid item xs={12} md={9}>
           <DataCountUpCard
-            count={data.totalQuizzes}
+            count={quizData.totalQuizzes}
             textContent="spielbare Quizzes"
             bgColor="primary.main"
           />
         </Grid>
         <Grid item xs={12} md={3}>
           <DataCountUpCard
-            count={data.totalQuestions}
+            count={quizData.totalQuestions}
             textContent="Fragen zu beantworten"
             bgColor="secondary.main"
             isColumn
@@ -132,7 +120,7 @@ export default function QuizData() {
         </Grid>
         <Grid item xs={12} md={7}>
           <DataCountUpCard
-            count={data.uniqueCategories}
+            count={quizData.uniqueCategories}
             textContent="einzigartige Kategorien"
             bgColor="accent.light"
           />
