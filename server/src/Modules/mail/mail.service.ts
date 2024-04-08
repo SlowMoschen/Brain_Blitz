@@ -85,7 +85,7 @@ export class MailService {
 	 */
 	@OnEvent('mail.password-changed')
 	async sendPasswordChangedEmail(payLoad: PasswordChangedEvent): Promise<void | Error> {
-		const url = `${process.env.BASE_CONTACT_URL}`;
+		const url = `${process.env.CONTACT_REDIRECT_URL}`;
 		return await this.sendMail({
 			to: payLoad.email,
 			subject: 'Passwort wurde geändert',
