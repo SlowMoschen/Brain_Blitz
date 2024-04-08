@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { URLS } from "../../configs/Links";
@@ -28,7 +28,7 @@ export default function DashboardLayout() {
   return (
     <>
       <ScrollToTop />
-      <Box>
+      <Stack alignItems={'center'} width={'100%'}>
         {pageState === "pending" ? (
           <LoadingScreen />
         ) : pageState === "error" ? (
@@ -36,7 +36,7 @@ export default function DashboardLayout() {
         ) : (
           <Outlet context={{ user } satisfies UserContext} />
         )}
-      </Box>
+      </Stack>
       <BottomMenu />
     </>
   );
