@@ -160,6 +160,17 @@ export class UserRepository {
 		return updatedUser[0].id;
 	}
 
+	async updateOneEnergy(id: string, energy: number): Promise<string> {
+		const updatedUser = await this.db
+			.update(schema.usersTable)
+			.set({ energy })
+			.where(eq(schema.usersTable.id, id))
+			.returning({ id: schema.usersTable.id });
+		if (updatedUser instanceof Error) throw updatedUser;
+		if (!updatedUser[0]) throw new NotImplementedException('Updating user energy failed');
+		return updatedUser[0].id;
+	}
+
 	/**
 	 * @description - Completely deletes a user with all corresponding Tables by id
 	 * @param id - The id of the user

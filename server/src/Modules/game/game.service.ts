@@ -5,6 +5,8 @@ import { UserCreatedEvent } from 'src/Events/user.events';
 import { SelectUserWithAllTables } from 'src/Utils/Types/model.types';
 import { QuizRepository } from '../shared/database/Repositories/Quiz/quiz.repository';
 import { UsersService } from '../users/users.service';
+import { Cron, CronExpression } from '@nestjs/schedule';
+import { ENERGY_REFRESH_RATE } from 'src/Utils/constants';
 
 @Injectable()
 export class GameService {
@@ -12,6 +14,21 @@ export class GameService {
 		private readonly userService: UsersService,
 		private readonly quizRepository: QuizRepository,
 	) {}
+
+	/**
+	 * @description - Adds energy to all users every .15 minute of the hour
+	 * @returns {void}
+	 */
+	@Cron('*/15 * * * *')
+	async addEnergy() {
+		const users = await this.userService.getAllUsers();
+		users.forEach(async (user) => {
+			if (user.energy < 100) {
+				const energy = user.energy + ENERGY_REFRESH_RATE > 100 ? 100 : user.energy + ENERGY_REFRESH_RATE;
+				await this.userService.updateUserEnergy(user.id, energy);
+			}
+		});
+	}
 
 	/**
 	 * @description - Inserts a completed quiz for the user

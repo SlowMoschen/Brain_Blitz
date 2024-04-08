@@ -69,6 +69,10 @@ export class UsersService {
 		return await this.userRepository.updateOneCredentials(id, body);
 	}
 
+	async updateUserEnergy(id: string, energy: number): Promise<string> {
+		return await this.userRepository.updateOneEnergy(id, energy);
+	}
+
 	async updateBillingInfo(id: string, body: UpdateUserBillingInfoDTO): Promise<string> {
 		return await this.userRepository.updateOneBillingInfo(id, body);
 	}

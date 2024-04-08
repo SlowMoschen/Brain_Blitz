@@ -1,2 +1,3 @@
 export const DB_CONNECTION = 'DB_CONNECTION';
 export const TOKEN_EXPIRED_ERROR_CODE = 498;
+export const ENERGY_REFRESH_RATE = 10;

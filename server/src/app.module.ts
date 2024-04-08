@@ -9,6 +9,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { CustomThrottlerGuard } from './Guards/throttler.guard';
 import { AppController } from './app.controller';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
 	imports: [
@@ -20,6 +21,7 @@ import { AppController } from './app.controller';
 		]),
 		ConfigModule.forRoot({ isGlobal: true }),
 		EventEmitterModule.forRoot(),
+		ScheduleModule.forRoot(),
 		SharedModule,
 		AuthModule,
 		UsersModule,
