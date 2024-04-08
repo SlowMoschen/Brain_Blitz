@@ -9,7 +9,7 @@ export const TIMES = {
  * @description A function to calculate the time until the next quarter hour.
  * @returns {number} - The time in milliseconds until the next quarter hour.
  */
-export const USER_REFRESH_INTERVAL = () => {
+export const timeToQuaterHour = () => {
     const now = new Date();
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();
