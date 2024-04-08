@@ -12,6 +12,8 @@ export const URLS = {
   FORGOT_PASSWORD: "/auth/forgot-password",
   RESEND_VERIFICATION_EMAIL: "/auth/resend-verification-email",
   DASHBOARD: "/dashboard",
+  PROFILE: "/dashboard/profile",
+  RANKINGS: "/dashboard/rankings",
   API_URL: "http://localhost:3000",
   API_ENDPOINTS: {
     APP: {
