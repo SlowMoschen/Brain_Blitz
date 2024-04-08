@@ -11,7 +11,7 @@ export default function LoginStreak({ streak = 0 }: LoginStreakProps) {
     <>
       <InfoContainer>
         <StarIcon sx={{ color: "yellow" }} />
-        <Typography variant="caption">Login-Streak:</Typography>
+        <Typography variant="caption" fontSize={15} fontWeight={600}>Login-Streak:</Typography>
         <Typography variant="h6" color={"accent.main"}>
           {streak}
         </Typography>

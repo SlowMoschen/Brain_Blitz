@@ -15,9 +15,9 @@ export default function EnergyTracker({ energy = 100 }: EnergyTrackerProps) {
         <>
         <InfoContainer>
           <FlashOnIcon sx={{ color: "yellow" }} />
-          <Typography variant="caption">Energie:</Typography>
+          <Typography variant="caption" fontSize={15} fontWeight={600}>Energie:</Typography>
           <Typography variant="h6" color={"accent.main"}>
-            {energy}
+            {energy}/100
           </Typography>
             <Typography variant="caption">{time}</Typography>
         </InfoContainer>
