@@ -20,13 +20,13 @@ export interface User {
   highscores: HighscoreJoinTable[];
 }
 
-interface QuizJoinTable {
+export interface QuizJoinTable {
   quiz: Quiz;
   quiz_id: string;
   user_id: string;
 }
 
-interface HighscoreJoinTable {
+export interface HighscoreJoinTable {
   highscore: Highscore;
   highscore_id: string;
   user_id: string;
