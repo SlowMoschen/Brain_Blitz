@@ -1,6 +1,6 @@
 import FlashOnIcon from '@mui/icons-material/FlashOn';
 import { Typography } from "@mui/material";
-import use15MinuteTimer from '../../../shared/hooks/use15MinuteTimer.hook';
+import use15MinuteTimer from '../../../shared/hooks/timer/use15MinuteTimer.hook';
 import InfoContainer from "./InfoContainer";
 
 interface EnergyTrackerProps {
@@ -15,7 +15,7 @@ export default function EnergyTracker({ energy = 100 }: EnergyTrackerProps) {
         <>
         <InfoContainer>
           <FlashOnIcon sx={{ color: "yellow" }} />
-          <Typography variant="caption" fontSize={15} fontWeight={600}>Energie:</Typography>
+          {/* <Typography variant="caption" fontSize={15} fontWeight={600}>Energie:</Typography> */}
           <Typography variant="h6" color={"accent.main"}>
             {energy}/100
           </Typography>

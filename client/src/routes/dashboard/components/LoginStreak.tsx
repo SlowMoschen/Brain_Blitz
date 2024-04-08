@@ -11,11 +11,11 @@ export default function LoginStreak({ streak = 0 }: LoginStreakProps) {
     <>
       <InfoContainer>
         <StarIcon sx={{ color: "yellow" }} />
-        <Typography variant="caption" fontSize={15} fontWeight={600}>Login-Streak:</Typography>
-        <Typography variant="h6" color={"accent.main"}>
+        <Typography variant="h6" color={"accent.main"} fontWeight={600}>
           {streak}
         </Typography>
         <Typography variant="caption">Tage</Typography>
+        <Typography variant="caption">Login-Streak</Typography>
       </InfoContainer>
     </>
   );
