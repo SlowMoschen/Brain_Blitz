@@ -34,6 +34,22 @@ body {
     border-bottom: 8px solid #c10000;
 }
 
+.scrollbar-hidden {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.scrollbar-thin {
+    scrollbar-width: thin;
+    -ms-overflow-style: thin;
+    background-color: #465c2f;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    background-color: #465c2f;
+}
+
 @keyframes rotatingBG {
     0% {
         background-position: 0% 50%;
