@@ -5,6 +5,8 @@ export const TIMES = {
     ERROR_MESSAGE_DURATION: 5000,
 }
 
+export const ENERGY_CONSUPMTION = 15;
+
 /**
  * @description A function to calculate the time until the next quarter hour.
  * @returns {number} - The time in milliseconds until the next quarter hour.
