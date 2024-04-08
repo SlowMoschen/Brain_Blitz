@@ -28,12 +28,17 @@ import { CompletedQuizDTO } from '../dto/completed-quiz.dto';
 import { CreateQuizDTO } from '../dto/create-quiz.dto';
 import { UpdateQuizDTO } from '../dto/update-quiz.dto';
 import { QuizService } from '../quizzes.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { QuizStartedEvent } from 'src/Events/quiz.events';
 
 @ApiTags('quizzes')
 @UseGuards(AuthenticationGuard, RolesGuard)
 @Controller('quizzes')
 export class QuizzesController {
-	constructor(private readonly quizService: QuizService) {}
+	constructor(
+		private readonly quizService: QuizService,
+		private readonly eventEmitter: EventEmitter2,
+	) {}
 
 	@ApiOperation({ summary: 'Get all quizzes by category' })
 	@ApiOkResponse({ description: 'returns all quizzes' })
@@ -81,6 +86,18 @@ export class QuizzesController {
 		@User('id') userId: string,
 	) {
 		return await this.quizService.completeQuiz(quizId, userId, completedQuizDTO);
+	}
+
+	@ApiOperation({ summary: 'Get quiz by id and send an event to reduce energy level' })
+	@ApiOkResponse({ description: 'returns the quiz' })
+	@ApiForbiddenResponse({ description: 'if user got no session cookie' })
+	@ApiNotFoundResponse({ description: 'if no quiz was found' })
+	@ApiInternalServerErrorResponse({ description: 'if query failed' })
+	@Roles(Role.USER, Role.ADMIN)
+	@Get('start/:id')
+	async startQuiz(@Param('id') quizID: string, @User('id') userId: string) {
+		this.eventEmitter.emit('quiz.started', new QuizStartedEvent(userId, quizID));
+		return await this.quizService.getQuiz(quizID);
 	}
 
 	@ApiOperation({ summary: 'Get a quiz by ID' })
