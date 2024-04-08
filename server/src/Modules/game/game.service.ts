@@ -1,12 +1,12 @@
 import { ConflictException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { CompleteQuizEvent } from 'src/Events/quiz.events';
+import { CompleteQuizEvent, QuizStartedEvent } from 'src/Events/quiz.events';
 import { UserCreatedEvent } from 'src/Events/user.events';
 import { SelectUserWithAllTables } from 'src/Utils/Types/model.types';
 import { QuizRepository } from '../shared/database/Repositories/Quiz/quiz.repository';
 import { UsersService } from '../users/users.service';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { ENERGY_REFRESH_RATE } from 'src/Utils/constants';
+import { gameConfig } from 'src/Configs/game.config';
 
 @Injectable()
 export class GameService {
@@ -25,10 +25,24 @@ export class GameService {
 		console.log('Adding energy to all users');
 		users.forEach(async (user) => {
 			if (user.energy < 100) {
-				const energy = user.energy + ENERGY_REFRESH_RATE > 100 ? 100 : user.energy + ENERGY_REFRESH_RATE;
+				const energy =
+					user.energy + gameConfig.ENERGY_REFRESH_RATE > 100 ? 100 : user.energy + gameConfig.ENERGY_REFRESH_RATE;
 				await this.userService.updateUserEnergy(user.id, energy);
 			}
 		});
+	}
+
+	@OnEvent('quiz.started')
+	async addEnergyOnQuizStart({ user_id, quiz_id }: QuizStartedEvent) {
+		const user = await this.userService.getUserByID(user_id);
+		const quiz = await this.quizRepository.findOne(quiz_id);
+		
+		if(user.energy >= gameConfig.ENERGY_CONSUMPTION_RATE) {
+			await this.userService.updateUserEnergy(user_id, user.energy - gameConfig.ENERGY_CONSUMPTION_RATE);
+			await this.quizRepository.updateOne(quiz_id, { times_played: quiz.times_played + 1 });
+		} else {
+			throw new HttpException('Not enough energy', HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	/**
@@ -74,7 +88,7 @@ export class GameService {
 	 */
 	@OnEvent('user.created')
 	async unlockFirstQuiz({ user_id }: UserCreatedEvent): Promise<void> {
-		for (let i = 0; i < parseInt(process.env.START_QUIZ_COUNT); i++) {
+		for (let i = 0; i < gameConfig.START_QUIZ_COUNT; i++) {
 			const newUnlockedQuiz = await this.getRandomNewQuiz(user_id);
 			await this.userService.insertNewUnlockedQuiz(user_id, newUnlockedQuiz);
 		}
