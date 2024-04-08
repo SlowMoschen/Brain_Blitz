@@ -1,6 +1,5 @@
-import { IsArray, IsObject, IsOptional, IsString } from 'class-validator';
-import { CreateQuestionDTO } from './create-question.dto';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsArray, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
 import { InsertQuizQuestion } from 'src/Utils/Types/model.types';
 
 export class UpdateQuizDTO {
@@ -24,4 +23,9 @@ export class UpdateQuizDTO {
 	@IsArray()
 	@IsObject({ each: true })
 	questions?: InsertQuizQuestion[];
+
+	@ApiProperty()
+	@IsOptional()
+	@IsNumber()
+	times_played?: number;
 }
