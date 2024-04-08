@@ -19,8 +19,10 @@ import Home from "./routes/home/pages/root/Root";
 import Terms from "./routes/home/pages/terms/Terms";
 import LoadingScreen from "./shared/components/LoadingScreen";
 import { WindowContextProvider } from "./shared/context/ScreenSize.context";
+import Profile from "./routes/dashboard/pages/profile/Profile";
+import Rankings from "./routes/dashboard/pages/rankings/Rankings";
 const DashboardLayout = lazy(() => import("./routes/dashboard/DashboardLayout"));
-const DashboardRoot = lazy(() => import("./routes/dashboard/pages/Root"));
+const DashboardRoot = lazy(() => import("./routes/dashboard/pages/root/Root"));
 const SignIn = lazy(() => import("./routes/auth/pages/SignIn"));
 const SignUp = lazy(() => import("./routes/auth/pages/SignUp"));
 
@@ -58,7 +60,9 @@ export default function App() {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
-        { path: '/dashboard', element: <DashboardRoot />}
+        { path: '/dashboard', element: <DashboardRoot /> },
+        { path: 'profile', element: <Profile /> },
+        { path: 'rankings', element: <Rankings /> }
       ]
     }
   ]);
