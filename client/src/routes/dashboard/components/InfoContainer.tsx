@@ -11,6 +11,7 @@ export default function InfoContainer({ children }: InfoContainerProps) {
     height: "50px",
     width: '90%',
     my: 1,
+    p: 2,
   };
 
   return (
