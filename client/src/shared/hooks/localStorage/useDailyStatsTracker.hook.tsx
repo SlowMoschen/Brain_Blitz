@@ -1,6 +1,7 @@
 import { useLocalStorage } from "./useLocalStorage.hook";
 
 export interface IDailyStats {
+    [key: string]: number | string;
     playedQuizzes: number;
     points: number;
     answeredQuestions: number;
