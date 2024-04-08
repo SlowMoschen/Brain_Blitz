@@ -9,6 +9,7 @@ import { CreateQuizDTO } from './dto/create-quiz.dto';
 import { UpdateQuizDTO } from './dto/update-quiz.dto';
 import { HighscoreService } from './highscore.service';
 import { UsersService } from '../users/users.service';
+import { gameConfig } from 'src/Configs/game.config';
 
 @Injectable()
 export class QuizService {
@@ -72,7 +73,7 @@ export class QuizService {
 		});
 
 		// Check if the threshold for unlocking a new quiz has been reached - if so, emit an event to complete the quiz and unlock a new one
-		if (completedQuizDTO.score >= parseInt(process.env.QUIZ_UNLOCK_THRESHOLD)) {
+		if (completedQuizDTO.score >= gameConfig.QUIZ_UNLOCK_POINTS_THRESHOLD) {
 			const [completedQuiz, unlockedQuiz] = await this.eventEmitter.emitAsync(
 				'quiz.completed',
 				new CompleteQuizEvent(userId, quizId, completedQuizDTO.score),
