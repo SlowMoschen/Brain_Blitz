@@ -5,4 +5,15 @@ export const TIMES = {
     ERROR_MESSAGE_DURATION: 5000,
 }
 
-export const USER_REFRESH_INTERVAL = (15 - (new Date().getMinutes() % 15) + 1) * 60 * 1000; // on every .15th minute of the hour
+/**
+ * @description A function to calculate the time until the next quarter hour.
+ * @returns {number} - The time in milliseconds until the next quarter hour.
+ */
+export const USER_REFRESH_INTERVAL = () => {
+    const now = new Date();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+    const milliseconds = now.getMilliseconds();
+    const timeToNextQuarterHour = 15 - (minutes % 15);
+    return (timeToNextQuarterHour * 60 * 1000) - (seconds * 1000) - milliseconds;
+}
