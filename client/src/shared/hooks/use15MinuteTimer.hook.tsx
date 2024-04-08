@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { USER_REFRESH_INTERVAL } from "../../configs/Application";
-
+import { useEffect, useRef, useState } from "react";
+import { timeToQuaterHour } from "../../configs/Application";
 
 /**
  * @description A custom hook to create a 15 minute timer that counts down to the next quarter hour.
@@ -9,44 +8,42 @@ import { USER_REFRESH_INTERVAL } from "../../configs/Application";
  * @returns {function} resetTimer - A function to reset the timer.
  */
 export default function use15MinuteTimer() {
-    const [timeString, setTimeString] = useState<string>("00:00");
-    const [ timer, setTimer ] = useState<number>(0);
-    let interval: number;
+  const [timeString, setTimeString] = useState<string>("00:00");
+  const [timer, setTimer] = useState<number>(0);
+  const lastTime = useRef<number>(0);
+  const interval = useRef<number>(0);
+  const timeToNextQuarterHour = useRef<number>(timeToQuaterHour());
 
-    const timeToNextQuarterHour = USER_REFRESH_INTERVAL / 1000;
-    
-    const parseTime = (time: number) => {
-        const minutes = Math.floor(time / 60);
-        const seconds = time % 60;
-        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
+  const parseTime = (time: number) => {
+    const minutes = Math.floor(time / 60000);
+    const seconds = Math.floor((time % 60000) / 1000);
+    return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+  };
 
-    const startTimer = () => {
-        setTimer(timeToNextQuarterHour);
+  const startTimer = () => {
+    if (interval.current) clearInterval(interval.current);
 
-        interval = setInterval(() => {
-            setTimer((prevTime) => {
-                if (prevTime === 0) {
-                    return timeToNextQuarterHour;
-                }
-                return prevTime - 1;
-            });
-        }, 1000);
-    }
+    interval.current = setInterval(() => {
+      setTimer((prev) => {
+        if (prev <= 0) {
+          clearInterval(interval.current);
+          return (timeToNextQuarterHour.current = timeToQuaterHour());
+        }
+        return prev - 1000;
+      });
+    }, 1000);
+  };
 
-    const resetTimer = () => {
-        setTimer(timeToNextQuarterHour);
-        clearInterval(interval);
-    }
+  useEffect(() => {
+    if (lastTime.current > 0) setTimer(lastTime.current);
+    else setTimer(timeToNextQuarterHour.current);
+    startTimer();
+  }, []);
 
-    useEffect(() => {
-        startTimer();
-        return () => clearInterval(interval);
-    }, []);
+  useEffect(() => {
+    setTimeString(parseTime(timer));
+    lastTime.current = timer;
+  }, [timer]);
 
-    useEffect(() => {
-        setTimeString(parseTime(timer));
-    }, [timer]);
-
-    return { time: timeString, resetTimer };
+  return { time: timeString };
 }

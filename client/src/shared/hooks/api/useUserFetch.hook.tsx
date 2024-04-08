@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { URLS } from "../../../configs/Links";
 import { HttpService } from "../../services/httpService.service";
 import { User } from "../../types/User";
-import { USER_REFRESH_INTERVAL } from "../../../configs/Application";
+import { timeToQuaterHour } from "../../../configs/Application";
 
 const httpService = new HttpService();
 const getUser = async () => {
@@ -28,7 +28,7 @@ export function useUserFetch(): {
     isPending,
     isError,
     error,
-  } = useQuery({ queryKey: ["user"], queryFn: getUser, refetchInterval: USER_REFRESH_INTERVAL });
+  } = useQuery({ queryKey: ["user"], queryFn: getUser, refetchInterval: timeToQuaterHour() });
 
   const user: User = res?.data;
   const noAccess: boolean =
