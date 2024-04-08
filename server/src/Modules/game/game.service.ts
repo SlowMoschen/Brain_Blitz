@@ -22,6 +22,7 @@ export class GameService {
 	@Cron('*/15 * * * *')
 	async addEnergy() {
 		const users = await this.userService.getAllUsers();
+		console.log('Adding energy to all users');
 		users.forEach(async (user) => {
 			if (user.energy < 100) {
 				const energy = user.energy + ENERGY_REFRESH_RATE > 100 ? 100 : user.energy + ENERGY_REFRESH_RATE;

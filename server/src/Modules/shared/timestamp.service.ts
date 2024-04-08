@@ -7,12 +7,12 @@ import { UserLogEvent } from 'src/Events/user.events';
 export class TimestampService {
 	constructor(private readonly timestampRepository: TimestampsRepository) {}
 
-	@OnEvent('user.login')
+	@OnEvent('time.login')
 	handleUserLoginEvent({ user_id }: UserLogEvent) {
 		return this.timestampRepository.updateOneColumn(user_id, 'last_login');
 	}
 
-	@OnEvent('user.logout')
+	@OnEvent('time.logout')
 	handleUserLogoutEvent({ user_id }: UserLogEvent) {
 		return this.timestampRepository.updateOneColumn(user_id, 'last_logout');
 	}

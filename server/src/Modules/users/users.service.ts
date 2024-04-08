@@ -5,6 +5,7 @@ import {
 	SelectUserBillingInformation,
 	SelectUserSettings,
 	SelectUserStatistics,
+	SelectUserTimestamps,
 	SelectUserWithAllTables,
 	SelectUserWithoutPassword,
 } from 'src/Utils/Types/model.types';
@@ -43,6 +44,10 @@ export class UsersService {
 
 	async getSettings(id: string): Promise<SelectUserSettings> {
 		return await this.userRepository.findOneSettings(id);
+	}
+
+	async getTimeStamps(id: string): Promise<SelectUserTimestamps> {
+		return await this.userRepository.findOneTimestamps(id);
 	}
 
 	async createNewUser(body: CreateUserDTO): Promise<SelectUser> {
