@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { UserLogEvent } from 'src/Events/user.events';
 import { UsersService } from './users.service';
+import { stat } from 'fs';
 
 @Injectable()
 export class UsersEventService {
@@ -24,18 +25,21 @@ export class UsersEventService {
 		const lastLogin = new Date(timestamps.last_login).getTime();
         const currentTime = new Date().getTime();
         const timeSinceLastLoginInHours = (currentTime - lastLogin) / 1000 / 60 / 60;
-        const oneDayInHours = 24;
+        const twentyFourHours = 24;
+        const fortyEightHours = 48;
         
-        if (timeSinceLastLoginInHours > 48) {
+        // If the user has not logged in for more than 48 hours the login streak will reset
+        // If the streak is 0 (user has never logged in before) the streak will be set to 1 (as the user has now logged in for the first time)
+        if (timeSinceLastLoginInHours > fortyEightHours || statistics.login_streak === 0) {
             statistics.login_streak = 1;
         }
 
-        if (timeSinceLastLoginInHours > oneDayInHours) {
+        // If the user has logged 
+        if (timeSinceLastLoginInHours > twentyFourHours) {
             const newStreak = statistics.login_streak + 1;
             if (newStreak > statistics.max_login_streak) statistics.max_login_streak = newStreak;
             statistics.login_streak = newStreak;
-        }
-
+        } 
 		await this.usersService.updateStatistics(user_id, statistics);
         this.eventEmitter.emit('time.login', { user_id });
 	}
