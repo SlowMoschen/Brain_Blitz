@@ -11,10 +11,12 @@ export default function ContainerWithHeader({ header, children, sx }: ContainerW
     const mainContainer = {
         bgcolor: "background.secondary",
         borderRadius: '.375rem',
+        width: '90%',
         ...sx,
     }
     
     const headerContainer = {
+        borderRadius: '.375rem .375rem 0 0',
         bgcolor: 'accent.light',
         p: 2,
     }
@@ -22,7 +24,7 @@ export default function ContainerWithHeader({ header, children, sx }: ContainerW
     return (
         <Box sx={mainContainer}>
             <Box sx={headerContainer}>
-                <Typography variant="h4">{header}</Typography>
+                <Typography variant="h5">{header}</Typography>
             </Box>
             {children}
         </Box>
