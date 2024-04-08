@@ -15,6 +15,7 @@ export const quizzesTable = pgTable('quizzes', {
 	questions: text('questions').references((): AnyPgColumn => quizQuestionsTable.id),
 	created_at: timestamp('created_at').notNull().defaultNow(),
 	updated_at: timestamp('updated_at').notNull().defaultNow(),
+	times_played: integer('times_played').notNull().default(0),
 });
 
 export const quizQuestionsTable = pgTable('quiz_questions', {
