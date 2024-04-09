@@ -59,6 +59,7 @@ export default function QuizTableCard({
           </Box>
         </Stack>
         <Box
+          onClick={handleStartQuiz}
           sx={{
             bgcolor: "primary.main",
             borderRadius: { xs: "0 0 .375rem .375rem", lg: "0 .375rem .375rem 0" },
@@ -85,7 +86,6 @@ export default function QuizTableCard({
             </Stack>
             {hasEnoughEnergy ? (
               <PlayArrowIcon
-                onClick={handleStartQuiz}
                 sx={{
                   color: "accent.main",
                   cursor: "pointer",
