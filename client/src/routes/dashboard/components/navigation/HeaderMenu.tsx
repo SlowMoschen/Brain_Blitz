@@ -55,7 +55,7 @@ export default function HeaderMenu({ tabs = [], onChange, value }: HeaderMenuPro
         notifications={notifications}
       />
       {tabs.length > 0 && (
-        <Tabs value={value} onChange={onChange} textColor="secondary">
+        <Tabs value={value} onChange={onChange} textColor="secondary" variant="scrollable">
           {tabs.map((tab, index) => (
             <Tab key={index} label={tab} sx={{ color: "text.main" }} />
           ))}

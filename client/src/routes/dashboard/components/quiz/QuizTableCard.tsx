@@ -1,14 +1,13 @@
 import FlashOffIcon from "@mui/icons-material/FlashOff";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import VerifiedIcon from "@mui/icons-material/Verified";
 import { Box, Paper, Stack, Typography } from "@mui/material";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { ENERGY_CONSUPMTION, TIMES } from "../../../../configs/Application";
 import AlertSnackbar from "../../../../shared/components/AlertSnackbar";
 import useToggle from "../../../../shared/hooks/useToggle.hook";
-import { HttpService } from "../../../../shared/services/httpService.service";
 import { UserContext } from "../../../../shared/types/User";
 import QuizCategoryIcon from "./QuizCategoryIcon";
-import VerifiedIcon from "@mui/icons-material/Verified";
 
 interface QuizTableCardProps {
   id: string;
@@ -25,16 +24,14 @@ export default function QuizTableCard({
   description,
   isCompleted,
 }: QuizTableCardProps) {
+  const redirect = useNavigate();
   const [isSnackbarOpen, toggleSnackbarOpen] = useToggle(false);
   const { user } = useOutletContext<UserContext>();
   const hasEnoughEnergy = user.energy >= ENERGY_CONSUPMTION;
 
   const handleStartQuiz = async () => {
-    if (!hasEnoughEnergy) return toggleSnackbarOpen();
-
-    const httpService = new HttpService();
-    const response = await httpService.get(`/quizzes/start/${id}`);
-    console.log(response);
+    // if (!hasEnoughEnergy) return toggleSnackbarOpen();
+    redirect(`/quiz/${id}`);
   };
 
   const paper = {

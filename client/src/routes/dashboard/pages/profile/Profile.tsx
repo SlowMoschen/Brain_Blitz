@@ -1,10 +1,9 @@
-import { Typography } from "@mui/material";
-import ContainerWithHeader from "../../components/ContainerWithHeader";
+import HeaderMenu from "../../components/navigation/HeaderMenu";
 
 export default function Profile() {
     return (
-        <ContainerWithHeader header="Profil">
-            <Typography>Profil</Typography>
-        </ContainerWithHeader>
+        <>
+            <HeaderMenu />
+        </>
     );
 }
