@@ -29,7 +29,13 @@ export function useUserFetch(): {
     isPending,
     isError,
     error,
-  } = useQuery({ queryKey: ["user"], queryFn: getUser, refetchInterval: timeToQuaterHour() });
+  } = useQuery({
+    queryKey: ["user"],
+    queryFn: getUser,
+    refetchInterval: timeToQuaterHour(),
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 60, // 1 hour
+  });
 
   const user: User = res?.data;
   const noAccess: boolean =
