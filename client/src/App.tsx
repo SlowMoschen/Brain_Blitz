@@ -7,6 +7,8 @@ import customTheme from "./configs/CustomTheme";
 import AuthLayout from "./routes/auth/AuthLayout";
 import ForgotPassword from "./routes/auth/pages/ForgotPassword";
 import ResendVerification from "./routes/auth/pages/ResendVerification";
+import Profile from "./routes/dashboard/pages/profile/Profile";
+import Rankings from "./routes/dashboard/pages/rankings/Rankings";
 import ErrorPage from "./routes/error/ErrorPage";
 import RootLayout from "./routes/home/RootLayout";
 import About from "./routes/home/pages/about/About";
@@ -19,12 +21,12 @@ import Home from "./routes/home/pages/root/Root";
 import Terms from "./routes/home/pages/terms/Terms";
 import LoadingScreen from "./shared/components/LoadingScreen";
 import { WindowContextProvider } from "./shared/context/ScreenSize.context";
-import Profile from "./routes/dashboard/pages/profile/Profile";
-import Rankings from "./routes/dashboard/pages/rankings/Rankings";
 const DashboardLayout = lazy(() => import("./routes/dashboard/DashboardLayout"));
 const DashboardRoot = lazy(() => import("./routes/dashboard/pages/root/Root"));
 const SignIn = lazy(() => import("./routes/auth/pages/SignIn"));
 const SignUp = lazy(() => import("./routes/auth/pages/SignUp"));
+const Quiz = lazy(() => import("./routes/quiz/Quiz"));
+const QuizLayout = lazy(() => import("./routes/quiz/QuizLayout"));
 
 export default function App() {
   const router = createBrowserRouter([
@@ -57,13 +59,18 @@ export default function App() {
       ],
     },
     {
-      path: '/dashboard',
+      path: "/dashboard",
       element: <DashboardLayout />,
       children: [
-        { path: '/dashboard', element: <DashboardRoot /> },
-        { path: 'profile', element: <Profile /> },
-        { path: 'rankings', element: <Rankings /> }
-      ]
+        { path: "/dashboard", element: <DashboardRoot /> },
+        { path: "profile", element: <Profile /> },
+        { path: "rankings", element: <Rankings /> },
+      ],
+    },
+    {
+      path: "/quiz",
+      element: <QuizLayout />,
+      children: [{ path: ":quizID", element: <Quiz /> }],
     }
   ]);
 
