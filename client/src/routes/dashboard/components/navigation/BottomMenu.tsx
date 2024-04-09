@@ -25,7 +25,7 @@ export default function BottomMenu() {
         redirect(URLS.RANKINGS);
         break;
     }
-  }
+  };
 
   const paper = {
     position: "fixed",

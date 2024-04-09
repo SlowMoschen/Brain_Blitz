@@ -1,18 +1,18 @@
 import { Typography } from "@mui/material";
 import InfoContainer from "./InfoContainer";
-import StarIcon from '@mui/icons-material/Star';
+import StarIcon from "@mui/icons-material/Star";
+import { useOutletContext } from "react-router-dom";
+import { UserContext } from "../../../shared/types/User";
 
-interface LoginStreakProps {
-  streak: number;
-}
+export default function LoginStreak() {
+  const { user } = useOutletContext<UserContext>();
 
-export default function LoginStreak({ streak = 0 }: LoginStreakProps) {
   return (
     <>
       <InfoContainer>
         <StarIcon sx={{ color: "yellow" }} />
         <Typography variant="h6" color={"accent.main"} fontWeight={600}>
-          {streak}
+          {user.statistics.login_streak}
         </Typography>
         <Typography variant="caption">Tage</Typography>
         <Typography variant="caption">Login-Streak</Typography>

@@ -9,7 +9,7 @@ export default function InfoContainer({ children }: InfoContainerProps) {
     bgcolor: "primary.light",
     borderRadius: ".375rem",
     height: "50px",
-    width: '90%',
+    width: "100%",
     my: 1,
     p: 2,
   };

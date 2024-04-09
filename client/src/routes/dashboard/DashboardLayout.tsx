@@ -28,7 +28,7 @@ export default function DashboardLayout() {
   return (
     <>
       <ScrollToTop />
-      <Stack alignItems={'center'} width={'100%'}>
+      <Stack alignItems={"center"} position={"relative"} width={"100%"}>
         {pageState === "pending" ? (
           <LoadingScreen />
         ) : pageState === "error" ? (
