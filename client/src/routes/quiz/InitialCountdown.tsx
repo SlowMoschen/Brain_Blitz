@@ -1,7 +1,7 @@
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useCountdownTimer } from "../../shared/hooks/timer/useCountdownTimer.hook";
-import { useGameSounds } from "../../shared/hooks/useGameSounds";
+import { useGameSounds } from "../../shared/hooks/game/useGameSounds.hook";
 
 export default function InitialCountdown() {
   const [hasFinished, setHasFinished] = useState(false);
