@@ -6,6 +6,7 @@ import { timeToQuaterHour } from "../../../configs/Application";
 
 const httpService = new HttpService();
 const getUser = async () => {
+  console.log("Fetching user data");
   return await httpService.get(URLS.API_ENDPOINTS.APP.USER);
 };
 
