@@ -105,7 +105,6 @@ export class QuizRepository {
 	 * @returns {Promise<string>}
 	 */
 	async updateOne(id: string, quiz: UpdateQuizDTO): Promise<string> {
-		console.log(id, quiz);
 		const { questions, ...rest } = quiz;
 		const updatedQuiz = await this.db
 			.update(schema.quizzesTable)
