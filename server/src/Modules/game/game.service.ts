@@ -32,17 +32,19 @@ export class GameService {
 		});
 	}
 
-	@OnEvent('quiz.started')
+	@OnEvent('quiz.started', { async: true, promisify: true })
 	async addEnergyOnQuizStart({ user_id, quiz_id }: QuizStartedEvent) {
 		const user = await this.userService.getUserByID(user_id);
 		const quiz = await this.quizRepository.findOne(quiz_id);
 		
-		if(user.energy >= gameConfig.ENERGY_CONSUMPTION_RATE) {
+		if (user.energy >= gameConfig.ENERGY_CONSUMPTION_RATE) {
 			await this.userService.updateUserEnergy(user_id, user.energy - gameConfig.ENERGY_CONSUMPTION_RATE);
 			await this.quizRepository.updateOne(quiz_id, { times_played: quiz.times_played + 1 });
 		} else {
-			throw new HttpException('Not enough energy', HttpStatus.BAD_REQUEST);
+			return new HttpException('Not enough energy', HttpStatus.BAD_REQUEST);
 		}
+
+		return quiz;
 	}
 
 	/**

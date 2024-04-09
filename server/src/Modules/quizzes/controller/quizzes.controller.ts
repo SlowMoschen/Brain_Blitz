@@ -94,9 +94,12 @@ export class QuizzesController {
 	@ApiNotFoundResponse({ description: 'if no quiz was found' })
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
 	@Roles(Role.USER, Role.ADMIN)
-	@Get('start/:id')
-	async startQuiz(@Param('id') quizID: string, @User('id') userId: string) {
-		this.eventEmitter.emit('quiz.started', new QuizStartedEvent(userId, quizID));
+	@Get('start/:quizID')
+	async startQuiz(@Param('quizID') quizID: string, @User('id') userId: string) {
+		const result = await this.eventEmitter.emitAsync('quiz.started', new QuizStartedEvent(userId, quizID));
+		result.forEach((res) => {
+			if (res instanceof Error) throw res;
+		});
 		return await this.quizService.getQuiz(quizID);
 	}
 

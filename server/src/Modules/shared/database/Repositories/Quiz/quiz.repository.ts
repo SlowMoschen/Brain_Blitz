@@ -105,13 +105,14 @@ export class QuizRepository {
 	 * @returns {Promise<string>}
 	 */
 	async updateOne(id: string, quiz: UpdateQuizDTO): Promise<string> {
+		console.log(id, quiz);
 		const { questions, ...rest } = quiz;
 		const updatedQuiz = await this.db
 			.update(schema.quizzesTable)
 			.set(rest)
 			.where(eq(schema.quizzesTable.id, id))
-			.returning({ id: schema.quizzesTable.id })[0].id;
-		if (questions.length > 0) {
+			.returning({ id: schema.quizzesTable.id });
+		if (questions && questions.length > 0) {
 			for (const question of questions) {
 				if (question.id) {
 					await this.updateOneQuestion(question.id, question);
@@ -120,7 +121,7 @@ export class QuizRepository {
 				}
 			}
 		}
-		return updatedQuiz;
+		return updatedQuiz[0].id;
 	}
 
 	/**
