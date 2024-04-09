@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { timeToQuaterHour } from "../../../configs/Application";
+import { useTimeParser } from "./useTimeParser.hook";
 
 /**
  * @description A custom hook to create a 15 minute timer that counts down to the next quarter hour.
@@ -13,12 +14,7 @@ export default function use15MinuteTimer() {
   const lastTime = useRef<number>(0);
   const interval = useRef<number>(0);
   const timeToNextQuarterHour = useRef<number>(timeToQuaterHour());
-
-  const parseTime = (time: number) => {
-    const minutes = Math.floor(time / 60000);
-    const seconds = Math.floor((time % 60000) / 1000);
-    return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-  };
+  const { parseMinuteString } = useTimeParser();
 
   const startTimer = () => {
     if (interval.current) clearInterval(interval.current);
@@ -41,7 +37,7 @@ export default function use15MinuteTimer() {
   }, []);
 
   useEffect(() => {
-    setTimeString(parseTime(timer));
+    setTimeString(parseMinuteString(timer));
     lastTime.current = timer;
     if (timer === 0) {
       clearInterval(interval.current);
