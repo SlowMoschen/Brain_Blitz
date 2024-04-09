@@ -43,6 +43,11 @@ export default function use15MinuteTimer() {
   useEffect(() => {
     setTimeString(parseTime(timer));
     lastTime.current = timer;
+    if (timer === 0) {
+      clearInterval(interval.current);
+      timeToNextQuarterHour.current = timeToQuaterHour();
+      startTimer();
+    }
   }, [timer]);
 
   return { time: timeString };
