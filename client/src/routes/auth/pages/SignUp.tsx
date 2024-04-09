@@ -91,9 +91,7 @@ export default function SignUp() {
 
   return (
     <>
-      {isPending && (
-        <LoadingScreen />
-      )}
+      {isPending && <LoadingScreen />}
       <Stack sx={stackStyles} minHeight={"1000px"}>
         <Paper sx={paperStyles}>
           <Paper elevation={9} sx={imagePaperStyles}>
@@ -101,13 +99,13 @@ export default function SignUp() {
           </Paper>
           <Stack
             sx={{ width: { xs: "100%", md: "50%" }, height: "100%" }}
-            justifyContent={'center'}
+            justifyContent={"center"}
           >
             {width > BREAKPOINTS.md && (
-            <Link href={URLS.HOME} underline="hover" sx={{ alignSelf: "start" }}>
-              <ArrowBackIcon sx={{ fontSize: 30 }} />
-            </Link>
-          )}
+              <Link href={URLS.HOME} underline="hover" sx={{ alignSelf: "start" }}>
+                <ArrowBackIcon sx={{ fontSize: 30 }} />
+              </Link>
+            )}
             <Typography variant="h4" align="center" className="border-b-primary">
               Herzlich Willkommen!
             </Typography>
@@ -159,6 +157,13 @@ export default function SignUp() {
                   text="Bereits ein Konto?"
                 />
               </Stack>
+              <Typography variant="body2" my={2} px={1} fontSize={12}>
+                Mit dem Klicken auf „Anmelden“ stimmst du unseren{" "}
+                <Link href={URLS.TERMS_AND_CONDITIONS}>Nutzungsbedingungen</Link> 
+                {" "}und{" "}
+                <Link href={URLS.PRIVACY}>Datenschutzrichtlinien</Link>
+                {" "}zu.
+              </Typography>
               <CallToAction text="Anmelden" type="submit" fullWidth />
             </form>
           </Stack>
