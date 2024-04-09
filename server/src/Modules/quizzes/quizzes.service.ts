@@ -130,7 +130,11 @@ export class QuizService {
 			};
 		});
 		const totalQuestions = quizzes.reduce((acc, quiz) => acc + quiz.questions.length, 0);
+		const timesPlayed = quizzes.reduce((acc, q) => {
+			const { title, times_played } = q
+			return [...acc, { title, times_played}]
+		}, [])
 
-		return { totalQuestions, totalQuizzes: quizzes.length, uniqueCategories: uniqueCategories.length, categoryStats };
+		return { totalQuestions, totalQuizzes: quizzes.length, uniqueCategories: uniqueCategories.length, categoryStats, timesPlayed };
 	}
 }
