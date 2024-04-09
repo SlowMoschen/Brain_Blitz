@@ -39,7 +39,7 @@ export default function HeaderMenu({ tabs = [], onChange, value }: HeaderMenuPro
   }, [changedQuizzes]);
 
   return (
-    <AppBar position="sticky" sx={{ bgcolor: "background.secondary", py: 2, px: 4 }}>
+    <AppBar position="sticky" sx={{ bgcolor: "background.secondary", py: 2, px: 4, top: 0 }}>
       <Stack direction={"row"} justifyContent={"space-between"}>
         <Logo maxWidth="180px" maxHeight="50px" />
         <IconButton ref={notificationButtonRef} onClick={handleMenuClick}>
