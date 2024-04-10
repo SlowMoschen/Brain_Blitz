@@ -6,6 +6,7 @@ import { URLS } from "../../configs/Links";
 import RouterButton from "../../shared/components/buttons/RouterButton";
 import { useTimeParser } from "../../shared/hooks/timer/useTimeParser.hook";
 import ScoreTable from "./components/ScoreTable";
+import { BREAKPOINTS } from '../../configs/Breakpoints';
 
 interface QuizEndScreenProps {
     answersCount: {
@@ -26,7 +27,7 @@ export default function QuizEndScreen({ answersCount, time, isSuccess }: QuizEnd
 
     return (
         <>
-            <Stack height={'90vh'} justifyContent={'center'}>
+            <Stack height={'90vh'} width={'100%'} maxWidth={BREAKPOINTS.md} justifyContent={'center'} p={2}>
                 <Stack alignItems={'center'}>
                     {isSuccess ? <VerifiedIcon sx={{ color: 'accent.main', fontSize: 40 }} /> : <CancelIcon sx={{ color: 'primary.main', fontSize: 40 }} />}
                     <Typography variant="h4">
