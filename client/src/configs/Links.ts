@@ -21,6 +21,7 @@ export const URLS = {
       CONTACT: "/contact",
       USER: "/users",
       QUIZ_START: "/quizzes/start/",
+      QUIZ_COMPLETE: "/quizzes/complete/",
     },
     AUTH: {
       SIGNIN: "/auth/login",
