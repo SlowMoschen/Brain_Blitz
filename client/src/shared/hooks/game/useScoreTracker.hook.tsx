@@ -17,7 +17,10 @@ export function useScoreTracker() {
     };
 
     const decreaseScore = () => {
-        setCurrentScore((prev: number) => prev - GAME.WRONG_ANSWER_POINTS);
+        setCurrentScore((prev: number) => {
+            const newScore = prev - GAME.WRONG_ANSWER_POINTS;
+            return newScore < 0 ? 0 : newScore;
+        });
     };
 
     /**
