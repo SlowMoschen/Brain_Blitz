@@ -6,7 +6,7 @@ export interface IDailyStats {
     playedQuizzes: number;
     points: number;
     answeredQuestions: number;
-    timePlayed: string;
+    timePlayed: number;
     date: string;
 }
 
@@ -14,21 +14,32 @@ const initialStats: IDailyStats = {
     playedQuizzes: 0,
     points: 0,
     answeredQuestions: 0,
-    timePlayed: "0h 0m",
+    timePlayed: 0,
     date: new Date().toDateString(),
 }
 
 export function useDailyStatsTracker() {
     const [dailyStats, setDailyStats] = useState<IDailyStats>(initialStats);
     const { setData, getData, removeData } = useLocalStorage();
-    const key = "brain-blitz-daily-stats";
+    const key = `dailyStats-${getData('brain-blitz-user-id')}`;
 
     const getDailyStats = (): IDailyStats | null => {
         return getData(key);
     }
 
     const updateDailyStats = (stats: IDailyStats) => {
-        setData(key, stats);
+        const currentStats = getDailyStats();
+        if (!currentStats) return setData(key, stats);
+
+       const updatedStats: IDailyStats = {
+            playedQuizzes: currentStats.playedQuizzes + stats.playedQuizzes,
+            points: currentStats.points + stats.points,
+            answeredQuestions: currentStats.answeredQuestions + stats.answeredQuestions,
+            timePlayed: currentStats.timePlayed + stats.timePlayed,
+            date: currentStats.date,
+       }
+
+         setData(key, updatedStats);
     }
 
     const resetDailyStats = () => {
