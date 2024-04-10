@@ -1,38 +1,38 @@
-import { Highscore, Quiz } from "./Quiz";
+import { IHighscore, IQuiz } from "./Quiz";
 
 export interface UserContext {
-  user: User;
+  user: IUser;
 }
 
-export interface User {
+export interface IUser {
   id: string;
   email: string;
   first_name: string;
   last_name: string;
   energy: number;
-  settings: UserSettings;
-  statistics: UserStatistics;
-  timestamps: UserTimestamps;
-  billinginfos: UserBillinginfos;
-  unlocked_quizzes: QuizJoinTable[];
-  completed_quizzes: QuizJoinTable[];
+  settings: IUserSettings;
+  statistics: IUserStatistics;
+  timestamps: IUserTimestamps;
+  billinginfos: IUserBillinginfos;
+  unlocked_quizzes: IQuizJoinTable[];
+  completed_quizzes: IQuizJoinTable[];
   unlocked_achievements: string[];
-  highscores: HighscoreJoinTable[];
+  highscores: IHighscoreJoinTable[];
 }
 
-export interface QuizJoinTable {
-  quiz: Quiz;
+export interface IQuizJoinTable {
+  quiz: IQuiz;
   quiz_id: string;
   user_id: string;
 }
 
-export interface HighscoreJoinTable {
-  highscore: Highscore;
+export interface IHighscoreJoinTable {
+  highscore: IHighscore;
   highscore_id: string;
   user_id: string;
 }
 
-export interface UserSettings {
+export interface IUserSettings {
   id: string;
   user_id: string;
   theme: string;
@@ -41,7 +41,7 @@ export interface UserSettings {
   roles: string;
 }
 
-export interface UserStatistics {
+export interface IUserStatistics {
   id: string;
   user_id: string;
   login_count: number;
@@ -53,7 +53,7 @@ export interface UserStatistics {
   points: number;
 }
 
-export interface UserTimestamps {
+export interface IUserTimestamps {
   id: string;
   user_id: string;
   created_at: string;
@@ -66,7 +66,7 @@ export interface UserTimestamps {
   last_logout: string;
 }
 
-export interface UserBillinginfos {
+export interface IUserBillinginfos {
   id: string;
   user_id: string;
   billing_address: string;

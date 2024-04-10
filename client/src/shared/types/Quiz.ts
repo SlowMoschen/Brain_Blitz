@@ -1,16 +1,16 @@
 
-export interface Quiz {
+export interface IQuiz {
     id: string;
     created_at: string;
     updated_at: string;
     title: string;
     description: string;
     category: string;
-    highscores: Highscore[];
-    questions: Question[];
+    highscores: IHighscore[];
+    questions: IQuestion[];
 }
 
-export interface Question {
+export interface IQuestion {
     id: string;
     quiz_id: string;
     question: string;
@@ -20,7 +20,7 @@ export interface Question {
     updated_at: string;
 }
 
-export interface Highscore {
+export interface IHighscore {
     id: string;
     quiz_id: string;
     user_id: string;
