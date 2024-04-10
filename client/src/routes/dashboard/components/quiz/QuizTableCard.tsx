@@ -30,7 +30,7 @@ export default function QuizTableCard({
   const hasEnoughEnergy = user.energy >= ENERGY_CONSUPMTION;
 
   const handleStartQuiz = async () => {
-    // if (!hasEnoughEnergy) return toggleSnackbarOpen();
+    if (!hasEnoughEnergy) return toggleSnackbarOpen();
     redirect(`/quiz/${id}`);
   };
 
