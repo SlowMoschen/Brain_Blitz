@@ -57,6 +57,7 @@ export function useQuiz(quizData: IQuiz) {
       correct_answers: correctAnswersCount,
       incorrect_answers: incorrectAnswersCount,
       score: totalScore,
+      total_time_played: GAME.TIME_PER_QUIZ - quizTime,
     };
 
     mutate(body);

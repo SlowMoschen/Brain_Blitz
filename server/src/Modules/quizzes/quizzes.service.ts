@@ -66,10 +66,11 @@ export class QuizService {
 		// Update the user's statistics
 		const currentStats = await this.userService.getStatistics(userId);
 		await this.userService.updateStatistics(userId, {
-			completed_quizzes: currentStats.completed_quizzes + 1,
+			played_quizzes: currentStats.played_quizzes + 1,
 			points: currentStats.points + completedQuizDTO.score,
 			correct_answers: currentStats.correct_answers + completedQuizDTO.correct_answers,
 			incorrect_answers: currentStats.incorrect_answers + completedQuizDTO.incorrect_answers,
+			total_time_played: currentStats.total_time_played + completedQuizDTO.total_time_played,
 		});
 
 		// Check if the threshold for unlocking a new quiz has been reached - if so, emit an event to complete the quiz and unlock a new one

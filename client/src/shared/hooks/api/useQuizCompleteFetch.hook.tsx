@@ -7,6 +7,7 @@ interface QuizCompleteDTO {
   correct_answers: number;
   incorrect_answers: number;
   score: number;
+  total_time_played: number;
 }
 
 function fetchQuizComplete(quizID: string, body: QuizCompleteDTO) {

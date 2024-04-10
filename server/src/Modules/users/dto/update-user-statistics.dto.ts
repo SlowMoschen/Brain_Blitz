@@ -20,7 +20,7 @@ export class UpdateUserStatisticsDTO {
 	@ApiProperty()
 	@IsOptional()
 	@IsNumber()
-	completed_quizzes?: number;
+	played_quizzes?: number;
 
 	@ApiProperty()
 	@IsOptional()
@@ -36,4 +36,9 @@ export class UpdateUserStatisticsDTO {
 	@IsOptional()
 	@IsNumber()
 	points?: number;
+
+	@ApiProperty()
+	@IsOptional()
+	@IsNumber()
+	total_time_played?: number;
 }

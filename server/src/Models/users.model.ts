@@ -46,9 +46,10 @@ export const usersStatisticsTable = pgTable('users_statistics', {
 	login_count: integer('login_count').notNull().default(0),
 	login_streak: integer('login_streak').notNull().default(0),
 	max_login_streak: integer('max_login_streak').notNull().default(0),
-	completed_quizzes: integer('completed_quizzes').notNull().default(0),
+	played_quizzes: integer('completed_quizzes').notNull().default(0),
 	correct_answers: integer('correct_answers').notNull().default(0),
 	incorrect_answers: integer('incorrect_answers').notNull().default(0),
+	total_time_played: integer('total_time_played').notNull().default(0),
 	points: integer('points').notNull().default(0),
 });
 

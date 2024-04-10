@@ -16,4 +16,9 @@ export class CompletedQuizDTO {
 	@IsNotEmpty()
 	@IsNumber()
 	score: number;
+
+	@ApiProperty()
+	@IsNotEmpty()
+	@IsNumber()
+	total_time_played: number;
 }
