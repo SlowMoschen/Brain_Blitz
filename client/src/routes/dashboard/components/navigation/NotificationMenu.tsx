@@ -27,18 +27,18 @@ export default function NotificationMenu({
   useEffect(() => {
     setNotifications(notificationArr);
   }, [notificationArr]);
-
+  
   return (
     <Menu id="notifications-button" anchorEl={anchorEl} open={isOpen} onClose={onClose}>
       <Box p={2}>
         {notifications && notifications?.length > 0 ? (
           notifications.map((notification, index) => (
-            <div key={index} style={{ color: "black" }} onClick={() => deleteNotification(index)}>
+            <Box key={index} sx={{ color: "black", cursor: 'pointer', '&:hover': { bgcolor: 'error.light' } }} onClick={() => deleteNotification(index)}>
               {notification}
-            </div>
+            </Box>
           ))
         ) : (
-          <div style={{ color: "black" }}>No notifications</div>
+          <div style={{ color: "black" }}>Keine Benachrichtigungen</div>
         )}
       </Box>
     </Menu>

@@ -33,7 +33,7 @@ export default function HeaderMenu({ tabs = [], onChange, value }: HeaderMenuPro
 
   useEffect(() => {
     if (changedQuizzes) {
-      setNotifications(changedQuizzes.map((quiz) => `Du hast ${quiz} freigeschaltet!`));
+      setNotifications(changedQuizzes.map((quiz) => `Du hast ${quiz.title} freigeschaltet!`));
       setGotNotifications(false);
     }
   }, [changedQuizzes]);
