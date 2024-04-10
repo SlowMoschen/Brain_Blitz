@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { URLS } from "../../../configs/Links";
 import { HttpService } from "../../services/httpService.service";
-import { User } from "../../types/User";
+import { IUser } from "../../types/User";
 import { timeToQuaterHour } from "../../../configs/Application";
 
 const httpService = new HttpService();
@@ -19,7 +19,7 @@ const getUser = async () => {
  * - noAccess: boolean
  */
 export function useUserFetch(): {
-  user: User;
+  user: IUser;
   isPending: boolean;
   isError: boolean;
   noAccess: boolean;
@@ -37,7 +37,7 @@ export function useUserFetch(): {
     staleTime: 1000 * 60 * 60, // 1 hour
   });
 
-  const user: User = res?.data;
+  const user: IUser = res?.data;
   const noAccess: boolean =
     error?.message.includes("Forbidden") || error?.message.includes("Unauthorized") ? true : false;
 
