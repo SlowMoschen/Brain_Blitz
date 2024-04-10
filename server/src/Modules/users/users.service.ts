@@ -97,4 +97,8 @@ export class UsersService {
 	async deleteUser(id: string): Promise<string> {
 		return await this.userRepository.deleteOneByID(id);
 	}
+
+	async deleteHighscore(id: string, highscore_id: string): Promise<string> {
+		return await this.userRepository.deleteHighscore(id, highscore_id);
+	}
 }

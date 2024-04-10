@@ -1,5 +1,5 @@
 import { ConflictException, Injectable, NotFoundException, NotImplementedException } from '@nestjs/common';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { InjectDatabase } from 'src/Decorators/injectDatabase.decorator';
 import { CreateUserDTO } from 'src/Modules/auth/dto/create-user.dto';
@@ -74,7 +74,7 @@ export class UserRepository {
 				unlocked_quizzes: { with: { quiz: true } },
 				unlocked_achievements: true,
 				highscores: true,
-				completed_quizzes: true,
+				completed_quizzes: { with: { quiz: true }},
 				billing_information: true,
 				statistics: true,
 				timestamps: true,
@@ -318,6 +318,21 @@ export class UserRepository {
 		if (newHighscore instanceof Error) throw newHighscore;
 		if (!newHighscore[0]) throw new NotImplementedException('Inserting new highscore failed');
 		return newHighscore[0].user_id;
+	}
+
+	/**
+	 * @description - Deletes a highscore by id
+	 * @param {string} id - The id of the highscore
+	 * @returns {Promise<SelectUserWithAllTables[]>} - Returns all users with all tables or null if an error occurs or no users are found
+	 */
+	async deleteHighscore(id: string, highscore_id: string): Promise<string> {
+		const deletedHighscore = await this.db
+			.delete(schema.highscores)
+			.where(and(eq(schema.highscores.user_id, id), eq(schema.highscores.highscore_id, highscore_id)))
+			.returning({ user_id: schema.highscores.user_id });
+		if (deletedHighscore instanceof Error) throw deletedHighscore;
+		if (!deletedHighscore[0]) throw new NotImplementedException('Deleting highscore failed');
+		return deletedHighscore[0].user_id;
 	}
 
 	/**

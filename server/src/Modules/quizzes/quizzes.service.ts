@@ -89,6 +89,7 @@ export class QuizService {
 
 		if (existingHighscore) {
 			if (existingHighscore.score < completedQuizDTO.score) {
+				await this.userService.deleteHighscore(userId, existingHighscore.id);
 				await this.highscoreService.deleteHighscore(existingHighscore.id);
 				returnValue.highscore = 'updated';
 			} else {
