@@ -1,19 +1,19 @@
-import { Quiz } from "../../../../shared/types/Quiz";
-import { QuizJoinTable } from "../../../../shared/types/User";
+import { IQuiz } from "../../../../shared/types/Quiz";
+import { IQuizJoinTable } from "../../../../shared/types/User";
 import ContainerWithHeader from "../ContainerWithHeader";
 import QuizTableCard from "./QuizTableCard";
 
 interface QuizTableProps {
-  unlockedJoinTable: QuizJoinTable[];
-  completedJoinTable: QuizJoinTable[];
+  unlockedJoinTable: IQuizJoinTable[];
+  completedJoinTable: IQuizJoinTable[];
 }
 
 export default function QuizTable({
   unlockedJoinTable: unlockedJoinTable,
   completedJoinTable: completeJoinTable,
 }: QuizTableProps) {
-  const unlockedQuizzes: Quiz[] = unlockedJoinTable.map((table) => table.quiz);
-  const completedQuizzes: Quiz[] = completeJoinTable.map((table) => table.quiz);
+  const unlockedQuizzes: IQuiz[] = unlockedJoinTable.map((table) => table.quiz);
+  const completedQuizzes: IQuiz[] = completeJoinTable.map((table) => table.quiz);
 
   return (
     <ContainerWithHeader header="Deine spielbaren Quizze" sx={{ pb: 2 }}>
