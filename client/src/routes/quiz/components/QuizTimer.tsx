@@ -9,11 +9,17 @@ interface TimerProps {
 /**
  * @description Overrides the default LinearProgress component to style the timer bar
  */
-const LinearTimerBar = styled(LinearProgress)(() => ({
+const LinearTimerBar = styled(LinearProgress)(({ value, theme }) => ({
   borderRadius: 8,
   height: 8,
   [`& .MuiLinearProgress-bar`]: {
     transition: "all 1s linear",
+    backgroundColor:
+      value! < 20
+        ? theme.palette.error.main
+        : value! < 50
+        ? theme.palette.warning.main
+        : theme.palette.success.main,
   },
 }));
 
@@ -22,28 +28,24 @@ const LinearTimerBar = styled(LinearProgress)(() => ({
  * @param {number} time - The time left in the quiz
  */
 export default function QuizTimer({ time }: TimerProps) {
-    const [progress, setProgress] = useState<number>(100);
-    const { parseMinuteString } = useTimeParser();
+  const [progress, setProgress] = useState<number>(100);
+  const { parseMinuteString } = useTimeParser();
 
-    // Calculate the time in milliseconds to a percentage
-    const calculateTime = () => {
-        return (time / 3 / 60000) * 100;
-    };
+  // Calculate the time in milliseconds to a percentage
+  const calculateTime = () => {
+    return (time / 3 / 60000) * 100;
+  };
 
-    useEffect(() => {
-        setProgress(calculateTime());
-    }, [time]);
+  useEffect(() => {
+    setProgress(calculateTime());
+  }, [time]);
 
   return (
-    <Stack width={'100%'} alignItems={'center'} direction={{ xs: 'column', lg: 'row'}} gap={1}>
-        <Typography variant="h6" sx={{ textAlign: "center" }}>
-            {parseMinuteString(time)}
-        </Typography>
-      <LinearTimerBar
-        variant="determinate"
-        value={progress}
-        sx={{ width: "100%" }}
-      />
+    <Stack width={"100%"} alignItems={"center"} direction={{ xs: "column", lg: "row" }} gap={1}>
+      <Typography variant="h6" sx={{ textAlign: "center" }}>
+        {parseMinuteString(time)}
+      </Typography>
+      <LinearTimerBar variant="determinate" value={progress} sx={{ width: "100%" }} />
     </Stack>
   );
 }
