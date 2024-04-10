@@ -26,5 +26,9 @@ export function useCountdownTimer(startTime: number) {
         }, 1000);
     };
 
-    return { currentTime, startTimer };
+    const stopTimer = () => {
+        clearInterval(interval.current);
+    }
+
+    return { currentTime, startTimer, stopTimer };
 }
