@@ -17,7 +17,7 @@ export default function QuizCategoryIcon({ category }: { category: string }) {
   const getColor = (category: string) => {
     switch (category.trim().toLowerCase()) {
       case "history":
-        return "primary.main";
+        return "violet";
       case "science":
         return "secondary.main";
       case "sports":
