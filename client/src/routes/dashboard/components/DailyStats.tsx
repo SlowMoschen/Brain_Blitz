@@ -1,6 +1,7 @@
 import { Grid, Typography } from "@mui/material";
 import ContainerWithHeader from "./ContainerWithHeader";
 import { IDailyStats } from "../../../shared/hooks/localStorage/useDailyStatsTracker.hook";
+import { useTimeParser } from "../../../shared/hooks/timer/useTimeParser.hook";
 
 interface DailyStatsProps {
   stats: IDailyStats;
@@ -26,8 +27,10 @@ const content = [
 ];
 
 export default function DailyStats({ stats }: DailyStatsProps) {
+  const { parseMinuteString } = useTimeParser();
+
   return (
-    <ContainerWithHeader header="Daily Stats" sx={{ mt: 3, width: "100%" }}>
+    <ContainerWithHeader header="Tägliche Statistik" sx={{ mt: 3, width: "100%" }}>
       <Grid container spacing={2} p={2}>
         <Grid item xs={6}>
           {content.map((item, i) => {
@@ -42,7 +45,11 @@ export default function DailyStats({ stats }: DailyStatsProps) {
           {content.map((item, i) => {
             return (
               <Typography key={i} p={1} variant="subtitle1" color={"accent.main"} align="right">
-                {stats[item.value]}
+                {
+                  item.value === "timePlayed"
+                    ? parseMinuteString(stats[item.value])
+                    : stats[item.value]
+                }
               </Typography>
             );
           })}
