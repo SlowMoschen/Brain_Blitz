@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { GAME } from "../../../configs/Application";
 import { IQuestion, IQuiz } from "../../types/Quiz";
+import { useQuizCompleteFetch } from "../api/useQuizCompleteFetch.hook";
+import { useDailyStatsTracker } from "../localStorage/useDailyStatsTracker.hook";
 import { useCountdownTimer } from "../timer/useCountdownTimer.hook";
 import { useGameSounds } from "./useGameSounds.hook";
 import { useScoreTracker } from "./useScoreTracker.hook";
@@ -15,6 +17,7 @@ import { useScoreTracker } from "./useScoreTracker.hook";
  * @returns Object containing the current question, whether the quiz is complete, function to check answers, function to start the quiz, current score, current quiz time, and whether the quiz was successful
  */
 export function useQuiz(quizData: IQuiz) {
+  const { playSound } = useGameSounds();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [correctAnswersCount, setCorrectAnswersCount] = useState<number>(0);
   const [incorrectAnswersCount, setIncorrectAnswersCount] = useState<number>(0);
@@ -30,7 +33,8 @@ export function useQuiz(quizData: IQuiz) {
   } = useCountdownTimer(GAME.TIME_PER_QUIZ);
   const { currentTime: initialCountdownTime, startTimer: startInitialCountdown } =
     useCountdownTimer(4000);
-  const { playSound } = useGameSounds();
+  const { mutate } = useQuizCompleteFetch(quizData.id);
+  const { updateDailyStats } = useDailyStatsTracker();
 
   const startQuiz = () => {
     startInitialCountdown();
@@ -39,6 +43,31 @@ export function useQuiz(quizData: IQuiz) {
   const stopQuiz = () => {
     setIsQuizComplete(true);
     stopQuizTimer();
+  };
+
+  const handleQuizComplete = async () => {
+    const totalScore = await calculateTotalScore(quizTime / 1000, {
+      correct: correctAnswersCount,
+      incorrect: incorrectAnswersCount,
+    });
+
+    if (totalScore >= GAME.QUIZ_COMPLETE_THRESHOLD) setIsSuccess(true);
+
+    const body = {
+      correct_answers: correctAnswersCount,
+      incorrect_answers: incorrectAnswersCount,
+      score: totalScore,
+    };
+
+    mutate(body);
+
+    updateDailyStats({
+      playedQuizzes: 1,
+      points: totalScore,
+      answeredQuestions: correctAnswersCount + incorrectAnswersCount,
+      timePlayed: GAME.TIME_PER_QUIZ - quizTime,
+      date: new Date().toDateString(),
+    });
   };
 
   const nextQuestion = () => {
@@ -89,12 +118,7 @@ export function useQuiz(quizData: IQuiz) {
   // Checks if the quiz is complete and if the user has reached the threshold score
   useEffect(() => {
     if (isQuizComplete) {
-      calculateTotalScore(quizTime / 1000, {
-        correct: correctAnswersCount,
-        incorrect: incorrectAnswersCount,
-      }).then((totalPoints) => {
-        setIsSuccess(totalPoints >= GAME.QUIZ_COMPLETE_THRESHOLD);
-      });
+      handleQuizComplete();
     }
   }, [isQuizComplete]);
 
