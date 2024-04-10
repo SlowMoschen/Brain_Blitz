@@ -1,45 +1,44 @@
 import { Stack } from "@mui/material";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { BREAKPOINTS } from "../../configs/Breakpoints";
-import { URLS } from "../../configs/Links";
-import LoadingScreen from "../../shared/components/LoadingScreen";
-import { useQuizFetch } from "../../shared/hooks/api/useQuizFetch.hook";
 import { useQuiz } from "../../shared/hooks/game/useQuiz.hook";
-import RedirectErrorPage from "../error/RedirectErrorPage";
-import InitialCountdown from "./InitialCountdown";
-import Question from "./components/Question";
-import QuizTimer from "./components/QuizTimer";
+import { IQuiz } from "../../shared/types/Quiz";
+import InitialCountdown from "./components/InitialCountdown";
 import Score from "./components/Score";
+import QuizTimer from "./components/QuizTimer";
+import Question from "./components/Question";
+import { BREAKPOINTS } from "../../configs/Breakpoints";
+import { useEffect } from "react";
+import Answers from "./components/Answers";
+import QuizEndScreen from "./QuizEndScreen";
 
-export default function Quiz() {
-  const { quizID } = useParams();
-  const { quizData, isPending, isError } = useQuizFetch(quizID!);
+interface QuizProps {
+  quizData: IQuiz;
+}
+
+export default function Quiz({ quizData }: QuizProps) {
   const {
     checkAnswer,
     currentQuestion,
     currentScore,
     quizTime,
     hasStarted,
+    answerCount,
     isQuizComplete,
     isSuccess,
     startQuiz,
   } = useQuiz(quizData);
 
   useEffect(() => {
-    if (!isPending && !isError) startQuiz();
-  }, [isError, isPending]);
+    if (quizData) startQuiz();
+  }, [quizData]);
 
-  if (isError)
+  if (isQuizComplete)
     return (
-      <RedirectErrorPage
-        redirectTo={"zum Dashboard"}
-        redirectUrl={URLS.DASHBOARD}
-        message={"Quiz konnte nicht geladen werden"}
+      <QuizEndScreen
+        answersCount={answerCount}
+        time={quizTime}
+        isSuccess={isSuccess}
       />
     );
-
-  if (isPending) return <LoadingScreen />;
 
   return (
     <>
@@ -50,6 +49,11 @@ export default function Quiz() {
             <Score score={currentScore} />
             <QuizTimer time={quizTime} />
             <Question question={currentQuestion!.question} />
+            <Answers
+              answers={currentQuestion!.answers}
+              correctAnswer={currentQuestion!.correct_answer}
+              checkAnswer={checkAnswer}
+            />
           </Stack>
         </>
       ) : null}
