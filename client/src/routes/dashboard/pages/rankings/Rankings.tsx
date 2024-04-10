@@ -7,7 +7,7 @@ export default function Rankings() {
   const [value, setValue] = useState(0);
   const { width } = useContext(WindowContext);
   const isMobile = width < BREAKPOINTS.lg;
-  const tabs = isMobile && ["Deine Rankings", "General", "Daily Stats"] || [];
+  const tabs = isMobile && ["Deine Rankings", "Daily Stats"] || [];
 
   const handleTabChange = (_e: React.ChangeEvent<object>, newValue: number) => {
     setValue(newValue);
