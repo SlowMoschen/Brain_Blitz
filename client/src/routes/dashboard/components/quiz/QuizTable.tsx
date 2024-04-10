@@ -17,7 +17,7 @@ export default function QuizTable({
 
   return (
     <ContainerWithHeader header="Deine spielbaren Quizze" sx={{ pb: 2 }}>
-      {unlockedQuizzes.map((quiz) => {
+      {unlockedQuizzes.reverse().map((quiz) => {
         return (
           <QuizTableCard
             key={quiz.id}
@@ -25,7 +25,7 @@ export default function QuizTable({
             title={quiz.title}
             category={quiz.category}
             description={quiz.description}
-            isCompleted={completedQuizzes.includes(quiz)}
+            isCompleted={completedQuizzes.some((completedQuiz) => completedQuiz.id === quiz.id)}
           />
         );
       })}
