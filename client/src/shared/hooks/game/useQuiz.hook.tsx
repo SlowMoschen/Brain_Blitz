@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { GAME } from "../../../configs/Application";
-import { Question, Quiz } from "../../types/Quiz";
+import { IQuestion, IQuiz } from "../../types/Quiz";
 import { useCountdownTimer } from "../timer/useCountdownTimer.hook";
 import { useGameSounds } from "./useGameSounds.hook";
 import { useScoreTracker } from "./useScoreTracker.hook";
@@ -14,41 +14,54 @@ import { useScoreTracker } from "./useScoreTracker.hook";
  * @param quizData - The quiz data to be used in the game
  * @returns Object containing the current question, whether the quiz is complete, function to check answers, function to start the quiz, current score, current quiz time, and whether the quiz was successful
  */
-export function useQuiz(quizData: Quiz) {
+export function useQuiz(quizData: IQuiz) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [currentQuestion, setCurrentQuestion] = useState<Question>();
+  const [correctAnswersCount, setCorrectAnswersCount] = useState<number>(0);
+  const [incorrectAnswersCount, setIncorrectAnswersCount] = useState<number>(0);
+  const [currentQuestion, setCurrentQuestion] = useState<IQuestion>();
   const [hasStarted, setHasStarted] = useState<boolean>(false);
   const [isQuizComplete, setIsQuizComplete] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
-  const { currentScore, increaseScore, decreaseScore, calculateTimeBonus } = useScoreTracker();
-  const { currentTime: quizTime, startTimer: startQuizTimer } = useCountdownTimer(
-    GAME.TIME_PER_QUIZ
-  );
+  const { currentScore, increaseScore, decreaseScore, calculateTotalScore } = useScoreTracker();
+  const {
+    currentTime: quizTime,
+    startTimer: startQuizTimer,
+    stopTimer: stopQuizTimer,
+  } = useCountdownTimer(GAME.TIME_PER_QUIZ);
   const { currentTime: initialCountdownTime, startTimer: startInitialCountdown } =
     useCountdownTimer(4000);
   const { playSound } = useGameSounds();
 
+  const startQuiz = () => {
+    startInitialCountdown();
+  };
+
+  const stopQuiz = () => {
+    setIsQuizComplete(true);
+    stopQuizTimer();
+  };
+
   const nextQuestion = () => {
     const nextIndex = currentIndex + 1;
-    if (nextIndex >= quizData.questions.length) return setIsQuizComplete(true);
-
-    setCurrentIndex(nextIndex);
-    setCurrentQuestion(quizData.questions[currentIndex]);
+    if (nextIndex < quizData.questions.length) {
+      setCurrentIndex(nextIndex);
+      setCurrentQuestion(quizData.questions[nextIndex]);
+    } else {
+      stopQuiz();
+    }
   };
 
   const checkAnswer = (answer: string) => {
     if (answer === currentQuestion?.correct_answer) {
       increaseScore();
+      setCorrectAnswersCount((pre: number) => pre + 1);
       playSound("correct");
     } else {
       decreaseScore();
+      setIncorrectAnswersCount((pre: number) => pre + 1);
       playSound("wrong");
     }
-    nextQuestion();
-  };
-
-  const startQuiz = () => {
-    startInitialCountdown();
+    setTimeout(nextQuestion, 2000);
   };
 
   // Prevents the game from breaking if the quiz data is not loaded yet
@@ -56,7 +69,6 @@ export function useQuiz(quizData: Quiz) {
   useEffect(() => {
     if (quizData) setCurrentQuestion(quizData.questions[currentIndex]);
   }, [quizData]);
-
 
   // Starts the quiz timer when the initial countdown timer reaches 0
   useEffect(() => {
@@ -77,8 +89,12 @@ export function useQuiz(quizData: Quiz) {
   // Checks if the quiz is complete and if the user has reached the threshold score
   useEffect(() => {
     if (isQuizComplete) {
-      calculateTimeBonus(quizTime / 1000);
-      if (currentScore >= GAME.QUIZ_COMPLETE_THRESHOLD) setIsSuccess(true);
+      calculateTotalScore(quizTime / 1000, {
+        correct: correctAnswersCount,
+        incorrect: incorrectAnswersCount,
+      }).then((totalPoints) => {
+        setIsSuccess(totalPoints >= GAME.QUIZ_COMPLETE_THRESHOLD);
+      });
     }
   }, [isQuizComplete]);
 
@@ -91,5 +107,9 @@ export function useQuiz(quizData: Quiz) {
     quizTime,
     isSuccess,
     hasStarted,
+    answerCount: {
+      correct: correctAnswersCount,
+      incorrect: incorrectAnswersCount,
+    },
   };
 }
