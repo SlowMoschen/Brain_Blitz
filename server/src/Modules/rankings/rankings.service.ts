@@ -1,10 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
+import { SelectQuizHighscore } from 'src/Utils/Types/model.types';
+import {
+	MostPlayedQuizzes,
+	MostPlaytime,
+	MostPoints,
+	PersonalRankings,
+	QuizRankings,
+} from 'src/Utils/Types/ranking.types';
 import { HighscoreService } from '../quizzes/highscore.service';
 import { QuizService } from '../quizzes/quizzes.service';
-import { MostPlayedQuizzes, MostPlaytime, MostPoints, PersonalRankings, QuizRankings } from 'src/Utils/Types/ranking.types';
-import { SelectQuizHighscore } from 'src/Utils/Types/model.types';
-import { first } from 'rxjs';
+import { UsersService } from '../users/users.service';
 
 /**
  * @description - Service for getting bestlists in different categories
@@ -26,11 +31,13 @@ export class RankingsService {
 
 		return userStats
 			.map((t) => {
-				return {
-					userID: t.user_id,
-					first_name: t.user.first_name,
-					points: t.points,
-				};
+				if (t.points > 0) {
+					return {
+						userID: t.user_id,
+						first_name: t.user.first_name,
+						points: t.points,
+					};
+				}
 			})
 			.sort((a, b) => b.points - a.points);
 	}
@@ -44,11 +51,13 @@ export class RankingsService {
 
 		return userStats
 			.map((t) => {
-				return {
-					userID: t.user_id,
-					first_name: t.user.first_name,
-					playtime: t.total_time_played,
-				};
+				if (t.total_time_played > 0) {
+					return {
+						userID: t.user_id,
+						first_name: t.user.first_name,
+						playtime: t.total_time_played,
+					};
+				}
 			})
 			.sort((a, b) => b.playtime - a.playtime);
 	}
@@ -62,11 +71,9 @@ export class RankingsService {
 
 		return quizzes
 			.map((q) => {
-				return {
-					quiz_id: q.id,
-					quiz_name: q.title,
-					times_played: q.times_played,
-				};
+				if (q.times_played > 0) {
+					return { quiz_id: q.id, quiz_name: q.title, times_played: q.times_played };
+				}
 			})
 			.sort((a, b) => b.times_played - a.times_played);
 	}
@@ -109,8 +116,8 @@ export class RankingsService {
 					id: h.id,
 					user_id: h.user_id,
 					quiz_id: h.quiz_id,
-                    first_name: h.user.first_name,
-                    quiz_name: h.quiz.title,
+					first_name: h.user.first_name,
+					quiz_name: h.quiz.title,
 					points: h.score,
 					created_at: h.created_at,
 				};
