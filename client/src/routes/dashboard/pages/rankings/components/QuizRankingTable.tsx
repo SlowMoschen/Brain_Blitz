@@ -51,7 +51,7 @@ export default function QuizRankingTable({ data }: QuizRankingTableProps) {
               const bgcolor = isUser
                 ? "#C200C2"
                 : !isUser && index % 2 !== 0
-                ? "secondary.main"
+                ? "secondary.dark"
                 : "";
 
               const date = new Date(ranking.created_at);
