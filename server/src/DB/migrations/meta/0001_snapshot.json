@@ -1,6 +1,6 @@
 {
-  "id": "114ca089-f661-44f8-9f4b-ce9fa0246d8e",
-  "prevId": "66098c55-858f-452b-a337-a81396704c30",
+  "id": "e9836061-0356-438e-b96d-2fa6fdb7d62c",
+  "prevId": "114ca089-f661-44f8-9f4b-ce9fa0246d8e",
   "version": "5",
   "dialect": "pg",
   "tables": {
@@ -441,6 +441,13 @@
         },
         "incorrect_answers": {
           "name": "incorrect_answers",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "total_time_played": {
+          "name": "total_time_played",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,

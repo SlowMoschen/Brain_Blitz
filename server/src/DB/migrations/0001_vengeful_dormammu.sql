@@ -1,0 +1,1 @@
+ALTER TABLE "users_statistics" ADD COLUMN "total_time_played" integer DEFAULT 0 NOT NULL;
