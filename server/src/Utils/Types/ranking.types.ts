@@ -2,6 +2,7 @@ export interface PersonalRankings {
     quiz_id: string;
     highscore_id: string;
     quiz_name: string;
+    quiz_category: string;
     points: number;
     position: number;
 }

@@ -88,6 +88,7 @@ export class RankingsService {
 				quiz_id: highscore.quiz_id,
 				highscore_id: highscore.id,
 				quiz_name: quizHighscores[indexOfUser].quiz.title,
+				quiz_category: quizHighscores[indexOfUser].quiz.category,
 				points: highscore.score,
 				position: indexOfUser + 1,
 			});
