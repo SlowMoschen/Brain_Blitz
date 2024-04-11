@@ -22,6 +22,7 @@ export type InsertUserSettings = typeof usersSettingsTable.$inferInsert;
 
 export type SelectUserStatistics = typeof usersStatisticsTable.$inferSelect;
 export type InsertUserStatistics = typeof usersStatisticsTable.$inferInsert;
+export type SelectUserStatisticsWithUser = SelectUserStatistics & { user: SelectUser };
 
 export type SelectUserTimestamps = typeof usersTimestampsTable.$inferSelect;
 export type InsertUserTimestamps = typeof usersTimestampsTable.$inferInsert;
@@ -52,6 +53,7 @@ export type InsertQuiz = typeof quizzesTable.$inferInsert;
 
 export type SelectQuizHighscore = typeof quizHighscoresTable.$inferSelect;
 export type InsertQuizHighscore = typeof quizHighscoresTable.$inferInsert;
+export type SelectQuizHighscoreWithQuizAndUser = SelectQuizHighscore & { quiz: SelectQuiz } & { user: SelectUser };
 
 export type SelectQuizQuestion = typeof quizQuestionsTable.$inferSelect;
 export type InsertQuizQuestion = typeof quizQuestionsTable.$inferInsert;
