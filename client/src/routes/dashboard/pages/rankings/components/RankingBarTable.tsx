@@ -51,7 +51,6 @@ function transformData(data: (IPlaytimeRanking | IMostPlayedQuizRanking | IPoint
   return filteredData;
 }
 
-
 /**
  * @description This component displays a table of RankingBar components
  * - The table has a title and displays the top three rankings
@@ -66,25 +65,20 @@ export default function RankingBarTable<T>({ data, title }: RankingBarTableProps
   const filteredData = transformData(
     data as (IPlaytimeRanking | IMostPlayedQuizRanking | IPointsRanking)[]
   );
+  const emptyBars = Array.from({ length: 3 }, (_, i) => i);
 
-  // If the data is empty, return a RankingBar component with a value of 0
-  if (!filteredData)
-    return (
-      <ContainerWithHeader header={title} center>
-        <Stack
-          direction={"row"}
-          alignItems={"flex-end"}
-          justifyContent={"center"}
-          height={"fit-content"}
-          p={2}
-          gap={2}
-        >
-          <RankingBar user_id="0" value={0} name={""} rank={1} />
-          <RankingBar user_id="0" value={0} name={""} rank={2} />
-          <RankingBar user_id="0" value={0} name={""} rank={3} />
-        </Stack>
-      </ContainerWithHeader>
-    );
+  const getValue = (ranking: IPlaytimeRanking | IMostPlayedQuizRanking | IPointsRanking) => {
+    if ("points" in ranking) return ranking.points;
+    if ("playtime" in ranking) return parseMinuteString(ranking.playtime);
+    if ("times_played" in ranking) return ranking.times_played;
+    return 0;
+  };
+
+  const getName = (ranking: IPlaytimeRanking | IMostPlayedQuizRanking | IPointsRanking) => {
+    if ("first_name" in ranking) return ranking.first_name;
+    if ("quiz_name" in ranking) return ranking.quiz_name;
+    return "";
+  };
 
   return (
     <ContainerWithHeader header={title} center>
@@ -98,34 +92,22 @@ export default function RankingBarTable<T>({ data, title }: RankingBarTableProps
         px={{ xs: 0, lg: 2 }}
         gap={2}
       >
-        {filteredData.map((ranking, index) => {
-          if (index > 2) return null;
-          return (
-            <RankingBar
-              key={index}
-              value={
-                ("points" in ranking
-                  ? ranking.points
-                  : "playtime" in ranking
-                  ? parseMinuteString(ranking.playtime)
-                  : "times_played" in ranking
-                  ? ranking.times_played
-                  : 0) as number
-              }
-              name={
-                ("first_name" in ranking
-                  ? ranking.first_name
-                  : "quiz_name" in ranking
-                  ? ranking.quiz_name
-                  : "") as string
-              }
-              rank={index + 1}
-              user_id={
-                "user_id" in ranking ? ranking.user_id : ''
-              }
-            />
-          );
-        })}
+        {filteredData && filteredData.length > 0
+          ? filteredData.map((ranking, index) => {
+              if (index > 2) return null;
+              return (
+                <RankingBar
+                  key={index}
+                  value={getValue(ranking)}
+                  name={getName(ranking)}
+                  rank={index + 1}
+                  user_id={"user_id" in ranking ? ranking.user_id : ""}
+                />
+              );
+            })
+          : emptyBars.map((_, index) => (
+              <RankingBar key={index} value={0} name={""} rank={index + 1} user_id={""} />
+            ))}
       </Stack>
     </ContainerWithHeader>
   );
