@@ -55,6 +55,7 @@
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
+    "tar": "^7.0.0",
     "winston": "^3.11.0"
   },
   "devDependencies": {
