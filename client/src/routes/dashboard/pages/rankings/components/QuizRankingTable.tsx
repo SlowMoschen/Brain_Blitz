@@ -28,7 +28,7 @@ export default function QuizRankingTable({ data }: QuizRankingTableProps) {
 
   return (
     <ContainerWithHeader header={`${data[0].quiz_name}`} center sx={{ mt: 5, mb: 10 }}>
-      <TableContainer sx={{ overflow: "hidden" }}>
+      <TableContainer sx={{ overflow: "auto" }}>
         <Table size="medium" stickyHeader>
           <TableHead>
             <TableRow>
