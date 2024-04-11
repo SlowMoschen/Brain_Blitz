@@ -23,40 +23,52 @@ export default function Rankings() {
   const handleTabChange = (_e: React.ChangeEvent<object>, newValue: number) => {
     setValue(newValue);
   };
-  
+
+  const getMobileView = (tabValue: number) => {
+    switch (tabValue) {
+      case 0:
+        return (
+          <GeneralRankings
+            overallMostPlayedQuizzesRankings={overallMostPlayedQuizzesRankings}
+            overallPlaytimeRankings={overallPlaytimeRankings}
+            overallPointsRankings={overallPointsRankings}
+          />
+        );
+      case 1:
+        return <PersonalRankings data={personalRankings} />;
+      case 2:
+        return <DailyStats />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
-
       <HeaderMenu tabs={tabs} value={value} onChange={handleTabChange} />
 
       {/* Desktop view */}
       {!isMobile && (
         <>
-          <Stack alignItems={"flex-start"} justifyContent={'flex-start'} width={"100%"} direction={"row"} pb={8}>
+          <Stack
+            alignItems={"flex-start"}
+            justifyContent={"flex-start"}
+            width={"100%"}
+            direction={"row"}
+            pb={8}
+          >
             <GeneralRankings
               overallMostPlayedQuizzesRankings={overallMostPlayedQuizzesRankings}
               overallPlaytimeRankings={overallPlaytimeRankings}
               overallPointsRankings={overallPointsRankings}
             />
-            <PersonalRankings data={personalRankings}/>
+            <PersonalRankings data={personalRankings} />
           </Stack>
         </>
       )}
 
       {/* Mobile View */}
-      {isMobile && 
-        value === 0 
-        ? <GeneralRankings
-            overallMostPlayedQuizzesRankings={overallMostPlayedQuizzesRankings}
-            overallPlaytimeRankings={overallPlaytimeRankings}
-            overallPointsRankings={overallPointsRankings}
-          />
-        : value === 1
-        ? <PersonalRankings data={personalRankings}/>
-        : value === 2
-        ? <DailyStats />
-        : null
-      }
+      {isMobile ? getMobileView(value) : null}
     </>
   );
 }
