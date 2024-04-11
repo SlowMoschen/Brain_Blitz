@@ -4,9 +4,10 @@ interface ContainerWithHeaderProps {
   header: string;
   children: React.ReactNode;
   sx?: { [key: string]: string | number };
+  center?: boolean;
 }
 
-export default function ContainerWithHeader({ header, children, sx }: ContainerWithHeaderProps) {
+export default function ContainerWithHeader({ header, children, sx, center }: ContainerWithHeaderProps) {
   const mainContainer = {
     bgcolor: "background.secondary",
     borderRadius: ".375rem",
@@ -23,7 +24,7 @@ export default function ContainerWithHeader({ header, children, sx }: ContainerW
   return (
     <Box sx={mainContainer}>
       <Box sx={headerContainer}>
-        <Typography variant="h5">{header}</Typography>
+        <Typography variant="h5" textAlign={center ? 'center' : 'left'}>{header}</Typography>
       </Box>
       {children}
     </Box>
