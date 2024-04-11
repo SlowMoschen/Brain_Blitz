@@ -10,6 +10,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { CustomThrottlerGuard } from './Guards/throttler.guard';
 import { AppController } from './app.controller';
 import { ScheduleModule } from '@nestjs/schedule';
+import { RankingsModule } from './Modules/rankings/rankings.module';
 
 @Module({
 	imports: [
@@ -26,6 +27,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 		AuthModule,
 		UsersModule,
 		QuizzesModule,
+		RankingsModule,
 	],
 	providers: [
 		{
