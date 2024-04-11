@@ -1,11 +1,7 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, Stack, Typography } from "@mui/material";
 import ContainerWithHeader from "./ContainerWithHeader";
-import { IDailyStats } from "../../../shared/hooks/localStorage/useDailyStatsTracker.hook";
+import { IDailyStats, useDailyStatsTracker } from "../../../shared/hooks/localStorage/useDailyStatsTracker.hook";
 import { useTimeParser } from "../../../shared/hooks/timer/useTimeParser.hook";
-
-interface DailyStatsProps {
-  stats: IDailyStats;
-}
 
 const content = [
   {
@@ -26,35 +22,29 @@ const content = [
   },
 ];
 
-export default function DailyStats({ stats }: DailyStatsProps) {
+export default function DailyStats() {
+  const { dailyStats } = useDailyStatsTracker();
   const { parseMinuteString } = useTimeParser();
+  const stats: IDailyStats = dailyStats;
 
   return (
-    <ContainerWithHeader header="Tägliche Statistik" sx={{ mt: 3, width: "100%" }}>
-      <Grid container spacing={2} p={2}>
-        <Grid item xs={6}>
-          {content.map((item, i) => {
-            return (
-              <Typography key={i} p={1} variant="subtitle1">
-                {item.title}
-              </Typography>
-            );
-          })}
-        </Grid>
-        <Grid item xs={6}>
-          {content.map((item, i) => {
-            return (
-              <Typography key={i} p={1} variant="subtitle1" color={"accent.main"} align="right">
-                {
-                  item.value === "timePlayed"
+    <ContainerWithHeader header="Tägliche Statistik" sx={{ mt: 3, width: "90%" }}>
+      <Stack>
+        <Grid container spacing={2} p={2}>
+          {content.map((item, index) => (
+            <Grid item xs={12} key={index}>
+              <Stack direction="row" justifyContent="space-between">
+                <Typography>{item.title}</Typography>
+                <Typography color='accent.main'>
+                  {item.value === "timePlayed"
                     ? parseMinuteString(stats[item.value])
-                    : stats[item.value]
-                }
-              </Typography>
-            );
-          })}
+                    : stats[item.value]}
+                </Typography>
+              </Stack>
+            </Grid>
+          ))}
         </Grid>
-      </Grid>
+      </Stack>
     </ContainerWithHeader>
   );
 }

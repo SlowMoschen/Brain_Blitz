@@ -4,7 +4,6 @@ import { useOutletContext } from "react-router-dom";
 import blob from "../../../../assets/blob.svg";
 import { BREAKPOINTS } from "../../../../configs/Breakpoints";
 import { WindowContext } from "../../../../shared/context/ScreenSize.context";
-import { useDailyStatsTracker } from "../../../../shared/hooks/localStorage/useDailyStatsTracker.hook";
 import { UserContext } from "../../../../shared/types/User";
 import DailyStats from "../../components/DailyStats";
 import EnergyTracker from "../../components/EnergyTracker";
@@ -15,7 +14,6 @@ import WelcomeHeader from "./WelcomeHeader";
 
 export default function DashboardRoot() {
   const { user } = useOutletContext<UserContext>();
-  const { dailyStats } = useDailyStatsTracker();
   const { width } = useContext(WindowContext);
   const isMobile = width < BREAKPOINTS.lg;
   const { first_name, unlocked_quizzes, completed_quizzes } = user;
@@ -49,7 +47,7 @@ export default function DashboardRoot() {
             <LoginStreak />
             <EnergyTracker />
           </Stack>
-          {!isMobile && <DailyStats stats={dailyStats} />}
+          {!isMobile && <DailyStats />}
         </Stack>
         <Stack width={"100%"} alignItems={"center"} my={2}>
           <QuizTable unlockedJoinTable={unlocked_quizzes} completedJoinTable={completed_quizzes} />
