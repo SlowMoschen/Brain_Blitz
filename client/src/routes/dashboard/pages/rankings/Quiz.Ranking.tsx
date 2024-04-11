@@ -5,8 +5,8 @@ import QuizRankingTable from "./components/QuizRankingTable";
 
 export default function QuizRanking() {
   const { quizID } = useParams<{ quizID: string }>();
-    const { quizRankings } = useQuizRankingsFetch(quizID!);
-    
+  const { quizRankings } = useQuizRankingsFetch(quizID!);
+
   return (
     <>
       <HeaderMenu />
