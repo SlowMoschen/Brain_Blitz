@@ -11,7 +11,6 @@ import { useTimeParser } from "./useTimeParser.hook";
 export default function use15MinuteTimer() {
   const [timeString, setTimeString] = useState<string>("00:00");
   const [timer, setTimer] = useState<number>(0);
-  const lastTime = useRef<number>(0);
   const interval = useRef<number>(0);
   const timeToNextQuarterHour = useRef<number>(timeToQuaterHour());
   const { parseMinuteString } = useTimeParser();
@@ -21,27 +20,22 @@ export default function use15MinuteTimer() {
 
     interval.current = setInterval(() => {
       setTimer((prev) => {
-        if (prev <= 0) {
-          clearInterval(interval.current);
-          return (timeToNextQuarterHour.current = timeToQuaterHour());
-        }
         return prev - 1000;
       });
     }, 1000);
   };
 
   useEffect(() => {
-    if (lastTime.current > 0) setTimer(lastTime.current);
-    else setTimer(timeToNextQuarterHour.current);
+    setTimer(timeToNextQuarterHour.current);
     startTimer();
   }, []);
 
   useEffect(() => {
     setTimeString(parseMinuteString(timer));
-    lastTime.current = timer;
-    if (timer === 0) {
+    if (timer <= 0) {
       clearInterval(interval.current);
       timeToNextQuarterHour.current = timeToQuaterHour();
+      setTimer(timeToNextQuarterHour.current);
       startTimer();
     }
   }, [timer]);
