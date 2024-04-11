@@ -15,6 +15,7 @@ export class GameService {
 		private readonly quizRepository: QuizRepository,
 	) {}
 
+	//MARK: - ENERGY EVENTS
 	/**
 	 * @description - Adds energy to all users every .15 minute of the hour
 	 * @returns {void}
@@ -31,11 +32,16 @@ export class GameService {
 			}
 		});
 	}
-
+	//MARK: - QUIZ EVENTS
 	@OnEvent('quiz.started', { async: true, promisify: true })
 	async addEnergyOnQuizStart({ user_id, quiz_id }: QuizStartedEvent) {
 		const user = await this.userService.getUserByID(user_id);
 		const quiz = await this.quizRepository.findOne(quiz_id);
+
+		if (process.env.NODE_ENV === 'development') {
+			console.log('refreshing complete energy')
+			await this.userService.updateUserEnergy(user_id, 100);
+		}
 		
 		if (user.energy >= gameConfig.ENERGY_CONSUMPTION_RATE) {
 			await this.userService.updateUserEnergy(user_id, user.energy - gameConfig.ENERGY_CONSUMPTION_RATE);
@@ -83,6 +89,7 @@ export class GameService {
 		return quiz.title;
 	}
 
+	//MARK: - USER EVENTS
 	/**
 	 * @description - Unlocks the first quizzes for a new user
 	 * @param user_id
