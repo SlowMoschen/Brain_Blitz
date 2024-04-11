@@ -5,6 +5,7 @@ import {
 	SelectUserBillingInformation,
 	SelectUserSettings,
 	SelectUserStatistics,
+	SelectUserStatisticsWithUser,
 	SelectUserTimestamps,
 	SelectUserWithAllTables,
 	SelectUserWithoutPassword,
@@ -36,6 +37,10 @@ export class UsersService {
 
 	async getBillingInfo(id: string): Promise<SelectUserBillingInformation> {
 		return await this.userRepository.findOneBillingInfo(id);
+	}
+
+	async getAllStatistics(): Promise<SelectUserStatisticsWithUser[]> {
+		return await this.userRepository.findAllStatistics();
 	}
 
 	async getStatistics(id: string): Promise<SelectUserStatistics> {

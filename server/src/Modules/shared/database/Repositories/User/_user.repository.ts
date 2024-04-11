@@ -12,6 +12,7 @@ import {
 	SelectUserBillingInformation,
 	SelectUserSettings,
 	SelectUserStatistics,
+	SelectUserStatisticsWithUser,
 	SelectUserTimestamps,
 } from 'src/Utils/Types/model.types';
 import * as schema from '../../../../../Models/_index';
@@ -59,6 +60,19 @@ export class UserRepository {
 		if (users instanceof Error) throw users;
 		if (users.length === 0) throw new NotFoundException('No users found');
 		return users;
+	}
+
+	/**
+	 * @description - Queries the database for all user statistics
+	 * @returns {Promise<SelectUserStatistics[]>} - Returns all users with all tables or null if an error occurs or no users are found
+	 */
+	async findAllStatistics(): Promise<SelectUserStatisticsWithUser[]> {
+		const stats = await this.db.query.usersStatisticsTable.findMany({
+			with: { user: true },
+		});
+		if (stats instanceof Error) throw stats;
+		if (stats.length === 0) throw new NotFoundException('No stats found');
+		return stats;
 	}
 
 	/**
