@@ -8,8 +8,8 @@ import { Role } from "src/Enums/role.enum";
 import { User } from "src/Decorators/user.decorator";
 
 @ApiTags('rankings')
-// @UseGuards(AuthenticationGuard, RolesGuard)
-// @Roles(Role.ADMIN, Role.USER)
+@UseGuards(AuthenticationGuard, RolesGuard)
+@Roles(Role.ADMIN, Role.USER)
 @Controller('rankings')
 export class RankingsController {
     constructor(private readonly rankingsService: RankingsService) {}
