@@ -18,7 +18,7 @@ export default function Rankings() {
     overallMostPlayedQuizzesRankings,
   } = useRankingsFetch();
   const isMobile = width < BREAKPOINTS.lg;
-  const tabs = (isMobile && ["General", "Deine Rankings", "Daily Stats"]) || [];
+  const tabs = (isMobile && ["Global", "Deine Rankings", "Daily Stats"]) || [];
 
   const handleTabChange = (_e: React.ChangeEvent<object>, newValue: number) => {
     setValue(newValue);
