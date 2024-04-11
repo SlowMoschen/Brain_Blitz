@@ -14,6 +14,7 @@ export const URLS = {
   DASHBOARD: "/dashboard",
   PROFILE: "/dashboard/profile",
   RANKINGS: "/dashboard/rankings",
+  QUIZ_RANKING: "/dashboard/rankings/quiz-ranking/",
   API_URL: "http://localhost:3000",
   API_ENDPOINTS: {
     APP: {
@@ -22,6 +23,11 @@ export const URLS = {
       USER: "/users",
       QUIZ_START: "/quizzes/start/",
       QUIZ_COMPLETE: "/quizzes/complete/",
+      PERSONAL_RANKINGS: "/rankings/personal",
+      OVERALL_QUIZ_RANKINGS: "/rankings/overall/",
+      OVERALL_POINTS_RANKINGS: "/rankings/overall/points",
+      OVERALL_PLAYTIME_RANKINGS: "/rankings/overall/playtime",
+      OVERALL_MOST_PLAYED_QUIZZES_RANKINGS: "/rankings/overall/most-played-quizzes",
     },
     AUTH: {
       SIGNIN: "/auth/login",
@@ -30,6 +36,6 @@ export const URLS = {
       SESSION: "/auth/session",
       FORGOT_PASSWORD: "/auth/forgot-password",
       RESEND_VERIFICATION_EMAIL: "/auth/resend-verification-email",
-    }
+    },
   },
 };
