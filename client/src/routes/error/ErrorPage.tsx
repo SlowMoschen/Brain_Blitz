@@ -1,18 +1,17 @@
 import { Container, Link, Typography } from "@mui/material";
 import logoNoText from "../../assets/logoNoText.png";
 import { URLS } from "../../configs/Links";
+import { useNavigate } from "react-router-dom";
 
 export default function ErrorPage() {
+  const redirect = useNavigate();
+
   const containerStyle = {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     height: "100vh",
-  };
-
-  const goBack = () => {
-    window.history.back();
   };
 
   return (
@@ -29,7 +28,7 @@ export default function ErrorPage() {
           Die angeforderte Seite ist nicht verfügbar oder es ist ein Fehler aufgetretten.
         </Typography>
         <Typography variant="body1">
-          <Link onClick={() => goBack()} sx={{ cursor: "pointer" }}>
+          <Link onClick={() => redirect(-1)} sx={{ cursor: "pointer" }}>
             Gehe zurück
           </Link>{" "}
           oder <Link href={URLS.CONTACT}>kontaktiere unseren Support</Link>
