@@ -3,7 +3,7 @@ import { and, eq } from 'drizzle-orm';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { InjectDatabase } from 'src/Decorators/injectDatabase.decorator';
 import { CreateHighscoreDTO } from 'src/Modules/quizzes/dto/create-highscore.dto';
-import { SelectQuizHighscore } from 'src/Utils/Types/model.types';
+import { SelectQuizHighscore, SelectQuizHighscoreWithQuizAndUser } from 'src/Utils/Types/model.types';
 import * as schema from '../../../../../Models/_index';
 
 @Injectable()
@@ -54,9 +54,10 @@ export class HighscoreRepository {
 	 * @param {string} quizID
 	 * @returns {Promise<SelectQuizHighscore[]>}
 	 */
-	async findAllByQuiz(quizID: string): Promise<SelectQuizHighscore[]> {
+	async findAllByQuiz(quizID: string): Promise<SelectQuizHighscoreWithQuizAndUser[]> {
 		const highscores = await this.db.query.quizHighscoresTable.findMany({
 			where: eq(schema.quizHighscoresTable.quiz_id, quizID),
+			with: { quiz: true, user: true },
 		});
 		if (highscores instanceof Error) throw highscores;
 		if (highscores.length === 0) throw new NotFoundException('No highscores found');
