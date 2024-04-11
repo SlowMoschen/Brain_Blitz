@@ -18,7 +18,7 @@ interface QuizRankingTableProps {
 
 export default function QuizRankingTable({ data }: QuizRankingTableProps) {
   const { user } = useOutletContext<UserContext>();
-  
+
   if (!data || data.length === 0)
     return (
       <ContainerWithHeader header="Quiz Rangliste" center>
@@ -40,6 +40,20 @@ export default function QuizRankingTable({ data }: QuizRankingTableProps) {
           </TableHead>
           <TableBody>
             {data.map((ranking, index) => {
+
+              /**             
+               * Conditional background color for Rows
+               * Highlight logged in user - purple
+               * Highlight every second row - grey
+               * (no css nth-type-of in use, because we would overwrite the bgcolor of the highlighted user)
+              */
+              const isUser = user.id === ranking.user_id;
+              const bgcolor = isUser
+                ? "#C200C2"
+                : !isUser && index % 2 !== 0
+                ? "secondary.main"
+                : "";
+
               const date = new Date(ranking.created_at);
               const dateString = date.toLocaleDateString("de-DE");
               const timeString = date.toLocaleTimeString("de-DE");
@@ -48,21 +62,15 @@ export default function QuizRankingTable({ data }: QuizRankingTableProps) {
                 <TableRow
                   key={ranking.user_id}
                   sx={{
+                    bgcolor,
                     "&:last-child td, &:last-child th": { border: 0 },
-                    "&:nth-of-type(even)": { bgcolor: "primary.light" },
-                    bgcolor: ranking.user_id === user.id ? "#C200C2" : "transparent",
-                    color: ranking.user_id === user.id ? "black" : "inherit",
                   }}
                 >
                   <TableCell sx={{ fontSize: { xs: 20, md: 25, lg: 30 }, textAlign: "left" }}>
                     {index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `${index + 1}.`}
                   </TableCell>
                   <TableCell>
-                    {ranking.user_id === user.id ? (
-                      <strong>{ranking.first_name}(Du)</strong>
-                    ) : (
-                      ranking.first_name
-                    )}
+                    {isUser ? <strong>{ranking.first_name}(Du)</strong> : ranking.first_name}
                   </TableCell>
                   <TableCell>{ranking.points}</TableCell>
                   <TableCell sx={{ fontSize: { xs: 12, md: 13 } }}>
