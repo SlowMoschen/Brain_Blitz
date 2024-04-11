@@ -1,6 +1,6 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { SelectQuizHighscore, SelectQuizHighscoreWithQuizAndUser } from 'src/Utils/Types/model.types';
 import { HighscoreRepository } from '../shared/database/Repositories/Highscore/highscore.repository';
-import { SelectQuizHighscore } from 'src/Utils/Types/model.types';
 import { CreateHighscoreDTO } from './dto/create-highscore.dto';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class HighscoreService {
 		return await this.highscoreRepository.findAll();
 	}
 
-	async getHighscoresByQuiz(quizID: string): Promise<SelectQuizHighscore[]> {
+	async getHighscoresByQuiz(quizID: string): Promise<SelectQuizHighscoreWithQuizAndUser[]> {
 		return await this.highscoreRepository.findAllByQuiz(quizID);
 	}
 
