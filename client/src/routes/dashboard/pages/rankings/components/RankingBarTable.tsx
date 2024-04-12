@@ -101,7 +101,7 @@ export default function RankingBarTable<T>({ data, title }: RankingBarTableProps
                   value={getValue(ranking)}
                   name={getName(ranking)}
                   rank={index + 1}
-                  user_id={"user_id" in ranking ? ranking.user_id : ""}
+                  user_id={"userID" in ranking ? ranking.userID as string : ""}
                 />
               );
             })
