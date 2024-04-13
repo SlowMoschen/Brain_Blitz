@@ -35,6 +35,36 @@ const quizzesToInsert: InsertQuiz[] = [
 		description: 'This is a quiz',
 		category: 'science',
 	},
+	{
+		title: 'Quiz 5',
+		description: 'This is a quiz',
+		category: 'history',
+	},
+	{
+		title: 'Quiz 6',
+		description: 'This is a quiz',
+		category: 'math',
+	},
+	{
+		title: 'Quiz 7',
+		description: 'This is a quiz',
+		category: 'science',
+	},
+	{
+		title: 'Quiz 8',
+		description: 'This is a quiz',
+		category: 'history',
+	},
+	{
+		title: 'Quiz 9',
+		description: 'This is a quiz',
+		category: 'math',
+	},
+	{
+		title: 'Quiz 10',
+		description: 'This is a quiz',
+		category: 'science',
+	},
 ];
 
 const adminUser = {
