@@ -12,3 +12,5 @@ export class QuizStartedEvent {
 		public readonly quiz_id: string,
 	) {}
 }
+
+export class NewQuizUnlockedEvent extends QuizStartedEvent {}
