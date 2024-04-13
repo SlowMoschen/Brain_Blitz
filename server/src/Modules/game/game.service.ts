@@ -86,7 +86,7 @@ export class GameService {
 		await this.userService.insertNewUnlockedQuiz(user_id, newUnlockedQuiz);
 		const quiz = await this.quizRepository.findOne(newUnlockedQuiz);
 
-		return quiz.title;
+		return quiz.id;
 	}
 
 	//MARK: - USER EVENTS

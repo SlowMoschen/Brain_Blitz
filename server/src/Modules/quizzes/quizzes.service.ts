@@ -1,6 +1,6 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { CompleteQuizEvent } from 'src/Events/quiz.events';
+import { CompleteQuizEvent, NewQuizUnlockedEvent } from 'src/Events/quiz.events';
 import { CompletedQuiz } from 'src/Utils/Types/completedQuiz.types';
 import { SelectQuiz } from 'src/Utils/Types/model.types';
 import { QuizRepository } from '../shared/database/Repositories/Quiz/quiz.repository';
@@ -55,7 +55,6 @@ export class QuizService {
 		// Object to be returned for consice information
 		const returnValue: CompletedQuiz = {
 			completed: false,
-			newQuiz: null,
 			highscore: null,
 			message: null,
 		};
@@ -79,10 +78,11 @@ export class QuizService {
 				'quiz.completed',
 				new CompleteQuizEvent(userId, quizId, completedQuizDTO.score),
 			);
-			if (completedQuiz instanceof Error) returnValue.message = completedQuiz.message;
-			if (unlockedQuiz instanceof Error) returnValue.newQuiz = unlockedQuiz.message;
+			if (completedQuiz instanceof Error) returnValue.message = [... completedQuiz.message];
+			if (unlockedQuiz instanceof Error) returnValue.message = [...unlockedQuiz.message];
 			if (typeof completedQuiz === 'string') returnValue.completed = true;
-			if (typeof unlockedQuiz === 'string') returnValue.newQuiz = unlockedQuiz;
+
+			this.eventEmitter.emit('quiz.unlocked', new NewQuizUnlockedEvent(userId, unlockedQuiz));
 		}
 
 		// Check if the user has a highscore for the quiz and update it if necessary - if not, create a new highscore

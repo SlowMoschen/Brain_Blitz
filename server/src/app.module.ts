@@ -11,6 +11,7 @@ import { CustomThrottlerGuard } from './Guards/throttler.guard';
 import { AppController } from './app.controller';
 import { ScheduleModule } from '@nestjs/schedule';
 import { RankingsModule } from './Modules/rankings/rankings.module';
+import { GatewayModule } from './Modules/gateway/gateway.module';
 
 @Module({
 	imports: [
@@ -20,6 +21,7 @@ import { RankingsModule } from './Modules/rankings/rankings.module';
 				limit: 25,
 			}
 		]),
+		GatewayModule,
 		ConfigModule.forRoot({ isGlobal: true }),
 		EventEmitterModule.forRoot(),
 		ScheduleModule.forRoot(),
