@@ -10,15 +10,13 @@ import { join } from 'path';
 import loggerMiddleware from './Middlewares/logger.middleware';
 import { AppModule } from './app.module';
 import { ResponseInterceptor } from './Interceptors/response.interceptor';
+import { corsOptions } from './Configs/cors.confing';
 
 const pgSession = connectPGSession(session);
 
 async function bootstrap() {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-		cors: {
-			origin: ['http://localhost:5173', 'http://localhost:5174'],
-			credentials: true,
-		},
+		cors: corsOptions,
 	});
 
 	const hbsConfig = create({
