@@ -10,6 +10,7 @@ import { UpdateQuizDTO } from './dto/update-quiz.dto';
 import { HighscoreService } from './highscore.service';
 import { UsersService } from '../users/users.service';
 import { gameConfig } from 'src/Configs/game.config';
+import { r } from 'tar';
 
 @Injectable()
 export class QuizService {
@@ -56,7 +57,7 @@ export class QuizService {
 		const returnValue: CompletedQuiz = {
 			completed: false,
 			highscore: null,
-			message: null,
+			messages: [],
 		};
 
 		// Check if the quiz exists
@@ -78,8 +79,8 @@ export class QuizService {
 				'quiz.completed',
 				new CompleteQuizEvent(userId, quizId, completedQuizDTO.score),
 			);
-			if (completedQuiz instanceof Error) returnValue.message = [... completedQuiz.message];
-			if (unlockedQuiz instanceof Error) returnValue.message = [...unlockedQuiz.message];
+			if (completedQuiz instanceof Error) returnValue.messages.push(completedQuiz.message);
+			if (unlockedQuiz instanceof Error) returnValue.messages.push(unlockedQuiz.message);
 			if (typeof completedQuiz === 'string') returnValue.completed = true;
 
 			this.eventEmitter.emit('quiz.unlocked', new NewQuizUnlockedEvent(userId, unlockedQuiz));
@@ -87,30 +88,25 @@ export class QuizService {
 
 		// Check if the user has a highscore for the quiz and update it if necessary - if not, create a new highscore
 		const existingHighscore = await this.highscoreService.getSpecificHighscore(userId, quizId);
+		if (!existingHighscore) {
+			const newHighscoreID = await this.highscoreService.createHighscore({
+				score: completedQuizDTO.score,
+				quiz_id: quizId,
+				user_id: userId,
+			});
 
-		if (existingHighscore) {
-			if (existingHighscore.score < completedQuizDTO.score) {
-				await this.userService.deleteHighscore(userId, existingHighscore.id);
-				await this.highscoreService.deleteHighscore(existingHighscore.id);
-				returnValue.highscore = 'updated';
-			} else {
-				returnValue.highscore = 'not updated';
-				return returnValue;
-			}
-		} else {
+			await this.userService.insertNewHighscore(userId, newHighscoreID);
 			returnValue.highscore = 'created';
+			return returnValue;
+		}
+		
+		if (completedQuizDTO.score > existingHighscore.score) {
+			await this.highscoreService.updateHighscore(existingHighscore.id, { score: completedQuizDTO.score });
+			returnValue.highscore = 'updated';
+			return returnValue;
 		}
 
-		// Create a new highscore for the user
-		const createdHighscoreID = await this.highscoreService.createHighscore({
-			user_id: userId,
-			quiz_id: quizId,
-			score: completedQuizDTO.score,
-		});
-
-		// Insert a junction table entry for the highscore
-		await this.userService.insertNewHighscore(userId, createdHighscoreID);
-
+		returnValue.highscore = 'not updated';
 		return returnValue;
 	}
 
@@ -133,10 +129,16 @@ export class QuizService {
 		});
 		const totalQuestions = quizzes.reduce((acc, quiz) => acc + quiz.questions.length, 0);
 		const timesPlayed = quizzes.reduce((acc, q) => {
-			const { title, times_played } = q
-			return [...acc, { title, times_played}]
-		}, [])
+			const { title, times_played } = q;
+			return [...acc, { title, times_played }];
+		}, []);
 
-		return { totalQuestions, totalQuizzes: quizzes.length, uniqueCategories: uniqueCategories.length, categoryStats, timesPlayed };
+		return {
+			totalQuestions,
+			totalQuizzes: quizzes.length,
+			uniqueCategories: uniqueCategories.length,
+			categoryStats,
+			timesPlayed,
+		};
 	}
 }

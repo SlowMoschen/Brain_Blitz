@@ -5,6 +5,7 @@ import { InjectDatabase } from 'src/Decorators/injectDatabase.decorator';
 import { CreateHighscoreDTO } from 'src/Modules/quizzes/dto/create-highscore.dto';
 import { SelectQuizHighscore, SelectQuizHighscoreWithQuizAndUser } from 'src/Utils/Types/model.types';
 import * as schema from '../../../../../Models/_index';
+import { UpdateHighscoreDTO } from 'src/Modules/quizzes/dto/update-highscore.dto';
 
 @Injectable()
 export class HighscoreRepository {
@@ -77,6 +78,28 @@ export class HighscoreRepository {
 		if (highscore instanceof Error) throw highscore;
 		if (!highscore[0]) throw new NotImplementedException('Could not create highscore');
 		return highscore[0].id;
+	}
+
+	/**
+	 * @description Update one highscore
+	 * @param id - highscore id
+	 * @param highscore - highscore data
+	 * @returns {Promise<string>} - id of updated highscore
+	 */
+	async updateOne(id: string, highscore: UpdateHighscoreDTO): Promise<string> {
+		const toUpdate = {
+			...highscore,
+			updated_at: new Date(),
+		};
+		const updatedHighscore = await this.db
+			.update(schema.quizHighscoresTable)
+			.set(toUpdate)
+			.where(eq(schema.quizHighscoresTable.id, id))
+			.returning({ id: schema.quizHighscoresTable.id });
+		if (updatedHighscore instanceof Error) throw updatedHighscore;
+		if (!updatedHighscore[0]) throw new NotFoundException('No highscore found');
+		return updatedHighscore[0].id;
+	
 	}
 
 	/**

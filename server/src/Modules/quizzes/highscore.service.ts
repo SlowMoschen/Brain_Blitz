@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { SelectQuizHighscore, SelectQuizHighscoreWithQuizAndUser } from 'src/Utils/Types/model.types';
 import { HighscoreRepository } from '../shared/database/Repositories/Highscore/highscore.repository';
 import { CreateHighscoreDTO } from './dto/create-highscore.dto';
+import { UpdateHighscoreDTO } from './dto/update-highscore.dto';
 
 @Injectable()
 export class HighscoreService {
@@ -25,6 +26,10 @@ export class HighscoreService {
 
 	async createHighscore(highscore: CreateHighscoreDTO): Promise<string> {
 		return await this.highscoreRepository.insertOne(highscore);
+	}
+
+	async updateHighscore(id: string, highscore: UpdateHighscoreDTO): Promise<string> {
+		return await this.highscoreRepository.updateOne(id, highscore);
 	}
 
 	async deleteHighscore(id: string): Promise<string> {
