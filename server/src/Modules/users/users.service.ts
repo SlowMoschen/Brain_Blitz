@@ -15,10 +15,17 @@ import { UpdateUserBillingInfoDTO } from './dto/update-user-billingInfo.dto';
 import { UpdateUserSettingsDTO } from './dto/update-user-settings.dto';
 import { UpdateUserStatisticsDTO } from './dto/update-user-statistics.dto';
 import { UpdateUserCredentialsDTO } from './dto/update-user-credentials.dto';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { EncryptionService } from '../shared/encryption/encryption.service';
+import { SendVerifyMailEvent } from 'src/Events/notification.events';
 
 @Injectable()
 export class UsersService {
-	constructor(private readonly userRepository: UserRepository) {}
+	constructor(
+		private readonly userRepository: UserRepository,
+		private readonly eventEmitter: EventEmitter2,
+		private readonly encryptionService: EncryptionService,
+	) {}
 
 	async getUserByID(id: string): Promise<SelectUserWithAllTables> {
 		const user = await this.userRepository.findByID(id);
@@ -76,6 +83,17 @@ export class UsersService {
 	}
 
 	async updateUserCredentials(id: string, body: UpdateUserCredentialsDTO): Promise<string> {
+		if (body.email) {
+			const user = await this.userRepository.checkIfUserExists(body.email);
+			if (user) {
+				throw new NotFoundException('Email already exists');
+			}
+
+			await this.updateSettings(id, { is_verified: false });
+			const token = await this.encryptionService.generateToken(id);
+
+			this.eventEmitter.emit('mail.verify-email', new SendVerifyMailEvent(id, body.email, body.first_name, token));
+		}
 		return await this.userRepository.updateOneCredentials(id, body);
 	}
 

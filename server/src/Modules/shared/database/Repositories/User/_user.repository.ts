@@ -126,6 +126,20 @@ export class UserRepository {
 	}
 
 	/**
+	 * @description - Checks if a user exists by email
+	 * @param {string} email - The email of the user
+	 * @returns {Promise<boolean>} - Returns true if the user exists and false if the user does not exist
+	 */
+	async checkIfUserExists(email: string): Promise<boolean> {
+		const user = await this.db.query.usersTable.findFirst({
+			where: eq(schema.usersTable.email, email),
+		});
+		if (user instanceof Error) throw user;
+		if (!user) return false;
+		return true;
+	}
+
+	/**
 	 * @description - Creates a new user
 	 * @param body - The body of the request - validation was done by the controller via the CreateUserDTO
 	 * @returns {Promise<string>} - Returns the userID or an empty array if no user is found and an error if an error occurs

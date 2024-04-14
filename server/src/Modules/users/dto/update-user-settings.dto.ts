@@ -7,20 +7,20 @@ export class UpdateUserSettingsDTO {
 	@ApiProperty()
 	@IsOptional()
 	@IsString()
-	theme: string;
+	theme?: string;
 
 	@ApiProperty()
 	@IsOptional()
 	@IsString()
-	language: string;
+	language?: string;
 
 	@ApiProperty({ enum: Role, enumName: 'Role', examples: ['user', 'admin'] })
 	@IsOptional()
 	@IsString()
-	roles: SQL;
+	roles?: SQL;
 
 	@ApiProperty()
 	@IsOptional()
 	@IsBoolean()
-	is_verified: boolean;
+	is_verified?: boolean;
 }
