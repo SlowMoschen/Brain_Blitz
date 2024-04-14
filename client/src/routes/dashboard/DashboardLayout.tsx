@@ -1,17 +1,30 @@
 import { Box, Stack } from "@mui/material";
-import { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { URLS } from "../../configs/Links";
 import LoadingScreen from "../../shared/components/LoadingScreen";
 import ScrollToTop from "../../shared/components/ScrollToTop";
+import { UserIDContext } from "../../shared/context/UserID.context";
+import { useSocket } from "../../shared/hooks/api/useSocket.hook";
 import { useUserFetch } from "../../shared/hooks/api/useUserFetch.hook";
-import { UserContext } from "../../shared/types/User";
+import { IUser } from "../../shared/types/User";
 import BottomMenu from "./components/navigation/BottomMenu";
+import { NewQuizUnlockedEvent } from "../../shared/types/ServerEvents";
+
+export interface IOutletContext {
+  user: IUser;
+  notifications: string[];
+  setNotifications: React.Dispatch<React.SetStateAction<string[]>>;
+}
 
 export default function DashboardLayout() {
-  const redirect = useNavigate();
   const [pageState, setPageState] = useState<"error" | "success" | "pending">("pending");
+  const [notifications, setNotifications] = useState<string[]>([]);
   const { user, isPending, isError, noAccess } = useUserFetch();
+  const { setUserID } = useContext(UserIDContext);
+  const { pathname } = useLocation();
+  const redirect = useNavigate();
+  const socket = useSocket();
 
   useEffect(() => {
     if (isPending) return setPageState("pending");
@@ -23,6 +36,23 @@ export default function DashboardLayout() {
     }
 
     setPageState("success");
+    setUserID(user.id);
+
+    if (socket) {
+      socket.connect();
+
+      socket.emit("init", { user_id: user.id });
+
+      socket.on("quiz.unlocked", (data: NewQuizUnlockedEvent) => {
+        setNotifications((prev) => [...prev, `Neues Quiz freigeschaltet: ${data.title}`]);
+      });
+    }
+
+    return () => {
+      if (socket) {
+        socket.disconnect();
+      }
+    };
   }, [isPending, isError, noAccess]);
 
   return (
@@ -34,10 +64,16 @@ export default function DashboardLayout() {
         ) : pageState === "error" ? (
           <Box>Error</Box>
         ) : (
-          <Outlet context={{ user } satisfies UserContext} />
+          <Outlet
+            context={{
+              user: user as IUser,
+              notifications,
+              setNotifications,
+            }}
+          />
         )}
       </Stack>
-      <BottomMenu />
+      {pathname.includes("/dashboard/quiz") ? null : <BottomMenu />}
     </>
   );
 }

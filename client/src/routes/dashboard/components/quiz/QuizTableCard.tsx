@@ -31,7 +31,7 @@ export default function QuizTableCard({
 
   const handleStartQuiz = async () => {
     if (!hasEnoughEnergy) return toggleSnackbarOpen();
-    redirect(`/quiz/${id}`);
+    redirect(`/dashboard/quiz/${id}`);
   };
 
   const paper = {

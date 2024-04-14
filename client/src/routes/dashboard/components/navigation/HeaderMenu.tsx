@@ -1,12 +1,11 @@
-import { AppBar, Badge, IconButton, Stack, Tab, Tabs } from "@mui/material";
-import Logo from "../../../../shared/components/Logo";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { useEffect, useRef, useState } from "react";
-import NotificationMenu from "./NotificationMenu";
+import { AppBar, Badge, IconButton, Stack, Tab, Tabs } from "@mui/material";
+import { useEffect, useState } from "react";
+import Logo from "../../../../shared/components/Logo";
 import useToggle from "../../../../shared/hooks/useToggle.hook";
+import NotificationMenu from "./NotificationMenu";
+import { IOutletContext } from "../../DashboardLayout";
 import { useOutletContext } from "react-router-dom";
-import { UserContext } from "../../../../shared/types/User";
-import { useCompareUserQuizzes } from "../../../../shared/hooks/useCompareUserQuizzes";
 
 interface HeaderMenuProps {
   tabs?: string[];
@@ -15,34 +14,39 @@ interface HeaderMenuProps {
 }
 
 export default function HeaderMenu({ tabs = [], onChange, value }: HeaderMenuProps) {
-  const notificationButtonRef = useRef<HTMLButtonElement>(null);
-  const { user } = useOutletContext<UserContext>();
-  const { changedQuizzes } = useCompareUserQuizzes(user);
-  const [notifications, setNotifications] = useState<string[] | undefined>([]);
   const [isMenuOpen, toggleMenuOpen] = useToggle(false);
   const [gotNotifications, setGotNotifications] = useState<boolean>(true); // initial true - to hidde the badge
+  const { notifications, setNotifications } = useOutletContext<IOutletContext>();
 
-  const handleMenuClick = () => {
-    toggleMenuOpen();
+  const handleNotificationDelete = (index: number) => {
+    setNotifications((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const deleteAllNotifications = () => {
+    setNotifications([]);
     setGotNotifications(true);
-  };
-
-  const handleMenuClose = () => {
     toggleMenuOpen();
-  };
+  }
 
   useEffect(() => {
-    if (changedQuizzes) {
-      setNotifications(changedQuizzes.map((quiz) => `Du hast ${quiz.title} freigeschaltet!`));
+    if (notifications.length > 0) {
       setGotNotifications(false);
     }
-  }, [changedQuizzes]);
+  }, [notifications]);
+
+  useEffect(() => {
+    if (notifications.length > 0) {
+      setGotNotifications(false);
+    } else {
+      setGotNotifications(true);
+    }
+  }, [isMenuOpen]);
 
   return (
     <AppBar position="sticky" sx={{ bgcolor: "background.secondary", py: 2, px: 4, top: 0 }}>
       <Stack direction={"row"} justifyContent={"space-between"}>
         <Logo maxWidth="180px" maxHeight="50px" />
-        <IconButton ref={notificationButtonRef} onClick={handleMenuClick}>
+        <IconButton onClick={toggleMenuOpen}>
           <Badge color="error" variant="dot" invisible={gotNotifications}>
             <NotificationsIcon sx={{ color: "text.main" }} />
           </Badge>
@@ -50,9 +54,10 @@ export default function HeaderMenu({ tabs = [], onChange, value }: HeaderMenuPro
       </Stack>
       <NotificationMenu
         isOpen={isMenuOpen}
-        anchorEl={notificationButtonRef.current!}
-        onClose={handleMenuClose}
+        onClose={toggleMenuOpen}
         notifications={notifications}
+        onNotificationDelete={handleNotificationDelete}
+        onDeleteAll={deleteAllNotifications}
       />
       {tabs.length > 0 && (
         <Tabs value={value} onChange={onChange} textColor="secondary" variant="scrollable">

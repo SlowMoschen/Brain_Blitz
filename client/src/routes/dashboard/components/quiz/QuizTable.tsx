@@ -16,7 +16,7 @@ export default function QuizTable({
   const completedQuizzes: IQuiz[] = completeJoinTable.map((table) => table.quiz);
 
   return (
-    <ContainerWithHeader header="Deine spielbaren Quizze" sx={{ pb: 2 }}>
+    <ContainerWithHeader header="Deine spielbaren Quizze" caption={`${completedQuizzes.length}/${unlockedQuizzes.length}`} sx={{ pb: 2 }}>
       {unlockedQuizzes.reverse().map((quiz) => {
         return (
           <QuizTableCard
