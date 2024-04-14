@@ -59,7 +59,6 @@ export class EventsGateway implements OnModuleInit {
 		const { title, category, id } = quiz;
 
 		for (let [key, value] of this.currentConntections) {
-			console.log(key, value);
 			if (value === user_id) {
 				this.server.to(key).emit('quiz.unlocked', { title, category, quiz_id: id });
 			}
