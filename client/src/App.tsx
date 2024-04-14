@@ -21,6 +21,8 @@ import Home from "./routes/home/pages/root/Root";
 import Terms from "./routes/home/pages/terms/Terms";
 import LoadingScreen from "./shared/components/LoadingScreen";
 import { WindowContextProvider } from "./shared/context/ScreenSize.context";
+import { UserIDContextProvider } from "./shared/context/UserID.context";
+import { SocketContextProvider } from "./shared/context/Socket.context";
 const QuizRanking = lazy(() => import("./routes/dashboard/pages/rankings/Quiz.Ranking"));
 const DashboardLayout = lazy(() => import("./routes/dashboard/DashboardLayout"));
 const DashboardRoot = lazy(() => import("./routes/dashboard/pages/root/Root"));
@@ -67,12 +69,12 @@ export default function App() {
         { path: "profile", element: <Profile /> },
         { path: "rankings", element: <Rankings /> },
         { path: "rankings/quiz-ranking/:quizID", element: <QuizRanking /> },
+        {
+          path: "quiz",
+          element: <QuizLayout />,
+          children: [{ path: ":quizID", element: <QuizPage /> }],
+        },
       ],
-    },
-    {
-      path: "/quiz",
-      element: <QuizLayout />,
-      children: [{ path: ":quizID", element: <QuizPage /> }],
     },
   ]);
 
@@ -84,9 +86,13 @@ export default function App() {
         <ThemeProvider theme={customTheme}>
           <CssBaseline />
           <WindowContextProvider>
-            <Suspense fallback={<LoadingScreen />}>
-              <RouterProvider router={router} />
-            </Suspense>
+            <SocketContextProvider>
+              <UserIDContextProvider>
+                <Suspense fallback={<LoadingScreen />}>
+                  <RouterProvider router={router} />
+                </Suspense>
+              </UserIDContextProvider>
+            </SocketContextProvider>
           </WindowContextProvider>
         </ThemeProvider>
       </QueryClientProvider>
