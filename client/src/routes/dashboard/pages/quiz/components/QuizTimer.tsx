@@ -1,6 +1,6 @@
 import { LinearProgress, Stack, Typography, styled } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useTimeParser } from "../../../shared/hooks/timer/useTimeParser.hook";
+import { useTimeParser } from "../../../../../shared/hooks/timer/useTimeParser.hook";
 
 interface TimerProps {
   time: number;

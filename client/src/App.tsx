@@ -28,8 +28,8 @@ const DashboardLayout = lazy(() => import("./routes/dashboard/DashboardLayout"))
 const DashboardRoot = lazy(() => import("./routes/dashboard/pages/root/Root"));
 const SignIn = lazy(() => import("./routes/auth/pages/SignIn"));
 const SignUp = lazy(() => import("./routes/auth/pages/SignUp"));
-const QuizPage = lazy(() => import("./routes/quiz/QuizPage"));
-const QuizLayout = lazy(() => import("./routes/quiz/QuizLayout"));
+const QuizPage = lazy(() => import("./routes/dashboard/pages/quiz/QuizPage"));
+const QuizLayout = lazy(() => import("./routes/dashboard/pages/quiz/QuizLayout"));
 
 export default function App() {
   const router = createBrowserRouter([

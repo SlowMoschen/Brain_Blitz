@@ -1,11 +1,11 @@
 import { Stack } from "@mui/material";
-import { useQuiz } from "../../shared/hooks/game/useQuiz.hook";
-import { IQuiz } from "../../shared/types/Quiz";
+import { useQuiz } from "../../../../shared/hooks/game/useQuiz.hook";
+import { IQuiz } from "../../../../shared/types/Quiz";
 import InitialCountdown from "./components/InitialCountdown";
 import Score from "./components/Score";
 import QuizTimer from "./components/QuizTimer";
 import Question from "./components/Question";
-import { BREAKPOINTS } from "../../configs/Breakpoints";
+import { BREAKPOINTS } from "../../../../configs/Breakpoints";
 import { useEffect } from "react";
 import Answers from "./components/Answers";
 import QuizEndScreen from "./QuizEndScreen";

@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
-import { URLS } from "../../configs/Links";
-import LoadingScreen from "../../shared/components/LoadingScreen";
-import { useQuizFetch } from "../../shared/hooks/api/useQuizFetch.hook";
-import RedirectErrorPage from "../error/RedirectErrorPage";
+import { URLS } from "../../../../configs/Links";
+import LoadingScreen from "../../../../shared/components/LoadingScreen";
+import { useQuizFetch } from "../../../../shared/hooks/api/useQuizFetch.hook";
+import RedirectErrorPage from "../../../error/RedirectErrorPage";
 import Quiz from "./Quiz";
 
 export default function QuizPage() {

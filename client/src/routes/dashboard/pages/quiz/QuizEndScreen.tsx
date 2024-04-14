@@ -1,12 +1,12 @@
 import CancelIcon from '@mui/icons-material/Cancel';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import { Stack, Typography } from "@mui/material";
-import { GAME } from "../../configs/Application";
-import { URLS } from "../../configs/Links";
-import RouterButton from "../../shared/components/buttons/RouterButton";
-import { useTimeParser } from "../../shared/hooks/timer/useTimeParser.hook";
+import { GAME } from "../../../../configs/Application";
+import { URLS } from "../../../../configs/Links";
+import RouterButton from "../../../../shared/components/buttons/RouterButton";
+import { useTimeParser } from "../../../../shared/hooks/timer/useTimeParser.hook";
 import ScoreTable from "./components/ScoreTable";
-import { BREAKPOINTS } from '../../configs/Breakpoints';
+import { BREAKPOINTS } from '../../../../configs/Breakpoints';
 
 interface QuizEndScreenProps {
     answersCount: {

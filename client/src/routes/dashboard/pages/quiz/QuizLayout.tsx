@@ -1,8 +1,8 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import { useSessionFetch } from "../../shared/hooks/api/useSessionFetch.hook";
+import { useSessionFetch } from "../../../../shared/hooks/api/useSessionFetch.hook";
 import { useEffect, useState } from "react";
-import { URLS } from "../../configs/Links";
-import LoadingScreen from "../../shared/components/LoadingScreen";
+import { URLS } from "../../../../configs/Links";
+import LoadingScreen from "../../../../shared/components/LoadingScreen";
 import { Box } from "@mui/material";
 
 export default function QuizLayout() {

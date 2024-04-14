@@ -26,7 +26,7 @@ export default function HeaderMenu({ tabs = [], onChange, value }: HeaderMenuPro
     setNotifications([]);
     setGotNotifications(true);
     toggleMenuOpen();
-  }
+  };
 
   useEffect(() => {
     if (notifications.length > 0) {
