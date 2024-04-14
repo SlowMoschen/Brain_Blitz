@@ -1,9 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
+import { timeToQuaterHour } from "../../../configs/Application";
 import { URLS } from "../../../configs/Links";
 import { HttpService } from "../../services/httpService.service";
 import { IUser } from "../../types/User";
-import { timeToQuaterHour } from "../../../configs/Application";
-import { useLocalStorage } from "../localStorage/useLocalStorage.hook";
 
 const httpService = new HttpService();
 const getUser = async () => {
@@ -35,15 +34,13 @@ export function useUserFetch(): {
     queryFn: getUser,
     refetchInterval: timeToQuaterHour(),
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 60, // 1 hour
+    staleTime: timeToQuaterHour(),
   });
-  const { setData } = useLocalStorage();
-
+  
   const user: IUser = res?.data;
   const noAccess: boolean =
     error?.message.includes("Forbidden") || error?.message.includes("Unauthorized") ? true : false;
 
-    if (user) setData('brain-blitz-user-id', user.id);
 
   return { user, isPending, isError, noAccess };
 }
