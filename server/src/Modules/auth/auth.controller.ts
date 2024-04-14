@@ -24,7 +24,7 @@ import {
 	ApiOperation,
 	ApiTags,
 } from '@nestjs/swagger';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { User } from 'src/Decorators/user.decorator';
 import { UserLogEvent } from 'src/Events/user.events';
 import { LocalAuthGuard } from 'src/Guards/localAuth.guard';
@@ -59,12 +59,12 @@ export class AuthController {
 	@ApiOkResponse({ description: 'returns message if logout was successful' })
 	@ApiInternalServerErrorResponse({ description: 'if logout failed' })
 	@Post('logout')
-	async logout(@Req() req: Request) {
+	async logout(@Req() req: Request, @Res() res: Response) {
+		this.eventEmitter.emit('user.logout', new UserLogEvent(req.user.id));
 		req.logout((err) => {
 			if (err) throw new HttpException('Logout failed', HttpStatus.INTERNAL_SERVER_ERROR);
 		});
-		this.eventEmitter.emit('user.logout', new UserLogEvent(req.user.id));
-		return { message: 'Logout successful' };
+		res.clearCookie('connect.sid').send({ message: 'Logout successful' });
 	}
 
 	@ApiOperation({ summary: 'Check if user is authorized' })
