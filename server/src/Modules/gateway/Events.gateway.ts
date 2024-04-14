@@ -45,7 +45,6 @@ export class EventsGateway implements OnModuleInit {
 	handleInit(@MessageBody() { user_id }: { user_id: string }, @ConnectedSocket() socket: Socket) {
 		this.logger.log(`WebSocket client initialized for user ${user_id}`);
 		this.currentConntections.set(socket.id, user_id);
-        console.log(this.currentConntections);
 	}
 
 	/**
