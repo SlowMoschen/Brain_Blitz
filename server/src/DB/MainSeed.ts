@@ -5,6 +5,15 @@ import { InsertQuiz } from 'src/Utils/Types/model.types';
 import { env } from '../Configs/env.config';
 import * as schema from '../Models/_index';
 import { clearDB } from './clear';
+import { generateUser } from './FakeUserSeed';
+
+
+/**
+ * This script is responsible for seeding the db with Mock data
+ * - it clear the db
+ * - it will insert 10 Mock Quizzes with the same questions and answers
+ * - it will insert an admin user
+ */
 
 const DB_URL = env.NODE_ENV === 'production' ? env.DATABASE_URL : env.DATABASE_DEV_URL;
 
@@ -14,6 +23,7 @@ const client = new Client({
 
 const db = drizzle(client, { schema });
 
+// MARK: Mock Data
 const quizzesToInsert: InsertQuiz[] = [
 	{
 		title: 'Quiz 1',
@@ -75,17 +85,19 @@ const adminUser = {
 };
 
 /**
+ * MARK: Seed Quizzes
  * This script will insert quizzes into the database
- *
  */
-const seedQuizzes = async () => {
+const seedQuizzes = async (): Promise<string> => {
 	try {
 		console.log('Seeding quizzes');
+		let quizID = '';
 
 		for (const quiz of quizzesToInsert) {
 			console.log(`Seeding quiz ${quiz.title}`);
 			const newQuiz = await db.insert(schema.quizzesTable).values(quiz).returning({ id: schema.quizzesTable.id });
 			const id = newQuiz[0].id;
+			quizID = id;
 
 			await Promise.all([
 				db.insert(schema.quizQuestionsTable).values({
@@ -102,16 +114,22 @@ const seedQuizzes = async () => {
 				}),
 			]);
 		}
+
+		return quizID;
 	} catch (err) {
 		console.error(err);
 	}
 };
 
+/**
+ * MARK: Seed Admin User
+ * This script will insert an admin user into the database
+ */
 const seedAdminUser = async () => {
 	try {
 		console.log('Seeding admin user');
 		const hashedPassword = await bcrypt.hash(adminUser.password, 10);
-
+		
 		const user = await db
 			.insert(schema.usersTable)
 			.values({
@@ -143,11 +161,16 @@ const seedAdminUser = async () => {
 	}
 };
 
+/**
+ * MARK: Main
+ * This is the main function that will run the seeding scripts
+ */
 const main = async () => {
 	try {
 		await client.connect();
 		await clearDB(db);
-		await seedQuizzes();
+		const lastQuizID = await seedQuizzes();
+		await generateUser(db, lastQuizID);
 		await seedAdminUser();
 		await client.end();
 	} catch (err) {
