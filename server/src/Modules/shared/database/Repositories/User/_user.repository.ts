@@ -205,9 +205,9 @@ export class UserRepository {
 	 * @returns {Promise<string>} - Returns the id of the deleted user or null if an error occurs
 	 */
 	async deleteOneByID(id: string): Promise<string> {
+		await this.db.delete(schema.highscores).where(eq(schema.highscores.user_id, id));
 		await this.db.delete(schema.unlockedQuizzes).where(eq(schema.unlockedQuizzes.user_id, id));
 		await this.db.delete(schema.completedQuizzes).where(eq(schema.completedQuizzes.user_id, id));
-		await this.db.delete(schema.highscores).where(eq(schema.highscores.user_id, id));
 		await this.db.delete(schema.unlockedAchievements).where(eq(schema.unlockedAchievements.user_id, id));
 		await this.tokenRepository.deleteTokensByUserId(id);
 		await this.settingsRepository.deleteOne(id);
