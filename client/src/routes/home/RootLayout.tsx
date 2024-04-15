@@ -7,6 +7,7 @@ import { WindowContext } from "../../shared/context/ScreenSize.context";
 import Footer from "./components/footer/Footer";
 import MobileNavbar from "./components/navbar/_MobileNavbar.main";
 import Navbar from "./components/navbar/_Navbar.main";
+import CookieModal from "./components/CookieModal";
 
 export default function RootLayout() {
   const { width } = useContext(WindowContext);
@@ -19,6 +20,7 @@ export default function RootLayout() {
         <Outlet />
       </Stack>
       <Footer />
+        <CookieModal />
     </>
   );
 }
