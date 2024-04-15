@@ -1,14 +1,15 @@
 import { Stack } from "@mui/material";
+import { useEffect } from "react";
+import { BREAKPOINTS } from "../../../../configs/Breakpoints";
 import { useQuiz } from "../../../../shared/hooks/game/useQuiz.hook";
 import { IQuiz } from "../../../../shared/types/Quiz";
-import InitialCountdown from "./components/InitialCountdown";
-import Score from "./components/Score";
-import QuizTimer from "./components/QuizTimer";
-import Question from "./components/Question";
-import { BREAKPOINTS } from "../../../../configs/Breakpoints";
-import { useEffect } from "react";
-import Answers from "./components/Answers";
 import QuizEndScreen from "./QuizEndScreen";
+import Answers from "./components/Answers";
+import InitialCountdown from "./components/InitialCountdown";
+import Question from "./components/Question";
+import QuizTimer from "./components/QuizTimer";
+import Score from "./components/Score";
+import LeaveWarningModal from "./components/LeaveWarningModal";
 
 interface QuizProps {
   quizData: IQuiz;
@@ -32,16 +33,11 @@ export default function Quiz({ quizData }: QuizProps) {
   }, [quizData]);
 
   if (isQuizComplete)
-    return (
-      <QuizEndScreen
-        answersCount={answerCount}
-        time={quizTime}
-        isSuccess={isSuccess}
-      />
-    );
+    return <QuizEndScreen answersCount={answerCount} time={quizTime} isSuccess={isSuccess} />;
 
   return (
     <>
+      <LeaveWarningModal />
       <InitialCountdown />
       {hasStarted ? (
         <>
