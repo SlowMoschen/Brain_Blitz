@@ -9,7 +9,7 @@ import {
 	UseGuards,
 	UseInterceptors,
 	UsePipes,
-	ValidationPipe
+	ValidationPipe,
 } from '@nestjs/common';
 import {
 	ApiForbiddenResponse,
@@ -28,12 +28,16 @@ import { RolesGuard } from 'src/Guards/roles.guard';
 import { UserDataInterceptor } from 'src/Interceptors/userData.interceptor';
 import { UpdateUserCredentialsDTO } from '../dto/update-user-credentials.dto';
 import { UsersService } from '../users.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @ApiTags('users')
 @Controller('users')
 @UseGuards(AuthenticationGuard, RolesGuard)
 export class UsersController {
-	constructor(private readonly usersService: UsersService) {}
+	constructor(
+		private readonly usersService: UsersService,
+		private readonly eventEmitter: EventEmitter2,
+	) {}
 
 	@ApiOperation({ summary: 'Get user data via session cookie' })
 	@ApiOkResponse({ description: 'returns user data without the hashed password' })
@@ -67,9 +71,6 @@ export class UsersController {
 	@Roles(Role.USER, Role.ADMIN)
 	@Delete()
 	async deleteUserBySession(@User('id') id: string, @Req() req: Request) {
-		req.session.destroy((err) => {
-			if (err) throw new Error('Session destroy failed');
-		});
 		req.logout((err) => {
 			if (err) throw new Error('Logout failed');
 		});
