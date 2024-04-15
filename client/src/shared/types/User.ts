@@ -47,7 +47,7 @@ export interface IUserStatistics {
   login_count: number;
   login_streak: number;
   max_login_streak: number;
-  completed_quizzes: number;
+  played_quizzes: number;
   correct_answers: number;
   incorrect_answers: number;
   points: number;
