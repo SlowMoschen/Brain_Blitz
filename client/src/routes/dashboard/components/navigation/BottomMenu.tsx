@@ -3,8 +3,8 @@ import HomeIcon from "@mui/icons-material/Home";
 import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 import { useState } from "react";
-import { URLS } from "../../../../configs/Links";
 import { useNavigate } from "react-router-dom";
+import { URLS } from "../../../../configs/Links";
 
 type Pages = "home" | "profile" | "rankings";
 
@@ -33,6 +33,7 @@ export default function BottomMenu() {
     bottom: 0,
     left: 0,
     right: 0,
+    zIndex: 1000,
   };
 
   const styles = {
