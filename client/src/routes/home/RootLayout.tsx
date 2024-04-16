@@ -1,4 +1,4 @@
-import Footer from "./components/footer/Footer";
+import Footer from "./components/Footer/Footer";
 import { Stack } from "@mui/material";
 import { useContext } from "react";
 import { Outlet } from "react-router-dom";
