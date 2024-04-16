@@ -24,7 +24,7 @@ export class AppController {
 
 	@Post('contact')
 	async sendContactForm(@Body() contactDTO: ContactDTO) {
-        this.eventEmitter.emit('mail.contact-form', contactDTO);
+		this.eventEmitter.emit('mail.contact-form', contactDTO);
 		return 'Contact form submitted!';
 	}
 }

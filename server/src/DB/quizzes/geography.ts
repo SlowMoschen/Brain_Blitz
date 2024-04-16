@@ -311,4 +311,10 @@ const riversQuiz = {
 	],
 };
 
-export const geographyQuizzes = [worldQuiz, capitalCitiesQuiz, wondersOfTheWorldQuiz, mountainsAndRangesQuiz, riversQuiz];
+export const geographyQuizzes = [
+	worldQuiz,
+	capitalCitiesQuiz,
+	wondersOfTheWorldQuiz,
+	mountainsAndRangesQuiz,
+	riversQuiz,
+];

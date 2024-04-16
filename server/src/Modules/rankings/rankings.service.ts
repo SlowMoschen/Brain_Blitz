@@ -2,7 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { HighscoreService } from '../quizzes/highscore.service';
 import { QuizService } from '../quizzes/quizzes.service';
-import { MostPlayedQuizzes, MostPlaytime, MostPoints, PersonalRankings, QuizRankings } from 'src/Utils/Types/ranking.types';
+import {
+	MostPlayedQuizzes,
+	MostPlaytime,
+	MostPoints,
+	PersonalRankings,
+	QuizRankings,
+} from 'src/Utils/Types/ranking.types';
 import { SelectQuizHighscore } from 'src/Utils/Types/model.types';
 import { first } from 'rxjs';
 
@@ -110,8 +116,8 @@ export class RankingsService {
 					id: h.id,
 					user_id: h.user_id,
 					quiz_id: h.quiz_id,
-                    first_name: h.user.first_name,
-                    quiz_name: h.quiz.title,
+					first_name: h.user.first_name,
+					quiz_name: h.quiz.title,
 					points: h.score,
 					created_at: h.created_at,
 				};

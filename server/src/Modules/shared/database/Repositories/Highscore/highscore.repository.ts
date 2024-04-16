@@ -99,7 +99,6 @@ export class HighscoreRepository {
 		if (updatedHighscore instanceof Error) throw updatedHighscore;
 		if (!updatedHighscore[0]) throw new NotFoundException('No highscore found');
 		return updatedHighscore[0].id;
-	
 	}
 
 	/**

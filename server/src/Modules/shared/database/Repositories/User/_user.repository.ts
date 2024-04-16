@@ -88,7 +88,7 @@ export class UserRepository {
 				unlocked_quizzes: { with: { quiz: true } },
 				unlocked_achievements: true,
 				highscores: true,
-				completed_quizzes: { with: { quiz: true }},
+				completed_quizzes: { with: { quiz: true } },
 				billing_information: true,
 				statistics: true,
 				timestamps: true,

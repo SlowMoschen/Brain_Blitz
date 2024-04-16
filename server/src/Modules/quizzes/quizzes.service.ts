@@ -90,7 +90,7 @@ export class QuizService {
 		if (completedQuizDTO.score === 0) {
 			returnValue.highscore = 'not created';
 			return returnValue;
-		};
+		}
 		const existingHighscore = await this.highscoreService.getSpecificHighscore(userId, quizId);
 		if (!existingHighscore) {
 			const newHighscoreID = await this.highscoreService.createHighscore({
@@ -103,7 +103,7 @@ export class QuizService {
 			returnValue.highscore = 'created';
 			return returnValue;
 		}
-		
+
 		if (completedQuizDTO.score > existingHighscore.score) {
 			await this.highscoreService.updateHighscore(existingHighscore.id, { score: completedQuizDTO.score });
 			returnValue.highscore = 'updated';

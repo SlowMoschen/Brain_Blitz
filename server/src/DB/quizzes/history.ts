@@ -226,121 +226,176 @@ const persoenlichkeitenQuiz = {
 
 //MARK: Amerikanische Revolution
 const amerikanischeRevolutionQuiz = {
-    title: 'Die Amerikanische Revolution',
-    description: 'Der Kampf um Unabhängigkeit von 1775 bis 1783',
-    category: 'Geschichte',
-    questions: [
-        {
-          "question": "Welches Ereignis markierte den Beginn der Amerikanischen Revolution?",
-          "answers": ["Die Unterzeichnung der Unabhängigkeitserklärung", "Die Schlacht von Lexington und Concord", "Die Boston Tea Party", "Die Einführung des Stamp Acts"],
-          "correct_answer": "Die Schlacht von Lexington und Concord"
-        },
-        {
-          "question": "Welches Dokument verkündete offiziell die Unabhängigkeit der Vereinigten Staaten von Amerika?",
-          "answers": ["Die Verfassung der Vereinigten Staaten", "Die Bill of Rights", "Die Unabhängigkeitserklärung", "Der Monroe-Doktrin"],
-          "correct_answer": "Die Unabhängigkeitserklärung"
-        },
-        {
-          "question": "Welches europäische Land unterstützte die Amerikaner im Kampf gegen die Briten während der Revolution?",
-          "answers": ["Frankreich", "Großbritannien", "Spanien", "Deutschland"],
-          "correct_answer": "Frankreich"
-        },
-        {
-          "question": "Wer war der Oberbefehlshaber der Kontinentalarmee während der Amerikanischen Revolution?",
-          "answers": ["George Washington", "Thomas Jefferson", "Benjamin Franklin", "John Adams"],
-          "correct_answer": "George Washington"
-        },
-        {
-          "question": "Welche Stadt war das politische Zentrum der Amerikanischen Revolution?",
-          "answers": ["Philadelphia", "Boston", "New York City", "Washington D.C."],
-          "correct_answer": "Philadelphia"
-        },
-        {
-          "question": "Welche amerikanische Stadt wurde während der Revolution von den Briten besetzt und diente als Hauptquartier für ihre Operationen?",
-          "answers": ["Philadelphia", "Boston", "New York City", "Lexington"],
-          "correct_answer": "New York City"
-        },
-        {
-          "question": "Welche Vereinbarung beendete den Unabhängigkeitskrieg und erkannte die Unabhängigkeit der Vereinigten Staaten von Amerika an?",
-          "answers": ["Der Vertrag von Versailles", "Der Vertrag von Paris", "Der Vertrag von Gent", "Der Vertrag von Amiens"],
-          "correct_answer": "Der Vertrag von Paris"
-        },
-        {
-          "question": "Welches Ereignis führte zur Eskalation der Spannungen zwischen den Kolonisten und den Briten und wurde als Akt des Protestes gegen die Tea Acts bekannt?",
-          "answers": ["Die Schlacht von Bunker Hill", "Die Boston Tea Party", "Die Stamp Act Unruhen", "Die Intolerable Acts"],
-          "correct_answer": "Die Boston Tea Party"
-        },
-        {
-          "question": "Welche amerikanische Stadt wurde als Reaktion auf die Boston Tea Party von den Briten mit den Intolerable Acts bestraft?",
-          "answers": ["Philadelphia", "New York City", "Boston", "Charleston"],
-          "correct_answer": "Boston"
-        },
-        {
-          "question": "Welcher berühmte amerikanische Diplomat war maßgeblich daran beteiligt, Unterstützung von Frankreich für die amerikanische Sache zu gewinnen?",
-          "answers": ["Thomas Jefferson", "John Adams", "Benjamin Franklin", "Alexander Hamilton"],
-          "correct_answer": "Benjamin Franklin"
-        },
-      ],
-    };
-      
-    //MARK: Entdeckungsreisen
-    const endekungsreisenQuiz = {
-    title: 'Entdeckungsreisen',
-    description: 'Die großen Entdeckungsreisen der Geschichte',
-    category: 'Geschichte',
-    questions: [
-        {
-          "question": "Welcher portugiesische Entdecker erreichte als erster Europäer den Seeweg nach Indien?",
-          "answers": ["Christoph Kolumbus", "Ferdinand Magellan", "Vasco da Gama", "Bartolomeu Diaz"],
-          "correct_answer": "Vasco da Gama"
-        },
-        {
-          "question": "Welcher Entdecker gilt als der erste, der Nordamerika für Europa entdeckte, als er um das Jahr 1000 n. Chr. landete?",
-          "answers": ["Christoph Kolumbus", "Marco Polo", "Leif Eriksson", "Hernán Cortés"],
-          "correct_answer": "Leif Eriksson"
-        },
-        {
-          "question": "Welcher spanische Entdecker entdeckte 1492 die Bahamas und wird oft mit der Entdeckung Amerikas in Verbindung gebracht?",
-          "answers": ["Christoph Kolumbus", "Ferdinand Magellan", "Vasco Núñez de Balboa", "Juan Ponce de León"],
-          "correct_answer": "Christoph Kolumbus"
-        },
-        {
-          "question": "Welcher Entdecker und Kartograf erstellte die erste Karte, die die neuen Kontinente Amerika und Europa trennte?",
-          "answers": ["Marco Polo", "Vasco da Gama", "Amerigo Vespucci", "James Cook"],
-          "correct_answer": "Amerigo Vespucci"
-        },
-        {
-          "question": "Welche portugiesische Prinzessin unterstützte die Entdeckungsreisen ihres Mannes und spielte eine bedeutende Rolle in der portugiesischen Entdeckungszeit?",
-          "answers": ["Isabella von Kastilien", "Katharina von Aragón", "Elisabeth von Portugal", "Maria I. von Portugal"],
-          "correct_answer": "Elisabeth von Portugal"
-        },
-        {
-          "question": "Welche französischen Entdecker erkundeten den St. Lawrence River und waren die ersten Europäer, die den Mississippi River erreichten?",
-          "answers": ["Jacques Cartier", "Samuel de Champlain", "Louis Jolliet und Jacques Marquette", "René-Robert Cavelier, Sieur de La Salle"],
-          "correct_answer": "Louis Jolliet und Jacques Marquette"
-        },
-        {
-          "question": "Welcher englische Seefahrer entdeckte die Inseln Neuseeland und die östliche Küste Australiens und wird oft als der Entdecker Australiens angesehen?",
-          "answers": ["Ferdinand Magellan", "James Cook", "Francis Drake", "Henry Hudson"],
-          "correct_answer": "James Cook"
-        },
-        {
-          "question": "Welche Expedition erreichte 1804 als erste europäische Gruppe die Westküste der Vereinigten Staaten und erforschte das Gebiet bis zum Pazifischen Ozean?",
-          "answers": ["Die Expedition von Lewis und Clark", "Die Expedition von Magellan", "Die Expedition von Marco Polo", "Die Expedition von Vasco da Gama"],
-          "correct_answer": "Die Expedition von Lewis und Clark"
-        },
-        {
-          "question": "Welche Expedition unter der Leitung von Robert Falcon Scott und Roald Amundsen konkurrierte um die Erstbesteigung des Südpols?",
-          "answers": ["Die Terra-Nova-Expedition", "Die Endurance-Expedition", "Die Nimrod-Expedition", "Die Discovery-Expedition"],
-          "correct_answer": "Die Terra-Nova-Expedition"
-        },
-        {
-          "question": "Welcher Entdecker entdeckte den Seeweg nach Indien und begründete so den portugiesischen Seehandel mit Asien?",
-          "answers": ["Vasco da Gama", "Ferdinand Magellan", "Bartolomeu Dias", "Marco Polo"],
-          "correct_answer": "Vasco da Gama"
-        },
-    ],
+	title: 'Die Amerikanische Revolution',
+	description: 'Der Kampf um Unabhängigkeit von 1775 bis 1783',
+	category: 'Geschichte',
+	questions: [
+		{
+			question: 'Welches Ereignis markierte den Beginn der Amerikanischen Revolution?',
+			answers: [
+				'Die Unterzeichnung der Unabhängigkeitserklärung',
+				'Die Schlacht von Lexington und Concord',
+				'Die Boston Tea Party',
+				'Die Einführung des Stamp Acts',
+			],
+			correct_answer: 'Die Schlacht von Lexington und Concord',
+		},
+		{
+			question: 'Welches Dokument verkündete offiziell die Unabhängigkeit der Vereinigten Staaten von Amerika?',
+			answers: [
+				'Die Verfassung der Vereinigten Staaten',
+				'Die Bill of Rights',
+				'Die Unabhängigkeitserklärung',
+				'Der Monroe-Doktrin',
+			],
+			correct_answer: 'Die Unabhängigkeitserklärung',
+		},
+		{
+			question:
+				'Welches europäische Land unterstützte die Amerikaner im Kampf gegen die Briten während der Revolution?',
+			answers: ['Frankreich', 'Großbritannien', 'Spanien', 'Deutschland'],
+			correct_answer: 'Frankreich',
+		},
+		{
+			question: 'Wer war der Oberbefehlshaber der Kontinentalarmee während der Amerikanischen Revolution?',
+			answers: ['George Washington', 'Thomas Jefferson', 'Benjamin Franklin', 'John Adams'],
+			correct_answer: 'George Washington',
+		},
+		{
+			question: 'Welche Stadt war das politische Zentrum der Amerikanischen Revolution?',
+			answers: ['Philadelphia', 'Boston', 'New York City', 'Washington D.C.'],
+			correct_answer: 'Philadelphia',
+		},
+		{
+			question:
+				'Welche amerikanische Stadt wurde während der Revolution von den Briten besetzt und diente als Hauptquartier für ihre Operationen?',
+			answers: ['Philadelphia', 'Boston', 'New York City', 'Lexington'],
+			correct_answer: 'New York City',
+		},
+		{
+			question:
+				'Welche Vereinbarung beendete den Unabhängigkeitskrieg und erkannte die Unabhängigkeit der Vereinigten Staaten von Amerika an?',
+			answers: [
+				'Der Vertrag von Versailles',
+				'Der Vertrag von Paris',
+				'Der Vertrag von Gent',
+				'Der Vertrag von Amiens',
+			],
+			correct_answer: 'Der Vertrag von Paris',
+		},
+		{
+			question:
+				'Welches Ereignis führte zur Eskalation der Spannungen zwischen den Kolonisten und den Briten und wurde als Akt des Protestes gegen die Tea Acts bekannt?',
+			answers: [
+				'Die Schlacht von Bunker Hill',
+				'Die Boston Tea Party',
+				'Die Stamp Act Unruhen',
+				'Die Intolerable Acts',
+			],
+			correct_answer: 'Die Boston Tea Party',
+		},
+		{
+			question:
+				'Welche amerikanische Stadt wurde als Reaktion auf die Boston Tea Party von den Briten mit den Intolerable Acts bestraft?',
+			answers: ['Philadelphia', 'New York City', 'Boston', 'Charleston'],
+			correct_answer: 'Boston',
+		},
+		{
+			question:
+				'Welcher berühmte amerikanische Diplomat war maßgeblich daran beteiligt, Unterstützung von Frankreich für die amerikanische Sache zu gewinnen?',
+			answers: ['Thomas Jefferson', 'John Adams', 'Benjamin Franklin', 'Alexander Hamilton'],
+			correct_answer: 'Benjamin Franklin',
+		},
+	],
 };
 
-export const historyQuizzes = [ww2Quiz, ww1Quiz, persoenlichkeitenQuiz, amerikanischeRevolutionQuiz, endekungsreisenQuiz];
-      
+//MARK: Entdeckungsreisen
+const endekungsreisenQuiz = {
+	title: 'Entdeckungsreisen',
+	description: 'Die großen Entdeckungsreisen der Geschichte',
+	category: 'Geschichte',
+	questions: [
+		{
+			question: 'Welcher portugiesische Entdecker erreichte als erster Europäer den Seeweg nach Indien?',
+			answers: ['Christoph Kolumbus', 'Ferdinand Magellan', 'Vasco da Gama', 'Bartolomeu Diaz'],
+			correct_answer: 'Vasco da Gama',
+		},
+		{
+			question:
+				'Welcher Entdecker gilt als der erste, der Nordamerika für Europa entdeckte, als er um das Jahr 1000 n. Chr. landete?',
+			answers: ['Christoph Kolumbus', 'Marco Polo', 'Leif Eriksson', 'Hernán Cortés'],
+			correct_answer: 'Leif Eriksson',
+		},
+		{
+			question:
+				'Welcher spanische Entdecker entdeckte 1492 die Bahamas und wird oft mit der Entdeckung Amerikas in Verbindung gebracht?',
+			answers: ['Christoph Kolumbus', 'Ferdinand Magellan', 'Vasco Núñez de Balboa', 'Juan Ponce de León'],
+			correct_answer: 'Christoph Kolumbus',
+		},
+		{
+			question:
+				'Welcher Entdecker und Kartograf erstellte die erste Karte, die die neuen Kontinente Amerika und Europa trennte?',
+			answers: ['Marco Polo', 'Vasco da Gama', 'Amerigo Vespucci', 'James Cook'],
+			correct_answer: 'Amerigo Vespucci',
+		},
+		{
+			question:
+				'Welche portugiesische Prinzessin unterstützte die Entdeckungsreisen ihres Mannes und spielte eine bedeutende Rolle in der portugiesischen Entdeckungszeit?',
+			answers: ['Isabella von Kastilien', 'Katharina von Aragón', 'Elisabeth von Portugal', 'Maria I. von Portugal'],
+			correct_answer: 'Elisabeth von Portugal',
+		},
+		{
+			question:
+				'Welche französischen Entdecker erkundeten den St. Lawrence River und waren die ersten Europäer, die den Mississippi River erreichten?',
+			answers: [
+				'Jacques Cartier',
+				'Samuel de Champlain',
+				'Louis Jolliet und Jacques Marquette',
+				'René-Robert Cavelier, Sieur de La Salle',
+			],
+			correct_answer: 'Louis Jolliet und Jacques Marquette',
+		},
+		{
+			question:
+				'Welcher englische Seefahrer entdeckte die Inseln Neuseeland und die östliche Küste Australiens und wird oft als der Entdecker Australiens angesehen?',
+			answers: ['Ferdinand Magellan', 'James Cook', 'Francis Drake', 'Henry Hudson'],
+			correct_answer: 'James Cook',
+		},
+		{
+			question:
+				'Welche Expedition erreichte 1804 als erste europäische Gruppe die Westküste der Vereinigten Staaten und erforschte das Gebiet bis zum Pazifischen Ozean?',
+			answers: [
+				'Die Expedition von Lewis und Clark',
+				'Die Expedition von Magellan',
+				'Die Expedition von Marco Polo',
+				'Die Expedition von Vasco da Gama',
+			],
+			correct_answer: 'Die Expedition von Lewis und Clark',
+		},
+		{
+			question:
+				'Welche Expedition unter der Leitung von Robert Falcon Scott und Roald Amundsen konkurrierte um die Erstbesteigung des Südpols?',
+			answers: [
+				'Die Terra-Nova-Expedition',
+				'Die Endurance-Expedition',
+				'Die Nimrod-Expedition',
+				'Die Discovery-Expedition',
+			],
+			correct_answer: 'Die Terra-Nova-Expedition',
+		},
+		{
+			question:
+				'Welcher Entdecker entdeckte den Seeweg nach Indien und begründete so den portugiesischen Seehandel mit Asien?',
+			answers: ['Vasco da Gama', 'Ferdinand Magellan', 'Bartolomeu Dias', 'Marco Polo'],
+			correct_answer: 'Vasco da Gama',
+		},
+	],
+};
+
+export const historyQuizzes = [
+	ww2Quiz,
+	ww1Quiz,
+	persoenlichkeitenQuiz,
+	amerikanischeRevolutionQuiz,
+	endekungsreisenQuiz,
+];

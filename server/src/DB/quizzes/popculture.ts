@@ -335,4 +335,10 @@ const literaryLegends = {
 	],
 };
 
-export const popcultureQuizzes = [popcultureIcons, iconicMovieMoments, iconicTVShowMoments, musicLegends, literaryLegends];
+export const popcultureQuizzes = [
+	popcultureIcons,
+	iconicMovieMoments,
+	iconicTVShowMoments,
+	musicLegends,
+	literaryLegends,
+];

@@ -27,7 +27,7 @@ export class EventsGateway implements OnModuleInit {
 	 * @description - Initializes the WebSocket server
 	 * - Logs a message when a client connects
 	 * - Logs a message when a client initializes with sending the user_id
-     * - Adds the user_id and socket.id to the currentConnections map
+	 * - Adds the user_id and socket.id to the currentConnections map
 	 */
 	onModuleInit() {
 		this.server.on('connection', (socket) => {
@@ -35,11 +35,11 @@ export class EventsGateway implements OnModuleInit {
 		});
 	}
 
-    @SubscribeMessage('disconnect')
-    handleDisconnect(@ConnectedSocket() socket: Socket) {
-        this.logger.log(`WebSocket client disconnected: ${socket.id}`);
-        this.currentConntections.delete(socket.id);
-    }
+	@SubscribeMessage('disconnect')
+	handleDisconnect(@ConnectedSocket() socket: Socket) {
+		this.logger.log(`WebSocket client disconnected: ${socket.id}`);
+		this.currentConntections.delete(socket.id);
+	}
 
 	@SubscribeMessage('init')
 	handleInit(@MessageBody() { user_id }: { user_id: string }, @ConnectedSocket() socket: Socket) {

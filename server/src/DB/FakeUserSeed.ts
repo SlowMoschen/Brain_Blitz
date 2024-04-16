@@ -49,7 +49,7 @@ const generateMockUser = async (db: any, quizID: string) => {
 			.set({ points: highscore.score, played_quizzes: getRandomInt(10) })
 			.where(eq(schema.usersStatisticsTable.user_id, id));
 
-            console.log(`UserStats: ${id} updated`);
+		console.log(`UserStats: ${id} updated`);
 	}
 };
 

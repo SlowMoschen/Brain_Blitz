@@ -5,7 +5,7 @@ import {
 	HttpException,
 	HttpStatus,
 	Injectable,
-	NestInterceptor
+	NestInterceptor,
 } from '@nestjs/common';
 import { Observable, catchError, map, throwError } from 'rxjs';
 

@@ -304,5 +304,4 @@ const cellQuiz = {
 	],
 };
 
-
 export const biologyQuizzes = [humanQuiz, evolutionQuiz, plantQuiz, animalQuiz, cellQuiz];

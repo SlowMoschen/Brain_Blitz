@@ -39,10 +39,10 @@ export class GameService {
 		const quiz = await this.quizRepository.findOne(quiz_id);
 
 		if (process.env.NODE_ENV === 'development') {
-			console.log('refreshing complete energy')
+			console.log('refreshing complete energy');
 			await this.userService.updateUserEnergy(user_id, 100);
 		}
-		
+
 		if (user.energy >= gameConfig.ENERGY_CONSUMPTION_RATE) {
 			await this.userService.updateUserEnergy(user_id, user.energy - gameConfig.ENERGY_CONSUMPTION_RATE);
 			await this.quizRepository.updateOne(quiz_id, { times_played: quiz.times_played + 1 });

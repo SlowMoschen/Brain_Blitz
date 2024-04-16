@@ -8,7 +8,6 @@ import { clearDB } from './clear';
 import { generateUser } from './FakeUserSeed';
 import { seedQuizzes } from './QuizSeed';
 
-
 /**
  * This script is responsible for seeding the db with Mock data
  * - it clear the db
@@ -39,7 +38,7 @@ const seedAdminUser = async () => {
 	try {
 		console.log('Seeding admin user');
 		const hashedPassword = await bcrypt.hash(adminUser.password, 10);
-		
+
 		const user = await db
 			.insert(schema.usersTable)
 			.values({

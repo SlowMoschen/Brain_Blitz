@@ -131,5 +131,4 @@ const internationalOrganizationsQuiz = {
 	],
 };
 
-
 export const politicsQuizzes = [euPoliticsQuiz, internationalOrganizationsQuiz];

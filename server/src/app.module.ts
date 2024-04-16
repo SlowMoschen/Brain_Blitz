@@ -19,7 +19,7 @@ import { GatewayModule } from './Modules/gateway/gateway.module';
 			{
 				ttl: 60000,
 				limit: 25,
-			}
+			},
 		]),
 		GatewayModule,
 		ConfigModule.forRoot({ isGlobal: true }),

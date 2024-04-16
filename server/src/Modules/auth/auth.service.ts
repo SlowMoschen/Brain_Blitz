@@ -1,10 +1,4 @@
-import {
-	ConflictException,
-	HttpException,
-	Injectable,
-	NotFoundException,
-	UnauthorizedException
-} from '@nestjs/common';
+import { ConflictException, HttpException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PasswordChangedEvent, SendForgotPasswordMailEvent, SendVerifyMailEvent } from 'src/Events/notification.events';
 import { UserCreatedEvent } from 'src/Events/user.events';
