@@ -15,7 +15,7 @@ export const URLS = {
   PROFILE: "/dashboard/profile",
   RANKINGS: "/dashboard/rankings",
   QUIZ_RANKING: "/dashboard/rankings/quiz-ranking/",
-  API_URL: "https://philippmillner-api.dev/",
+  API_URL: "https://philippmillner-api.dev",
   API_ENDPOINTS: {
     APP: {
       QUIZ_DATA: "/quiz-data",
