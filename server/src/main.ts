@@ -47,8 +47,11 @@ async function bootstrap() {
 			secret: process.env.SESSION_SECRET,
 			resave: true,
 			saveUninitialized: false,
+			rolling: true,
 			cookie: {
 				maxAge: Number(process.env.SESSION_MAX_AGE),
+				httpOnly: true,
+				secure: false,
 			},
 		}),
 	);
