@@ -1,0 +1,42 @@
+name: Master CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  merge:
+    branches:
+      - master
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '20.x'
+
+    - name: 📂 change directory 📂
+      run: cd ./client
+
+    - name: 📡 Install dependencies 📡
+      run: npm install
+
+    - name: 🏗 Building App 🏗
+      run: npm run build
+
+    - name: 🚀 Deploying 🚀
+      uses: SamKirkland/FTP-Deploy-Action@4.3.5
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./client/build
+        server-dir: /brain_blitz/
