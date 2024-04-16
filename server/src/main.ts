@@ -19,6 +19,8 @@ async function bootstrap() {
 		cors: corsOptions,
 	});
 
+	app.setGlobalPrefix('api');
+
 	const hbsConfig = create({
 		extname: '.hbs',
 		layoutsDir: join(__dirname, 'Views/Layouts'),
@@ -56,7 +58,6 @@ async function bootstrap() {
 			},
 		}),
 	);
-	app.set('trust proxy', true);
 
 	app.use(passport.initialize());
 	app.use(passport.session());
