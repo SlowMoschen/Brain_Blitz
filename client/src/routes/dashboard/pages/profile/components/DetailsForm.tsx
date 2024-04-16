@@ -7,7 +7,7 @@ import AlertSnackbar from "../../../../../shared/components/AlertSnackbar";
 import CallToAction from "../../../../../shared/components/buttons/CallToAction";
 import SecondaryButton from "../../../../../shared/components/buttons/SecondaryButton";
 import InputText from "../../../../../shared/components/form/InputText";
-import { useUpdateUser } from "../../../../../shared/hooks/api/useUpdateUserFetch.hook";
+import { useUserQueries } from "../../../../../shared/hooks/api/useUserQueries.hook";
 import useToggle from "../../../../../shared/hooks/useToggle.hook";
 import { UserContext } from "../../../../../shared/types/User";
 import { ProfileDetailsSchema } from "../schemas/ProfileDetails.schema";
@@ -15,7 +15,7 @@ import { ProfileDetailsSchema } from "../schemas/ProfileDetails.schema";
 interface IDetailsFormInput {
   first_name: string;
   last_name: string;
-  email: string;
+  email?: string;
 }
 
 // This function is used to get the error message when updating the profile fails.
@@ -63,7 +63,7 @@ export default function DetailsForm() {
     toggleSnackbarOpen();
   };
 
-  const updateUser = useUpdateUser(onSucces, onError);
+  const { mutate: updateUser } = useUserQueries().useUpdateUser(onSucces, onError);
   const { control, handleSubmit, reset } = useForm<IDetailsFormInput>({
     defaultValues,
     resolver: zodResolver(ProfileDetailsSchema),
@@ -80,7 +80,10 @@ export default function DetailsForm() {
       return;
     }
 
-    if ("email" in data) data.email = data.email.toLowerCase();
+    if ("email" in data) {
+      data.email = data.email?.toLowerCase();
+      if (data.email === user.email) delete data.email;
+    }
     updateUser(data);
     reset(defaultValues);
     setIsFormDisabled(true);
