@@ -50,6 +50,8 @@ async function bootstrap() {
 			cookie: {
 				maxAge: Number(process.env.SESSION_MAX_AGE),
 				httpOnly: true,
+				sameSite: 'none',
+				secure: process.env.NODE_ENV === 'production',
 			},
 		}),
 	);
