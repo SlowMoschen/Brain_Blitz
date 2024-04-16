@@ -31,10 +31,10 @@ jobs:
           CI: ''
 
       - name: 🚀 deploying 🚀
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: Dylan700/sftp-upload-action@latest
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./client/dist/
-          remote-dir: /brain_blitz/
+          port: 22
+          uploads: ./ => ./client/dist
