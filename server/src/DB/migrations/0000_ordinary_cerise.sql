@@ -19,25 +19,25 @@ END $$;
 CREATE TABLE IF NOT EXISTS "completed_quizzes" (
 	"user_id" text NOT NULL,
 	"quiz_id" text NOT NULL,
-	CONSTRAINT "composite_pk" PRIMARY KEY("user_id","quiz_id")
+	CONSTRAINT "completed_quizzes_fk" PRIMARY KEY("user_id","quiz_id")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "highscores" (
 	"user_id" text NOT NULL,
 	"quiz_id" text NOT NULL,
-	CONSTRAINT "composite_pk" PRIMARY KEY("user_id","quiz_id")
+	CONSTRAINT "highscores_fk" PRIMARY KEY("user_id","quiz_id")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "unlocked_achievements" (
 	"user_id" text NOT NULL,
 	"achievement_id" text NOT NULL,
-	CONSTRAINT "composite_pk" PRIMARY KEY("user_id","achievement_id")
+	CONSTRAINT "unlocked_achievements_fk" PRIMARY KEY("user_id","achievement_id")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "unlocked_quizzes" (
 	"user_id" text NOT NULL,
 	"quiz_id" text NOT NULL,
-	CONSTRAINT "composite_pk" PRIMARY KEY("user_id","quiz_id")
+	CONSTRAINT "unlocked_quizzes_fk" PRIMARY KEY("user_id","quiz_id")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users_billing_information" (
@@ -71,6 +71,7 @@ CREATE TABLE IF NOT EXISTS "users_statistics" (
 	"completed_quizzes" integer DEFAULT 0 NOT NULL,
 	"correct_answers" integer DEFAULT 0 NOT NULL,
 	"incorrect_answers" integer DEFAULT 0 NOT NULL,
+	"total_time_played" integer DEFAULT 0 NOT NULL,
 	"points" integer DEFAULT 0 NOT NULL
 );
 --> statement-breakpoint
@@ -142,7 +143,8 @@ CREATE TABLE IF NOT EXISTS "quizzes" (
 	"highscores" text,
 	"questions" text,
 	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp DEFAULT now() NOT NULL
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+	"times_played" integer DEFAULT 0 NOT NULL
 );
 --> statement-breakpoint
 DO $$ BEGIN

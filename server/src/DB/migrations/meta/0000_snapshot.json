@@ -1,5 +1,5 @@
 {
-  "id": "66098c55-858f-452b-a337-a81396704c30",
+  "id": "7c874148-73ae-4477-8d8b-28c9748b68fa",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -51,8 +51,8 @@
         }
       },
       "compositePrimaryKeys": {
-        "composite_pk": {
-          "name": "composite_pk",
+        "completed_quizzes_fk": {
+          "name": "completed_quizzes_fk",
           "columns": [
             "user_id",
             "quiz_id"
@@ -108,8 +108,8 @@
         }
       },
       "compositePrimaryKeys": {
-        "composite_pk": {
-          "name": "composite_pk",
+        "highscores_fk": {
+          "name": "highscores_fk",
           "columns": [
             "user_id",
             "quiz_id"
@@ -165,8 +165,8 @@
         }
       },
       "compositePrimaryKeys": {
-        "composite_pk": {
-          "name": "composite_pk",
+        "unlocked_achievements_fk": {
+          "name": "unlocked_achievements_fk",
           "columns": [
             "user_id",
             "achievement_id"
@@ -222,8 +222,8 @@
         }
       },
       "compositePrimaryKeys": {
-        "composite_pk": {
-          "name": "composite_pk",
+        "unlocked_quizzes_fk": {
+          "name": "unlocked_quizzes_fk",
           "columns": [
             "user_id",
             "quiz_id"
@@ -441,6 +441,13 @@
         },
         "incorrect_answers": {
           "name": "incorrect_answers",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "total_time_played": {
+          "name": "total_time_played",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -926,6 +933,13 @@
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
+        },
+        "times_played": {
+          "name": "times_played",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
         }
       },
       "indexes": {},
