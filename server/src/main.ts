@@ -10,7 +10,7 @@ import { join } from 'path';
 import { AppModule } from './app.module';
 import { ResponseInterceptor } from './Interceptors/response.interceptor';
 import { corsOptions } from './Configs/cors.confing';
-import loggerMiddleware from './Middlewares/logger.middleware';
+import loggerMiddleware from './Middlewares/Logger.middleware';
 
 const pgSession = connectPGSession(session);
 

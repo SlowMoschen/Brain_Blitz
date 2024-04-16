@@ -55,5 +55,4 @@ const loggerMiddleware = morgan(
       Respone-Time: :response-time ms`,
 	{ stream },
 );
-
 export default loggerMiddleware;
