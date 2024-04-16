@@ -1,3 +1,4 @@
+import Footer from "./components/footer/Footer";
 import { Stack } from "@mui/material";
 import { useContext } from "react";
 import { Outlet } from "react-router-dom";
@@ -7,7 +8,6 @@ import { WindowContext } from "../../shared/context/ScreenSize.context";
 import MobileNavbar from "./components/navbar/_MobileNavbar.main";
 import Navbar from "./components/navbar/_Navbar.main";
 import CookieModal from "./components/CookieModal";
-import Footer from "./components/footer/Footer";
 
 export default function RootLayout() {
   const { width } = useContext(WindowContext);
