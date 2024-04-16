@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/material";
+import { Stack, Typography, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 
 interface AnswerProps {
@@ -36,6 +36,8 @@ export default function Answer({ answer, isCorrect, onClick, isDisabled }: Answe
     }
   };
 
+  const hoverStyle = useMediaQuery("(hover: hover)") ? { bgcolor: "secondary.dark" } : '';
+
   const containerStyle = {
     cursor: "pointer",
     border: "5px solid",
@@ -47,14 +49,15 @@ export default function Answer({ answer, isCorrect, onClick, isDisabled }: Answe
     justifyContent: "center",
     width: "100%",
     pointerEvents: isDisabled ? "none" : "auto",
-    '&:hover': {
+    '&:active': {
         bgcolor: 'secondary.dark',
         },
+    '&:hover': hoverStyle,
   };
 
   return (
     <Stack sx={containerStyle} onClick={handleClick}>
-      <Typography variant="h5" color={"text.dark"}>
+      <Typography variant="h5" color={"text.dark"} align="center">
         {answer}
       </Typography>
     </Stack>
