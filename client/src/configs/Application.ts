@@ -1,3 +1,5 @@
+export const NODE_ENV: 'production' | 'development' = 'development';
+
 export const TIMES = {
     COUNT_UP_DELAY: 0,
     COUNT_UP_DURATION: 2,

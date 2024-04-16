@@ -1,3 +1,5 @@
+import { NODE_ENV } from "./Application";
+
 export const URLS = {
   HOME: "/",
   ABOUT: "/about",
@@ -15,7 +17,7 @@ export const URLS = {
   PROFILE: "/dashboard/profile",
   RANKINGS: "/dashboard/rankings",
   QUIZ_RANKING: "/dashboard/rankings/quiz-ranking/",
-  API_URL: "https://philippmillner-api.dev",
+  API_URL: NODE_ENV === 'production' ? "https://philippmillner-api.dev" : "http://localhost:3000",
   API_ENDPOINTS: {
     APP: {
       QUIZ_DATA: "/quiz-data",
