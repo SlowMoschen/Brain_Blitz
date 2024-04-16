@@ -13,6 +13,7 @@ export const databaseProvider: Provider = {
 			configService.get<string>('NODE_ENV') === 'production'
 				? configService.get<string>('DATABASE_URL')
 				: configService.get<string>('DATABASE_DEV_URL');
+				console.log(DB_URL, '----------------- DB_URL -----------------');
 		const client = new Client({
 			connectionString: DB_URL,
 		});
