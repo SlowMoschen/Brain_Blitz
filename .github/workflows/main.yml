@@ -24,6 +24,10 @@ jobs:
         working-directory: ./client
         run: npm install
 
+      - name: tsc config
+        working-directory: ./client
+        run: npm tsc --showConfig
+
       - name: 🏗 Building App 🏗
         working-directory: ./client
         run: npm run build
