@@ -48,7 +48,7 @@ export default function RankingBar({ value, name, rank, user_id }: RankingBarPro
       <Typography variant="h5" fontSize={{ md: 30, lg: 40 }}>
         {isZero ? "" : rank === 1 ? "👑" : rank === 2 ? "🥈" : "🥉"}
       </Typography>
-      <Typography variant="subtitle1" fontSize={{ md: 25, lg: 30 }}>
+      <Typography variant="subtitle1" fontSize={{ md: 25, lg: 30 }} align="center">
         {user_id === user.id ? `${name} (Du)` : name}
       </Typography>
       <Typography variant="body1" fontSize={{ md: 20 }} sx={{ textDecoration: "underline" }}>
