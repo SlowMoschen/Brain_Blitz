@@ -16,7 +16,7 @@ export default function ErrorPage() {
 
   return (
     <>
-      <Container sx={ containerStyle }>
+      <Container sx={containerStyle}>
         <img src={logoNoText} alt="Brain Blitz Logo without Text" />
         <Typography variant="h1" className="animated-bg" fontWeight={600} fontSize={150}>
           404
