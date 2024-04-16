@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
-import { URLS } from "../../../configs/Links";
-import { HttpService } from "../../services/httpService.service";
 import { useNavigate } from "react-router-dom";
+import { URLS } from "../../../configs/Links";
+import { HttpServiceInstance } from "../../services/httpService.service";
 
 function sendFetch() {
-  return new HttpService().delete(URLS.API_ENDPOINTS.APP.USER);
+  return  HttpServiceInstance.delete(URLS.API_ENDPOINTS.APP.USER);
 }
 
 export function useDeleteUserFetch() {

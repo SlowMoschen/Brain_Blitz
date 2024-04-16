@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { HttpService } from "../../services/httpService.service";
 import { URLS } from "../../../configs/Links";
+import { HttpServiceInstance } from "../../services/httpService.service";
 import { IMostPlayedQuizRanking, IPersonalRanking, IPlaytimeRanking, IPointsRanking } from "../../types/Rankings";
 
 
@@ -20,8 +20,6 @@ import { IMostPlayedQuizRanking, IPersonalRanking, IPlaytimeRanking, IPointsRank
  * - overallMostPlayedQuizzesRankingsError: Any errors that occur during the fetch of the overall most played quizzes rankings data.
  */
 export function useRankingsFetch() {
-  const httpService = new HttpService();
-
   /**
    * 
    * Query fetches
@@ -29,22 +27,22 @@ export function useRankingsFetch() {
    */
   const { data: personalRes, error: personalRankingsError } = useQuery({
     queryKey: ["personalRankings"],
-    queryFn: () => httpService.get(URLS.API_ENDPOINTS.APP.PERSONAL_RANKINGS),
+    queryFn: () => HttpServiceInstance.get(URLS.API_ENDPOINTS.APP.PERSONAL_RANKINGS),
   });
 
   const { data: pointsRes, error: overallPointsRankingsError } = useQuery({
     queryKey: ["overallPointsRankings"],
-    queryFn: () => httpService.get(URLS.API_ENDPOINTS.APP.OVERALL_POINTS_RANKINGS),
+    queryFn: () => HttpServiceInstance.get(URLS.API_ENDPOINTS.APP.OVERALL_POINTS_RANKINGS),
   });
 
   const { data: playtimeRes, error: overallPlaytimeRankingsError } = useQuery({
     queryKey: ["overallPlaytimeRankings"],
-    queryFn: () => httpService.get(URLS.API_ENDPOINTS.APP.OVERALL_PLAYTIME_RANKINGS),
+    queryFn: () => HttpServiceInstance.get(URLS.API_ENDPOINTS.APP.OVERALL_PLAYTIME_RANKINGS),
   });
 
   const { data: playedRes, error: overallMostPlayedQuizzesRankingsError } = useQuery({
     queryKey: ["overallMostPlayedQuizzesRankings"],
-    queryFn: () => httpService.get(URLS.API_ENDPOINTS.APP.OVERALL_MOST_PLAYED_QUIZZES_RANKINGS),
+    queryFn: () => HttpServiceInstance.get(URLS.API_ENDPOINTS.APP.OVERALL_MOST_PLAYED_QUIZZES_RANKINGS),
   });
 
   // Extract data from the response

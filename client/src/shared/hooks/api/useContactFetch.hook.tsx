@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { URLS } from "../../../configs/Links";
-import { HttpService } from "../../services/httpService.service";
+import { HttpServiceInstance } from "../../services/httpService.service";
 
 export interface ContactDto {
   name: string;
@@ -8,10 +8,9 @@ export interface ContactDto {
   message: string;
 }
 
-const httpService = new HttpService();
 
 function sendData(body: ContactDto) {
-  return httpService.post(URLS.API_ENDPOINTS.APP.CONTACT, body);
+  return HttpServiceInstance.post(URLS.API_ENDPOINTS.APP.CONTACT, body);
 }
 
 // This hook is used to send a contact form to the server.

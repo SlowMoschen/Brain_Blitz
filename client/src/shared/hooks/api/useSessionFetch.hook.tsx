@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { URLS } from "../../../configs/Links";
-import { HttpService } from "../../services/httpService.service";
+import { HttpServiceInstance } from "../../services/httpService.service";
 
 /**
  * Hook makes a request to the server to check if the user is authenticated.
@@ -8,11 +8,8 @@ import { HttpService } from "../../services/httpService.service";
  * - isPending: boolean - Indicates if the request is pending.
  * - isAuthenticated: boolean - Indicates if the user is authenticated.
  */
-
-const httpService = new HttpService();
-
 function getSessionData() {
-    return httpService.get(URLS.API_ENDPOINTS.AUTH.SESSION);
+    return HttpServiceInstance.get(URLS.API_ENDPOINTS.AUTH.SESSION);
 }
 
 export function useSessionFetch(): { isPending: boolean, isAuthenticated: boolean } {

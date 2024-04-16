@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { HttpService } from "../../services/httpService.service";
 import { URLS } from "../../../configs/Links";
-const httpService = new HttpService();
+import { HttpServiceInstance } from "../../services/httpService.service";
 
 interface QuizCompleteDTO {
   correct_answers: number;
@@ -11,7 +10,7 @@ interface QuizCompleteDTO {
 }
 
 function fetchQuizComplete(quizID: string, body: QuizCompleteDTO) {
-    return httpService.post(URLS.API_ENDPOINTS.APP.QUIZ_COMPLETE + quizID, body);
+    return HttpServiceInstance.post(URLS.API_ENDPOINTS.APP.QUIZ_COMPLETE + quizID, body);
 }
 
 export function useQuizCompleteFetch(quizID: string) {

@@ -9,7 +9,7 @@
 
 import { URLS } from "../../configs/Links";
 
-export class HttpService {
+class HttpService {
   constructor(private readonly _baseUrl: string = URLS.API_URL) {}
 
   private get defaultHeaders() {
@@ -52,3 +52,5 @@ export class HttpService {
     return this._fetch("DELETE", endpoint);
   }
 }
+
+export const HttpServiceInstance = new HttpService();

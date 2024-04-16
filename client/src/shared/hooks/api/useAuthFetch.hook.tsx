@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { HttpService } from "../../services/httpService.service";
+import { HttpServiceInstance } from "../../services/httpService.service";
 
 interface EmailDTO {
   email: string;
@@ -14,10 +14,9 @@ interface SignUpDTO extends SignInDTO {
   last_name: string;
 }
 
-const httpService = new HttpService();
 
-const sendData = (endpoint: string, body: EmailDTO | SignInDTO | SignUpDTO) => {
-  return httpService.post(endpoint, body);
+const sendData = (endpoint: string, body?: EmailDTO | SignInDTO | SignUpDTO) => {
+  return HttpServiceInstance.post(endpoint, body);
 };
 
 /**
@@ -37,7 +36,7 @@ export function useAuthFetch(
   endpoint: string
 ) {
   return useMutation({
-    mutationFn: (body: EmailDTO | SignInDTO | SignUpDTO) => sendData(endpoint, body),
+    mutationFn: (body?: EmailDTO | SignInDTO | SignUpDTO) => sendData(endpoint, body),
     onSuccess,
     onError,
   });

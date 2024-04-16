@@ -1,13 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { timeToQuaterHour } from "../../../configs/Application";
 import { URLS } from "../../../configs/Links";
-import { HttpService } from "../../services/httpService.service";
+import { HttpServiceInstance } from "../../services/httpService.service";
 import { IUser } from "../../types/User";
 
-const httpService = new HttpService();
 const getUser = async () => {
   console.log("Fetching user data");
-  return await httpService.get(URLS.API_ENDPOINTS.APP.USER);
+  return await HttpServiceInstance.get(URLS.API_ENDPOINTS.APP.USER);
 };
 
 /**

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { URLS } from "../../../configs/Links";
-import { HttpService } from "../../services/httpService.service";
+import { HttpServiceInstance } from "../../services/httpService.service";
 
 interface UpdateUserDTO {
     first_name?: string;
@@ -10,11 +10,10 @@ interface UpdateUserDTO {
 }
 
 export function useUpdateUser(onSuccess: () => void, onError: (error: string) => void) {
-    const httpService = new HttpService();
     const queryClient = useQueryClient();
 
     function updateUser(data: UpdateUserDTO) {
-        return httpService.patch(URLS.API_ENDPOINTS.APP.USER, data)
+        return HttpServiceInstance.patch(URLS.API_ENDPOINTS.APP.USER, data)
     }
 
     const { mutate } = useMutation({

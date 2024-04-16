@@ -1,14 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
-import { HttpService } from "../../services/httpService.service";
 import { useNavigate } from "react-router-dom";
 import { URLS } from "../../../configs/Links";
+import { HttpServiceInstance } from "../../services/httpService.service";
 
 export function useLogoutFetch() {
-  const httpService = new HttpService();
   const redirect = useNavigate();
 
   const logout = async () => {
-    return await httpService.post(URLS.API_ENDPOINTS.AUTH.LOGOUT);
+    return await HttpServiceInstance.post(URLS.API_ENDPOINTS.AUTH.LOGOUT);
   };
 
   const { mutate } = useMutation({

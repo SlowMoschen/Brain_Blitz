@@ -1,11 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { URLS } from "../../../configs/Links";
-import { HttpService } from "../../services/httpService.service";
+import { HttpServiceInstance } from "../../services/httpService.service";
 
-const httpService = new HttpService();
 
 function fetchQuizData() {
-  return httpService.get(URLS.API_ENDPOINTS.APP.QUIZ_DATA);
+  return HttpServiceInstance.get(URLS.API_ENDPOINTS.APP.QUIZ_DATA);
 }
 
 interface IQuizData {
