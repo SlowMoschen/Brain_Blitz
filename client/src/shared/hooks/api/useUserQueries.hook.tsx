@@ -1,9 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { URLS } from "../../../configs/Links";
-import { HttpServiceInstance } from "../../services/httpService.service";
-import { timeToQuaterHour } from "../../../configs/Application";
-import { IUser } from "../../types/User";
 import { useNavigate } from "react-router-dom";
+import { timeToQuaterHour } from "../../../configs/Application";
+import { URLS } from "../../../configs/Links";
+import { IUser } from "../../types/User";
+import { useMutationFactory } from "./useMutationFactory";
+import { useQueryFactory } from "./useQueryFactory";
 
 interface UpdateUserDTO {
   first_name?: string;
@@ -25,19 +25,12 @@ export function useUserQueries() {
    * @returns The mutation object.
    */
   const useUpdateUser = (onSuccess: () => void, onError: (error: string) => void) => {
-    const queryClient = useQueryClient();
-
-    return useMutation({
-      mutationFn: (data: UpdateUserDTO) =>
-        HttpServiceInstance.patch(URLS.API_ENDPOINTS.APP.USER, data),
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["user"] });
-        onSuccess();
-      },
-      onError: (err: Error) => {
-        console.error(err);
-        onError(err.message);
-      },
+    return useMutationFactory<UpdateUserDTO>({
+      method: "patch",
+      endpoint: URLS.API_ENDPOINTS.APP.USER,
+      onSuccess,
+      onError,
+      invalidateData: ["user"],
     });
   };
 
@@ -53,9 +46,9 @@ export function useUserQueries() {
       isPending,
       isError,
       error,
-    } = useQuery({
+    } = useQueryFactory({
+      endpoint: URLS.API_ENDPOINTS.APP.USER,
       queryKey: ["user"],
-      queryFn: () => HttpServiceInstance.get(URLS.API_ENDPOINTS.APP.USER),
       refetchInterval: timeToQuaterHour(),
       refetchOnWindowFocus: false,
       staleTime: timeToQuaterHour(),
@@ -78,13 +71,14 @@ export function useUserQueries() {
   const useDeleteUserFetch = () => {
     const redirect = useNavigate();
 
-    return useMutation({
-      mutationFn: () => HttpServiceInstance.delete(URLS.API_ENDPOINTS.APP.USER),
+    return useMutationFactory({
+      method: "delete",
+      endpoint: URLS.API_ENDPOINTS.APP.USER,
       onSuccess: () => {
-        redirect(URLS.HOME);
+        redirect("/");
       },
-      onError: (err: Error) => {
-        console.error(err);
+      onError: (error: string) => {
+        console.error(error);
       },
     });
   };
