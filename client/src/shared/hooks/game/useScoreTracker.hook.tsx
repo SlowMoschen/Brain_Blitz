@@ -28,10 +28,10 @@ export function useScoreTracker() {
      * @param {number} time - The time in SECONDS.
      * @returns {void}
      */
-    const calculateTotalScore = (time: number, answers: { correct: number, incorrect: number}) => {
+    const calculateTotalScore = (time: number) => {
         return new Promise<number>((resolve) => {
             const timeBonus = time * GAME.POINTS_PER_SECOND;
-            const totalScore = currentScore + timeBonus - (answers.incorrect * GAME.WRONG_ANSWER_POINTS);
+            const totalScore = currentScore + timeBonus;
             resolve(0 >= totalScore ? 0 : totalScore); 
         });
     }

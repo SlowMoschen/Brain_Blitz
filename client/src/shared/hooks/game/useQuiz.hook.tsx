@@ -46,11 +46,7 @@ export function useQuiz(quizData: IQuiz) {
   };
 
   const handleQuizComplete = async () => {
-    const totalScore = await calculateTotalScore(quizTime / 1000, {
-      correct: correctAnswersCount,
-      incorrect: incorrectAnswersCount,
-    });
-
+    const totalScore = await calculateTotalScore(quizTime / 1000);
     if (totalScore >= GAME.QUIZ_COMPLETE_THRESHOLD) setIsSuccess(true);
 
     const body = {
