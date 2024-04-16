@@ -28,7 +28,7 @@ jobs:
         working-directory: ./client
         run: npm run build
         env:
-          CI: false
+          CI: ''
 
       - name: 🚀 deploying 🚀
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
