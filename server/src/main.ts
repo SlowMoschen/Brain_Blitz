@@ -49,7 +49,6 @@ async function bootstrap() {
 			saveUninitialized: false,
 			cookie: {
 				maxAge: Number(process.env.SESSION_MAX_AGE),
-				sameSite: true,
 				httpOnly: true,
 			},
 		}),
