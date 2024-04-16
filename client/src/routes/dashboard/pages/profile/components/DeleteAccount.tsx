@@ -42,7 +42,7 @@ export default function DeleteAccount() {
         </DialogContent>
         <DialogActions>
           <SecondaryButton onClick={toggleModal} text="Abbrechen" />
-          <CallToAction onClick={() => deleteUser()} text="Account löschen" autoFocus />
+          <CallToAction onClick={() => deleteUser(undefined)} text="Account löschen" autoFocus />
         </DialogActions>
       </Dialog>
     </Stack>

@@ -4,10 +4,10 @@ import { Outlet } from "react-router-dom";
 import { BREAKPOINTS } from "../../configs/Breakpoints";
 import ScrollToTop from "../../shared/components/ScrollToTop";
 import { WindowContext } from "../../shared/context/ScreenSize.context";
-import Footer from "./components/footer/Footer";
 import MobileNavbar from "./components/navbar/_MobileNavbar.main";
 import Navbar from "./components/navbar/_Navbar.main";
 import CookieModal from "./components/CookieModal";
+import Footer from "./components/footer/Footer";
 
 export default function RootLayout() {
   const { width } = useContext(WindowContext);
