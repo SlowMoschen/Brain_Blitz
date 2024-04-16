@@ -46,6 +46,7 @@ async function bootstrap() {
 				createTableIfMissing: true,
 				ttl: Number(process.env.SESSION_MAX_AGE),
 			}),
+			proxy: true,
 			secret: process.env.SESSION_SECRET,
 			resave: true,
 			saveUninitialized: false,
