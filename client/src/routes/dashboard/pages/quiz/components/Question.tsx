@@ -11,8 +11,9 @@ export default function Question({ question }: QuestionProps) {
       justifyContent={"center"}
       bgcolor={"background.secondary"}
       width={"100%"}
-      minHeight={100}
+      height={'fit-content'}
       borderRadius={'.375rem'}
+      p={2}
     >
       <Typography variant="h5" sx={{ textAlign: "center" }}>
         {question}
