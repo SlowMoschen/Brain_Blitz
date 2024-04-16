@@ -7,10 +7,10 @@ import * as session from 'express-session';
 import helmet from 'helmet';
 import * as passport from 'passport';
 import { join } from 'path';
-import loggerMiddleware from './Middlewares/logger.middleware';
 import { AppModule } from './app.module';
 import { ResponseInterceptor } from './Interceptors/response.interceptor';
 import { corsOptions } from './Configs/cors.confing';
+import loggerMiddleware from './Middlewares/logger.middleware';
 
 const pgSession = connectPGSession(session);
 
