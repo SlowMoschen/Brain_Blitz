@@ -48,12 +48,12 @@ export default function QuizTableCard({
         <Stack alignItems={"center"}>
           <Stack alignItems="center" p={2}>
             <Stack direction={"row"} alignItems={"center"} gap={1}>
-              <Typography variant="h6">{title}</Typography>
+              <Typography variant="h6" align="center">{title}</Typography>
               {isCompleted && <VerifiedIcon sx={{ color: "accent.main" }} />}
             </Stack>
           </Stack>
           <Box>
-            <Typography variant="caption" p={2}>
+            <Typography variant="caption" p={2} align="center">
               {description}
             </Typography>
           </Box>
