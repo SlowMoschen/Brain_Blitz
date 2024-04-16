@@ -2,42 +2,44 @@ import { Box, Typography } from "@mui/material";
 
 export default function QuizCategoryIcon({ category }: { category: string }) {
   const categoryIcons: { [key: string]: string } = {
-    history: "🏛️",
-    science: "🔬",
-    sports: "🏈",
-    music: "🎵",
-    movies: "🎥",
-    geography: "🌍",
-    general: "📚",
-    math: "🧮",
-    technology: "💻",
-    animals: "🐾",
+    geschichte: "🏰",
+    geographie: "🌍",
+    wissenschaft: "🔬",
+    popkultur: "💅",
+    sport: "🏈",
+    musik: "🎵",
+    filme: "🎬",
+    technologie: "📡",
+    biologie: "🦠",
+    politik: "🏛️",
   };
 
   const getColor = (category: string) => {
     switch (category.trim().toLowerCase()) {
-      case "history":
-        return "violet";
-      case "science":
-        return "secondary.main";
-      case "sports":
-        return "success.main";
-      case "music":
-        return "info.main";
-      case "movies":
-        return "warning.main";
-      case "geography":
-        return "error.main";
-      case "general":
-        return "accent.main";
-      case "math":
-        return "yellow";
-      case "technology":
-        return "secondary.light";
-      case "animals":
-        return "success.light";
+      case "geschichte":
+        return "#f5a623";
+      case "geographie":
+        return "#4a90e2";
+      case "wissenschaft":
+        return "#7ed321";
+      case "popkultur":
+        return "#d0021b";
+      case "sport":
+        return "#4a90e2";
+      case "musik":
+        return "#9013fe";
+      case "filme":
+        return "#4a90e2";
+      case "mathematik":
+        return "#f5a623";
+      case "technologie":
+        return "#7ed321";
+      case "biologie":
+        return "#7ed321";
+      case "politik":
+        return "#d0021b";
       default:
-        return "info.light";
+        return "#4a90e2";
     }
   };
 

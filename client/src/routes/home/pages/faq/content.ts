@@ -32,7 +32,7 @@ export const content: FAQContent[] = [
   {
     question: "Gibt es verschiedene Kategorien von Quizzen?",
     answer:
-      "Ja, unsere Quiz-App bietet eine breite Palette von Kategorien wie Geschichte, Popkultur, Biologie, Universum, Geo-Politik und mehr, um sicherzustellen, dass für jeden etwas dabei ist.",
+      "Ja, unsere Quiz-App bietet eine breite Palette von Kategorien wie Geschichte, Popkultur, Biologie, Geographie, Politik und mehr, um sicherzustellen, dass für jeden etwas dabei ist.",
   },
   {
     question: "Kann ich eigene Quizze erstellen?",
