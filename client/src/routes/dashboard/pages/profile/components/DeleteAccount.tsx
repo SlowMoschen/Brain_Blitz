@@ -9,13 +9,13 @@ import {
   Typography,
 } from "@mui/material";
 import CallToAction from "../../../../../shared/components/buttons/CallToAction";
-import useToggle from "../../../../../shared/hooks/useToggle.hook";
 import SecondaryButton from "../../../../../shared/components/buttons/SecondaryButton";
-import { useDeleteUserFetch } from "../../../../../shared/hooks/api/useDeleteUserFetch.hook";
+import { useUserQueries } from "../../../../../shared/hooks/api/useUserQueries.hook";
+import useToggle from "../../../../../shared/hooks/useToggle.hook";
 
 export default function DeleteAccount() {
   const [isModalOpen, toggleModal] = useToggle(false);
-  const deleteUser = useDeleteUserFetch();
+  const { mutate: deleteUser } = useUserQueries().useDeleteUserFetch();
 
   return (
     <Stack p={2}>

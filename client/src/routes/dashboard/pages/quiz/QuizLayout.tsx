@@ -1,13 +1,13 @@
-import { Outlet, useNavigate } from "react-router-dom";
-import { useSessionFetch } from "../../../../shared/hooks/api/useSessionFetch.hook";
+import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { URLS } from "../../../../configs/Links";
 import LoadingScreen from "../../../../shared/components/LoadingScreen";
-import { Box } from "@mui/material";
+import { useAuthQueries } from "../../../../shared/hooks/api/useAuthQueries.hook";
 
 export default function QuizLayout() {
   const redirect = useNavigate();
-  const { isAuthenticated, isPending } = useSessionFetch();
+  const { isAuthenticated, isPending } = useAuthQueries().useSessionCheck();
   const [pageState, setPageState] = useState<"error" | "success" | "pending">("pending");
 
   useEffect(() => {

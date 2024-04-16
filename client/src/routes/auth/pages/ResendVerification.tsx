@@ -9,7 +9,7 @@ import AlertSnackbar from "../../../shared/components/AlertSnackbar";
 import CallToAction from "../../../shared/components/buttons/CallToAction";
 import InputText from "../../../shared/components/form/InputText";
 import { WindowContext } from "../../../shared/context/ScreenSize.context";
-import { useAuthFetch } from "../../../shared/hooks/api/useAuthFetch.hook";
+import { useAuthQueries } from "../../../shared/hooks/api/useAuthQueries.hook";
 import useToggle from "../../../shared/hooks/useToggle.hook";
 import { EmailSchema } from "../schemas/Email.schema";
 import SuccessScreen from "./SuccessScreen";
@@ -28,6 +28,9 @@ function getSnackbarMessage(error: string) {
 
   if (error.includes("User not found"))
     return "Der Benutzer wurde nicht gefunden. Bitte registriere dich erneut.";
+
+  if (error.includes("E-Mail wurde schon verifiziert"))
+    return "Die E-Mail-Adresse wurde bereits verifiziert. Bitte melde dich an.";
 
   return "Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.";
 }
@@ -48,18 +51,14 @@ export default function ResendVerification() {
     resolver: zodResolver(EmailSchema),
   });
 
-  const handleError = ({ message }: Error) => {
-    setSnackbarProps({ message: getSnackbarMessage(message), alertType: "error" });
+  const handleError = (error: string) => {
+    setSnackbarProps({ message: getSnackbarMessage(error), alertType: "error" });
     toggleSnackbarOpen();
   };
 
   const handleSuccess = () => setWasSuccessful(true);
 
-  const { mutate, isPending } = useAuthFetch(
-    handleSuccess,
-    handleError,
-    URLS.API_ENDPOINTS.AUTH.RESEND_VERIFICATION_EMAIL
-  );
+  const { mutate, isPending } = useAuthQueries().useResendVerificationEmail(handleSuccess, handleError);
 
   const onSubmit = (data: IResendFormInput) => {
     data.email = data.email.toLowerCase();

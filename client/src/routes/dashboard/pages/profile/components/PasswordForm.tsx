@@ -7,7 +7,7 @@ import AlertSnackbar from "../../../../../shared/components/AlertSnackbar";
 import CallToAction from "../../../../../shared/components/buttons/CallToAction";
 import SecondaryButton from "../../../../../shared/components/buttons/SecondaryButton";
 import InputPassword from "../../../../../shared/components/form/InputPassword";
-import { useUpdateUser } from "../../../../../shared/hooks/api/useUpdateUserFetch.hook";
+import { useUserQueries } from "../../../../../shared/hooks/api/useUserQueries.hook";
 import useToggle from "../../../../../shared/hooks/useToggle.hook";
 import { PasswordChangeSchema } from "../schemas/PasswordChange.schema";
 
@@ -56,7 +56,7 @@ export default function PasswordForm() {
     toggleSnackbarOpen();
   };
 
-  const updatePassword = useUpdateUser(onSuccess, onError);
+  const { mutate: updatePassword } = useUserQueries().useUpdateUser(onSuccess, onError);
 
   const onSubmit = (data: IPasswordChangeInput) => {
     if (data.old_password === data.new_password) {

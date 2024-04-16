@@ -9,7 +9,7 @@ import AlertSnackbar from "../../../shared/components/AlertSnackbar";
 import CallToAction from "../../../shared/components/buttons/CallToAction";
 import InputText from "../../../shared/components/form/InputText";
 import { WindowContext } from "../../../shared/context/ScreenSize.context";
-import { useAuthFetch } from "../../../shared/hooks/api/useAuthFetch.hook";
+import { useAuthQueries } from "../../../shared/hooks/api/useAuthQueries.hook";
 import useToggle from "../../../shared/hooks/useToggle.hook";
 import { EmailSchema } from "../schemas/Email.schema";
 import SuccessScreen from "./SuccessScreen";
@@ -48,18 +48,14 @@ export default function ForgotPassword() {
     resolver: zodResolver(EmailSchema),
   });
 
-  const handleError = ({ message }: Error) => {
-    setSnackbarProps({ message: getSnackbarMessage(message), alertType: "error" });
+  const handleError = (error: string) => {
+    setSnackbarProps({ message: getSnackbarMessage(error), alertType: "error" });
     toggleSnackbarOpen();
   };
 
   const handleSuccess = () => setWasSuccessful(true);
 
-  const { mutate, isPending } = useAuthFetch(
-    handleSuccess,
-    handleError,
-    URLS.API_ENDPOINTS.AUTH.FORGOT_PASSWORD
-  );
+  const { mutate, isPending } = useAuthQueries().useForgotPassword(handleSuccess, handleError);
 
   const onSubmit = (data: IResetFormInput) => {
     data.email = data.email.toLowerCase();
