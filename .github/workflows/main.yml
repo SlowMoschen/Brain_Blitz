@@ -28,13 +28,7 @@ jobs:
         working-directory: ./client
         run: npm run build
 
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: 🚀 deploying 🚀
+       - name: 🚀 deploying 🚀
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -42,4 +36,3 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./client/dist/
           remote-dir: /brain_blitz/
-        
