@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy": "https://philippmillner-api.dev/",
+  "proxy": "https://philippmillner-api.dev",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
