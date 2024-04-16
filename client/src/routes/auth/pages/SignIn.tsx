@@ -14,8 +14,7 @@ import RouterButton from "../../../shared/components/buttons/RouterButton";
 import InputPassword from "../../../shared/components/form/InputPassword";
 import InputText from "../../../shared/components/form/InputText";
 import { WindowContext } from "../../../shared/context/ScreenSize.context";
-import { useAuthFetch } from "../../../shared/hooks/api/useAuthFetch.hook";
-import { useSessionFetch } from "../../../shared/hooks/api/useSessionFetch.hook";
+import { useAuthQueries } from "../../../shared/hooks/api/useAuthQueries.hook";
 import useToggle from "../../../shared/hooks/useToggle.hook";
 import { SignInSchema } from "../schemas/SignIn.schema";
 import { imagePaperStyles, imageStyles, paperStyles, stackStyles } from "./styles/SignIn.styles";
@@ -31,23 +30,21 @@ const defaultValues: ISignInFormInput = {
 };
 
 function getSnackbarMessage(error: string) {
-  switch (error) {
-    case "User not found":
-      return "Benutzer wurde nicht gefunden.";
-    case "Invalid password":
-      return "Ungültiges Passwort.";
-    case "Email not verified":
-      return "Bitte bestätige deine E-Mail-Adresse.";
-    default:
-      return "Es ist ein Fehler aufgetreten. Bitte versuche es erneut.";
-  }
+  if (error.includes("Too Many Requests"))
+    return "Die Verifizierungsmail wurde bereits gesendet. Bitte überprüfe deinen Posteingang.";
+  if (error.includes("User not found"))
+    return "Der Benutzer wurde nicht gefunden. Bitte registriere dich erneut.";
+  if (error.includes("Invalid password")) return "Ungültiges Passwort.";
+  if (error.includes("Email not verified")) return "Bitte bestätige deine E-Mail-Adresse.";
+
+  return "Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.";
 }
 
 export default function SignIn() {
   const redirect = useNavigate();
   const { width } = useContext(WindowContext);
   const [isSnackbarOpen, toggleSnackbarOpen] = useToggle(false);
-  const { isAuthenticated, isPending: isAuthPending } = useSessionFetch();
+  const { isAuthenticated, isPending: isAuthPending } = useAuthQueries().useSessionCheck();
   const [snackBarProps, setSnackbarProps] = useState<{
     message: string;
     alertType: "success" | "error";
@@ -60,17 +57,16 @@ export default function SignIn() {
     resolver: zodResolver(SignInSchema),
   });
 
-  const handleError = ({ message }: Error) => {
-    setSnackbarProps({ message: getSnackbarMessage(message), alertType: "error" });
+  const handleError = (error: string) => {
+    setSnackbarProps({ message: getSnackbarMessage(error), alertType: "error" });
     toggleSnackbarOpen();
   };
 
   const handleSuccess = () => redirect(URLS.DASHBOARD);
 
-  const { mutate, isPending: isSignInPending } = useAuthFetch(
+  const { mutate, isPending: isSignInPending } = useAuthQueries().useSignIn(
     handleSuccess,
-    handleError,
-    URLS.API_ENDPOINTS.AUTH.SIGNIN
+    handleError
   );
 
   const onSubmit = (data: ISignInFormInput) => {
@@ -79,14 +75,13 @@ export default function SignIn() {
     reset(defaultValues);
   };
 
-
   useEffect(() => {
     if (isAuthenticated) redirect(URLS.DASHBOARD);
   }, [isAuthenticated]);
 
   return (
     <>
-      {isSignInPending || isAuthPending  && <LoadingScreen />}
+      {isSignInPending || (isAuthPending && <LoadingScreen />)}
       <Stack sx={stackStyles}>
         <Paper sx={paperStyles}>
           <Paper elevation={9} sx={imagePaperStyles}>

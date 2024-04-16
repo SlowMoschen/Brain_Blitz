@@ -1,16 +1,16 @@
-import { Badge, Grid, Stack, Typography } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import AvatarIcon from "./AvatarIcon";
-import { useOutletContext } from "react-router-dom";
-import { useLogoutFetch } from "../../../../../shared/hooks/api/useLogoutFetch.hook";
-import { UserContext } from "../../../../../shared/types/User";
-import CallToAction from "../../../../../shared/components/buttons/CallToAction";
+import { Badge, Grid, Stack, Typography } from "@mui/material";
 import CountUp from "react-countup";
+import { useOutletContext } from "react-router-dom";
+import CallToAction from "../../../../../shared/components/buttons/CallToAction";
+import { useAuthQueries } from "../../../../../shared/hooks/api/useAuthQueries.hook";
+import { UserContext } from "../../../../../shared/types/User";
+import AvatarIcon from "./AvatarIcon";
 
 export default function ProfileStats() {
   const { user } = useOutletContext<UserContext>();
-  const logout = useLogoutFetch();
+  const { mutate: logout } = useAuthQueries().useLogout();
 
   const countUpStyle = { color: "#99ff66", fontSize: "1.3rem" };
 
@@ -76,7 +76,7 @@ export default function ProfileStats() {
           </Grid>
         </Grid>
       </Stack>
-      <CallToAction text="Logout" color="error" size="large" onClick={() => logout()} />
+      <CallToAction text="Logout" color="error" size="large" onClick={() => logout(undefined)} />
     </Stack>
   );
 }

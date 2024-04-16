@@ -13,7 +13,7 @@ import RouterButton from "../../../shared/components/buttons/RouterButton";
 import InputPassword from "../../../shared/components/form/InputPassword";
 import InputText from "../../../shared/components/form/InputText";
 import { WindowContext } from "../../../shared/context/ScreenSize.context";
-import { useAuthFetch } from "../../../shared/hooks/api/useAuthFetch.hook";
+import { useAuthQueries } from "../../../shared/hooks/api/useAuthQueries.hook";
 import useToggle from "../../../shared/hooks/useToggle.hook";
 import { SignUpSchema } from "../schemas/SignUp.schema";
 import SuccessScreen from "./SuccessScreen";
@@ -59,19 +59,14 @@ export default function SignUp() {
     resolver: zodResolver(SignUpSchema),
   });
 
-  const handleError = ({ message }: Error) => {
-    console.log(message);
-    setSnackbarProps({ message: getSnackbarMessage(message), alertType: "error" });
+  const handleError = (error: string) => {
+    setSnackbarProps({ message: getSnackbarMessage(error), alertType: "error" });
     toggleSnackbarOpen();
   };
 
   const handleSuccess = () => setWasSuccessful(true);
 
-  const { mutate, isPending } = useAuthFetch(
-    handleSuccess,
-    handleError,
-    URLS.API_ENDPOINTS.AUTH.SIGNUP
-  );
+  const { mutate, isPending } = useAuthQueries().useSignUp(handleSuccess, handleError);
 
   const onSubmit = (data: ISignUpFormInput) => {
     data.email = data.email.toLowerCase();

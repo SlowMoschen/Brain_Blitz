@@ -30,8 +30,7 @@ export function useMutationFactory<TData>({
 }: QuerySetupProps) {
   const queryClient = useQueryClient();
 
-  function mutationFn(data: TData) {
-    console.log(typeof data, data);
+  function getMutationFN(data?: TData) {
     switch (method) {
       case "get":
         return HttpServiceInstance.get(endpoint);
@@ -45,7 +44,7 @@ export function useMutationFactory<TData>({
   }
 
   return useMutation({
-    mutationFn,
+    mutationFn: (data?: TData) => getMutationFN(data),
     onSuccess: () => {
       if (invalidateData) queryClient.invalidateQueries({ queryKey: invalidateData });
       onSuccess();
