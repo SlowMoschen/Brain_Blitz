@@ -87,6 +87,10 @@ export class QuizService {
 		}
 
 		// Check if the user has a highscore for the quiz and update it if necessary - if not, create a new highscore
+		if (completedQuizDTO.score === 0) {
+			returnValue.highscore = 'not created';
+			return returnValue;
+		};
 		const existingHighscore = await this.highscoreService.getSpecificHighscore(userId, quizId);
 		if (!existingHighscore) {
 			const newHighscoreID = await this.highscoreService.createHighscore({
