@@ -52,6 +52,7 @@ async function bootstrap() {
 				maxAge: Number(process.env.SESSION_MAX_AGE),
 				httpOnly: true,
 				secure: process.env.NODE_ENV === 'production',
+				domain: 'brain-blitz.com',
 			},
 		}),
 	);
