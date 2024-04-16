@@ -1,4 +1,4 @@
-export const NODE_ENV: 'production' | 'development' = 'development';
+export const NODE_ENV: 'production' | 'development' = 'production';
 
 export const TIMES = {
     COUNT_UP_DELAY: 0,
