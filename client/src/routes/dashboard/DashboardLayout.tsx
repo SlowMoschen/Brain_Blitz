@@ -6,10 +6,10 @@ import LoadingScreen from "../../shared/components/LoadingScreen";
 import ScrollToTop from "../../shared/components/ScrollToTop";
 import { UserIDContext } from "../../shared/context/UserID.context";
 import { useSocket } from "../../shared/hooks/api/useSocket.hook";
-import { useUserFetch } from "../../shared/hooks/api/useUserFetch.hook";
+import { useUserQueries } from "../../shared/hooks/api/useUserQueries.hook";
+import { NewQuizUnlockedEvent } from "../../shared/types/ServerEvents";
 import { IUser } from "../../shared/types/User";
 import BottomMenu from "./components/navigation/BottomMenu";
-import { NewQuizUnlockedEvent } from "../../shared/types/ServerEvents";
 
 export interface IOutletContext {
   user: IUser;
@@ -20,7 +20,7 @@ export interface IOutletContext {
 export default function DashboardLayout() {
   const [pageState, setPageState] = useState<"error" | "success" | "pending">("pending");
   const [notifications, setNotifications] = useState<string[]>([]);
-  const { user, isPending, isError, noAccess } = useUserFetch();
+  const { user, isPending, isError, noAccess } = useUserQueries().useUserFetch();
   const { setUserID } = useContext(UserIDContext);
   const { pathname } = useLocation();
   const redirect = useNavigate();
