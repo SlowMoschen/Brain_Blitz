@@ -28,7 +28,7 @@ jobs:
         working-directory: ./client
         run: npm run build
 
-       - name: 🚀 deploying 🚀
+      - name: 🚀 deploying 🚀
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
