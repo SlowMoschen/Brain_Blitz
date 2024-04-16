@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { timeToQuaterHour } from "../../../configs/Application";
 import { URLS } from "../../../configs/Links";
 import { IUser } from "../../types/User";
-import { useMutationFactory } from "./useMutationFactory";
-import { useQueryFactory } from "./useQueryFactory";
+import { useMutationFactory } from "./_useMutationFactory";
+import { useQueryFactory } from "./_useQueryFactory";
 
 interface UpdateUserDTO {
   first_name?: string;

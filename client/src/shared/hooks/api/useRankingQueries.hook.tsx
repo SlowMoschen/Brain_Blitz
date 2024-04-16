@@ -1,6 +1,6 @@
 import { URLS } from "../../../configs/Links";
 import { IMostPlayedQuizRanking, IPersonalRanking, IPlaytimeRanking, IPointsRanking, IQuizRanking } from "../../types/Rankings";
-import { useQueryFactory } from "./useQueryFactory"
+import { useQueryFactory } from "./_useQueryFactory"
 
 export function useRankingQueries() {
 

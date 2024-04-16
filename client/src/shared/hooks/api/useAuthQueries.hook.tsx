@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { URLS } from "../../../configs/Links";
-import { useMutationFactory } from "./useMutationFactory";
-import { useQueryFactory } from "./useQueryFactory";
+import { useMutationFactory } from "./_useMutationFactory";
+import { useQueryFactory } from "./_useQueryFactory";
 
 /**
  * @description This hook is used to create hooks for authentication queries.
