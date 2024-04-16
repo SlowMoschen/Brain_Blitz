@@ -19,8 +19,6 @@ async function bootstrap() {
 		cors: corsOptions,
 	});
 
-	app.setGlobalPrefix('api');
-
 	const hbsConfig = create({
 		extname: '.hbs',
 		layoutsDir: join(__dirname, 'Views/Layouts'),
