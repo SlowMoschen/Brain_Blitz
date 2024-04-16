@@ -12,7 +12,7 @@ export class AppController {
 		private readonly eventEmitter: EventEmitter2,
 	) {}
 
-	@Get()
+	@Get('health')
 	healthCheck(): string {
 		return 'Server is up and running!';
 	}

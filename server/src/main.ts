@@ -51,8 +51,7 @@ async function bootstrap() {
 			cookie: {
 				maxAge: Number(process.env.SESSION_MAX_AGE),
 				httpOnly: true,
-				secure: process.env.NODE_ENV === 'production',
-				domain: 'brain-blitz.com',
+				// secure: process.env.NODE_ENV === 'production',
 			},
 		}),
 	);
