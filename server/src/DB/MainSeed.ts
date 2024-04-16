@@ -6,6 +6,7 @@ import { env } from '../Configs/env.config';
 import * as schema from '../Models/_index';
 import { clearDB } from './clear';
 import { generateUser } from './FakeUserSeed';
+import { seedQuizzes } from './QuizSeed';
 
 
 /**
@@ -23,102 +24,11 @@ const client = new Client({
 
 const db = drizzle(client, { schema });
 
-// MARK: Mock Data
-const quizzesToInsert: InsertQuiz[] = [
-	{
-		title: 'Quiz 1',
-		description: 'This is a quiz',
-		category: 'science',
-	},
-	{
-		title: 'Quiz 2',
-		description: 'This is a quiz',
-		category: 'history',
-	},
-	{
-		title: 'Quiz 3',
-		description: 'This is a quiz',
-		category: 'math',
-	},
-	{
-		title: 'Quiz 4',
-		description: 'This is a quiz',
-		category: 'science',
-	},
-	{
-		title: 'Quiz 5',
-		description: 'This is a quiz',
-		category: 'history',
-	},
-	{
-		title: 'Quiz 6',
-		description: 'This is a quiz',
-		category: 'math',
-	},
-	{
-		title: 'Quiz 7',
-		description: 'This is a quiz',
-		category: 'science',
-	},
-	{
-		title: 'Quiz 8',
-		description: 'This is a quiz',
-		category: 'history',
-	},
-	{
-		title: 'Quiz 9',
-		description: 'This is a quiz',
-		category: 'math',
-	},
-	{
-		title: 'Quiz 10',
-		description: 'This is a quiz',
-		category: 'science',
-	},
-];
-
 const adminUser = {
 	first_name: 'Admin',
 	last_name: 'User',
 	password: 'admin',
 	email: 'admin@test.com',
-};
-
-/**
- * MARK: Seed Quizzes
- * This script will insert quizzes into the database
- */
-const seedQuizzes = async (): Promise<string> => {
-	try {
-		console.log('Seeding quizzes');
-		let quizID = '';
-
-		for (const quiz of quizzesToInsert) {
-			console.log(`Seeding quiz ${quiz.title}`);
-			const newQuiz = await db.insert(schema.quizzesTable).values(quiz).returning({ id: schema.quizzesTable.id });
-			const id = newQuiz[0].id;
-			quizID = id;
-
-			await Promise.all([
-				db.insert(schema.quizQuestionsTable).values({
-					quiz_id: id,
-					question: 'What is 1 + 1?',
-					answers: ['1', '2', '3', '4'],
-					correct_answer: '2',
-				}),
-				db.insert(schema.quizQuestionsTable).values({
-					quiz_id: id,
-					question: 'What is 2 + 2?',
-					answers: ['1', '2', '3', '4'],
-					correct_answer: '4',
-				}),
-			]);
-		}
-
-		return quizID;
-	} catch (err) {
-		console.error(err);
-	}
 };
 
 /**
@@ -169,8 +79,8 @@ const main = async () => {
 	try {
 		await client.connect();
 		await clearDB(db);
-		const lastQuizID = await seedQuizzes();
-		await generateUser(db, lastQuizID);
+		await seedQuizzes(db);
+		// await generateUser(db);
 		await seedAdminUser();
 		await client.end();
 	} catch (err) {

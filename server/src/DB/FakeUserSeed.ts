@@ -19,7 +19,7 @@ const usersToInsert: InsertUser[] = Array.from({ length: 10 }, () => ({
 	energy: 100,
 }));
 
-const generateUser = async (db: any, quizID: string) => {
+const generateMockUser = async (db: any, quizID: string) => {
 	for (const user of usersToInsert) {
 		const userID = await db.insert(schema.usersTable).values(user).returning({ id: schema.usersTable.id });
 		const { id } = userID[0];
@@ -53,4 +53,4 @@ const generateUser = async (db: any, quizID: string) => {
 	}
 };
 
-export { generateUser };
+export { generateMockUser as generateUser };
