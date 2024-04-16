@@ -40,7 +40,6 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./client/build/
+          local-dir: ./client/dist/
           remote-dir: /brain_blitz/
-          failOnError: true
         
