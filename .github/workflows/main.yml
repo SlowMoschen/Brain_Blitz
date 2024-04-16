@@ -7,29 +7,32 @@ on:
   pull_request:
     branches:
       - main
-      
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: '20.x'
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "20.x"
 
-    - name: 📂 change directory 📂
-      run: cd .\client\
+      - name: 📡 Install dependencies 📡
+      - working-directory: ./client
+        run: npm install
 
-    - name: 📡 Install dependencies 📡
-      run: npm install
+      - name: 🏗 Building App 🏗
+      - working-directory: ./client
+        run: npm run build
 
-    - name: 🏗 Building App 🏗
-      run: npm run build
+    deploy:
+      runs-on: ubuntu-latest
 
-    - name: 🚀 Deploying 🚀
+      steps:
+        - name: 🚀 Deploying 🚀
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: ${{ secrets.FTP_SERVER }}
