@@ -16,11 +16,11 @@ export default function RootLayout() {
     <>
       <ScrollToTop />
       {width > BREAKPOINTS.md ? <Navbar /> : <MobileNavbar />}
-      <Stack alignItems={'center'} width={'100%'} position={'relative'}>
+      <Stack alignItems={"center"} width={"100%"} position={"relative"}>
         <Outlet />
       </Stack>
       <Footer />
-        <CookieModal />
+      <CookieModal />
     </>
   );
 }
