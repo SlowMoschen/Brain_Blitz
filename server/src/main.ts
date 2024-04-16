@@ -51,10 +51,11 @@ async function bootstrap() {
 			cookie: {
 				maxAge: Number(process.env.SESSION_MAX_AGE),
 				httpOnly: true,
-				secure: false,
+				secure: process.env.NODE_ENV === 'production',
 			},
 		}),
 	);
+	app.set('trust proxy', true);
 
 	app.use(passport.initialize());
 	app.use(passport.session());
