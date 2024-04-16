@@ -15,6 +15,7 @@ import { GatewayModule } from './Modules/gateway/gateway.module';
 
 @Module({
 	imports: [
+		ConfigModule.forRoot({ isGlobal: true }),
 		ThrottlerModule.forRoot([
 			{
 				ttl: 60000,
@@ -22,7 +23,6 @@ import { GatewayModule } from './Modules/gateway/gateway.module';
 			},
 		]),
 		GatewayModule,
-		ConfigModule.forRoot({ isGlobal: true }),
 		EventEmitterModule.forRoot(),
 		ScheduleModule.forRoot(),
 		SharedModule,
