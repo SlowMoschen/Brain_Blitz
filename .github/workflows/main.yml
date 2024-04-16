@@ -33,10 +33,10 @@ jobs:
 
       steps:
         - name: 🚀 Deploying 🚀
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./client/build
-        server-dir: /brain_blitz/
+          uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+          with:
+            server: ${{ secrets.FTP_SERVER }}
+            username: ${{ secrets.FTP_USERNAME }}
+            password: ${{ secrets.FTP_PASSWORD }}
+            local-dir: ./client/build
+            server-dir: /brain_blitz/
