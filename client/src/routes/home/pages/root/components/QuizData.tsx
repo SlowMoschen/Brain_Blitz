@@ -4,7 +4,7 @@ import CountUp from "react-countup";
 import { TIMES } from "../../../../../configs/Application";
 import { BREAKPOINTS } from "../../../../../configs/Breakpoints";
 import { WindowContext } from "../../../../../shared/context/ScreenSize.context";
-import { useQuizDataFetch } from "../../../../../shared/hooks/api/useQuizDataFetch.hook";
+import { useQuizQueries } from "../../../../../shared/hooks/api/useQuizQueries.hook";
 
 interface DataCountUpCardProps {
   count: number;
@@ -71,7 +71,7 @@ function DataCountUpCard({ count, textContent, bgColor, isColumn }: DataCountUpC
  * @returns {JSX.Element}
  */
 export default function QuizData() {
-  const { quizData } = useQuizDataFetch();
+  const { quizData } = useQuizQueries().useQuizGeneralStats();
 
   if (!quizData) {
     return (

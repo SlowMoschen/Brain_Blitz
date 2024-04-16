@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { GAME } from "../../../configs/Application";
 import { IQuestion, IQuiz } from "../../types/Quiz";
-import { useQuizCompleteFetch } from "../api/useQuizCompleteFetch.hook";
+import { useQuizQueries } from "../api/useQuizQueries.hook";
 import { useDailyStatsTracker } from "../localStorage/useDailyStatsTracker.hook";
 import { useCountdownTimer } from "../timer/useCountdownTimer.hook";
 import { useGameSounds } from "./useGameSounds.hook";
@@ -33,7 +33,7 @@ export function useQuiz(quizData: IQuiz) {
   } = useCountdownTimer(GAME.TIME_PER_QUIZ);
   const { currentTime: initialCountdownTime, startTimer: startInitialCountdown } =
     useCountdownTimer(4000);
-  const { mutate } = useQuizCompleteFetch(quizData.id);
+  const { mutate } = useQuizQueries().useCompleteQuiz(quizData.id);
   const { updateDailyStats } = useDailyStatsTracker();
 
   const startQuiz = () => {
