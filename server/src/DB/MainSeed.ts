@@ -1,12 +1,9 @@
-import * as bcrypt from 'bcrypt';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Client } from 'pg';
-import { InsertQuiz } from 'src/Utils/Types/model.types';
 import { env } from '../Configs/env.config';
 import * as schema from '../Models/_index';
-import { clearDB } from './clear';
-import { generateUser } from './FakeUserSeed';
 import { seedQuizzes } from './QuizSeed';
+import { clearDB } from './clear';
 
 /**
  * This script is responsible for seeding the db with Mock data
