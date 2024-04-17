@@ -27,9 +27,15 @@ const seedQuizzes = async (db: any) => {
 		console.log(`----------------- Category: ${quizData.category} -----------------`);
 
 		for (const question of questions) {
+			const shuffledAnswers = question.answers.sort(() => Math.random() - 0.5);
+			const questionData = {
+				quiz_id: id,
+				...question,
+				answers: shuffledAnswers,
+			};
 			const questionID = await db
 				.insert(schema.quizQuestionsTable)
-				.values({ ...question, quiz_id: id })
+				.values(questionData)
 				.returning({ id: schema.quizQuestionsTable.id });
 		}
 
