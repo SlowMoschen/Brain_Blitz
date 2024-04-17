@@ -16,6 +16,7 @@ export default function WelcomeHeader({ name }: WelcomeHeaderProps) {
         className="animated-bg"
         fontWeight={500}
         fontSize={{ md: 80, xl: 90 }}
+        textTransform={"capitalize"}
       >
         {name}
       </Typography>
