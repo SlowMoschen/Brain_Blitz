@@ -41,7 +41,15 @@ export default function Quiz({ quizData }: QuizProps) {
       <InitialCountdown />
       {hasStarted ? (
         <>
-          <Stack alignItems={"center"} width={"100%"} height={'100vh'} p={4} gap={2} maxWidth={BREAKPOINTS.lg}>
+          <Stack
+            alignItems={"center"}
+            justifyContent={{ xs: "flex-start", lg: "center" }}
+            width={"100%"}
+            height={"100vh"}
+            p={4}
+            gap={2}
+            maxWidth={BREAKPOINTS.lg}
+          >
             <Score score={currentScore} />
             <QuizTimer time={quizTime} />
             <Question question={currentQuestion!.question} />
