@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 
 interface ContainerWithHeaderProps {
   header: string;
@@ -20,19 +20,16 @@ export default function ContainerWithHeader({ header, children, sx, center, capt
     borderRadius: ".375rem .375rem 0 0",
     bgcolor: "accent.light",
     p: 2,
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
   };
 
   return (
     <Box sx={mainContainer}>
-      <Box sx={headerContainer}>
+      <Stack sx={headerContainer}>
         <Typography variant="h5" textAlign={center ? 'center' : 'left'}>{header}</Typography>
-        <Typography variant="caption" textAlign={center ? 'center' : 'left'}>
+        <Typography variant="caption" sx={{ opacity: .5 }} textAlign={center ? 'center' : 'left'}>
           {caption}
         </Typography>
-      </Box>
+      </Stack>
       {children}
     </Box>
   );

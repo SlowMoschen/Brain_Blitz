@@ -31,8 +31,11 @@ export function useQuiz(quizData: IQuiz) {
     startTimer: startQuizTimer,
     stopTimer: stopQuizTimer,
   } = useCountdownTimer(GAME.TIME_PER_QUIZ);
-  const { currentTime: initialCountdownTime, startTimer: startInitialCountdown } =
-    useCountdownTimer(4000);
+  const {
+    currentTime: initialCountdownTime,
+    startTimer: startInitialCountdown,
+    stopTimer: stopInitialTimer,
+  } = useCountdownTimer(4000);
   const { mutate } = useQuizQueries().useCompleteQuiz(quizData.id);
   const { updateDailyStats } = useDailyStatsTracker();
 
@@ -99,6 +102,7 @@ export function useQuiz(quizData: IQuiz) {
   // Starts the quiz timer when the initial countdown timer reaches 0
   useEffect(() => {
     if (initialCountdownTime === 0) {
+      stopInitialTimer();
       setHasStarted(true);
       startQuizTimer();
       playSound("startBeep");

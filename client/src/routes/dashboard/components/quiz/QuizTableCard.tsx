@@ -3,7 +3,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import { Box, Paper, Stack, Typography } from "@mui/material";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { ENERGY_CONSUPMTION, TIMES } from "../../../../configs/Application";
+import { GAME, TIMES } from "../../../../configs/Application";
 import AlertSnackbar from "../../../../shared/components/AlertSnackbar";
 import useToggle from "../../../../shared/hooks/useToggle.hook";
 import { UserContext } from "../../../../shared/types/User";
@@ -27,7 +27,7 @@ export default function QuizTableCard({
   const redirect = useNavigate();
   const [isSnackbarOpen, toggleSnackbarOpen] = useToggle(false);
   const { user } = useOutletContext<UserContext>();
-  const hasEnoughEnergy = user.energy >= ENERGY_CONSUPMTION;
+  const hasEnoughEnergy = user.energy >= GAME.ENERGY_CONSUPMTION;
 
   const handleStartQuiz = async () => {
     if (!hasEnoughEnergy) return toggleSnackbarOpen();
@@ -81,7 +81,7 @@ export default function QuizTableCard({
               alignItems="center"
               sx={{ position: "absolute", left: { xs: 5, lg: 70 }, top: { lg: 3 }, fontSize: 10 }}
             >
-              {ENERGY_CONSUPMTION}
+              {GAME.ENERGY_CONSUPMTION}
               <FlashOffIcon sx={{ color: "yellow", fontSize: { xs: 15, lg: 20 } }} />
             </Stack>
             {hasEnoughEnergy ? (

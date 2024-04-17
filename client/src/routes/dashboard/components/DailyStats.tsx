@@ -28,7 +28,7 @@ export default function DailyStats() {
   const stats: IDailyStats = dailyStats;
 
   return (
-    <ContainerWithHeader header="Tägliche Statistik" sx={{ mt: 3, width: "90%" }}>
+    <ContainerWithHeader header="Tägliche Statistik" caption="erspielt auf diesem Gerät" sx={{ mt: 3, width: "90%" }}>
       <Stack>
         <Grid container spacing={2} p={2}>
           {content.map((item, index) => (

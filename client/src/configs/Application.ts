@@ -1,13 +1,9 @@
-export const NODE_ENV: 'production' | 'development' = 'production';
-
 export const TIMES = {
     COUNT_UP_DELAY: 0,
     COUNT_UP_DURATION: 2,
     SNACKBAR_DELAY: 4000,
     ERROR_MESSAGE_DURATION: 5000,
 }
-
-export const ENERGY_CONSUPMTION = 15;
 
 export const GAME = {
     ENERGY_CONSUPMTION: 15,
