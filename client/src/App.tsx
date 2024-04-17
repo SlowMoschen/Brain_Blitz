@@ -2,7 +2,7 @@ import { ThemeProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Suspense, lazy } from "react";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createHashRouter } from "react-router-dom";
 import customTheme from "./configs/CustomTheme";
 import AuthLayout from "./routes/auth/AuthLayout";
 import ForgotPassword from "./routes/auth/pages/ForgotPassword";
@@ -21,8 +21,8 @@ import Home from "./routes/home/pages/root/Root";
 import Terms from "./routes/home/pages/terms/Terms";
 import LoadingScreen from "./shared/components/LoadingScreen";
 import { WindowContextProvider } from "./shared/context/ScreenSize.context";
-import { UserIDContextProvider } from "./shared/context/UserID.context";
 import { SocketContextProvider } from "./shared/context/Socket.context";
+import { UserIDContextProvider } from "./shared/context/UserID.context";
 const QuizRanking = lazy(() => import("./routes/dashboard/pages/rankings/Quiz.Ranking"));
 const DashboardLayout = lazy(() => import("./routes/dashboard/DashboardLayout"));
 const DashboardRoot = lazy(() => import("./routes/dashboard/pages/root/Root"));
@@ -32,7 +32,7 @@ const QuizPage = lazy(() => import("./routes/dashboard/pages/quiz/QuizPage"));
 const QuizLayout = lazy(() => import("./routes/dashboard/pages/quiz/QuizLayout"));
 
 export default function App() {
-  const router = createBrowserRouter([
+  const router = createHashRouter([
     {
       path: "*",
       element: <ErrorPage />,
