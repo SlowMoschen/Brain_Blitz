@@ -90,7 +90,7 @@ export default function ResendVerification() {
         text="Wir haben dir eine Bestätigungsmail gesendet. Bitte überprüfe deinen Posteingang und bestätige deine E-Mail-Adresse."
         button={{
           text: "Zurück zum Login",
-          to: URLS.API_ENDPOINTS.AUTH.SIGNIN,
+          to: URLS.SIGNIN,
         }}
       />
     );
