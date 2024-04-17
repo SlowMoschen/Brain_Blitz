@@ -40,14 +40,14 @@ const euPoliticsQuiz = {
 			correct_answer: 'Europäischer Gerichtshof',
 		},
 		{
-			question: 'Welche Stadt ist der Sitz des Europäischen Parlaments?',
-			answers: ['Brüssel', 'Straßburg', 'Luxemburg', 'Amsterdam'],
+			question: 'Welche Stadt ist einer der Sitze des Europäischen Parlaments?',
+			answers: ['Wien', 'Straßburg', 'Luxemburg', 'Amsterdam'],
 			correct_answer: 'Straßburg',
 		},
 		{
 			question: 'Welches Land ist kein Mitglied der Europäischen Union?',
-			answers: ['Norwegen', 'Schweiz', 'Türkei', 'Island'],
-			correct_answer: 'Island',
+			answers: ['Deutschland', 'Norwegen', 'Spanien', 'Italien'],
+			correct_answer: 'Norwegen',
 		},
 		{
 			question: 'Welche Organisation ist für die Umsetzung der europäischen Gesetze in den Mitgliedstaaten zuständig?',
