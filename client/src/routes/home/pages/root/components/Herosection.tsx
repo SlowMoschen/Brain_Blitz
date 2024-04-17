@@ -30,9 +30,8 @@ export default function Herosection() {
     flexDirection: { xs: "column", lg: "row" },
     justifyContent: { lg: "space-evenly", xs: "center" },
     alignItems: "center",
-    height: "100vh",
     width: "100%",
-    mt: { xs: 10, lg: 0 },
+    mt: { xs: 0, lg: 20 },
   };
 
   const btnContainer = {
