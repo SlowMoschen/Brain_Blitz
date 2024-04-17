@@ -84,6 +84,15 @@ export default function SignUp() {
     );
   }
 
+  const linkStyles = {
+    color: "primary.main",
+    textDecoration: "underline",
+    m: 0,
+    p: 0,
+    fontSize: 12,
+    textTransform: "none",
+  };
+
   return (
     <>
       {isPending && <LoadingScreen />}
@@ -154,10 +163,22 @@ export default function SignUp() {
               </Stack>
               <Typography variant="body2" my={2} px={1} fontSize={12}>
                 Mit dem Klicken auf „Anmelden“ stimmst du unseren{" "}
-                <Link href={URLS.TERMS_AND_CONDITIONS}>Nutzungsbedingungen</Link> 
-                {" "}und{" "}
-                <Link href={URLS.PRIVACY}>Datenschutzrichtlinien</Link>
-                {" "}zu.
+                <RouterButton
+                  to={URLS.TERMS_AND_CONDITIONS}
+                  variant="text"
+                  sx={linkStyles}
+                  text="Nutzungsbedingungen"
+                  color="primary"
+                />{" "}
+                und{" "}
+                <RouterButton
+                  to={URLS.PRIVACY}
+                  variant="text"
+                  sx={linkStyles}
+                  text="Datenschutzrichtlinien"
+                  color="primary"
+                />{" "}
+                zu.
               </Typography>
               <CallToAction text="Anmelden" type="submit" fullWidth />
             </form>
