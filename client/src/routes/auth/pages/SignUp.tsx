@@ -18,6 +18,7 @@ import useToggle from "../../../shared/hooks/useToggle.hook";
 import { SignUpSchema } from "../schemas/SignUp.schema";
 import SuccessScreen from "./SuccessScreen";
 import { imagePaperStyles, imageStyles, paperStyles, stackStyles } from "./styles/SignUp.styles";
+import { formatValue } from "../../../shared/services/ValueFormatter.service";
 
 interface ISignUpFormInput {
   first_name: string;
@@ -69,7 +70,14 @@ export default function SignUp() {
   const { mutate, isPending } = useAuthQueries().useSignUp(handleSuccess, handleError);
 
   const onSubmit = (data: ISignUpFormInput) => {
-    data.email = data.email.toLowerCase();
+    for (const key in data) {
+      if (key === "email" || key.includes("name")) {
+        data[key as keyof ISignUpFormInput] = formatValue(data[key as keyof ISignUpFormInput], [
+          "trim",
+          "lowerCase",
+        ]);
+      }
+    }
     mutate(data);
     reset(defaultValues);
   };

@@ -18,6 +18,7 @@ import { useAuthQueries } from "../../../shared/hooks/api/useAuthQueries.hook";
 import useToggle from "../../../shared/hooks/useToggle.hook";
 import { SignInSchema } from "../schemas/SignIn.schema";
 import { imagePaperStyles, imageStyles, paperStyles, stackStyles } from "./styles/SignIn.styles";
+import { formatValue } from "../../../shared/services/ValueFormatter.service";
 
 interface ISignInFormInput {
   email: string;
@@ -70,7 +71,7 @@ export default function SignIn() {
   );
 
   const onSubmit = (data: ISignInFormInput) => {
-    data.email = data.email.toLowerCase();
+    data.email = formatValue(data.email, ["trim", "lowerCase"]);
     mutate(data);
     reset(defaultValues);
   };

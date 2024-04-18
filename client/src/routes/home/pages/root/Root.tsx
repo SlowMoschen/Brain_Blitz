@@ -8,9 +8,9 @@ export default function Home() {
   return (
     <>
       <Herosection />
+      <QuizData />
       <WhySection />
       <HowSection />
-      <QuizData />
       <EndSection />
     </>
   );

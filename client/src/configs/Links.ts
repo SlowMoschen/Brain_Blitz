@@ -14,6 +14,9 @@ export const URLS = {
   DASHBOARD: "/dashboard",
   PROFILE: "/dashboard/profile",
   RANKINGS: "/dashboard/rankings",
+  MOST_POINTS_RANKING: "/dashboard/rankings/overall/points",
+  MOST_PLAYTIME_RANKING: "/dashboard/rankings/overall/playtime",
+  MOST_PLAYED_QUIZZES_RANKING: "/dashboard/rankings/overall/most-played-quizzes",
   QUIZ_RANKING: "/dashboard/rankings/quiz-ranking/",
   API_URL: import.meta.env.PROD ? "https://www.api.brain-blitz.com" : "http://localhost:3000",
   API_ENDPOINTS: {

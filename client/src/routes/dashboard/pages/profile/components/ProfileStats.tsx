@@ -7,6 +7,7 @@ import CallToAction from "../../../../../shared/components/buttons/CallToAction"
 import { useAuthQueries } from "../../../../../shared/hooks/api/useAuthQueries.hook";
 import { UserContext } from "../../../../../shared/types/User";
 import AvatarIcon from "./AvatarIcon";
+import { formatValue } from "../../../../../shared/services/ValueFormatter.service";
 
 export default function ProfileStats() {
   const { user } = useOutletContext<UserContext>();
@@ -51,7 +52,9 @@ export default function ProfileStats() {
         </Badge>
         <Grid container mx={4} my={2} spacing={2}>
           <Grid item xs={12} md={6} gridRow={2} alignItems={"center"} justifyContent={"center"}>
-            <Typography variant="h4">{`${user.first_name} ${user.last_name}`}</Typography>
+            <Typography variant="h4">{`${formatValue(user.first_name, [
+              "capitalize",
+            ])} ${formatValue(user.last_name, ["capitalize"])}`}</Typography>
             <Typography variant="caption" sx={{ opacity: 0.5 }}>
               ID: {user.id}
             </Typography>

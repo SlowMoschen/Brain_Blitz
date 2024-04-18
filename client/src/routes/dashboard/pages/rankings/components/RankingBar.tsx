@@ -7,9 +7,10 @@ interface RankingBarProps {
   name: string;
   rank: number;
   user_id: string;
+  onClick?: () => void;
 }
 
-export default function RankingBar({ value, name, rank, user_id }: RankingBarProps) {
+export default function RankingBar({ value, name, rank, user_id, onClick }: RankingBarProps) {
   const { user } = useOutletContext<UserContext>();
 
   const isZero = value === 0 || value === "00:00";
@@ -29,6 +30,9 @@ export default function RankingBar({ value, name, rank, user_id }: RankingBarPro
   // codition to display  1st rankingbar in the middle on desktop
   const desktopOrder = rank === 1 ? 2 : rank === 2 ? 1 : 3;
 
+  // hover effect if onClick is passed
+  const hover = onClick ? { cursor: "pointer", filter: "brightness(0.8)" } : {};
+
   const styles = {
     display: "flex",
     alignItems: "center",
@@ -41,10 +45,11 @@ export default function RankingBar({ value, name, rank, user_id }: RankingBarPro
     color,
     order: { xs: rank, lg: desktopOrder },
     borderRadius: { xs: "0 .375rem .375rem 0", lg: ".375rem .375rem 0 0" },
+    '&:hover': hover,
   };
 
   return (
-    <Stack sx={styles}>
+    <Stack sx={styles} onClick={onClick}>
       <Typography variant="h5" fontSize={{ md: 30, lg: 40 }}>
         {isZero ? "" : rank === 1 ? "👑" : rank === 2 ? "🥈" : "🥉"}
       </Typography>

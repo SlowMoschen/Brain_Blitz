@@ -21,7 +21,7 @@ export default function SuccessScreen({ title, text, button }: SuccessScreenProp
       </Typography>
         {button && (
             <Box mt={2}>
-                <RouterButton to={button.to} variant="text" color="primary" text={button.text} />
+                <RouterButton to={button.to} variant="outlined" color="primary" text={button.text} />
 
             </Box>
         )}

@@ -11,6 +11,7 @@ import { useUserQueries } from "../../../../../shared/hooks/api/useUserQueries.h
 import useToggle from "../../../../../shared/hooks/useToggle.hook";
 import { UserContext } from "../../../../../shared/types/User";
 import { ProfileDetailsSchema } from "../schemas/ProfileDetails.schema";
+import { formatValue } from "../../../../../shared/services/ValueFormatter.service";
 
 interface IDetailsFormInput {
   first_name: string;
@@ -42,8 +43,8 @@ export default function DetailsForm() {
   });
 
   const defaultValues: IDetailsFormInput = {
-    first_name: user.first_name,
-    last_name: user.last_name,
+    first_name: formatValue(user.first_name, ["capitalize"]),
+    last_name: formatValue(user.last_name, ["capitalize"]),
     email: user.email,
   };
 

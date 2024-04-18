@@ -5,13 +5,13 @@ const euPoliticsQuiz = {
 	category: 'Politik',
 	questions: [
 		{
-			question: 'Welches Land ist das Gründungsmitglied der Europäischen Union?',
-			answers: ['Deutschland', 'Frankreich', 'Italien', 'Belgien'],
-			correct_answer: 'Belgien',
+			question: 'Wann wurde die Europäische Union gegründet?',
+			answers: ['1945', '1957', '1992', '2002'],
+			correct_answer: '1957',
 		},
 		{
 			question: 'Wie viele Mitgliedstaaten hat die Europäische Union?',
-			answers: ['25', '27', '30', '35'],
+			answers: ['25', '27', '30', '28'],
 			correct_answer: '27',
 		},
 		{

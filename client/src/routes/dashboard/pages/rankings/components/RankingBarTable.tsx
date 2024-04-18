@@ -7,10 +7,12 @@ import {
 import ContainerWithHeader from "../../../components/ContainerWithHeader";
 import RankingBar from "./RankingBar";
 import { useTimeParser } from "../../../../../shared/hooks/timer/useTimeParser.hook";
+import { formatValue } from "../../../../../shared/services/ValueFormatter.service";
 
 interface RankingBarTableProps<T> {
   data: T[];
   title: string;
+  onClick?: () => void;
 }
 
 /**
@@ -28,8 +30,8 @@ function transformData(data: (IPlaytimeRanking | IMostPlayedQuizRanking | IPoint
   const isMostPlayedQuizRanking = "times_played" in data[0];
 
   const placeholderData = {
-    points: { first_name: "", points: 0, user_id: "" },
-    playtime: { first_name: "", playtime: 0, user_id: "" },
+    points: { first_name: "", points: 0, userID: "" },
+    playtime: { first_name: "", playtime: 0, userID: "" },
     times_played: { quiz_name: "", times_played: 0, quiz_id: "" },
   };
 
@@ -59,7 +61,7 @@ function transformData(data: (IPlaytimeRanking | IMostPlayedQuizRanking | IPoint
  * @param title - The title of the table
  * @returns The RankingBarTable component
  */
-export default function RankingBarTable<T>({ data, title }: RankingBarTableProps<T>) {
+export default function RankingBarTable<T>({ data, title, onClick }: RankingBarTableProps<T>) {
   const { parseMinuteString } = useTimeParser();
 
   const filteredData = transformData(
@@ -75,7 +77,7 @@ export default function RankingBarTable<T>({ data, title }: RankingBarTableProps
   };
 
   const getName = (ranking: IPlaytimeRanking | IMostPlayedQuizRanking | IPointsRanking) => {
-    if ("first_name" in ranking) return ranking.first_name;
+    if ("first_name" in ranking) return formatValue(ranking.first_name, ["capitalize"]);
     if ("quiz_name" in ranking) return ranking.quiz_name;
     return "";
   };
@@ -102,6 +104,7 @@ export default function RankingBarTable<T>({ data, title }: RankingBarTableProps
                   name={getName(ranking)}
                   rank={index + 1}
                   user_id={"userID" in ranking ? ranking.userID as string : ""}
+                  onClick={onClick}
                 />
               );
             })
