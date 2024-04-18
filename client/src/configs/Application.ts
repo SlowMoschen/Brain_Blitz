@@ -14,15 +14,3 @@ export const GAME = {
     QUIZ_COMPLETE_THRESHOLD: 2200,
     TIME_PER_QUIZ: 3 * 60 * 1000, // 3 minutes
 }
-/**
- * @description A function to calculate the time until the next quarter hour.
- * @returns {number} - The time in milliseconds until the next quarter hour.
- */
-export const timeToQuaterHour = () => {
-    const now = new Date();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
-    const milliseconds = now.getMilliseconds();
-    const timeToNextQuarterHour = 15 - (minutes % 15);
-    return (timeToNextQuarterHour * 60 * 1000) - (seconds * 1000) - milliseconds;
-}

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { timeToQuaterHour } from "../../../configs/Application";
+import { timeToQuaterHour } from "../../../shared/utils/helpers";
 import { useTimeParser } from "./useTimeParser.hook";
 
 /**

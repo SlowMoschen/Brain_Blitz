@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { timeToQuaterHour } from "../../../configs/Application";
+import { timeToQuaterHour } from "../../../shared/utils/helpers";
 import { URLS } from "../../../configs/Links";
 import { IUser } from "../../types/User";
 import { useMutationFactory } from "./_useMutationFactory";
