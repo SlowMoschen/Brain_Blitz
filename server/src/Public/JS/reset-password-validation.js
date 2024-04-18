@@ -14,7 +14,7 @@ form.addEventListener('submit', async (e) => {
 			return;
 		}
 
-		const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
+		const passwordRegex = /^(?=(?:\S*\d))(?=(?:\S*[A-Za-z]))(?=\S*[^A-Za-z0-9])\S{8,}/;
 		if (!passwordRegex.test(formData.get('password')) || !passwordRegex.test(formData.get('password-confirm'))) {
 			errorBox.innerHTML =
 				'Das Passwort muss mindestens 8 Zeichen lang sein und mindestens einen Großbuchstaben, einen Kleinbuchstaben, eine Zahl und ein Sonderzeichen enthalten.';

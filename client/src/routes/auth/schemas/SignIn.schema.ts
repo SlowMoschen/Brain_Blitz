@@ -1,7 +1,5 @@
 import { z } from "zod";
-
-// Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+import { passwordRegex } from "../../../configs/Regex";
 
 export const SignInSchema = z.object({
   email: z.string().email({ message: "Bitte gib eine gültige E-Mail-Adresse ein." }).toLowerCase(),
