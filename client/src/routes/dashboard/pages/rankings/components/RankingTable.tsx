@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { formatValue } from "../../../../../shared/services/ValueFormatter.service";
 import ContainerWithHeader from "../../../components/ContainerWithHeader";
+import { useTimeParser } from "../../../../../shared/hooks/timer/useTimeParser.hook";
 
 interface ITableRow {
     user_id?: string;
@@ -19,7 +20,7 @@ interface ITableRow {
   additionalInfo: string;
 }
 
-interface RankingTableProps {
+export interface ITableProps {
   data: ITableRow[];
   valueString: string;
   additionalInfoString: string;
@@ -31,7 +32,8 @@ export default function RankingTable({
   additionalInfoString,
   valueString,
   tableHeader
-}: RankingTableProps) {
+}: ITableProps) {
+  const { parseMinuteString } = useTimeParser();
   const { user } = useOutletContext<UserContext>();
 
   if (!data || data.length === 0)
@@ -93,7 +95,13 @@ export default function RankingTable({
                   <TableCell>
                     {isUser ? <strong>{formatedName}(Du)</strong> : formatedName}
                   </TableCell>
-                  <TableCell>{ranking.value}</TableCell>
+                  <TableCell>
+                    {
+                      valueString === "spielzeit"
+                      ? parseMinuteString(ranking.value)
+                      : ranking.value
+                    }
+                  </TableCell>
                   <TableCell sx={{ fontSize: { xs: 12, md: 13 } }}>
                     {ranking.additionalInfo}
                   </TableCell>

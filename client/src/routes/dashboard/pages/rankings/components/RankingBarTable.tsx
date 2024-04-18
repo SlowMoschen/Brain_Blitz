@@ -12,6 +12,7 @@ import { formatValue } from "../../../../../shared/services/ValueFormatter.servi
 interface RankingBarTableProps<T> {
   data: T[];
   title: string;
+  onClick?: () => void;
 }
 
 /**
@@ -29,8 +30,8 @@ function transformData(data: (IPlaytimeRanking | IMostPlayedQuizRanking | IPoint
   const isMostPlayedQuizRanking = "times_played" in data[0];
 
   const placeholderData = {
-    points: { first_name: "", points: 0, user_id: "" },
-    playtime: { first_name: "", playtime: 0, user_id: "" },
+    points: { first_name: "", points: 0, userID: "" },
+    playtime: { first_name: "", playtime: 0, userID: "" },
     times_played: { quiz_name: "", times_played: 0, quiz_id: "" },
   };
 
@@ -60,7 +61,7 @@ function transformData(data: (IPlaytimeRanking | IMostPlayedQuizRanking | IPoint
  * @param title - The title of the table
  * @returns The RankingBarTable component
  */
-export default function RankingBarTable<T>({ data, title }: RankingBarTableProps<T>) {
+export default function RankingBarTable<T>({ data, title, onClick }: RankingBarTableProps<T>) {
   const { parseMinuteString } = useTimeParser();
 
   const filteredData = transformData(
@@ -103,6 +104,7 @@ export default function RankingBarTable<T>({ data, title }: RankingBarTableProps
                   name={getName(ranking)}
                   rank={index + 1}
                   user_id={"userID" in ranking ? ranking.userID as string : ""}
+                  onClick={onClick}
                 />
               );
             })

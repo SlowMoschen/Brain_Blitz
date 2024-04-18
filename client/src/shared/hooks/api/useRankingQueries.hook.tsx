@@ -21,7 +21,7 @@ export function useRankingQueries() {
             endpoint: URLS.API_ENDPOINTS.APP.OVERALL_POINTS_RANKINGS,
         });
 
-        const overallPointsRankings: IPointsRanking[] = data?.data
+        const overallPointsRankings: IPointsRanking[] = data?.data.filter((ranking: IPointsRanking) => ranking.points > 0)
 
         return {overallPointsRankings, isError};
     }
@@ -32,7 +32,7 @@ export function useRankingQueries() {
             endpoint: URLS.API_ENDPOINTS.APP.OVERALL_PLAYTIME_RANKINGS,
         });
 
-        const overallPlaytimeRankings: IPlaytimeRanking[] = data?.data
+        const overallPlaytimeRankings: IPlaytimeRanking[] = data?.data.filter((ranking: IPlaytimeRanking) => ranking.playtime > 0)
 
         return {overallPlaytimeRankings, isError};
     }
