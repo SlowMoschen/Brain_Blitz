@@ -10,13 +10,13 @@ export interface IPersonalRanking {
 export interface IPointsRanking {
     first_name: string;
     points: number;
-    user_id: string;
+    userID: string;
 }
 
 export interface IPlaytimeRanking {
     first_name: string;
     playtime: number;
-    user_id: string;
+    userID: string;
 }
 
 export interface IMostPlayedQuizRanking {
