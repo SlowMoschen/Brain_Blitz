@@ -1,54 +1,69 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
-import { IQuizRanking } from "../../../../../shared/types/Rankings";
-import ContainerWithHeader from "../../../components/ContainerWithHeader";
 import { useOutletContext } from "react-router-dom";
 import { UserContext } from "../../../../../shared/types/User";
+import {
+  Typography,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow as ITableRow,
+  TableCell,
+  TableBody,
+} from "@mui/material";
 import { formatValue } from "../../../../../shared/services/ValueFormatter.service";
+import ContainerWithHeader from "../../../components/ContainerWithHeader";
 
-interface QuizRankingTableProps {
-  data: IQuizRanking[];
+interface ITableRow {
+    user_id?: string;
+  name: string;
+  value: number;
+  additionalInfo: string;
 }
 
-export default function QuizRankingTable({ data }: QuizRankingTableProps) {
+interface RankingTableProps {
+  data: ITableRow[];
+  valueString: string;
+  additionalInfoString: string;
+  tableHeader: string;
+}
+
+export default function RankingTable({
+  data,
+  additionalInfoString,
+  valueString,
+  tableHeader
+}: RankingTableProps) {
   const { user } = useOutletContext<UserContext>();
 
   if (!data || data.length === 0)
     return (
       <ContainerWithHeader header="Quiz Rangliste" center>
-        <Typography variant="h6">Beim Laden der Rangliste ist ein fehler unterlaufen.</Typography>
+        <Typography variant="h6">
+          Es gibt entweder keine Daten oder die Daten konnten nicht geladen werden.
+        </Typography>
       </ContainerWithHeader>
     );
 
   return (
-    <ContainerWithHeader header={`${data[0].quiz_name}`} center sx={{ mt: 5, mb: 10 }}>
+    <ContainerWithHeader header={tableHeader} center sx={{ mt: 5, mb: 10 }}>
       <TableContainer sx={{ overflow: "auto" }}>
         <Table size="medium" stickyHeader>
           <TableHead>
-            <TableRow>
+            <ITableRow>
               <TableCell>Platz</TableCell>
               <TableCell>Name</TableCell>
-              <TableCell>Punkte</TableCell>
-              <TableCell>Erspielt</TableCell>
-            </TableRow>
+              <TableCell>{formatValue(valueString, ["capitalize"])}</TableCell>
+              <TableCell>{formatValue(additionalInfoString, ["capitalize"])}</TableCell>
+            </ITableRow>
           </TableHead>
           <TableBody>
             {data.map((ranking, index) => {
-
-              /**             
+              /**
                * Conditional background color for Rows
                * Highlight logged in user - purple
                * Highlight every second row - grey
                * (no css nth-type-of in use, because we would overwrite the bgcolor of the highlighted user)
-              */
-             const formatedName = formatValue(ranking.first_name, ["capitalize"]);
+               */
+              const formatedName = formatValue(ranking.name, ["capitalize"]);
               const isUser = user.id === ranking.user_id;
               const bgcolor = isUser
                 ? "#C200C2"
@@ -56,13 +71,17 @@ export default function QuizRankingTable({ data }: QuizRankingTableProps) {
                 ? "secondary.dark"
                 : "";
 
-              const date = new Date(ranking.created_at);
-              const dateString = date.toLocaleDateString("de-DE");
-              const timeString = date.toLocaleTimeString("de-DE");
+              if (new Date(ranking.additionalInfo).toString() !== "Invalid Date") {
+                const date = new Date(ranking.additionalInfo);
+                const dateString = date.toLocaleDateString("de-DE");
+                const timeString = date.toLocaleTimeString("de-DE");
+
+                ranking.additionalInfo = `${dateString} ${timeString}`;
+              }
 
               return (
-                <TableRow
-                  key={ranking.user_id}
+                <ITableRow
+                  key={index}
                   sx={{
                     bgcolor,
                     "&:last-child td, &:last-child th": { border: 0 },
@@ -74,11 +93,11 @@ export default function QuizRankingTable({ data }: QuizRankingTableProps) {
                   <TableCell>
                     {isUser ? <strong>{formatedName}(Du)</strong> : formatedName}
                   </TableCell>
-                  <TableCell>{ranking.points}</TableCell>
+                  <TableCell>{ranking.value}</TableCell>
                   <TableCell sx={{ fontSize: { xs: 12, md: 13 } }}>
-                    {dateString} {timeString}
+                    {ranking.additionalInfo}
                   </TableCell>
-                </TableRow>
+                </ITableRow>
               );
             })}
           </TableBody>
