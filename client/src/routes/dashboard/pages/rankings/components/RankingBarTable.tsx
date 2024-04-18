@@ -7,6 +7,7 @@ import {
 import ContainerWithHeader from "../../../components/ContainerWithHeader";
 import RankingBar from "./RankingBar";
 import { useTimeParser } from "../../../../../shared/hooks/timer/useTimeParser.hook";
+import { formatValue } from "../../../../../shared/services/ValueFormatter.service";
 
 interface RankingBarTableProps<T> {
   data: T[];
@@ -75,7 +76,7 @@ export default function RankingBarTable<T>({ data, title }: RankingBarTableProps
   };
 
   const getName = (ranking: IPlaytimeRanking | IMostPlayedQuizRanking | IPointsRanking) => {
-    if ("first_name" in ranking) return ranking.first_name;
+    if ("first_name" in ranking) return formatValue(ranking.first_name, ["capitalize"]);
     if ("quiz_name" in ranking) return ranking.quiz_name;
     return "";
   };

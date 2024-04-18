@@ -28,7 +28,7 @@ export default function DashboardRoot() {
         p={2}
         pb={8}
         position={"relative"}
-        overflow={'hidden'}
+        overflow={"hidden"}
       >
         <Stack width={{ xs: "100%", lg: "70%" }} alignItems={"center"}>
           <Box
@@ -38,7 +38,7 @@ export default function DashboardRoot() {
               position: "absolute",
               top: -40,
               zIndex: -1,
-              width: '500px',
+              width: "500px",
               rotate: "-10deg",
             }}
           ></Box>

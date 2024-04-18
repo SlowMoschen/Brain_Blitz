@@ -11,6 +11,7 @@ import { IQuizRanking } from "../../../../../shared/types/Rankings";
 import ContainerWithHeader from "../../../components/ContainerWithHeader";
 import { useOutletContext } from "react-router-dom";
 import { UserContext } from "../../../../../shared/types/User";
+import { formatValue } from "../../../../../shared/services/ValueFormatter.service";
 
 interface QuizRankingTableProps {
   data: IQuizRanking[];
@@ -47,6 +48,7 @@ export default function QuizRankingTable({ data }: QuizRankingTableProps) {
                * Highlight every second row - grey
                * (no css nth-type-of in use, because we would overwrite the bgcolor of the highlighted user)
               */
+             const formatedName = formatValue(ranking.first_name, ["capitalize"]);
               const isUser = user.id === ranking.user_id;
               const bgcolor = isUser
                 ? "#C200C2"
@@ -70,7 +72,7 @@ export default function QuizRankingTable({ data }: QuizRankingTableProps) {
                     {index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `${index + 1}.`}
                   </TableCell>
                   <TableCell>
-                    {isUser ? <strong>{ranking.first_name}(Du)</strong> : ranking.first_name}
+                    {isUser ? <strong>{formatedName}(Du)</strong> : formatedName}
                   </TableCell>
                   <TableCell>{ranking.points}</TableCell>
                   <TableCell sx={{ fontSize: { xs: 12, md: 13 } }}>
