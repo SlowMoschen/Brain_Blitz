@@ -45,7 +45,6 @@ export class MailService {
 	 */
 	@OnEvent('mail.verify-email')
 	async sendConfirmationEmail(payLoad: SendVerifyMailEvent): Promise<void | Error> {
-		console.log('sendConfirmationEmail', process.env.BASE_VERIFICATION_URL);
 		const url = `${process.env.BASE_VERIFICATION_URL}${payLoad.userID}/${payLoad.token}`;
 		return await this.sendMail({
 			to: payLoad.email,
