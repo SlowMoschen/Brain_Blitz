@@ -1,6 +1,7 @@
 
 ![Logo](https://github.com/SlowMoschen/Brain_Blitz/blob/main/logo.png)
 
+[English ReadME](https://github.com/SlowMoschen/Brain_Blitz/blob/main/english.md)
 
 # 🧠 Train your brain, playfully  🧠
 
