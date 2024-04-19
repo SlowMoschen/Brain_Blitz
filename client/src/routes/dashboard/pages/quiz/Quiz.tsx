@@ -6,10 +6,10 @@ import { IQuiz } from "../../../../shared/types/Quiz";
 import QuizEndScreen from "./QuizEndScreen";
 import Answers from "./components/Answers";
 import InitialCountdown from "./components/InitialCountdown";
+import LeaveWarningModal from "./components/LeaveWarningModal";
 import Question from "./components/Question";
 import QuizTimer from "./components/QuizTimer";
 import Score from "./components/Score";
-import LeaveWarningModal from "./components/LeaveWarningModal";
 
 interface QuizProps {
   quizData: IQuiz;

@@ -3,25 +3,36 @@ import HeaderMenu from "../../components/navigation/HeaderMenu";
 import { useRankingQueries } from "../../../../shared/hooks/api/useRankingQueries.hook";
 import { useEffect, useState } from "react";
 import RankingTable, { ITableProps } from "./components/RankingTable";
+import {
+  IMostPlayedQuizRanking,
+  IPlaytimeRanking,
+  IPointsRanking,
+} from "../../../../shared/types/Rankings";
 
 export default function GeneralRankingTable() {
   const [tableProps, setTableProps] = useState<ITableProps | null>(null);
   const { ranking } = useParams<{ ranking: string }>();
-  const { overallPointsRankings } = useRankingQueries().useOverallPointsRankings();
-  const { overallPlaytimeRankings } = useRankingQueries().useOverallPlaytimeRankings();
-  const { overallMostPlayedQuizzesRankings } =
-    useRankingQueries().useOverallMostPlayedQuizzesRankings();
+  const { mostPlayedQuizzes, mostPlaytime, mostPoints, isPending } = useRankingQueries().useGlobalRankings();
+
+  const transformData = (data: (IPlaytimeRanking | IPointsRanking | IMostPlayedQuizRanking)[]) => {
+    return data?.map((ranking: IPlaytimeRanking | IPointsRanking | IMostPlayedQuizRanking) => ({
+      user_id: "userID" in ranking ? ranking.userID : "",
+      name: "first_name" in ranking ? ranking.first_name : ranking.quiz_name,
+      value:
+        "points" in ranking
+          ? ranking.points
+          : "playtime" in ranking
+          ? ranking.playtime
+          : ranking.times_played,
+      additionalInfo: "",
+    }));
+  };
 
   const setProps = (ranking: string) => {
     switch (ranking) {
       case "points":
         setTableProps({
-          data: overallPointsRankings?.map((ranking) => ({
-            user_id: ranking.userID,
-            name: ranking.first_name,
-            value: ranking.points,
-            additionalInfo: "",
-          })),
+          data: transformData(mostPoints),
           tableHeader: "Bestenliste Punkte",
           valueString: "Punkte",
           additionalInfoString: "",
@@ -29,12 +40,7 @@ export default function GeneralRankingTable() {
         break;
       case "playtime":
         setTableProps({
-          data: overallPlaytimeRankings?.map((ranking) => ({
-            user_id: ranking.userID,
-            name: ranking.first_name,
-            value: ranking.playtime,
-            additionalInfo: "",
-          })),
+          data: transformData(mostPlaytime),
           tableHeader: "Bestenliste Spielzeit",
           valueString: "spielzeit",
           additionalInfoString: "",
@@ -42,12 +48,7 @@ export default function GeneralRankingTable() {
         break;
       case "most-played-quizzes":
         setTableProps({
-          data: overallMostPlayedQuizzesRankings?.map((ranking) => ({
-            user_id: ranking.quiz_id,
-            name: ranking.quiz_name,
-            value: ranking.times_played,
-            additionalInfo: "",
-          })),
+          data: transformData(mostPlayedQuizzes),
           tableHeader: "Meistgespielte Quizze",
           valueString: "Anzahl",
           additionalInfoString: "",
@@ -60,7 +61,7 @@ export default function GeneralRankingTable() {
 
   useEffect(() => {
     setProps(ranking!);
-  }, [ranking]);
+  }, [isPending]);
 
   return (
     <>
