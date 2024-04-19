@@ -16,7 +16,7 @@ import { formatValue } from "../../../../../shared/services/ValueFormatter.servi
 interface IDetailsFormInput {
   first_name: string;
   last_name: string;
-  email?: string;
+  email: string;
 }
 
 // This function is used to get the error message when updating the profile fails.
@@ -71,6 +71,14 @@ export default function DetailsForm() {
   });
 
   const onSubmit = async (data: IDetailsFormInput) => {
+    // Trim and lowercase all values
+    for (const key in data) {
+      data[key as keyof IDetailsFormInput] = formatValue(data[key as keyof IDetailsFormInput], [
+        "trim",
+        "lowerCase",
+      ]);
+    }
+
     // if the user has not changed any data, the form should not be submitted
     if (
       data.email === user.email &&
@@ -81,10 +89,10 @@ export default function DetailsForm() {
       return;
     }
 
-    if ("email" in data) {
-      data.email = data.email?.toLowerCase();
-      if (data.email === user.email) delete data.email;
+    if (data.email === user.email) {
+      delete (data as Partial<IDetailsFormInput>).email;
     }
+
     updateUser(data);
     reset(defaultValues);
     setIsFormDisabled(true);
