@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  deploy_frontend:
     runs-on: ubuntu-latest
 
     steps:
@@ -39,4 +39,49 @@ jobs:
           port: 22
           localDir: ./client/dist
           remoteDir: ./brain_blitz
+    
+  deploy_backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "21.x"
+
+      - name: 📡 Install dependencies 📡
+        working-directory: ./server
+        run: npm ci
+
+      - name: 🏗 Building App 🏗
+        working-directory: ./server
+        run: npm run build
+
+      - name: 🔑 install SSH key 🔑
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: 'unknown'
+      
+      - name: 🔎 adding known hosts 🔍
+        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: 🚀 deploying 🚀
+        run: rsync -avz ./server/dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:~/brain_blitz
+
+      - name:  🔄 restarting server 🔄 
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/brain_blitz
+            pm2 kill
+            pm2 start npm --name "BB" -- start
+            pm2 log BB
+
+
           
