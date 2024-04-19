@@ -12,9 +12,7 @@ export default function Rankings() {
   const [value, setValue] = useState(0);
   const { width } = useContext(WindowContext);
   const { personalRankings } = useRankingQueries().usePersonalRankings();
-  const { overallPointsRankings } = useRankingQueries().useOverallPointsRankings();
-  const { overallPlaytimeRankings } = useRankingQueries().useOverallPlaytimeRankings();
-  const { overallMostPlayedQuizzesRankings } = useRankingQueries().useOverallMostPlayedQuizzesRankings();
+  const { mostPlayedQuizzes, mostPlaytime, mostPoints} = useRankingQueries().useGlobalRankings();
   const isMobile = width < BREAKPOINTS.lg;
   const tabs = (isMobile && ["Global", "Deine Rankings", "Daily Stats"]) || [];
 
@@ -27,9 +25,9 @@ export default function Rankings() {
       case 0:
         return (
           <GeneralRankings
-            overallMostPlayedQuizzesRankings={overallMostPlayedQuizzesRankings}
-            overallPlaytimeRankings={overallPlaytimeRankings}
-            overallPointsRankings={overallPointsRankings}
+            overallMostPlayedQuizzesRankings={mostPlayedQuizzes}
+            overallPlaytimeRankings={mostPlaytime}
+            overallPointsRankings={mostPoints}
           />
         );
       case 1:
@@ -56,9 +54,9 @@ export default function Rankings() {
             pb={8}
           >
             <GeneralRankings
-              overallMostPlayedQuizzesRankings={overallMostPlayedQuizzesRankings}
-              overallPlaytimeRankings={overallPlaytimeRankings}
-              overallPointsRankings={overallPointsRankings}
+              overallMostPlayedQuizzesRankings={mostPlayedQuizzes}
+              overallPlaytimeRankings={mostPlaytime}
+              overallPointsRankings={mostPoints}
             />
             <PersonalRankings data={personalRankings} />
           </Stack>
