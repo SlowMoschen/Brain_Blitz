@@ -75,10 +75,15 @@ You can create the `SESSION_SECRET` with the `crypto` node module or you can lea
 ```
 NODE_ENV=development
 PORT=3000
-DATABASE_URL=<PRODUCTION DB URL>
-DATABASE_DEV_URL=<LOCAL DB URL>
+DATABASE_URL=<PRODUKTION DB URL>
+DATABASE_DEV_URL=<LOKALE DB URL>
 SESSION_SECRET=<SUPER_SAVE_SECRET>
+JWT_SECRET=<SUPER_SAVE_SECRET>
 SESSION_MAX_AGE=86400000 # 24 hours
+EMAIL_USER=<Your email to send from>
+EMAIL_PASS=<password of email>
+EMAIL_HOST=<SMTP Host>
+EMAIL_PORT=<PORT>
 BASE_CONTACT_URL="http://localhost:5713/#/contact"
 LOGIN_REDIRECT_URL="http://localhost:5713/#/auth/signin"
 BASE_VERIFICATION_URL=http://localhost:3000/auth/verify-email
