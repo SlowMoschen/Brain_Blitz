@@ -68,20 +68,13 @@ jobs:
       - name: 🔎 adding known hosts 🔍
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: 🚀 deploying 🚀
-        run: rsync -avz ./server/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:~/brain_blitz
-
-      - name:  🔄 restarting server 🔄 
+      - name:  🚀 deploying 🚀
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd ~/brain_blitz
-            pm2 kill
-            pm2 start npm --name "BB" -- start
-            pm2 log BB
+          script: sh deploy.sh
 
 
           
