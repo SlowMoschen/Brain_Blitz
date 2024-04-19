@@ -1,3 +1,6 @@
+export NVM_DIR=~/.nvm
+source ~/.nvm/nvm.sh
+
 echo "Change to App directory"
 cd ~/Brain_Blitz/
 
