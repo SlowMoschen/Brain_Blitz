@@ -6,7 +6,6 @@
 
 Willkommen bei meiner Quiz-Anwendung! Hier kannst du dich auf eine Reise des spielerischen Lernens begeben, indem du an Quizspielen teilnimmst. Testen dein Wissen über eine Vielzahl von Themen, während du gegen die Zeit antrittst - die Quizze sind mit einem spannenden Zeitlimit versehen, um dich auf Trab zu halten. Richtige Antworten erhöhen nicht nur deine Punktezahl, sondern geben dir auch ein Erfolgserlebnis, während falsche Antworten dich herausfordern, dich zu verbessern. Begleite uns bei diesem interaktiven Erlebnis, bei dem Lernen auf Spaß trifft, und entdecke eine Welt voller trivialer Fakten, die darauf warten, entdeckt zu werden!
 
-Übersetzt mit DeepL.com (kostenlose Version)
 
 
 # Inhaltsverzeichnis
