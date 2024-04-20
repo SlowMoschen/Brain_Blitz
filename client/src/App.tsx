@@ -23,7 +23,9 @@ import LoadingScreen from "./shared/components/LoadingScreen";
 import { WindowContextProvider } from "./shared/context/ScreenSize.context";
 import { SocketContextProvider } from "./shared/context/Socket.context";
 import { UserIDContextProvider } from "./shared/context/UserID.context";
-const GeneralRankingTable = lazy(() => import("./routes/dashboard/pages/rankings/GeneralRankingTable"));
+const GeneralRankingTable = lazy(
+  () => import("./routes/dashboard/pages/rankings/GeneralRankingTable")
+);
 const QuizRanking = lazy(() => import("./routes/dashboard/pages/rankings/Quiz.Ranking"));
 const DashboardLayout = lazy(() => import("./routes/dashboard/DashboardLayout"));
 const DashboardRoot = lazy(() => import("./routes/dashboard/pages/root/Root"));
