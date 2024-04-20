@@ -182,7 +182,7 @@ const autriaPoliticsQuiz = {
 			correct_answer: '6 Jahre',
 		},
 		{
-			qestion: 'Wann wurde die österreichische Verfassung beschlossen?',
+			question: 'Wann wurde die österreichische Verfassung beschlossen?',
 			answers: ['1920', '1930', '1945', '1955'],
 			correct_answer: '1920',
 		},
