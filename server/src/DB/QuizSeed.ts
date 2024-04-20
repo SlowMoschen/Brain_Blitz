@@ -1,20 +1,26 @@
 import * as schema from '../Models/_index';
 import { biologyQuizzes } from './quizzes/biology';
+import { filmQuizzes } from './quizzes/film';
 import { geographyQuizzes } from './quizzes/geography';
 import { historyQuizzes } from './quizzes/history';
+import { musicQuizzes } from './quizzes/music';
 import { politicsQuizzes } from './quizzes/politics';
-import { popcultureQuizzes } from './quizzes/popculture';
 import { sportsQuizzes } from './quizzes/sports';
 import { technologyQuizzes } from './quizzes/technology';
+import { tvQuizzes } from './quizzes/tv';
+import { videogameQuizzes } from './quizzes/videogames';
 
 const quizzesToInsert = [
 	...historyQuizzes,
 	...technologyQuizzes,
-	...popcultureQuizzes,
 	...geographyQuizzes,
 	...biologyQuizzes,
 	...politicsQuizzes,
 	...sportsQuizzes,
+	...filmQuizzes,
+	...tvQuizzes,
+	...videogameQuizzes,
+	...musicQuizzes
 ];
 
 const seedQuizzes = async (db: any) => {
