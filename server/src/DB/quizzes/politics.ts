@@ -131,4 +131,62 @@ const internationalOrganizationsQuiz = {
 	],
 };
 
-export const politicsQuizzes = [euPoliticsQuiz, internationalOrganizationsQuiz];
+const autriaPoliticsQuiz = {
+	title: 'Österreichische Politik',
+	description: 'Die politische Struktur der Republik Österreich',
+	category: 'Politik',
+	questions: [
+		{
+			question: 'Wann wurde die Republik Österreich gegründet?',
+			answers: ['1918', '1920', '1945', '1955'],
+			correct_answer: '1955',
+		},
+		{
+			question: 'Wo werden die österreichischen Gesetze beschlossen?',
+			answers: ['Nationalrat', 'Bundesrat', 'Landtag', 'Gemeinderat'],
+			correct_answer: 'Nationalrat',
+		},
+		{
+			qestion: 'Wann wurde Österreich Mitglied der Europäischen Union?',
+			answers: ['1995', '1998', '2000', '2002'],
+			correct_answer: '1995',
+		},
+		{
+			question: 'Wer ist der aktuelle Bundespräsident von Österreich?',
+			answers: ['Alexander Van der Bellen', 'Heinz Fischer', 'Kurt Waldheim', 'Thomas Klestil'],
+			correct_answer: 'Alexander Van der Bellen',
+		},
+		{
+			question: 'Wie viele Sitze hat der österreichische Nationalrat?',
+			answers: ['183', '165', '183', '155'],
+			correct_answer: '183',
+		},
+		{
+			question: 'Welche Partei stellt den aktuellen Bundeskanzler von Österreich?',
+			answers: ['ÖVP', 'SPÖ', 'FPÖ', 'NEOS'],
+			correct_answer: 'ÖVP',
+		},
+		{
+			question: 'Ab wann dürfen Österreicher wählen?',
+			answers: ['16', '18', '21', '20'],
+			correct_answer: '16',
+		},
+		{
+			question: 'Wann finden die nächsten Nationalratswahlen in Österreich statt?',
+			answers: ['2022', '2023', '2024', '2025'],
+			correct_answer: '2024',
+		},
+		{
+			question: 'Wie oft wird der österreichische Bundespräsident gewählt?',
+			answers: ['5 Jahre', '6 Jahre', '7 Jahre', '8 Jahre'],
+			correct_answer: '6 Jahre',
+		},
+		{
+			qestion: 'Wann wurde die österreichische Verfassung beschlossen?',
+			answers: ['1920', '1930', '1945', '1955'],
+			correct_answer: '1920',
+		},
+	]
+}
+
+export const politicsQuizzes = [euPoliticsQuiz, internationalOrganizationsQuiz, autriaPoliticsQuiz];

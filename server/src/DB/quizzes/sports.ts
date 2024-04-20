@@ -1,5 +1,3 @@
-import { title } from 'process';
-
 // MARK: Fussball
 const footBallQuiz = {
 	title: 'Fussball',

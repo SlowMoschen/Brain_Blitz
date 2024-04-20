@@ -77,89 +77,74 @@ const ww2Quiz = {
 	],
 };
 
-//MARK: Der 1. Weltkrieg
-const ww1Quiz = {
-	title: 'Der 1. Weltkrieg',
-	description: 'Fakten über den Ersten Weltkrieg',
+// MARK: Ereiignisse die die Welt veränderten
+const historyEventsQuiz = {
+	title: 'Ereignisse die die Welt veränderten',
+	description: 'Wichtige Ereignisse in der Geschichte der Menschheit',
 	category: 'Geschichte',
 	questions: [
 		{
-			question: 'Welches Ereignis löste den Ersten Weltkrieg aus?',
+			question: 'Welches Ereignis führte zum Ausbruch des Ersten Weltkriegs?',
 			answers: [
-				'Die Ermordung von Franz Ferdinand',
+				'Die Ermordung von Erzherzog Franz Ferdinand',
 				'Die Bombardierung von Pearl Harbor',
-				'Die Schlacht von Waterloo',
-				'Die Unterzeichnung des Versailler Vertrags',
+				'Die Invasion Polens durch Deutschland',
+				'Die Kapitulation Frankreichs',
 			],
-			correct_answer: 'Die Ermordung von Franz Ferdinand',
+			correct_answer: 'Die Ermordung von Erzherzog Franz Ferdinand',
 		},
 		{
-			question: 'Welches Jahr begann der Erste Weltkrieg?',
-			answers: ['1914', '1917', '1918', '1919'],
-			correct_answer: '1914',
-		},
-		{
-			question: "Welche Länder bildeten die Allianz der 'Zentralmächte' im Ersten Weltkrieg?",
+			question: 'Welche Auswirkungen hatte die erfindung des Internets auf die Welt?',
 			answers: [
-				'Deutschland, Österreich-Ungarn und Italien',
-				'Deutschland, Österreich-Ungarn und Russland',
-				'Deutschland, Österreich-Ungarn und das Osmanische Reich',
-				'Deutschland, Österreich-Ungarn und Frankreich',
+				'Erleichterung der Kommunikation und des Informationsaustauschs',
+				'Verbesserung der medizinischen Versorgung',
+				'Erhöhung der Lebenserwartung',
+				'Verbesserung der Bildung',
 			],
-			correct_answer: 'Deutschland, Österreich-Ungarn und das Osmanische Reich',
+			correct_answer: 'Erleichterung der Kommunikation und des Informationsaustauschs',
 		},
 		{
-			question: 'Welches Land war das erste, das im Ersten Weltkrieg den Kriegszustand erklärte?',
-			answers: ['Deutschland', 'Frankreich', 'Österreich-Ungarn', 'Großbritannien'],
-			correct_answer: 'Österreich-Ungarn',
+			question: 'Wann wurde die Unabhängigkeit der USA erklärt?',
+			answers: ['1776', '1789', '1800', '1812'],
+			correct_answer: '1776',
 		},
 		{
-			question: 'Welches Land war auf Seiten der Alliierten im Ersten Weltkrieg?',
-			answers: ['Deutschland', 'Österreich-Ungarn', 'Großbritannien, Frankreich und Russland', 'Das Osmanische Reich'],
-			correct_answer: 'Großbritannien, Frankreich und Russland',
+			question: '1969 landete der erste Mensch auf dem Mond. Wie hieß dieser Astronaut?',
+			answers: ['Neil Armstrong', 'Buzz Aldrin', 'Yuri Gagarin', 'John Glenn'],
+			correct_answer: 'Neil Armstrong',
 		},
 		{
-			question: 'Welches Land trat 1915 auf Seiten der Alliierten in den Ersten Weltkrieg ein?',
-			answers: ['USA', 'Italien', 'Japan', 'China'],
-			correct_answer: 'Italien',
+			question: 'Von wann bis wann stand die Berliner Mauer?',
+			answers: ['1961-1989', '1945-1990', '1939-1945', '1914-1918'],
+			correct_answer: '1961-1989',
 		},
 		{
-			question: 'Welches Ereignis beendete formell den Ersten Weltkrieg?',
-			answers: [
-				'Die Unterzeichnung des Vertrags von Versailles',
-				'Der Sturz des letzten deutschen Kaisers',
-				'Der Beginn der Weimarer Republik',
-				'Die Einführung der Kriegsschuldartikel',
-			],
-			correct_answer: 'Die Unterzeichnung des Vertrags von Versailles',
+			question: '1945 wurde durch das Projekt Manhattan die erste Atombombe entwickelt. Wo wurde sie getestet und wie hieß der Test?',
+			answers: ['New Mexico, Trinity', 'Hawaii, Aloha', 'Nevada, Silver', 'Arizona, Phoenix'],
+			correct_answer: 'New Mexico, Trinity',
 		},
 		{
-			question: 'Welcher Kaiser musste als Folge des Ersten Weltkriegs abdanken?',
-			answers: [
-				'Kaiser Franz Joseph von Österreich-Ungarn',
-				'Kaiser Wilhelm II. von Deutschland',
-				'Zar Nikolaus II. von Russland',
-				'Kaiser Karl I. von Österreich-Ungarn',
-			],
-			correct_answer: 'Kaiser Wilhelm II. von Deutschland',
+			question: 'Wann wurde die Sklaverei in den USA offiziell abgeschafft?',
+			answers: ['1865', '1776', '1800', '1812'],
+			correct_answer: '1865',
 		},
 		{
-			question: 'Welches Land war das erste, das im Ersten Weltkrieg den Einsatz von Giftgasen einsetzte?',
-			answers: ['Deutschland', 'Frankreich', 'Großbritannien', 'Russland'],
-			correct_answer: 'Deutschland',
+			question: 'Wofür ist Kriegskommandant Hannibal bekannt?',
+			answers: ['Elefanten über die Alpen geführt', 'Die Schlacht von Waterloo gewonnen', 'Die Römer besiegt', 'Die Chinesische Mauer gebaut'],
+			correct_answer: 'Elefanten über die Alpen geführt',
 		},
 		{
-			question: "Welche Schlacht wird oft als 'die Hölle von Verdun' bezeichnet?",
-			answers: [
-				'Die Schlacht an der Marne',
-				'Die Schlacht von Tannenberg',
-				'Die Schlacht um Verdun',
-				'Die Schlacht an der Somme',
-			],
-			correct_answer: 'Die Schlacht um Verdun',
+			question: 'Im März 2022 wurde die Invasion welches Landes durch Russland gestartet?',
+			answers: ['Ukraine', 'Georgien', 'Estland', 'Weißrussland'],
+			correct_answer: 'Ukraine',
 		},
-	],
-};
+		{
+			question: 'Was war die Ursache für den Ausbruch des Dreißigjährigen Krieges?',
+			answers: ['Prager Fenstersturz', 'Französische Revolution', 'Kolonialismus', 'Kalter Krieg'],
+			correct_answer: 'Prager Fenstersturz',
+		}
+	]
+}
 
 //MARK: Persönlichkeiten der Geschichte
 const persoenlichkeitenQuiz = {
@@ -224,178 +209,8 @@ const persoenlichkeitenQuiz = {
 	],
 };
 
-//MARK: Amerikanische Revolution
-const amerikanischeRevolutionQuiz = {
-	title: 'Die Amerikanische Revolution',
-	description: 'Der Kampf um Unabhängigkeit von 1775 bis 1783',
-	category: 'Geschichte',
-	questions: [
-		{
-			question: 'Welches Ereignis markierte den Beginn der Amerikanischen Revolution?',
-			answers: [
-				'Die Unterzeichnung der Unabhängigkeitserklärung',
-				'Die Schlacht von Lexington und Concord',
-				'Die Boston Tea Party',
-				'Die Einführung des Stamp Acts',
-			],
-			correct_answer: 'Die Schlacht von Lexington und Concord',
-		},
-		{
-			question: 'Welches Dokument verkündete offiziell die Unabhängigkeit der Vereinigten Staaten von Amerika?',
-			answers: [
-				'Die Verfassung der Vereinigten Staaten',
-				'Die Bill of Rights',
-				'Die Unabhängigkeitserklärung',
-				'Der Monroe-Doktrin',
-			],
-			correct_answer: 'Die Unabhängigkeitserklärung',
-		},
-		{
-			question:
-				'Welches europäische Land unterstützte die Amerikaner im Kampf gegen die Briten während der Revolution?',
-			answers: ['Frankreich', 'Großbritannien', 'Spanien', 'Deutschland'],
-			correct_answer: 'Frankreich',
-		},
-		{
-			question: 'Wer war der Oberbefehlshaber der Kontinentalarmee während der Amerikanischen Revolution?',
-			answers: ['George Washington', 'Thomas Jefferson', 'Benjamin Franklin', 'John Adams'],
-			correct_answer: 'George Washington',
-		},
-		{
-			question: 'Welche Stadt war das politische Zentrum der Amerikanischen Revolution?',
-			answers: ['Philadelphia', 'Boston', 'New York City', 'Washington D.C.'],
-			correct_answer: 'Philadelphia',
-		},
-		{
-			question:
-				'Welche amerikanische Stadt wurde während der Revolution von den Briten besetzt und diente als Hauptquartier für ihre Operationen?',
-			answers: ['Philadelphia', 'Boston', 'New York City', 'Lexington'],
-			correct_answer: 'New York City',
-		},
-		{
-			question:
-				'Welche Vereinbarung beendete den Unabhängigkeitskrieg und erkannte die Unabhängigkeit der Vereinigten Staaten von Amerika an?',
-			answers: [
-				'Der Vertrag von Versailles',
-				'Der Vertrag von Paris',
-				'Der Vertrag von Gent',
-				'Der Vertrag von Amiens',
-			],
-			correct_answer: 'Der Vertrag von Paris',
-		},
-		{
-			question:
-				'Welches Ereignis führte zur Eskalation der Spannungen zwischen den Kolonisten und den Briten und wurde als Akt des Protestes gegen die Tea Acts bekannt?',
-			answers: [
-				'Die Schlacht von Bunker Hill',
-				'Die Boston Tea Party',
-				'Die Stamp Act Unruhen',
-				'Die Intolerable Acts',
-			],
-			correct_answer: 'Die Boston Tea Party',
-		},
-		{
-			question:
-				'Welche amerikanische Stadt wurde als Reaktion auf die Boston Tea Party von den Briten mit den Intolerable Acts bestraft?',
-			answers: ['Philadelphia', 'New York City', 'Boston', 'Charleston'],
-			correct_answer: 'Boston',
-		},
-		{
-			question:
-				'Welcher berühmte amerikanische Diplomat war maßgeblich daran beteiligt, Unterstützung von Frankreich für die amerikanische Sache zu gewinnen?',
-			answers: ['Thomas Jefferson', 'John Adams', 'Benjamin Franklin', 'Alexander Hamilton'],
-			correct_answer: 'Benjamin Franklin',
-		},
-	],
-};
-
-//MARK: Entdeckungsreisen
-const endekungsreisenQuiz = {
-	title: 'Entdeckungsreisen',
-	description: 'Die großen Entdeckungsreisen der Geschichte',
-	category: 'Geschichte',
-	questions: [
-		{
-			question: 'Welcher portugiesische Entdecker erreichte als erster Europäer den Seeweg nach Indien?',
-			answers: ['Christoph Kolumbus', 'Ferdinand Magellan', 'Vasco da Gama', 'Bartolomeu Diaz'],
-			correct_answer: 'Vasco da Gama',
-		},
-		{
-			question:
-				'Welcher Entdecker gilt als der erste, der Nordamerika für Europa entdeckte, als er um das Jahr 1000 n. Chr. landete?',
-			answers: ['Christoph Kolumbus', 'Marco Polo', 'Leif Eriksson', 'Hernán Cortés'],
-			correct_answer: 'Leif Eriksson',
-		},
-		{
-			question:
-				'Welcher spanische Entdecker entdeckte 1492 die Bahamas und wird oft mit der Entdeckung Amerikas in Verbindung gebracht?',
-			answers: ['Christoph Kolumbus', 'Ferdinand Magellan', 'Vasco Núñez de Balboa', 'Juan Ponce de León'],
-			correct_answer: 'Christoph Kolumbus',
-		},
-		{
-			question:
-				'Welcher Entdecker und Kartograf erstellte die erste Karte, die die neuen Kontinente Amerika und Europa trennte?',
-			answers: ['Marco Polo', 'Vasco da Gama', 'Amerigo Vespucci', 'James Cook'],
-			correct_answer: 'Amerigo Vespucci',
-		},
-		{
-			question:
-				'Welche portugiesische Prinzessin unterstützte die Entdeckungsreisen ihres Mannes und spielte eine bedeutende Rolle in der portugiesischen Entdeckungszeit?',
-			answers: ['Isabella von Kastilien', 'Katharina von Aragón', 'Elisabeth von Portugal', 'Maria I. von Portugal'],
-			correct_answer: 'Elisabeth von Portugal',
-		},
-		{
-			question:
-				'Welche französischen Entdecker erkundeten den St. Lawrence River und waren die ersten Europäer, die den Mississippi River erreichten?',
-			answers: [
-				'Jacques Cartier',
-				'Samuel de Champlain',
-				'Louis Jolliet und Jacques Marquette',
-				'René-Robert Cavelier, Sieur de La Salle',
-			],
-			correct_answer: 'Louis Jolliet und Jacques Marquette',
-		},
-		{
-			question:
-				'Welcher englische Seefahrer entdeckte die Inseln Neuseeland und die östliche Küste Australiens und wird oft als der Entdecker Australiens angesehen?',
-			answers: ['Ferdinand Magellan', 'James Cook', 'Francis Drake', 'Henry Hudson'],
-			correct_answer: 'James Cook',
-		},
-		{
-			question:
-				'Welche Expedition erreichte 1804 als erste europäische Gruppe die Westküste der Vereinigten Staaten und erforschte das Gebiet bis zum Pazifischen Ozean?',
-			answers: [
-				'Die Expedition von Lewis und Clark',
-				'Die Expedition von Magellan',
-				'Die Expedition von Marco Polo',
-				'Die Expedition von Vasco da Gama',
-			],
-			correct_answer: 'Die Expedition von Lewis und Clark',
-		},
-		{
-			question:
-				'Welche Expedition unter der Leitung von Robert Falcon Scott und Roald Amundsen konkurrierte um die Erstbesteigung des Südpols?',
-			answers: [
-				'Die Terra-Nova-Expedition',
-				'Die Endurance-Expedition',
-				'Die Nimrod-Expedition',
-				'Die Discovery-Expedition',
-			],
-			correct_answer: 'Die Terra-Nova-Expedition',
-		},
-		{
-			question:
-				'Welcher Entdecker entdeckte den Seeweg nach Indien und begründete so den portugiesischen Seehandel mit Asien?',
-			answers: ['Vasco da Gama', 'Ferdinand Magellan', 'Bartolomeu Dias', 'Marco Polo'],
-			correct_answer: 'Vasco da Gama',
-		},
-	],
-};
-
 export const historyQuizzes = [
 	ww2Quiz,
-	ww1Quiz,
 	persoenlichkeitenQuiz,
-	amerikanischeRevolutionQuiz,
-	endekungsreisenQuiz,
+	historyEventsQuiz
 ];
