@@ -145,6 +145,7 @@ const tvQuiz3 = {
         {
             question: 'Bei den 89. Academy Awards 2017 wurde der falsche Film als Gewinner des besten Films angekündigt. Welcher Film war es?',
             answers: ['La La Land', 'Moonlight', 'Manchester by the Sea', 'Arrival'],
+            correct_answer: 'La La Land',
         },
         {
             question: 'Was passiert in der letzten Folge der TV-Serie "Friends"?',
