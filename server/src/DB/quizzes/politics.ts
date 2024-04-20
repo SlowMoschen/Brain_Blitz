@@ -147,7 +147,7 @@ const autriaPoliticsQuiz = {
 			correct_answer: 'Nationalrat',
 		},
 		{
-			qestion: 'Wann wurde Österreich Mitglied der Europäischen Union?',
+			question: 'Wann wurde Österreich Mitglied der Europäischen Union?',
 			answers: ['1995', '1998', '2000', '2002'],
 			correct_answer: '1995',
 		},
