@@ -1,28 +1,29 @@
 import { Box, Typography } from "@mui/material";
+import { formatValue } from "../../../../shared/services/ValueFormatter.service";
 
 export default function QuizCategoryIcon({ category }: { category: string }) {
   const categoryIcons: { [key: string]: string } = {
     geschichte: "🏰",
     geographie: "🌍",
-    wissenschaft: "🔬",
-    popkultur: "💅",
+    fernsehen: "📺",
     sport: "🏈",
     musik: "🎵",
-    filme: "🎬",
+    film: "🎬",
     technologie: "📡",
     biologie: "🦠",
     politik: "🏛️",
+    videospiele: "🎮",
   };
 
   const getColor = (category: string) => {
-    switch (category.trim().toLowerCase()) {
+    switch (formatValue(category, ["trim", "lowerCase"])) {
       case "geschichte":
         return "#f5a623"; 
       case "geographie":
         return "#4a90e2"; 
-      case "wissenschaft":
+      case "fernsehen":
         return "#7ed321"; 
-      case "popkultur":
+      case "videospiele":
         return "#d0021b"; 
       case "sport":
         return "#1b07d1"; 
