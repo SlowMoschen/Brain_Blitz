@@ -80,7 +80,6 @@ jobs:
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
             cd ./server
-            npm ci
             npm run build
             pm2 kill
             pm2 start npm --name "BB" -- start
