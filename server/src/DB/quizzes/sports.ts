@@ -140,7 +140,7 @@ const generalQuiz2 = {
 		{
 			question: 'Welches ist die älteste Motorsport-Rennserie der Welt?',
 			answers: ['Formel 1', 'IndyCar', 'Le Mans', 'Formel E'],
-			correct_answer: 'Formel E',
+			correct_answer: 'IndyCar',
 		},
 		{
 			question: "Welcher Sport wird auf einem Feld gespielt, das auch als 'Diamond' bekannt ist?",
