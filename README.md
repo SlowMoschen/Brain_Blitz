@@ -91,6 +91,7 @@ BASE_CONTACT_URL="http://localhost:5713/#/contact"
 LOGIN_REDIRECT_URL="http://localhost:5713/#/auth/signin"
 BASE_VERIFICATION_URL=http://localhost:3000/auth/verify-email
 BASE_PASSWORD_RESET_URL=http://localhost:3000/auth/reset-password
+ADMIN_PW=<SUPER_SAVE_PASSWORD>
 ```
 
 #### 2.3 Nodepackages insallieren
