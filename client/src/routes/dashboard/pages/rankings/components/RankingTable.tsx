@@ -1,17 +1,16 @@
-import { useOutletContext } from "react-router-dom";
-import { UserContext } from "../../../../../shared/types/User";
 import {
-  Typography,
-  TableContainer,
-  Table,
-  TableHead,
   TableRow as ITableRow,
-  TableCell,
+  Table,
   TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  Typography,
 } from "@mui/material";
+import { useUserContext } from "../../../../../shared/hooks/context/useUserContext.hook";
+import { useTimeParser } from "../../../../../shared/hooks/timer/useTimeParser.hook";
 import { formatValue } from "../../../../../shared/services/ValueFormatter.service";
 import ContainerWithHeader from "../../../components/ContainerWithHeader";
-import { useTimeParser } from "../../../../../shared/hooks/timer/useTimeParser.hook";
 
 interface ITableRow {
     user_id?: string;
@@ -34,7 +33,7 @@ export default function RankingTable({
   tableHeader
 }: ITableProps) {
   const { parseMinuteString } = useTimeParser();
-  const { user } = useOutletContext<UserContext>();
+  const user = useUserContext();
 
   if (!data || data.length === 0)
     return (

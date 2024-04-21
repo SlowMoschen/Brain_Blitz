@@ -1,3 +1,5 @@
+import { AppUpdate } from "src/Modules/gateway/updates";
+
 export class SendVerifyMailEvent {
 	constructor(
 		public readonly userID: string,
@@ -22,5 +24,12 @@ export class SendContactFormEvent {
 		public readonly name: string,
 		public readonly email: string,
 		public readonly message: string,
+	) {}
+}
+
+export class UpdateNotificationEvent {
+	constructor(
+		public readonly user_id: string,
+		public readonly update: AppUpdate
 	) {}
 }

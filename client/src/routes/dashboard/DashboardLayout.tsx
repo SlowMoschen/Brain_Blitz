@@ -5,26 +5,27 @@ import { URLS } from "../../configs/Links";
 import LoadingScreen from "../../shared/components/LoadingScreen";
 import ScrollToTop from "../../shared/components/ScrollToTop";
 import { UserIDContext } from "../../shared/context/UserID.context";
-import { useSocket } from "../../shared/hooks/api/useSocket.hook";
 import { useUserQueries } from "../../shared/hooks/api/useUserQueries.hook";
-import { NewQuizUnlockedEvent } from "../../shared/types/ServerEvents";
+import { useSocketContext } from "../../shared/hooks/context/useSocketContext.hook";
+import { IQuiz } from "../../shared/types/Quiz";
+import { INotification } from "../../shared/types/ServerEvents";
 import { IUser } from "../../shared/types/User";
 import BottomMenu from "./components/navigation/BottomMenu";
 
 export interface IOutletContext {
   user: IUser;
-  notifications: string[];
+  notifications: INotification[];
   setNotifications: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export default function DashboardLayout() {
   const [pageState, setPageState] = useState<"error" | "success" | "pending">("pending");
-  const [notifications, setNotifications] = useState<string[]>([]);
+  const [notifications, setNotifications] = useState<INotification[]>([]);
   const { user, isPending, isError, noAccess } = useUserQueries().useUserFetch();
   const { setUserID } = useContext(UserIDContext);
   const { pathname } = useLocation();
   const redirect = useNavigate();
-  const socket = useSocket();
+  const socket = useSocketContext();
 
   useEffect(() => {
     if (isPending) return setPageState("pending");
@@ -43,8 +44,23 @@ export default function DashboardLayout() {
 
       socket.emit("init", { user_id: user.id });
 
-      socket.on("quiz.unlocked", (data: NewQuizUnlockedEvent) => {
-        setNotifications((prev) => [...prev, `Neues Quiz freigeschaltet: ${data.title}`]);
+      socket.on(
+        "quiz.unlocked",
+        (
+          data: INotification & {
+            notificationData: { quiz: IQuiz };
+          }
+        ) => {
+          setNotifications((prev) => [...prev, data]);
+        }
+      );
+
+      socket.on("notifi.firstLogin", (data) => {
+        setNotifications((prev) => [...prev, data]);
+      });
+
+      socket.on("notifi.update", (data) => {
+        setNotifications((prev) => [...prev, data]);
       });
     }
 

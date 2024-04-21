@@ -59,7 +59,7 @@ const footBallQuiz = {
 
 // MARK: allgemein1
 const generalQuiz = {
-	title: 'Großes Sport Quiz',
+	title: 'Sportwissen',
 	description: 'Teste dein Wissen über Sport',
 	category: 'Sport',
 	questions: [
@@ -118,7 +118,7 @@ const generalQuiz = {
 
 // MARK: allgemein2
 const generalQuiz2 = {
-	title: 'Sport Quiz',
+	title: 'Das große Sportquiz',
 	description: 'Kannst du diese Fragen über Sport beantworten?',
 	category: 'Sport',
 	questions: [
@@ -140,7 +140,7 @@ const generalQuiz2 = {
 		{
 			question: 'Welches ist die älteste Motorsport-Rennserie der Welt?',
 			answers: ['Formel 1', 'IndyCar', 'Le Mans', 'Formel E'],
-			correct_answer: 'Formel E',
+			correct_answer: 'IndyCar',
 		},
 		{
 			question: "Welcher Sport wird auf einem Feld gespielt, das auch als 'Diamond' bekannt ist?",

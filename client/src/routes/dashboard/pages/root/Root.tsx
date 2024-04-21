@@ -1,10 +1,9 @@
 import { Box, Stack } from "@mui/material";
 import { useContext } from "react";
-import { useOutletContext } from "react-router-dom";
 import blob from "../../../../assets/blob.svg";
 import { BREAKPOINTS } from "../../../../configs/Breakpoints";
 import { WindowContext } from "../../../../shared/context/ScreenSize.context";
-import { UserContext } from "../../../../shared/types/User";
+import { useUserContext } from "../../../../shared/hooks/context/useUserContext.hook";
 import DailyStats from "../../components/DailyStats";
 import EnergyTracker from "../../components/EnergyTracker";
 import LoginStreak from "../../components/LoginStreak";
@@ -13,7 +12,7 @@ import QuizTable from "../../components/quiz/QuizTable";
 import WelcomeHeader from "./WelcomeHeader";
 
 export default function DashboardRoot() {
-  const { user } = useOutletContext<UserContext>();
+  const user = useUserContext();
   const { width } = useContext(WindowContext);
   const isMobile = width < BREAKPOINTS.lg;
   const { first_name, unlocked_quizzes, completed_quizzes } = user;

@@ -3,8 +3,11 @@ import { OnEvent } from '@nestjs/event-emitter';
 import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { corsOptions } from 'src/Configs/cors.confing';
+import { UpdateNotificationEvent } from 'src/Events/notification.events';
 import { NewQuizUnlockedEvent } from 'src/Events/quiz.events';
+import { UserLogEvent } from 'src/Events/user.events';
 import { QuizService } from '../quizzes/quizzes.service';
+import { newQuizUnlockedNotification, updateNotification, welcomeNotification } from './notifications';
 
 /**
  * @description - The EventsGateway class is a WebSocketGateway that handles all the events that are emitted from the server
@@ -55,12 +58,35 @@ export class EventsGateway implements OnModuleInit {
 	@OnEvent('quiz.unlocked')
 	async handleQuizUnlocked({ user_id, quiz_id }: NewQuizUnlockedEvent) {
 		const quiz = await this.quizService.getQuiz(quiz_id);
-		const { title, category, id } = quiz;
 
+		const socketId = this.getSocketByUserId(user_id);
+		if (socketId) {
+			this.server.to(socketId).emit('quiz.unlocked', newQuizUnlockedNotification(quiz));
+		}
+	}
+
+	@OnEvent('notification.firstLogin')
+	handleUserLoginEvent({ user_id }: UserLogEvent) {
+		const socketId = this.getSocketByUserId(user_id);
+		if (socketId) {
+			this.server.to(socketId).emit('notifi.firstLogin', welcomeNotification());
+		}
+	}
+
+	@OnEvent('notification.update')
+	handleUpdateNotificationEvent({ user_id, update }: UpdateNotificationEvent) {
+		const socketId = this.getSocketByUserId(user_id);
+		if (socketId) {
+			this.server.to(socketId).emit('notifi.update', updateNotification(update));
+		}
+	}
+
+	private getSocketByUserId(user_id: string): string {
 		for (let [key, value] of this.currentConntections) {
 			if (value === user_id) {
-				this.server.to(key).emit('quiz.unlocked', { title, category, quiz_id: id });
+				return key;
 			}
 		}
+		return null;
 	}
 }

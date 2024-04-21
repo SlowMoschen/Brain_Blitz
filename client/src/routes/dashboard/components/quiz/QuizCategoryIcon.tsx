@@ -24,11 +24,11 @@ export default function QuizCategoryIcon({ category }: { category: string }) {
       case "fernsehen":
         return "#7ed321"; 
       case "videospiele":
-        return "#d0021b"; 
+        return "#9013fe"; 
       case "sport":
         return "#1b07d1"; 
       case "musik":
-        return "#9013fe"; 
+        return "#d0021b";
       case "filme":
         return "#cc16a5"; 
       case "technologie":

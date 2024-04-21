@@ -86,8 +86,8 @@ export default function SignUp() {
     return (
       <SuccessScreen
         title="Erfolgreich registriert!"
-        text="Du hast dich erfolgreich registriert. Bitte überprüfe deine E-Mails, um deine E-Mail-Adresse zu bestätigen."
-        caption="Bitte überprüfe auch deinen Spam-Ordner."
+        text="Bitte überprüfe deine E-Mails, um deine E-Mail-Adresse zu bestätigen."
+        caption="Checke auch deinen Spam-Ordner."
         button={{ text: "Zurück zur Startseite", to: URLS.HOME }}
       />
     );

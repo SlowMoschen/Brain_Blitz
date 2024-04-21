@@ -21,7 +21,7 @@ const videogameQuiz1 = {
         },
         {
             question: 'In welchem Videospiel kämpfen Spieler in einem Battle Royale ums Überleben und versuchen, der letzte Spieler oder das letzte Team zu sein?',
-            answers: ['Fortnite', 'Apex Legends', 'PlayerUnknown\'s Battlegrounds', 'Call of Duty: Warzone'],
+            answers: ['Fortnite', 'League of Legends', 'Forza Horizon 4', 'Counter-Strike: Global Offensive'],
             correct_answer: 'Fortnite',
         },
         {

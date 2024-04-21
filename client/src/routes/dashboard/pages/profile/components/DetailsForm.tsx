@@ -2,16 +2,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Grid, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useOutletContext } from "react-router-dom";
 import AlertSnackbar from "../../../../../shared/components/AlertSnackbar";
 import CallToAction from "../../../../../shared/components/buttons/CallToAction";
 import SecondaryButton from "../../../../../shared/components/buttons/SecondaryButton";
 import InputText from "../../../../../shared/components/form/InputText";
 import { useUserQueries } from "../../../../../shared/hooks/api/useUserQueries.hook";
+import { useUserContext } from "../../../../../shared/hooks/context/useUserContext.hook";
 import useToggle from "../../../../../shared/hooks/useToggle.hook";
-import { UserContext } from "../../../../../shared/types/User";
-import { ProfileDetailsSchema } from "../schemas/ProfileDetails.schema";
 import { formatValue } from "../../../../../shared/services/ValueFormatter.service";
+import { ProfileDetailsSchema } from "../schemas/ProfileDetails.schema";
 
 interface IDetailsFormInput {
   first_name: string;
@@ -31,7 +30,7 @@ function getErrorMessage(error: string) {
  * @description This component is used to display the details form of the user profile.
  */
 export default function DetailsForm() {
-  const { user } = useOutletContext<UserContext>();
+  const user = useUserContext();
   const [isFormDisabled, setIsFormDisabled] = useState(true);
   const [isSnackbarOpen, toggleSnackbarOpen] = useToggle(false);
   const [snackBarProps, setSnackbarProps] = useState<{
@@ -70,10 +69,10 @@ export default function DetailsForm() {
     resolver: zodResolver(ProfileDetailsSchema),
   });
 
-  const onSubmit = async (data: IDetailsFormInput) => {
+  const onSubmit = async (data: Partial<IDetailsFormInput>) => {
     // Trim and lowercase all values
     for (const key in data) {
-      data[key as keyof IDetailsFormInput] = formatValue(data[key as keyof IDetailsFormInput], [
+      data[key as keyof IDetailsFormInput] = formatValue(data[key as keyof IDetailsFormInput] as string, [
         "trim",
         "lowerCase",
       ]);
@@ -90,7 +89,7 @@ export default function DetailsForm() {
     }
 
     if (data.email === user.email) {
-      delete (data as Partial<IDetailsFormInput>).email;
+      delete data.email;
     }
 
     updateUser(data);

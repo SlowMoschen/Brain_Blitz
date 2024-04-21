@@ -1,12 +1,11 @@
 import FlashOnIcon from "@mui/icons-material/FlashOn";
 import { Typography } from "@mui/material";
-import { useOutletContext } from "react-router-dom";
+import { useUserContext } from "../../../shared/hooks/context/useUserContext.hook";
 import use15MinuteTimer from "../../../shared/hooks/timer/use15MinuteTimer.hook";
-import { UserContext } from "../../../shared/types/User";
 import InfoContainer from "./InfoContainer";
 
 export default function EnergyTracker() {
-  const { user } = useOutletContext<UserContext>();
+  const user = useUserContext();
   const { time } = use15MinuteTimer();
 
   return (

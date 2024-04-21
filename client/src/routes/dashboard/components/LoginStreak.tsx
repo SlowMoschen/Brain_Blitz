@@ -1,11 +1,10 @@
-import { Typography } from "@mui/material";
-import InfoContainer from "./InfoContainer";
 import StarIcon from "@mui/icons-material/Star";
-import { useOutletContext } from "react-router-dom";
-import { UserContext } from "../../../shared/types/User";
+import { Typography } from "@mui/material";
+import { useUserContext } from "../../../shared/hooks/context/useUserContext.hook";
+import InfoContainer from "./InfoContainer";
 
 export default function LoginStreak() {
-  const { user } = useOutletContext<UserContext>();
+  const user = useUserContext();
 
   return (
     <>

@@ -12,6 +12,7 @@ export default function Question({ question }: QuestionProps) {
       bgcolor={"background.secondary"}
       width={"100%"}
       height={'fit-content'}
+      minHeight={'200px'}
       borderRadius={'.375rem'}
       p={2}
     >

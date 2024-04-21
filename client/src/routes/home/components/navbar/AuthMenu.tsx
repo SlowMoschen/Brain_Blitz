@@ -25,7 +25,7 @@ export default function AuthMenu() {
         sx={{ ...defaultStyles }}
       />
       <CallToAction
-        text="Anmelden"
+        text="Registrieren"
         onClick={() => redirect(URLS.SIGNUP)}
         sx={{ ...defaultStyles }}
       />

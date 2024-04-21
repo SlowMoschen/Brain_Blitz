@@ -2,15 +2,14 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { Badge, Grid, Stack, Typography } from "@mui/material";
 import CountUp from "react-countup";
-import { useOutletContext } from "react-router-dom";
 import CallToAction from "../../../../../shared/components/buttons/CallToAction";
 import { useAuthQueries } from "../../../../../shared/hooks/api/useAuthQueries.hook";
-import { UserContext } from "../../../../../shared/types/User";
-import AvatarIcon from "./AvatarIcon";
+import { useUserContext } from "../../../../../shared/hooks/context/useUserContext.hook";
 import { formatValue } from "../../../../../shared/services/ValueFormatter.service";
+import AvatarIcon from "./AvatarIcon";
 
 export default function ProfileStats() {
-  const { user } = useOutletContext<UserContext>();
+  const user = useUserContext();
   const { mutate: logout } = useAuthQueries().useLogout();
 
   const countUpStyle = { color: "#99ff66", fontSize: "1.3rem" };

@@ -1,6 +1,5 @@
 import { Stack, Typography } from "@mui/material";
-import { useOutletContext } from "react-router-dom";
-import { UserContext } from "../../../../../shared/types/User";
+import { useUserContext } from "../../../../../shared/hooks/context/useUserContext.hook";
 
 interface RankingBarProps {
   value: number | string;
@@ -11,7 +10,7 @@ interface RankingBarProps {
 }
 
 export default function RankingBar({ value, name, rank, user_id, onClick }: RankingBarProps) {
-  const { user } = useOutletContext<UserContext>();
+  const user = useUserContext();
 
   const isZero = value === 0 || value === "00:00";
 
@@ -46,6 +45,7 @@ export default function RankingBar({ value, name, rank, user_id, onClick }: Rank
     order: { xs: rank, lg: desktopOrder },
     borderRadius: { xs: "0 .375rem .375rem 0", lg: ".375rem .375rem 0 0" },
     '&:hover': hover,
+    
   };
 
   return (
@@ -54,7 +54,7 @@ export default function RankingBar({ value, name, rank, user_id, onClick }: Rank
         {isZero ? "" : rank === 1 ? "👑" : rank === 2 ? "🥈" : "🥉"}
       </Typography>
       <Typography variant="subtitle1" fontSize={{ md: 25, lg: 30 }} align="center">
-        {user_id === user.id ? `${name} (Du)` : name}
+        {user_id === user.id ? `${name} (Du)` : `${name.length > 15 ? name.slice(0, 10) + "..." : name}`}
       </Typography>
       <Typography variant="body1" fontSize={{ md: 20 }} sx={{ textDecoration: "underline" }}>
         {isZero ? "" : value}

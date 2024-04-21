@@ -4,6 +4,8 @@ import { env } from '../Configs/env.config';
 import * as schema from '../Models/_index';
 import { seedQuizzes } from './QuizSeed';
 import { clearDB } from './clear';
+import * as bcrypt from 'bcrypt';
+import { eq } from 'drizzle-orm';
 
 /**
  * This script is responsible for seeding the db with Mock data
@@ -23,8 +25,29 @@ const db = drizzle(client, { schema });
 const adminUser = {
 	first_name: 'Admin',
 	last_name: 'User',
-	password: 'admin',
+	password: process.env.ADMIN_PW,
 	email: 'admin@test.com',
+};
+
+const seedAdmin = async (db: any) => {
+	console.log('-------------------- Seeding Admin User --------------------');
+	const hashedPassword = await bcrypt.hash(adminUser.password, 10);
+	const user = await db
+		.insert(schema.usersTable)
+		.values({ ...adminUser, password: hashedPassword })
+		.returning({ id: schema.usersTable.id });
+	const { id } = user[0];
+
+	await db.insert(schema.usersSettingsTable).values({ user_id: id });
+	await db
+		.update(schema.usersSettingsTable)
+		.set({ roles: 'admin', is_verified: true })
+		.where(eq(schema.usersSettingsTable.user_id, id));
+
+	await db.insert(schema.usersStatisticsTable).values({ user_id: id });
+	await db.insert(schema.usersTimestampsTable).values({ user_id: id });
+	await db.insert(schema.usersBillingInformationTable).values({ user_id: id });
+	console.log(`----------------- Admin User ${id} created -----------------`);
 };
 
 /**
@@ -37,6 +60,7 @@ const main = async () => {
 		await clearDB(db);
 		await seedQuizzes(db);
 		// await generateUser(db);
+		await seedAdmin(db);
 		await client.end();
 	} catch (err) {
 		console.error(err);
