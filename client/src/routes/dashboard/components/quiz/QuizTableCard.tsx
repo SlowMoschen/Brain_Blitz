@@ -2,11 +2,11 @@ import FlashOffIcon from "@mui/icons-material/FlashOff";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import { Box, Paper, Stack, Typography } from "@mui/material";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { GAME, TIMES } from "../../../../configs/Application";
 import AlertSnackbar from "../../../../shared/components/AlertSnackbar";
+import { useUserContext } from "../../../../shared/hooks/context/useUserContext.hook";
 import useToggle from "../../../../shared/hooks/useToggle.hook";
-import { UserContext } from "../../../../shared/types/User";
 import QuizCategoryIcon from "./QuizCategoryIcon";
 
 interface QuizTableCardProps {
@@ -26,7 +26,7 @@ export default function QuizTableCard({
 }: QuizTableCardProps) {
   const redirect = useNavigate();
   const [isSnackbarOpen, toggleSnackbarOpen] = useToggle(false);
-  const { user } = useOutletContext<UserContext>();
+  const user = useUserContext();
   const hasEnoughEnergy = user.energy >= GAME.ENERGY_CONSUPMTION;
 
   const handleStartQuiz = async () => {
@@ -48,7 +48,9 @@ export default function QuizTableCard({
         <Stack alignItems={"center"}>
           <Stack alignItems="center" p={2}>
             <Stack direction={"row"} alignItems={"center"} gap={1}>
-              <Typography variant="h6" align="center">{title}</Typography>
+              <Typography variant="h6" align="center">
+                {title}
+              </Typography>
               {isCompleted && <VerifiedIcon sx={{ color: "accent.main" }} />}
             </Stack>
           </Stack>

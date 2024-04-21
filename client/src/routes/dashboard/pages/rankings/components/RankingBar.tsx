@@ -1,6 +1,5 @@
 import { Stack, Typography } from "@mui/material";
-import { useOutletContext } from "react-router-dom";
-import { UserContext } from "../../../../../shared/types/User";
+import { useUserContext } from "../../../../../shared/hooks/context/useUserContext.hook";
 
 interface RankingBarProps {
   value: number | string;
@@ -11,7 +10,7 @@ interface RankingBarProps {
 }
 
 export default function RankingBar({ value, name, rank, user_id, onClick }: RankingBarProps) {
-  const { user } = useOutletContext<UserContext>();
+  const user = useUserContext();
 
   const isZero = value === 0 || value === "00:00";
 

@@ -5,7 +5,7 @@ import { URLS } from "../../configs/Links";
 import LoadingScreen from "../../shared/components/LoadingScreen";
 import ScrollToTop from "../../shared/components/ScrollToTop";
 import { UserIDContext } from "../../shared/context/UserID.context";
-import { useSocket } from "../../shared/hooks/api/useSocket.hook";
+import { useSocketContext } from "../../shared/hooks/context/useSocketContext.hook";
 import { useUserQueries } from "../../shared/hooks/api/useUserQueries.hook";
 import { NewQuizUnlockedEvent } from "../../shared/types/ServerEvents";
 import { IUser } from "../../shared/types/User";
@@ -24,7 +24,7 @@ export default function DashboardLayout() {
   const { setUserID } = useContext(UserIDContext);
   const { pathname } = useLocation();
   const redirect = useNavigate();
-  const socket = useSocket();
+  const socket = useSocketContext();
 
   useEffect(() => {
     if (isPending) return setPageState("pending");
