@@ -77,6 +77,7 @@ export default function NotificationMenu({
           justifyContent: "flex-start",
           alignItems: "center",
           p: 2,
+          position: "relative",
         }}
       >
         <ListItem sx={{ p: 2 }}>

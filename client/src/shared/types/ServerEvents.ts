@@ -13,7 +13,6 @@ interface INotificationData{
 
 export interface INotification{
   type: 'unlock' | 'generic' | 'update';
-  user_id: string;
   topic: string;
   notificationData: INotificationData;
 }
