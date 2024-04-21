@@ -19,7 +19,12 @@ export default function HeaderMenu({ tabs = [], onChange, value }: HeaderMenuPro
   const { notifications, setNotifications } = useOutletContext<IOutletContext>();
 
   const handleNotificationDelete = (index: number) => {
-    setNotifications((prev) => prev.filter((_, i) => i !== index));
+    setNotifications((prev) => {
+      const newNotifications = [...prev];
+      newNotifications.splice(index, 1);
+      if (newNotifications.length === 0) toggleMenuOpen();
+      return newNotifications;
+    });
   };
 
   const deleteAllNotifications = () => {
