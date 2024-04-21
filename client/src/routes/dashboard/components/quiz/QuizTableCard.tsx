@@ -54,11 +54,11 @@ export default function QuizTableCard({
               {isCompleted && <VerifiedIcon sx={{ color: "accent.main" }} />}
             </Stack>
           </Stack>
-          <Box>
+          <Stack>
             <Typography variant="caption" p={2} align="center">
               {description}
             </Typography>
-          </Box>
+          </Stack>
         </Stack>
         <Box
           onClick={handleStartQuiz}
