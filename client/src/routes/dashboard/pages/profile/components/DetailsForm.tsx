@@ -70,10 +70,10 @@ export default function DetailsForm() {
     resolver: zodResolver(ProfileDetailsSchema),
   });
 
-  const onSubmit = async (data: IDetailsFormInput) => {
+  const onSubmit = async (data: Partial<IDetailsFormInput>) => {
     // Trim and lowercase all values
     for (const key in data) {
-      data[key as keyof IDetailsFormInput] = formatValue(data[key as keyof IDetailsFormInput], [
+      data[key as keyof IDetailsFormInput] = formatValue(data[key as keyof IDetailsFormInput] as string, [
         "trim",
         "lowerCase",
       ]);
@@ -90,7 +90,7 @@ export default function DetailsForm() {
     }
 
     if (data.email === user.email) {
-      delete (data as Partial<IDetailsFormInput>).email;
+      delete data.email;
     }
 
     updateUser(data);
