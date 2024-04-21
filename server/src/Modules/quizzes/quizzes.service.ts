@@ -1,16 +1,15 @@
-import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { gameConfig } from 'src/Configs/game.config';
 import { CompleteQuizEvent, NewQuizUnlockedEvent } from 'src/Events/quiz.events';
 import { CompletedQuiz } from 'src/Utils/Types/completedQuiz.types';
 import { SelectQuiz } from 'src/Utils/Types/model.types';
 import { QuizRepository } from '../shared/database/Repositories/Quiz/quiz.repository';
+import { UsersService } from '../users/users.service';
 import { CompletedQuizDTO } from './dto/completed-quiz.dto';
 import { CreateQuizDTO } from './dto/create-quiz.dto';
 import { UpdateQuizDTO } from './dto/update-quiz.dto';
 import { HighscoreService } from './highscore.service';
-import { UsersService } from '../users/users.service';
-import { gameConfig } from 'src/Configs/game.config';
-import { r } from 'tar';
 
 @Injectable()
 export class QuizService {
@@ -119,27 +118,30 @@ export class QuizService {
 	 * @returns {Promise<{ totalQuestions: number, totalQuizzes: number, uniqueCategories: number, categoryStats: { category: string, totalQuestions: number, totalQuizzes: number }[] }>}
 	 */
 	async getStats() {
-		const quizzes = await this.quizRepository.findAll();
+		const allQuizzes = await this.quizRepository.findAll();
 
-		const uniqueCategories = [...new Set(quizzes.map((quiz) => quiz.category))];
+		const uniqueCategories = [...new Set(allQuizzes.map((quiz) => quiz.category))];
+
 		const categoryStats = uniqueCategories.map((category) => {
-			const categoryQuizzes = quizzes.filter((quiz) => quiz.category === category);
-			const totalQuestions = categoryQuizzes.reduce((acc, quiz) => acc + quiz.questions.length, 0);
+			const quizzes = allQuizzes.filter((quiz) => quiz.category === category);
+			const totalQuestions = quizzes.reduce((acc, quiz) => acc + quiz.questions.length, 0);
 			return {
 				category,
 				totalQuestions,
-				totalQuizzes: categoryQuizzes.length,
+				totalQuizzes: quizzes.length,
 			};
 		});
-		const totalQuestions = quizzes.reduce((acc, quiz) => acc + quiz.questions.length, 0);
-		const timesPlayed = quizzes.reduce((acc, q) => {
+
+		const totalQuestions = allQuizzes.reduce((acc, quiz) => acc + quiz.questions.length, 0);
+
+		const timesPlayed = allQuizzes.reduce((acc, q) => {
 			const { title, times_played } = q;
 			return [...acc, { title, times_played }];
 		}, []);
 
 		return {
 			totalQuestions,
-			totalQuizzes: quizzes.length,
+			totalQuizzes: allQuizzes.length,
 			uniqueCategories: uniqueCategories.length,
 			categoryStats,
 			timesPlayed,
