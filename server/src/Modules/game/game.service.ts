@@ -97,9 +97,13 @@ export class GameService {
 	 */
 	@OnEvent('user.created')
 	async unlockFirstQuiz({ user_id }: UserCreatedEvent): Promise<void> {
-		for (let i = 0; i < gameConfig.START_QUIZ_COUNT; i++) {
-			const newUnlockedQuiz = await this.getRandomNewQuiz(user_id);
-			await this.userService.insertNewUnlockedQuiz(user_id, newUnlockedQuiz);
+		const selectedQuizzes = new Set<string>();
+		while (selectedQuizzes.size < gameConfig.START_QUIZ_COUNT) {
+			const randomQuiz = await this.getRandomNewQuiz(user_id);
+			if (selectedQuizzes.has(randomQuiz)) break;
+			
+			selectedQuizzes.add(randomQuiz);
+			await this.userService.insertNewUnlockedQuiz(user_id, randomQuiz);
 		}
 	}
 
@@ -117,10 +121,10 @@ export class GameService {
 		const allQuizzes = await this.quizRepository.findAll();
 		const allQuizzesIDs = allQuizzes.map((quiz) => quiz.id);
 
-		const lockedQuizzes = allQuizzesIDs.filter((id) => !unlockedQuizzes.includes(id));
-		const randomIndex = Math.floor(Math.random() * lockedQuizzes.length);
+		const lockedIds = allQuizzesIDs.filter((id) => !unlockedQuizzes.includes(id));
+		const randomIndex = Math.floor(Math.random() * lockedIds.length);
 
-		return lockedQuizzes[randomIndex];
+		return lockedIds[randomIndex];
 	}
 
 	/**
