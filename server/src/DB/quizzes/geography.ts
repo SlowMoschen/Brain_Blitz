@@ -112,10 +112,9 @@ const wondersOfTheWorldQuiz = {
 			correct_answer: 'Das Taj Mahal',
 		},
 		{
-			question:
-				'Welches Weltwunder ist ein alter Tempel in Athen, der der Göttin Athene gewidmet ist und als eines der besten Beispiele der klassischen griechischen Architektur gilt?',
-			answers: ['Der Parthenon', 'Die Große Mauer', 'Das Taj Mahal', 'Die Christusstatue'],
-			correct_answer: 'Der Parthenon',
+			question: 'Welches Weltwunder ist eine antike Stätte in der Türkei, die für ihre beeindruckende Architektur bekannt ist?',
+			answers: ['Die Hagia Sophia', 'Stonehenge', 'Der Parthenon', 'Die Christusstatue'],
+			correct_answer: 'Die Hagia Sophia',
 		},
 		{
 			question:
