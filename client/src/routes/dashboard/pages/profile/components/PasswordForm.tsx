@@ -47,6 +47,7 @@ export default function PasswordForm() {
       alertType: "success",
     });
     toggleSnackbarOpen();
+    setIsFormDisabled(true);
     reset(defaultValues);
   };
 
