@@ -1,5 +1,5 @@
 import {
-  TableRow as ITableRow,
+  TableRow,
   Table,
   TableBody,
   TableCell,
@@ -13,7 +13,7 @@ import { formatValue } from "../../../../../shared/services/ValueFormatter.servi
 import ContainerWithHeader from "../../../components/ContainerWithHeader";
 
 interface ITableRow {
-    user_id?: string;
+  user_id?: string;
   name: string;
   value: number;
   additionalInfo: string;
@@ -30,7 +30,7 @@ export default function RankingTable({
   data,
   additionalInfoString,
   valueString,
-  tableHeader
+  tableHeader,
 }: ITableProps) {
   const { parseMinuteString } = useTimeParser();
   const user = useUserContext();
@@ -49,12 +49,22 @@ export default function RankingTable({
       <TableContainer sx={{ overflow: "auto" }}>
         <Table size="medium" stickyHeader>
           <TableHead>
-            <ITableRow>
-              <TableCell>Platz</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>{formatValue(valueString, ["capitalize"])}</TableCell>
-              <TableCell>{formatValue(additionalInfoString, ["capitalize"])}</TableCell>
-            </ITableRow>
+            <TableRow>
+              <TableCell>
+                <Typography variant="h6">Platz</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="h6">Name</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="h6">{formatValue(valueString, ["capitalize"])}</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="h6">
+                  {formatValue(additionalInfoString, ["capitalize"])}
+                </Typography>
+              </TableCell>
+            </TableRow>
           </TableHead>
           <TableBody>
             {data.map((ranking, index) => {
@@ -81,7 +91,7 @@ export default function RankingTable({
               }
 
               return (
-                <ITableRow
+                <TableRow
                   key={index}
                   sx={{
                     bgcolor,
@@ -89,22 +99,32 @@ export default function RankingTable({
                   }}
                 >
                   <TableCell sx={{ fontSize: { xs: 20, md: 25, lg: 30 }, textAlign: "left" }}>
-                    {index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `${index + 1}.`}
+                    <Typography variant="h5">
+                      {index === 0
+                        ? "🥇"
+                        : index === 1
+                        ? "🥈"
+                        : index === 2
+                        ? "🥉"
+                        : `${index + 1}.`}
+                    </Typography>
                   </TableCell>
                   <TableCell>
-                    {isUser ? <strong>{formatedName}(Du)</strong> : formatedName}
+                    <Typography variant="subtitle1">
+                      {isUser ? <strong>{formatedName}(Du)</strong> : formatedName}
+                    </Typography>
                   </TableCell>
                   <TableCell>
-                    {
-                      valueString === "spielzeit"
-                      ? parseMinuteString(ranking.value)
-                      : ranking.value
-                    }
+                    <Typography variant="subtitle1">
+                      {valueString === "spielzeit"
+                        ? parseMinuteString(ranking.value)
+                        : ranking.value}
+                    </Typography>
                   </TableCell>
                   <TableCell sx={{ fontSize: { xs: 12, md: 13 } }}>
-                    {ranking.additionalInfo}
+                    <Typography variant="subtitle1">{ranking.additionalInfo}</Typography>
                   </TableCell>
-                </ITableRow>
+                </TableRow>
               );
             })}
           </TableBody>
