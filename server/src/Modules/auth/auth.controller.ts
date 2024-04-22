@@ -59,12 +59,12 @@ export class AuthController {
 	@ApiOkResponse({ description: 'returns message if logout was successful' })
 	@ApiInternalServerErrorResponse({ description: 'if logout failed' })
 	@Post('logout')
-	async logout(@Req() req: Request, @Res() res: Response) {
+	async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
 		this.eventEmitter.emit('user.logout', new UserLogEvent(req.user.id));
 		req.logout((err) => {
 			if (err) throw new HttpException('Logout failed', HttpStatus.INTERNAL_SERVER_ERROR);
 		});
-		res.clearCookie('connect.sid').send({ message: 'Logout successful' });
+		return res.cookie('connect.sid', '', { maxAge: 0, expires: new Date(0) }).send({ message: 'Logout successful' });
 	}
 
 	@ApiOperation({ summary: 'Check if user is authorized' })
