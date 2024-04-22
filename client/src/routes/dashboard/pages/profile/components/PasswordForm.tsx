@@ -122,7 +122,7 @@ export default function PasswordForm() {
                 <CallToAction text="Speichern" type="submit" />
                 <IconButton onClick={() => setIsFormDisabled(true)}>
                   <CloseIcon sx={{ color: "primary.main" }} />
-                  <Typography variant="caption" sx={{ color: "primary.main" }}>
+                  <Typography variant="caption" sx={{ color: "text.main" }}>
                     Abbrechen
                   </Typography>
                 </IconButton>
