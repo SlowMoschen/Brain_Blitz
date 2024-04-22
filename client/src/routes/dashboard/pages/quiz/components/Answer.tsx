@@ -6,37 +6,32 @@ interface AnswerProps {
   isCorrect: boolean;
   onClick: () => void;
   isDisabled: boolean;
+  isRevealed: boolean;
 }
 
-type AnswerState = "default" | "selected" | "correct" | "incorrect";
+type AnswerState = "default" | "selected";
 
-export default function Answer({ answer, isCorrect, onClick, isDisabled }: AnswerProps) {
+export default function Answer({
+  answer,
+  isCorrect,
+  onClick,
+  isDisabled,
+  isRevealed,
+}: AnswerProps) {
   const [state, setState] = useState<AnswerState>("default");
-
-  const revealAnswer = () => {
-    if (!isCorrect) return setState("incorrect");
-    setState("correct");
-  };
 
   const handleClick = () => {
     if (state === "default") setState("selected");
     onClick();
-    setTimeout(revealAnswer, 1000);
     setTimeout(setState, 2000, "default");
   };
 
   const getBGColor = () => {
-    switch (state) {
-      case "correct":
-        return "success.main";
-      case "incorrect":
-        return "error.main";
-      default:
-        return "secondary.main";
-    }
+    if (isRevealed) return isCorrect ? "success.main" : "error.main";
+    return "secondary.main";
   };
 
-  const hoverStyle = useMediaQuery("(hover: hover)") ? { bgcolor: "secondary.dark" } : '';
+  const hoverStyle = useMediaQuery("(hover: hover)") ? { bgcolor: "secondary.dark" } : "";
 
   const containerStyle = {
     cursor: "pointer",
@@ -49,10 +44,10 @@ export default function Answer({ answer, isCorrect, onClick, isDisabled }: Answe
     justifyContent: "center",
     width: "100%",
     pointerEvents: isDisabled ? "none" : "auto",
-    '&:active': {
-        bgcolor: 'secondary.dark',
-        },
-    '&:hover': hoverStyle,
+    "&:active": {
+      bgcolor: "secondary.dark",
+    },
+    "&:hover": hoverStyle,
   };
 
   return (

@@ -29,4 +29,11 @@ export class AppUpdate {
  *      }
  * ]),
  */
-export const updates: AppUpdate[] = [];
+export const updates: AppUpdate[] = [
+	new AppUpdate('2024-04-23', '1.0.5', [
+		{
+			header: 'Antworten werden aufgedeckt',
+			body: 'Nachdem du eine Antwort ausgewählt hast, ob richtig oder falsch, werden alle Antworten aufgedeckt.',
+		}
+	])
+];
