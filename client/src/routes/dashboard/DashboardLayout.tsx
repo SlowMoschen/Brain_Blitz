@@ -1,12 +1,12 @@
 import { Box, Stack } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { URLS } from "../../configs/Links";
 import LoadingScreen from "../../shared/components/LoadingScreen";
 import ScrollToTop from "../../shared/components/ScrollToTop";
-import { UserIDContext } from "../../shared/context/UserID.context";
 import { useUserQueries } from "../../shared/hooks/api/useUserQueries.hook";
 import { useSocketContext } from "../../shared/hooks/context/useSocketContext.hook";
+import { useUserIdContext } from "../../shared/hooks/context/useUserIdContext.hook";
 import { IQuiz } from "../../shared/types/Quiz";
 import { INotification } from "../../shared/types/ServerEvents";
 import { IUser } from "../../shared/types/User";
@@ -22,7 +22,7 @@ export default function DashboardLayout() {
   const [pageState, setPageState] = useState<"error" | "success" | "pending">("pending");
   const [notifications, setNotifications] = useState<INotification[]>([]);
   const { user, isPending, isError, noAccess } = useUserQueries().useUserFetch();
-  const { setUserID } = useContext(UserIDContext);
+  const { setUserID } = useUserIdContext();
   const { pathname } = useLocation();
   const redirect = useNavigate();
   const socket = useSocketContext();
