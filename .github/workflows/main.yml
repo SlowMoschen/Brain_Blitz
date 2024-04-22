@@ -76,7 +76,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/Brain_Blitz
-            pm2 kill
+            pm2 stop BB
             git pull
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
