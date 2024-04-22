@@ -39,6 +39,7 @@ export const URLS = {
       LOGOUT: "/auth/logout",
       SESSION: "/auth/session",
       FORGOT_PASSWORD: "/auth/forgot-password",
+      RESET_PASSWORD: "/auth/reset-password",
       RESEND_VERIFICATION_EMAIL: "/auth/resend-verification-email",
     },
   },

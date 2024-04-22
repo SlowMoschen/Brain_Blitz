@@ -21,6 +21,11 @@ interface SignUpDTO extends SignInDTO {
   last_name: string;
 }
 
+interface ResetPasswordDTO {
+  userID: string;
+  password: string;
+}
+
 export function useAuthQueries() {
   const useSignIn = (onSuccess: () => void, onError: (error: string) => void) => {
     return useMutationFactory<SignInDTO>({
@@ -48,6 +53,15 @@ export function useAuthQueries() {
       onError,
     });
   };
+
+  const useResetPassword = (onSuccess: () => void, onError: (error: string) => void) => {
+    return useMutationFactory<ResetPasswordDTO>({
+      method: "post",
+      endpoint: URLS.API_ENDPOINTS.AUTH.RESET_PASSWORD,
+      onSuccess,
+      onError,
+    });
+  }
 
   const useResendVerificationEmail = (onSuccess: () => void, onError: (error: string) => void) => {
     return useMutationFactory<EmailDTO>({
@@ -90,6 +104,7 @@ export function useAuthQueries() {
     useSignIn,
     useSignUp,
     useForgotPassword,
+    useResetPassword,
     useResendVerificationEmail,
     useSessionCheck,
     useLogout,

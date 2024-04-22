@@ -17,7 +17,7 @@ import { UpdateUserStatisticsDTO } from './dto/update-user-statistics.dto';
 import { UpdateUserCredentialsDTO } from './dto/update-user-credentials.dto';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { EncryptionService } from '../shared/encryption/encryption.service';
-import { SendVerifyMailEvent } from 'src/Events/notification.events';
+import { PasswordChangedEvent, SendVerifyMailEvent } from 'src/Events/notification.events';
 
 @Injectable()
 export class UsersService {
@@ -94,6 +94,11 @@ export class UsersService {
 
 			this.eventEmitter.emit('mail.verify-email', new SendVerifyMailEvent(id, body.email, body.first_name, token));
 		}
+		if (body.password) {
+			body.password = await this.encryptionService.hashPassword(body.password);
+			this.eventEmitter.emit('mail.password-changed', new PasswordChangedEvent(id, body.email, body.first_name));
+		}
+
 		return await this.userRepository.updateOneCredentials(id, body);
 	}
 
