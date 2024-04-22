@@ -1,9 +1,10 @@
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Divider, Stack, Typography } from "@mui/material";
 import { useContext } from "react";
 import { BREAKPOINTS } from "../../../../configs/Breakpoints";
 import Logo from "../../../../shared/components/Logo";
 import RouterButton from "../../../../shared/components/buttons/RouterButton";
 import { WindowContext } from "../../../../shared/context/ScreenSize.context";
+import ServerStatus from "../../../../shared/components/ServerStatus";
 import { accountLinks, legalLinks, navigationLinks } from "./links";
 
 export default function Footer() {
@@ -15,7 +16,7 @@ export default function Footer() {
     bgcolor: "background.secondary",
     mx: 1,
     py: 2,
-    borderRadius: '.375rem',
+    borderRadius: ".375rem",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -118,19 +119,19 @@ export default function Footer() {
         </Box>
       </Box>
       <Divider sx={{ width: "98%", opacity: "50%", bgcolor: "secondary.main" }} />
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "flex-start",
-          flexDirection: "column",
-          p: 2,
-          width: "100%",
-        }}
+      <Stack
+        direction={{ xs: "column", lg: "row" }}
+        justifyContent={{ xs: "center", lg: "space-between" }}
+        alignItems={{ xs: "flex-start", lg: "center" }}
+        p={2}
+        width={"100%"}
       >
-        <Typography>© {new Date().getFullYear()} Brain Blitz</Typography>
-        <Typography>Made with ❤️ by Philipp Millner</Typography>
-      </Box>
+        <Stack my={1}>
+          <Typography>© {new Date().getFullYear()} Brain Blitz</Typography>
+          <Typography>Made with ❤️ by Philipp Millner</Typography>
+        </Stack>
+          <ServerStatus />
+      </Stack>
     </Box>
   );
 }

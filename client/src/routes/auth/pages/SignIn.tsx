@@ -19,6 +19,7 @@ import useToggle from "../../../shared/hooks/useToggle.hook";
 import { SignInSchema } from "../schemas/SignIn.schema";
 import { imagePaperStyles, imageStyles, paperStyles, stackStyles } from "./styles/SignIn.styles";
 import { formatValue } from "../../../shared/services/ValueFormatter.service";
+import ServerStatus from "../../../shared/components/ServerStatus";
 
 interface ISignInFormInput {
   email: string;
@@ -44,6 +45,7 @@ function getSnackbarMessage(error: string) {
 export default function SignIn() {
   const redirect = useNavigate();
   const { width } = useContext(WindowContext);
+  const isDesktop = width > BREAKPOINTS.md;
   const [isSnackbarOpen, toggleSnackbarOpen] = useToggle(false);
   const { isAuthenticated, isPending: isAuthPending } = useAuthQueries().useSessionCheck();
   const [snackBarProps, setSnackbarProps] = useState<{
@@ -89,7 +91,7 @@ export default function SignIn() {
             <Box component={"img"} src={signin} sx={imageStyles} />
           </Paper>
           <Stack sx={{ width: { xs: "100%", md: "50%" } }} justifyContent={"flex-start"}>
-            {width > BREAKPOINTS.md && (
+            {isDesktop && (
               <Link href={URLS.HOME} underline="hover" sx={{ alignSelf: "start" }}>
                 <ArrowBackIcon sx={{ fontSize: 30 }} />
               </Link>
@@ -133,6 +135,7 @@ export default function SignIn() {
           </Stack>
         </Paper>
       </Stack>
+      <ServerStatus size="small" direction={isDesktop ? 'row' : 'column'}/>
       <AlertSnackbar
         alertType={snackBarProps.alertType}
         message={snackBarProps.message}
