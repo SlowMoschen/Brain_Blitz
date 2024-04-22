@@ -10,8 +10,10 @@ import LoginStreak from "../../components/LoginStreak";
 import HeaderMenu from "../../components/navigation/HeaderMenu";
 import QuizTable from "../../components/quiz/QuizTable";
 import WelcomeHeader from "./WelcomeHeader";
+import { useDocumentTitle } from "../../../../shared/hooks/api/useDocumentTitle.hook";
 
 export default function DashboardRoot() {
+  useDocumentTitle("Dashboard - Home");
   const user = useUserContext();
   const { width } = useContext(WindowContext);
   const isMobile = width < BREAKPOINTS.lg;

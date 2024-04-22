@@ -40,8 +40,12 @@ export const updates: AppUpdate[] = [
 			body: 'Du bekommst nun alle 15 Minuten, 15 Energiepunkte statt den bisherigen 10 Energiepunkten.',
 		},
 		{
+			header: 'Quiz Rankings nun aufrufbar',
+			body: 'Du kannst nun die Rankings von jedem Quiz einsehen. Derzeit erreichbar über die Globale "Meist gespielte Quizze" Liste.',
+		},
+		{
 			header: 'Überarbeitete Fragen',
 			body: 'Einige Fragen in den Katgeorien "Fernsehen" und "Sport" wurden überarbeitet.',
-		}
+		},
 	])
 ];

@@ -52,7 +52,9 @@ export function useRankingQueries() {
         const {data, isError, isPending} = useQueryFactory({
             queryKey: ["singleQuizRankings"],
             endpoint: URLS.API_ENDPOINTS.APP.OVERALL_QUIZ_RANKINGS + quizID,
-            retry: 1
+            retry: 1,
+            refetchOnMount: true,
+            gcTime: 100
         });
 
         const singleQuizRankings: IQuizRanking[] = data?.data

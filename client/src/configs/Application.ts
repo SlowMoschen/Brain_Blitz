@@ -14,3 +14,5 @@ export const GAME = {
     QUIZ_COMPLETE_THRESHOLD: 2200,
     TIME_PER_QUIZ: 3 * 60 * 1000, // 3 minutes
 }
+
+export const DEFAULT_DOCUMENT_TITLE = "Brain Blitz";

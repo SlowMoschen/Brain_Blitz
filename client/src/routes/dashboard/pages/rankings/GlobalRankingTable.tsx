@@ -16,7 +16,7 @@ export default function GlobalRankingTable() {
 
   const transformData = (data: (IPlaytimeRanking | IPointsRanking | IMostPlayedQuizRanking)[]) => {
     return data?.map((ranking: IPlaytimeRanking | IPointsRanking | IMostPlayedQuizRanking) => ({
-      user_id: "userID" in ranking ? ranking.userID : "",
+      id: "userID" in ranking ? ranking.userID : "quiz_id" in ranking ? ranking.quiz_id : '',
       name: "first_name" in ranking ? ranking.first_name : ranking.quiz_name,
       value:
         "points" in ranking
@@ -36,6 +36,7 @@ export default function GlobalRankingTable() {
           tableHeader: "Bestenliste Punkte",
           valueString: "Punkte",
           additionalInfoString: "",
+          type: "player",
         });
         break;
       case "playtime":
@@ -44,6 +45,7 @@ export default function GlobalRankingTable() {
           tableHeader: "Bestenliste Spielzeit",
           valueString: "spielzeit",
           additionalInfoString: "",
+          type: "player",
         });
         break;
       case "most-played-quizzes":
@@ -52,6 +54,7 @@ export default function GlobalRankingTable() {
           tableHeader: "Meistgespielte Quizze",
           valueString: "Anzahl",
           additionalInfoString: "",
+          type: "quiz",
         });
         break;
       default:

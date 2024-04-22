@@ -11,9 +11,13 @@ import { useUserContext } from "../../../../../shared/hooks/context/useUserConte
 import { useTimeParser } from "../../../../../shared/hooks/timer/useTimeParser.hook";
 import { formatValue } from "../../../../../shared/services/ValueFormatter.service";
 import ContainerWithHeader from "../../../components/ContainerWithHeader";
+import { useNavigate } from "react-router-dom";
+import { URLS } from "../../../../../configs/Links";
+import { useDocumentTitle } from "../../../../../shared/hooks/api/useDocumentTitle.hook";
+import { DEFAULT_DOCUMENT_TITLE } from "../../../../../configs/Application";
 
 interface ITableRow {
-  user_id?: string;
+  id: string;
   name: string;
   value: number;
   additionalInfo: string;
@@ -24,6 +28,7 @@ export interface ITableProps {
   valueString: string;
   additionalInfoString: string;
   tableHeader: string;
+  type: "player" | "quiz";
 }
 
 export default function RankingTable({
@@ -31,9 +36,28 @@ export default function RankingTable({
   additionalInfoString,
   valueString,
   tableHeader,
+  type,
 }: ITableProps) {
+  useDocumentTitle(
+    tableHeader
+    ? tableHeader
+    : DEFAULT_DOCUMENT_TITLE
+  );
   const { parseMinuteString } = useTimeParser();
+  const redirect = useNavigate();
   const user = useUserContext();
+
+  const handleRowClick = (id: string) => {
+    switch (type) {
+      case "player":
+        break;
+      case "quiz":
+        redirect(URLS.QUIZ_RANKING + id);
+        break;
+      default:
+        break;
+    }
+  };
 
   if (!data || data.length === 0)
     return (
@@ -75,12 +99,17 @@ export default function RankingTable({
                * (no css nth-type-of in use, because we would overwrite the bgcolor of the highlighted user)
                */
               const formatedName = formatValue(ranking.name, ["capitalize"]);
-              const isUser = user.id === ranking.user_id;
+              const isUser = user.id === ranking.id;
               const bgcolor = isUser
                 ? "#C200C2"
                 : !isUser && index % 2 !== 0
                 ? "secondary.dark"
                 : "";
+
+              const hoverStyles =
+                type === "quiz"
+                  ? { cursor: "pointer", "&:hover": { filter: "brightness(0.9)" } }
+                  : {};
 
               if (new Date(ranking.additionalInfo).toString() !== "Invalid Date") {
                 const date = new Date(ranking.additionalInfo);
@@ -96,7 +125,9 @@ export default function RankingTable({
                   sx={{
                     bgcolor,
                     "&:last-child td, &:last-child th": { border: 0 },
+                    ...hoverStyles,
                   }}
+                  onClick={() => handleRowClick(ranking.id)}
                 >
                   <TableCell sx={{ fontSize: { xs: 20, md: 25, lg: 30 }, textAlign: "left" }}>
                     <Typography variant="h5">
