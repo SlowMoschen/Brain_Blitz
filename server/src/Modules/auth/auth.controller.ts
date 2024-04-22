@@ -64,7 +64,8 @@ export class AuthController {
 		req.logout((err) => {
 			if (err) throw new HttpException('Logout failed', HttpStatus.INTERNAL_SERVER_ERROR);
 		});
-		return res.cookie('connect.sid', '', { maxAge: 0, expires: new Date(0) }).send({ message: 'Logout successful' });
+		res.clearCookie('connect.sid');
+		return { message: 'Logout successful' };
 	}
 
 	@ApiOperation({ summary: 'Check if user is authorized' })

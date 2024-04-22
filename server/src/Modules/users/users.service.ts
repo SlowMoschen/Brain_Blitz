@@ -94,10 +94,6 @@ export class UsersService {
 
 			this.eventEmitter.emit('mail.verify-email', new SendVerifyMailEvent(id, body.email, body.first_name, token));
 		}
-		if (body.password) {
-			body.password = await this.encryptionService.hashPassword(body.password);
-			this.eventEmitter.emit('mail.password-changed', new PasswordChangedEvent(id, body.email, body.first_name));
-		}
 
 		return await this.userRepository.updateOneCredentials(id, body);
 	}
