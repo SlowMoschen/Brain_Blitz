@@ -76,10 +76,10 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/Brain_Blitz
-            pm2 stop BB
             git pull
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
             cd ./server
+            pm2 stop BB
             npm run build
             pm2 start npm --name "BB" -- start
