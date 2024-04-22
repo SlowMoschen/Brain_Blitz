@@ -34,6 +34,14 @@ export const updates: AppUpdate[] = [
 		{
 			header: 'Antworten werden aufgedeckt',
 			body: 'Nachdem du eine Antwort ausgewählt hast, ob richtig oder falsch, werden alle Antworten aufgedeckt.',
+		},
+		{
+			header: 'Energie Auffüllrate erhöht',
+			body: 'Du bekommst nun alle 15 Minuten, 15 Energiepunkte statt den bisherigen 10 Energiepunkten.',
+		},
+		{
+			header: 'Überarbeitete Fragen',
+			body: 'Einige Fragen in den Katgeorien "Fernsehen" und "Sport" wurden überarbeitet.',
 		}
 	])
 ];
