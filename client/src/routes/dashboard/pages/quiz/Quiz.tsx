@@ -10,12 +10,14 @@ import LeaveWarningModal from "./components/LeaveWarningModal";
 import Question from "./components/Question";
 import QuizTimer from "./components/QuizTimer";
 import Score from "./components/Score";
+import { useDocumentTitle } from "../../../../shared/hooks/api/useDocumentTitle.hook";
 
 interface QuizProps {
   quizData: IQuiz;
 }
 
 export default function Quiz({ quizData }: QuizProps) {
+  useDocumentTitle(`Quiz - ${quizData?.title}`)
   const {
     checkAnswer,
     currentQuestion,

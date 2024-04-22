@@ -8,8 +8,11 @@ import { WindowContext } from "../../shared/context/ScreenSize.context";
 import MobileNavbar from "./components/navbar/_MobileNavbar.main";
 import Navbar from "./components/navbar/_Navbar.main";
 import CookieModal from "./components/CookieModal";
+import { useDocumentTitle } from "../../shared/hooks/api/useDocumentTitle.hook";
+import { DEFAULT_DOCUMENT_TITLE } from "../../configs/Application";
 
 export default function RootLayout() {
+  useDocumentTitle(DEFAULT_DOCUMENT_TITLE)
   const { width } = useContext(WindowContext);
 
   return (

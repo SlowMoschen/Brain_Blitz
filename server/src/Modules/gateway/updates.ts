@@ -29,4 +29,23 @@ export class AppUpdate {
  *      }
  * ]),
  */
-export const updates: AppUpdate[] = [];
+export const updates: AppUpdate[] = [
+	new AppUpdate('2024-04-23', '1.0.5', [
+		{
+			header: 'Antworten werden aufgedeckt',
+			body: 'Nachdem du eine Antwort ausgewählt hast, ob richtig oder falsch, werden alle Antworten aufgedeckt.',
+		},
+		{
+			header: 'Energie Auffüllrate erhöht',
+			body: 'Du bekommst nun alle 15 Minuten, 15 Energiepunkte statt den bisherigen 10 Energiepunkten.',
+		},
+		{
+			header: 'Quiz Rankings nun aufrufbar',
+			body: 'Du kannst nun die Rankings von jedem Quiz einsehen. Derzeit erreichbar über die Globale "Meist gespielte Quizze" Liste.',
+		},
+		{
+			header: 'Überarbeitete Fragen',
+			body: 'Einige Fragen in den Katgeorien "Fernsehen" und "Sport" wurden überarbeitet.',
+		},
+	])
+];

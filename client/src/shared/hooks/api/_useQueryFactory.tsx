@@ -14,21 +14,34 @@ import { HttpServiceInstance } from "../../services/httpService.service";
  */
 
 type QuerySetupProps = {
-    endpoint: string;
-    queryKey: string[];
-    refetchInterval?: number;
-    refetchOnWindowFocus?: boolean;
-    staleTime?: number;
-    retry?: number;
+  endpoint: string;
+  queryKey: string[];
+  refetchInterval?: number;
+  refetchOnWindowFocus?: boolean;
+  refetchOnMount?: boolean;
+  staleTime?: number;
+  retry?: number;
+  gcTime?: number;
 };
 
-export function useQueryFactory({ endpoint, queryKey, refetchInterval, refetchOnWindowFocus, staleTime, retry }: QuerySetupProps) {
-    return useQuery({
-        queryKey,
-        queryFn: () => HttpServiceInstance.get(endpoint),
-        refetchInterval,
-        refetchOnWindowFocus,
-        staleTime,
-        retry
-    })
+export function useQueryFactory({
+  endpoint,
+  queryKey,
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  staleTime,
+  retry,
+  gcTime,
+}: QuerySetupProps) {
+  return useQuery({
+    queryKey,
+    queryFn: () => HttpServiceInstance.get(endpoint),
+    refetchInterval,
+    refetchOnWindowFocus,
+    refetchOnMount,
+    staleTime,
+    retry,
+    gcTime,
+  });
 }

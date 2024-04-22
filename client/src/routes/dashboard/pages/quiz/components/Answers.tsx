@@ -10,21 +10,26 @@ interface AnswerProps {
 
 export default function Answers({ answers, correctAnswer, checkAnswer }: AnswerProps) {
   const [isSelected, toggleIsSelected] = useState<boolean>(false);
+  const [isRevealed, toggleIsRevealed] = useState<boolean>(false);
 
   const handleAnswerClick = (answer: string) => {
     toggleIsSelected(true);
-    setTimeout(checkAnswer, 1000, answer);
+    setTimeout(() => {
+      checkAnswer(answer);
+      toggleIsRevealed(true);
+    }, 1000);
   };
 
   useEffect(() => {
     toggleIsSelected(false);
+    toggleIsRevealed(false);
   }, [answers]);
 
   const containerStyle = {
     gap: 2,
     p: 2,
     width: "100%",
-    bgcolor: 'background.secondary',
+    bgcolor: "background.secondary",
     borderRadius: ".375rem",
   };
 
@@ -37,6 +42,7 @@ export default function Answers({ answers, correctAnswer, checkAnswer }: AnswerP
           isCorrect={answer === correctAnswer}
           isDisabled={isSelected}
           onClick={() => handleAnswerClick(answer)}
+          isRevealed={isRevealed}
         />
       ))}
     </Stack>

@@ -31,7 +31,7 @@ const footBallQuiz = {
 		},
 		{
 			question: 'Welcher Spieler hat die meisten Tore in einer einzigen UEFA Champions League-Saison erzielt?',
-			answers: ['Lionel Messi', 'Cristiano Ronaldo', 'Robert Lewandowski', 'Cristiano Ronaldo'],
+			answers: ['Lionel Messi', 'Cristiano Ronaldo', 'Robert Lewandowski', 'Raúl González'],
 			correct_answer: 'Cristiano Ronaldo',
 		},
 		{
@@ -104,9 +104,9 @@ const generalQuiz = {
 			correct_answer: '15',
 		},
 		{
-			question: 'Welches Land hat die meisten FIFA Fußball-Weltmeisterschaften gewonnen?',
-			answers: ['Deutschland', 'Brasilien', 'Argentinien', 'Italien'],
-			correct_answer: 'Brasilien',
+			question: 'Welches Land hat die Olympischen Spiele, sowie wie wir sie heute kennen, erfunden?',
+			answers: ['Griechenland', 'Rom', 'Ägypten', 'China'],
+			correct_answer: 'Griechenland',
 		},
 		{
 			question: 'In welchem Jahr fand das erste moderne Olympische Spiel statt?',

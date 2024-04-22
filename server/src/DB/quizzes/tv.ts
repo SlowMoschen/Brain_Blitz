@@ -64,7 +64,7 @@ const tvQuiz2 = {
     category: 'Fernsehen',
     questions: [
         {
-            question: 'Wie heißt die Animationsserie, in der ein gelber Schwamm namens SpongeBob lebt?',
+            question: 'Wie heißt die Animationsserie, mit einem gelben Schwamm als Hauptcharakter?',
             answers: ['SpongeBob Schwammkopf', 'Die Simpsons', 'Family Guy', 'Rick and Morty'],
             correct_answer: 'SpongeBob Schwammkopf',
         },
@@ -75,7 +75,7 @@ const tvQuiz2 = {
         },
         {
             question: 'Von welcher Animationsserie gibt es schon über 700 Folgen?',
-            answers: ['Die Simpsons', 'Family Guy', 'One Piece', 'American Dad'],
+            answers: ['Die Simpsons', 'Family Guy', 'Gravity Falls', 'American Dad'],
             correct_answer: 'Die Simpsons',
         },
         {
@@ -99,9 +99,9 @@ const tvQuiz2 = {
             correct_answer: 'Spank Larkin',
         },
         {
-            question: 'In welcher Animationsserie kämpfen vier Freunde gegen die Mächte des Bösen?',
-            answers: ['Die Zauber von Waverly Place', 'Die Pinguine aus Madagascar', 'Die Winx', 'Die Glücksbärchis'],
-            correct_answer: 'Die Winx',
+            question: 'In welcher Animationsserie kämpfen sechs Freunde gegen die Mächte des Bösen?',
+            answers: ['Die Zauber von Waverly Place', 'Die Pinguine aus Madagascar', 'Winx Club', 'Die Glücksbärchis'],
+            correct_answer: 'Winx Club',
         },
         {
             question: 'Wie heißt das Schnabeltier in der Animationsserie "Phineas und Ferb"?',

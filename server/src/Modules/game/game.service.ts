@@ -1,15 +1,16 @@
-import { ConflictException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
+import { Cron } from '@nestjs/schedule';
+import { gameConfig } from 'src/Configs/game.config';
 import { CompleteQuizEvent, QuizStartedEvent } from 'src/Events/quiz.events';
 import { UserCreatedEvent } from 'src/Events/user.events';
 import { SelectUserWithAllTables } from 'src/Utils/Types/model.types';
 import { QuizRepository } from '../shared/database/Repositories/Quiz/quiz.repository';
 import { UsersService } from '../users/users.service';
-import { Cron, CronExpression } from '@nestjs/schedule';
-import { gameConfig } from 'src/Configs/game.config';
 
 @Injectable()
 export class GameService {
+	private readonly logger = new Logger('GameService');
 	constructor(
 		private readonly userService: UsersService,
 		private readonly quizRepository: QuizRepository,
@@ -23,7 +24,7 @@ export class GameService {
 	@Cron('*/15 * * * *')
 	async addEnergy() {
 		const users = await this.userService.getAllUsers();
-		console.log('Adding energy to all users');
+		this.logger.log('Adding energy to all users');
 		users.forEach(async (user) => {
 			if (user.energy < 100) {
 				const energy =
@@ -101,7 +102,7 @@ export class GameService {
 		while (selectedQuizzes.size < gameConfig.START_QUIZ_COUNT) {
 			const randomQuiz = await this.getRandomNewQuiz(user_id);
 			if (selectedQuizzes.has(randomQuiz)) break;
-			
+
 			selectedQuizzes.add(randomQuiz);
 			await this.userService.insertNewUnlockedQuiz(user_id, randomQuiz);
 		}
