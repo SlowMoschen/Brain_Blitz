@@ -1,5 +1,5 @@
 import { Stack } from "@mui/material";
-import RankingBarTable from "./RankingBarTable";
+import RankingBarCard from "./RankingBarCard";
 import {
   IMostPlayedQuizRanking,
   IPlaytimeRanking,
@@ -14,7 +14,7 @@ interface GeneralRankingsProps {
   overallMostPlayedQuizzesRankings: IMostPlayedQuizRanking[];
 }
 
-export default function GeneralRankings({
+export default function GlobalRankings({
   overallPointsRankings,
   overallPlaytimeRankings,
   overallMostPlayedQuizzesRankings,
@@ -23,17 +23,17 @@ export default function GeneralRankings({
 
   return (
     <Stack alignItems={"center"} width={"100%"} pb={5} my={2} gap={2}>
-      <RankingBarTable<IPointsRanking>
+      <RankingBarCard<IPointsRanking>
         title="Gesamtpunktezahl"
         data={overallPointsRankings}
         onClick={() => redirect(URLS.MOST_POINTS_RANKING)}
       />
-      <RankingBarTable<IPlaytimeRanking>
+      <RankingBarCard<IPlaytimeRanking>
         title="Gesamtspielzeit"
         data={overallPlaytimeRankings}
         onClick={() => redirect(URLS.MOST_PLAYTIME_RANKING)}
       />
-      <RankingBarTable<IMostPlayedQuizRanking>
+      <RankingBarCard<IMostPlayedQuizRanking>
         title="Meist gespielten Quizze"
         data={overallMostPlayedQuizzesRankings}
         onClick={() => redirect(URLS.MOST_PLAYED_QUIZZES_RANKING)}

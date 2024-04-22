@@ -24,7 +24,7 @@ import { WindowContextProvider } from "./shared/context/ScreenSize.context";
 import { SocketContextProvider } from "./shared/context/Socket.context";
 import { UserIDContextProvider } from "./shared/context/UserID.context";
 const GeneralRankingTable = lazy(
-  () => import("./routes/dashboard/pages/rankings/GeneralRankingTable")
+  () => import("./routes/dashboard/pages/rankings/GlobalRankingTable")
 );
 const QuizRanking = lazy(() => import("./routes/dashboard/pages/rankings/Quiz.Ranking"));
 const DashboardLayout = lazy(() => import("./routes/dashboard/DashboardLayout"));

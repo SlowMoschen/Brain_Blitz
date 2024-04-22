@@ -174,7 +174,7 @@ export class AuthService {
 
 		const hashedPassword = await this.encryptionService.hashPassword(password);
 		const updatedUserID = await this.usersService.updateUserCredentials(userID, { password: hashedPassword });
-		await this.encryptionService.deleteToken(token);
+		if (token) await this.encryptionService.deleteToken(token);
 
 		this.eventEmitter.emit('mail.password-changed', new PasswordChangedEvent(user.id, user.email, user.first_name));
 

@@ -33,7 +33,7 @@ export default function CookieModal() {
         >
           <Typography variant={"body2"}>
             Diese Website verwendet Session-Cookies, um die Nutzererfahrung zu verbessern. Durch die
-            Nutzung der Website stimmen Sie der Verwendung von Cookies zu.
+            Nutzung der Website stimmst du der Verwendung von Cookies zu.
           </Typography>
           <Box>
             <CallToAction onClick={() => handleCookieConsent()} text="Verstanden" />

@@ -7,7 +7,8 @@ import AlertSnackbar from "../../../../../shared/components/AlertSnackbar";
 import CallToAction from "../../../../../shared/components/buttons/CallToAction";
 import SecondaryButton from "../../../../../shared/components/buttons/SecondaryButton";
 import InputPassword from "../../../../../shared/components/form/InputPassword";
-import { useUserQueries } from "../../../../../shared/hooks/api/useUserQueries.hook";
+import { useAuthQueries } from "../../../../../shared/hooks/api/useAuthQueries.hook";
+import { useUserIdContext } from "../../../../../shared/hooks/context/useUserIdContext.hook";
 import useToggle from "../../../../../shared/hooks/useToggle.hook";
 import { PasswordChangeSchema } from "../schemas/PasswordChange.schema";
 
@@ -26,6 +27,7 @@ const defaultValues: IPasswordChangeInput = {
 export default function PasswordForm() {
   const [isFormDisabled, setIsFormDisabled] = useState(true);
   const [isSnackbarOpen, toggleSnackbarOpen] = useToggle(false);
+  const { userID } = useUserIdContext();
   const [snackBarProps, setSnackbarProps] = useState<{
     message: string;
     alertType: "success" | "error";
@@ -45,6 +47,7 @@ export default function PasswordForm() {
       alertType: "success",
     });
     toggleSnackbarOpen();
+    setIsFormDisabled(true);
     reset(defaultValues);
   };
 
@@ -56,7 +59,8 @@ export default function PasswordForm() {
     toggleSnackbarOpen();
   };
 
-  const { mutate: updatePassword } = useUserQueries().useUpdateUser(onSuccess, onError);
+  const { mutate: updatePassword } = useAuthQueries().useResetPassword(onSuccess, onError);
+  const { mutate: logout } = useAuthQueries().useLogout();
 
   const onSubmit = (data: IPasswordChangeInput) => {
     if (data.old_password === data.new_password) {
@@ -65,8 +69,13 @@ export default function PasswordForm() {
     }
 
     updatePassword({
+      userID,
       password: data.new_password,
     });
+
+    setTimeout(() => {
+      logout(undefined);
+    }, 1000);
   };
 
   return (
@@ -107,6 +116,11 @@ export default function PasswordForm() {
             />
           </Grid>
           <Grid item xs={12}>
+            <Typography variant="caption" sx={{ opacity: 0.5 }}>
+              Solltest du dein Passwort ändern, musst du dich erneut anmelden.
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
             {isFormDisabled ? (
               <SecondaryButton
                 text="Passwort ändern"
@@ -118,7 +132,7 @@ export default function PasswordForm() {
                 <CallToAction text="Speichern" type="submit" />
                 <IconButton onClick={() => setIsFormDisabled(true)}>
                   <CloseIcon sx={{ color: "primary.main" }} />
-                  <Typography variant="caption" sx={{ color: "primary.main" }}>
+                  <Typography variant="caption" sx={{ color: "text.main" }}>
                     Abbrechen
                   </Typography>
                 </IconButton>

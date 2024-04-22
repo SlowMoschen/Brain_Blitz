@@ -40,9 +40,9 @@ const ww2Quiz = {
 			correct_answer: 'Die Bombardierung von Pearl Harbor',
 		},
 		{
-			question: 'Welches Land gab als erstes den Einsatz der Atombombe bekannt?',
-			answers: ['Deutschland', 'Japan', 'Italien', 'USA'],
-			correct_answer: 'Japan',
+			question: 'Welche zwei Städte wurden durch Atombomben im Zweiten Weltkrieg zerstört?',
+			answers: ['Hamburg und Dresden', 'Berlin und München', 'Tokio und Osaka', 'Hiroshima und Nagasaki'],
+			correct_answer: 'Hiroshima und Nagasaki',
 		},
 		{
 			question: 'Welche Länder waren die Alliierten im Zweiten Weltkrieg?',

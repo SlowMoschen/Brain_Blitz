@@ -1,16 +1,17 @@
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as connectPGSession from 'connect-pg-simple';
 import { create } from 'express-handlebars';
+import * as connectPGSession from 'connect-pg-simple';
 import * as session from 'express-session';
-import helmet from 'helmet';
 import * as passport from 'passport';
+import * as cookieParser from 'cookie-parser';
+import helmet from 'helmet';
 import { join } from 'path';
-import { AppModule } from './app.module';
-import { ResponseInterceptor } from './Interceptors/response.interceptor';
 import { corsOptions } from './Configs/cors.confing';
+import { ResponseInterceptor } from './Interceptors/response.interceptor';
 import loggerMiddleware from './Middlewares/Logger.middleware';
+import { AppModule } from './app.module';
 
 const pgSession = connectPGSession(session);
 
@@ -29,6 +30,7 @@ async function bootstrap() {
 	app.use(helmet());
 	app.use(loggerMiddleware);
 	app.useGlobalInterceptors(new ResponseInterceptor());
+	app.use(cookieParser());
 
 	app.useStaticAssets(join(__dirname, 'Public'));
 	app.useStaticAssets(join(__dirname, 'Public/CSS'));

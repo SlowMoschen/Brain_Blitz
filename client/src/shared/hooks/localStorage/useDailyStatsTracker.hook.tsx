@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useUserIdContext } from "../context/useUserIdContext.hook";
 import { useLocalStorage } from "./useLocalStorage.hook";
-import { UserIDContext } from "../../context/UserID.context";
 
 export interface IDailyStats {
   [key: string]: number | string;
@@ -20,7 +20,7 @@ const initialStats: IDailyStats = {
 };
 
 export function useDailyStatsTracker() {
-  const { userID } = useContext(UserIDContext);
+  const { userID } = useUserIdContext();
   const [dailyStats, setDailyStats] = useState<IDailyStats>(initialStats);
   const { setData, getData, removeData } = useLocalStorage();
   const key = `dailyStats-${userID}`;

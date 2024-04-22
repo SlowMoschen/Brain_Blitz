@@ -21,7 +21,7 @@ export const welcomeNotification = () => {
 		messageBlocks: [
 			{
 				header: 'Vielen Dank für deine Anmeldung!',
-				body: 'Wir freuen uns, dass du da bist und wünschen dir viel Spaß beim Lernen!',
+				body: 'Wir freuen uns, dass du da bist und wünschen dir viel Spaß beim spielen!',
 			},
 		],
 	});
