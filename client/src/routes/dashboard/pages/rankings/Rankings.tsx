@@ -5,7 +5,7 @@ import { WindowContext } from "../../../../shared/context/ScreenSize.context";
 import { useRankingQueries } from "../../../../shared/hooks/api/useRankingQueries.hook";
 import DailyStats from "../../components/DailyStats";
 import HeaderMenu from "../../components/navigation/HeaderMenu";
-import GeneralRankings from "./components/GeneralRankings";
+import GeneralRankings from "./components/GlobalRankings";
 import PersonalRankings from "./components/PersonalRankings";
 
 export default function Rankings() {
