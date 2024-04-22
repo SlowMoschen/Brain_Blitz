@@ -60,6 +60,7 @@ export default function PasswordForm() {
   };
 
   const { mutate: updatePassword } = useAuthQueries().useResetPassword(onSuccess, onError);
+  const { mutate: logout } = useAuthQueries().useLogout();
 
   const onSubmit = (data: IPasswordChangeInput) => {
     if (data.old_password === data.new_password) {
@@ -71,6 +72,7 @@ export default function PasswordForm() {
       userID,
       password: data.new_password,
     });
+    logout(undefined);
   };
 
   return (
@@ -109,6 +111,11 @@ export default function PasswordForm() {
               showPasswordAdornment={false}
               disabled={isFormDisabled}
             />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="caption" sx={{ opacity: 0.5 }}>
+              Solltest du dein Passwort ändern, musst du dich erneut anmelden.
+            </Typography>
           </Grid>
           <Grid item xs={12}>
             {isFormDisabled ? (
