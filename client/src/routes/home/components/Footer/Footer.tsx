@@ -129,8 +129,22 @@ export default function Footer() {
         <Stack my={1}>
           <Typography>© {new Date().getFullYear()} Brain Blitz</Typography>
           <Typography>Made with ❤️ by Philipp Millner</Typography>
+          <Typography variant="caption">
+            Design Inspiration von
+            <RouterButton
+              color="primary"
+              to="https://www.realtimecolors.com/"
+              text="RealTimeColors"
+              sx={{
+                px: 1,
+                fontSize: "0.75rem",
+                textDecoration: "underline",
+                color: "primary.main",
+              }}
+            />
+          </Typography>
         </Stack>
-          <ServerStatus />
+        <ServerStatus />
       </Stack>
     </Box>
   );
