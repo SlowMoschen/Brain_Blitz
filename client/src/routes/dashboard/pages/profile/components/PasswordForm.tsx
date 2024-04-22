@@ -72,7 +72,10 @@ export default function PasswordForm() {
       userID,
       password: data.new_password,
     });
-    logout(undefined);
+
+    setTimeout(() => {
+      logout(undefined);
+    }, 1000);
   };
 
   return (
