@@ -22,6 +22,7 @@ export const URLS = {
   API_URL: import.meta.env.PROD ? "https://www.api.brain-blitz.com" : "http://localhost:3000",
   API_ENDPOINTS: {
     APP: {
+      HEALTH: "/health",
       QUIZ_DATA: "/quiz-data",
       CONTACT: "/contact",
       USER: "/users",
