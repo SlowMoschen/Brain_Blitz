@@ -19,7 +19,7 @@ Willkommen bei meiner Quiz-Anwendung! Hier kannst du dich auf eine Reise des spi
     * [Frontend starten](#3-frontend-starten)
 
 ## Tech Stack
-Hier erkläre ich für welchen Tech Stack ich mich entschieden habe uns warum.
+Hier erkläre ich für welchen Tech Stack ich mich entschieden habe uns warum..
 
 #### TL DR
 
