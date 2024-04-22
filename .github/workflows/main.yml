@@ -75,11 +75,11 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            pm2 kill
             cd ~/Brain_Blitz
             git pull
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
             cd ./server
             npm run build
-            pm2 kill
             pm2 start npm --name "BB" -- start
