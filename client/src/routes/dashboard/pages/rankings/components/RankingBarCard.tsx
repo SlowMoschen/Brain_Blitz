@@ -61,7 +61,7 @@ function transformData(data: (IPlaytimeRanking | IMostPlayedQuizRanking | IPoint
  * @param title - The title of the table
  * @returns The RankingBarTable component
  */
-export default function RankingBarTable<T>({ data, title, onClick }: RankingBarTableProps<T>) {
+export default function RankingBarCard<T>({ data, title, onClick }: RankingBarTableProps<T>) {
   const { parseMinuteString } = useTimeParser();
 
   const filteredData = transformData(

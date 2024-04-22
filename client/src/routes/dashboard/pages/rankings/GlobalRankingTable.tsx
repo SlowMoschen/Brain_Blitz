@@ -9,7 +9,7 @@ import {
   IPointsRanking,
 } from "../../../../shared/types/Rankings";
 
-export default function GeneralRankingTable() {
+export default function GlobalRankingTable() {
   const [tableProps, setTableProps] = useState<ITableProps | null>(null);
   const { ranking } = useParams<{ ranking: string }>();
   const { mostPlayedQuizzes, mostPlaytime, mostPoints, isPending } = useRankingQueries().useGlobalRankings();

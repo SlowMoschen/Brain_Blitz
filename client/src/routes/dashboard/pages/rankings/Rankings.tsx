@@ -5,7 +5,7 @@ import { WindowContext } from "../../../../shared/context/ScreenSize.context";
 import { useRankingQueries } from "../../../../shared/hooks/api/useRankingQueries.hook";
 import DailyStats from "../../components/DailyStats";
 import HeaderMenu from "../../components/navigation/HeaderMenu";
-import GeneralRankings from "./components/GlobalRankings";
+import GlobalRankings from "./components/GlobalRankings";
 import PersonalRankings from "./components/PersonalRankings";
 
 export default function Rankings() {
@@ -24,7 +24,7 @@ export default function Rankings() {
     switch (tabValue) {
       case 0:
         return (
-          <GeneralRankings
+          <GlobalRankings
             overallMostPlayedQuizzesRankings={mostPlayedQuizzes}
             overallPlaytimeRankings={mostPlaytime}
             overallPointsRankings={mostPoints}
@@ -53,7 +53,7 @@ export default function Rankings() {
             direction={"row"}
             pb={8}
           >
-            <GeneralRankings
+            <GlobalRankings
               overallMostPlayedQuizzesRankings={mostPlayedQuizzes}
               overallPlaytimeRankings={mostPlaytime}
               overallPointsRankings={mostPoints}
