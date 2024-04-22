@@ -1,8 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Backdrop, CircularProgress, Link, Paper, Stack, Typography } from "@mui/material";
+import { Backdrop, CircularProgress, IconButton, Paper, Stack, Typography } from "@mui/material";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { BREAKPOINTS } from "../../../configs/Breakpoints";
 import { URLS } from "../../../configs/Links";
 import AlertSnackbar from "../../../shared/components/AlertSnackbar";
@@ -36,6 +37,7 @@ function getSnackbarMessage(error: string) {
 }
 
 export default function ResendVerification() {
+  const redirect = useNavigate();
   const [wasSuccessful, setWasSuccessful] = useState(false);
   const [isSnackbarOpen, toggleSnackbarOpen] = useToggle(false);
   const { width } = useContext(WindowContext);
@@ -107,9 +109,9 @@ export default function ResendVerification() {
         <Paper sx={paperStyles}>
           <Stack gap={2}>
             {width > BREAKPOINTS.md && (
-              <Link href={URLS.HOME} underline="hover" sx={{ alignSelf: "flex-start" }}>
-                <ArrowBackIcon sx={{ fontSize: 30 }} />
-              </Link>
+              <IconButton onClick={() => redirect(-1)} sx={{ alignSelf: 'flex-start' }}>
+              <ArrowBackIcon sx={{ fontSize: 30, color: 'primary.main' }} />
+            </IconButton>
             )}
             <Typography variant="h5" align="left" className="border-b-primary">
               Verifizierungsmail erneut senden
