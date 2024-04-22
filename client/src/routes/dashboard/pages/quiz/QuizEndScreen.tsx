@@ -38,7 +38,7 @@ export default function QuizEndScreen({ answersCount, time, isSuccess }: QuizEnd
                     </Typography>
                 </Stack>
                 <ScoreTable correctPoints={correctPoints} incorrectPoints={incorrectPoints} timeBonus={timeBonus} />
-                <RouterButton to={URLS.DASHBOARD} variant="contained" color="primary" text="Zurück zum Dasboard" />
+                <RouterButton to={URLS.DASHBOARD} variant="contained" color="primary" text="Zurück zum Dashboard" />
             </Stack>
         </>
     )
