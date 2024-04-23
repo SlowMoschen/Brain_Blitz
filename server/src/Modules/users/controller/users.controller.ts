@@ -94,7 +94,7 @@ export class UsersController {
 	@ApiForbiddenResponse({ description: 'if user got no session cookie or is not an admin' })
 	@ApiNotFoundResponse({ description: 'if no user was found' })
 	@ApiInternalServerErrorResponse({ description: 'if query failed' })
-	@Roles(Role.ADMIN)
+	@Roles(Role.ADMIN, Role.USER)
 	@UseInterceptors(new UserDataInterceptor())
 	@Get(':id')
 	async getCompleteUserById(@Param('id') id: string) {

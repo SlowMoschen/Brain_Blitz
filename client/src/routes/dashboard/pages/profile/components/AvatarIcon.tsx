@@ -1,9 +1,10 @@
 import { Avatar } from "@mui/material";
-import { useUserContext } from "../../../../../shared/hooks/context/useUserContext.hook";
 
-export default function AvatarIcon() {
-  const user = useUserContext();
-
+interface IAvatarIconProps {
+  first_name: string;
+  last_name: string;
+}
+export default function AvatarIcon({first_name, last_name}: IAvatarIconProps) {
   /**
    * @description This function is used to convert a string to a color.
    * @see https://github.com/mui/material-ui/blob/v5.15.15/docs/data/material/components/avatars/BackgroundLetterAvatars.tsx
@@ -40,5 +41,5 @@ export default function AvatarIcon() {
     };
   }
 
-  return <Avatar {...stringAvatar(`${user.first_name} ${user.last_name}`)} />;
+  return <Avatar {...stringAvatar(`${first_name} ${last_name}`)} />;
 }

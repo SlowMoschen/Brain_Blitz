@@ -13,7 +13,7 @@ export const URLS = {
   RESEND_VERIFICATION_EMAIL: "/auth/resend-verification-email",
   DASHBOARD: "/dashboard",
   QUIZ: "/dashboard/quiz",
-  PROFILE: "/dashboard/profile",
+  PROFILE: "/dashboard/profile/",
   RANKINGS: "/dashboard/rankings",
   MOST_POINTS_RANKING: "/dashboard/rankings/overall/points",
   MOST_PLAYTIME_RANKING: "/dashboard/rankings/overall/playtime",

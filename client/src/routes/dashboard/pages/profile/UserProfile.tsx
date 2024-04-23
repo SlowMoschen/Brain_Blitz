@@ -10,7 +10,7 @@ import BugReportIcon from '@mui/icons-material/BugReport';
 import useToggle from "../../../../shared/hooks/useToggle.hook";
 import ReportForm from "../../../../shared/components/form/ReportForm";
 
-export default function Profile() {
+export default function UserProfile() {
   useDocumentTitle("Dashboard - Profil");
   const [isReportModalOpen, toggleReportModal] = useToggle(false);
   return (

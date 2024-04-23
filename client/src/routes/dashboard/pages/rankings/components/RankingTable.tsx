@@ -50,6 +50,7 @@ export default function RankingTable({
   const handleRowClick = (id: string) => {
     switch (type) {
       case "player":
+        redirect(URLS.PROFILE + id);
         break;
       case "quiz":
         redirect(URLS.QUIZ_RANKING + id);

@@ -64,6 +64,23 @@ export function useUserQueries() {
   };
 
   /**
+   * @description This hook is used to fetch the details of a different user.
+   * - This hook is used to fetch the user details of a different user.
+   * @param id The id of the user.
+   * @returns The user object, isPending, isError and error.
+   */
+  const useDifferentUserFetch = (id: string) => {
+    const { data , isPending, isError, error } = useQueryFactory({
+      endpoint: `${URLS.API_ENDPOINTS.APP.USER}/${id}`,
+      queryKey: ["user"],
+    });
+
+    const user: IUser = data?.data;
+
+    return { user, isPending, isError, error };
+  };
+
+  /**
    * @description This hook is used to delete the user.
    * - Redirects to the home page after the user is deleted.
    * @returns The mutation object.
@@ -87,5 +104,6 @@ export function useUserQueries() {
     useUpdateUser,
     useUserFetch,
     useDeleteUserFetch,
+    useDifferentUserFetch,
   };
 }
