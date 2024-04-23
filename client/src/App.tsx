@@ -7,7 +7,7 @@ import customTheme from "./configs/CustomTheme";
 import AuthLayout from "./routes/auth/AuthLayout";
 import ForgotPassword from "./routes/auth/pages/ForgotPassword";
 import ResendVerification from "./routes/auth/pages/ResendVerification";
-import Profile from "./routes/dashboard/pages/profile/Profile";
+import UserProfile from "./routes/dashboard/pages/profile/UserProfile";
 import Rankings from "./routes/dashboard/pages/rankings/Rankings";
 import ErrorPage from "./routes/error/ErrorPage";
 import RootLayout from "./routes/home/RootLayout";
@@ -23,6 +23,7 @@ import LoadingScreen from "./shared/components/LoadingScreen";
 import { WindowContextProvider } from "./shared/context/ScreenSize.context";
 import { SocketContextProvider } from "./shared/context/Socket.context";
 import { UserIDContextProvider } from "./shared/context/UserID.context";
+import ProfilePage from "./routes/dashboard/pages/profile/ProfilePage";
 const GeneralRankingTable = lazy(
   () => import("./routes/dashboard/pages/rankings/GlobalRankingTable")
 );
@@ -69,7 +70,8 @@ export default function App() {
       element: <DashboardLayout />,
       children: [
         { path: "/dashboard", element: <DashboardRoot /> },
-        { path: "profile", element: <Profile /> },
+        { path: "profile", element: <UserProfile /> },
+        { path: "profile/:userID", element: <ProfilePage /> },
         { path: "rankings", element: <Rankings /> },
         { path: "rankings/quiz-ranking/:quizID", element: <QuizRanking /> },
         { path: "rankings/overall/:ranking", element: <GeneralRankingTable /> },

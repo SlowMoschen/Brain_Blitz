@@ -47,7 +47,7 @@ export default function ProfileStats() {
             horizontal: "right",
           }}
         >
-          <AvatarIcon />
+          <AvatarIcon first_name={user.first_name} last_name={user.last_name} />
         </Badge>
         <Grid container mx={4} my={2} spacing={2}>
           <Grid item xs={12} md={6} gridRow={2} alignItems={"center"} justifyContent={"center"}>

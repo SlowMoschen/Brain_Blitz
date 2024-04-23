@@ -47,5 +47,19 @@ export const updates: AppUpdate[] = [
 			header: 'Überarbeitete Fragen',
 			body: 'Einige Fragen in den Katgeorien "Fernsehen" und "Sport" wurden überarbeitet.',
 		},
-	])
+	]),
+	new AppUpdate('2024-04-24', '1.1.0', [
+		{
+			header: 'Möglichkeit zum Melden von Fragen und Bugs',
+			body: 'Du kannst nun Fragen und Bugs melden. Dies ist mit den neuen Buttons bei den einzelnen Fragen, am Ende des Quiz oder in deinem Profil möglich.',
+		},
+		{
+			header: 'User Profile',
+			body: 'Du kannst nun die Profile von anderen Usern einsehen. Dies ist über die Rangliste oder über die Quiz Ergebnisse möglich.',
+		},
+		{
+			header: 'Überarbeitete Fragen',
+			body: 'Einige Fragen in verschiedenen Kategorien wurden überarbeitet. Die Fragen sind nun besser formuliert und enthalten weniger Fehler.',
+		},
+	]),
 ];

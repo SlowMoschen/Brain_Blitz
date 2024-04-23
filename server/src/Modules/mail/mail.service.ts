@@ -5,6 +5,7 @@ import {
 	PasswordChangedEvent,
 	SendContactFormEvent,
 	SendForgotPasswordMailEvent,
+	SendReportFormEvent,
 	SendVerifyMailEvent,
 } from 'src/Events/notification.events';
 import { StringService } from '../shared/string-manipulation/string.service';
@@ -116,6 +117,22 @@ export class MailService {
 			},
 		});
 		return this.sendContactFormConfirmation(payLoad);
+	}
+
+	@OnEvent('mail.report-form')
+	async sendReportForm(payLoad: SendReportFormEvent): Promise<void | Error> {
+		await this.sendMail({
+			to: process.env.EMAIL_USER,
+			subject: 'Report',
+			template: './report-form',
+			context: {
+				name: this.stringService.capitalize(payLoad.user.first_name),
+				userID: payLoad.user.id,
+				problem: payLoad.problem,
+				description: payLoad.description,
+				id: payLoad.id,
+			},
+		});
 	}
 
 	/**

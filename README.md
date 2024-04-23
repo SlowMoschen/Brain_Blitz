@@ -11,15 +11,41 @@ Willkommen bei meiner Quiz-Anwendung! Hier kannst du dich auf eine Reise des spi
 
 # Inhaltsverzeichnis
 
-- [**Tech Stack**](#tech-stack)
+- [**Geschichte**](#📖-development-geschichte-📖)
+- [**Erkenntnisse und Fähigkeiten**](#💡-erkenntnisse-und-fähigkeiten-💡)
+- [**Tech Stack**](#👩‍💻-tech-stack-👩‍💻)
     * [TL;DR](#tl-dr)
-- [**Lokale installation**](#lokale-installation)
+    * [Backend](#backend)
+    * [Frontend](#frontend)
+- [**Lokale installation**](#🚀-lokale-installation-🚀)
     * [Vorraussetzungen](#vorraussetzungen)
     * [API Server ausetzten und starten](#2-api-server-aufsetzen)
     * [Frontend starten](#3-frontend-starten)
 
-## Tech Stack
-Hier erkläre ich für welchen Tech Stack ich mich entschieden habe uns warum..
+## 📖 Development Geschichte 📖
+
+Mit großem Stolz präsentiere ich mein größtes und komplexestes Projekt, das zugleich mein Abschlussprojekt für meinen Ausbildungskurs zum Web Developer darstellt. Die Idee für dieses Projekt entstand aus einem meiner kleineren Seitenprojekte. Da das Lernen der Fragen für die Theorieprüfung des Kurses nur über eine PDF möglich war, habe ich eine kleine Quiz-Applikation entwickelt, die Fragen formatiert und in eine MongoDB-Datenbank hochgeladen. [Gitlab link](https://gitlab.com/SlowMoschen/wifi_fragebogen)
+
+Anfang Februar begann ich dann damit, zu brainstormen, wie mein Projekt aussehen könnte und in welchen Frameworks ich es umsetzen möchte. Mir war sofort klar, dass ich verstärkt auf Typescript und dessen Typsicherheit setzen wollte, um dieses Superset besser zu verstehen. Mitte Februar begann ich dann mit dem Anforderungsmanagement und dem Design der Datenbank. Zu dieser Zeit war ich nur mit MongoDB vertraut, daher war dies meine erste Wahl. Jedoch stellte ich fest, dass ich immer mehr meiner Daten normalisierte, was mich zu dem Entschluss brachte, dass ich mit einer SQL-Datenbank besser bedient wäre. Daher entschied ich mich für Neon als Datenbank-Host und PostgreSQL als Datenbankformat. Anfang März begann ich dann mit dem Schreiben meines Backends.
+
+Als ich mit meinem Backend zufrieden war, widmete ich mich dem Codieren des Frontends. Die Homepage, wie sie heute aussieht, hatte ich bereits einmal in reinem HTML, CSS und JS erstellt, wodurch der Aufbau relativ schnell vonstattenging. Doch als ich einige der Seiten auf der Homepage fertiggestellt hatte, entschied ich mich für einen Wechsel zu einer Component-Library. Dies kostete mich zwar einen zusätzlichen Tag Arbeit, aber es hat sich definitiv gelohnt.
+
+Mitte April war es dann endlich soweit: Ich konnte mich den DevOps-Aufgaben widmen. Ich hatte bereits einen Ubuntu Linux Server gemietet, auf dem das Backend meiner Portfolioseite und des Quizprojekts lief. Die Domain hatte ich gesichert, als ich mit den Arbeiten am Projekt begonnen hatte. Am 16.04 war die Webseite live im Internet verfügbar. Zunächst zeigte ich die Webseite einigen Freunden und holte mir Feedback ein, das ich sofort umsetzte und die Seite aktualisierte. Durch diese kleinen Tests war die Webseite dann bereit, und ich konnte eine große Nachricht an etwa 30 Personen senden, die meine Webanwendung testen konnten. Seitdem habe ich kontinuierlich Feedback eingeholt und die Webseite stetig mit kleinen Design- und Feature-Verbesserungen aktualisiert.
+
+## 💡 Erkenntnisse und Fähigkeiten 💡
+
+In meinem Projekt habe ich mich tiefer in die Welt des Web Software Development gewagt, indem ich es komplett in Typescript geschrieben habe. Dabei habe ich NestJS als Backend-Framework verwendet, das ich sehr schätze. Auch wenn es für einige Projekte vielleicht overkill ist, bietet es enorme Vorteile für große Microservices oder monolithische API-Server. Die modulare Strukturierung des Backends war dabei besonders hilfreich.
+
+Ich habe mich intensiv mit SQL-Datenbanken beschäftigt, Rollen basierte Authentifizierung implementiert und mit ORM-Tools wie Drizzle gearbeitet, um effizient mit der Datenbank zu interagieren.
+
+Im Frontend habe ich die neueste Version von React Router Dom genutzt und mich mit einer Component Library auseinandergesetzt, um die Benutzeroberfläche zu verbessern. Dabei haben mir Tools wie React Hook Form und Zod geholfen, Formulare zu vereinfachen und zu validieren.
+
+Auf der Infrastrukturseite habe ich eien Linux-Server mit einem Reverse-Proxy von Nginx eingerichtet und eine sichere Kommunikation mittels HTTPS-Zertifikaten mithilfe von Certbot gewährleistet. Zusätzlich habe ich eine umfassende Continuous Deployment-Pipeline mit GitHub Actions für das Frontend und Backend aufgesetzt, um Änderungen schnell und effizient in Produktion zu bringen.
+
+Insgesamt habe ich nicht nur technische Fähigkeiten wie Typescript, SQL, React und Linux-Serveradministration erworben, sondern auch wichtige Konzepte wie modulare Entwicklung, Sicherheit und DevOps praktisch angewendet. Diese Erfahrungen sind äußerst wertvoll und werden mich in meiner zukünftigen Karriere als Webentwickler sicherlich weiterbringen.
+
+## 👩‍💻 Tech Stack  👩‍💻
+Hier erkläre ich für welchen Tech Stack ich mich entschieden habe uns warum.
 
 #### TL DR
 
@@ -42,7 +68,43 @@ Hier erkläre ich für welchen Tech Stack ich mich entschieden habe uns warum..
     * [Ubuntu](https://ubuntu.com/) Linux Server mit [NGINX](https://www.nginx.com/) reverse proxy um Anfragen auf meinen API Server zu leiten
     * HTTPS ist mit [Certbot](https://certbot.eff.org/) eingerichtet
 
-## Lokale installation
+#### Backend
+
+Mein Backend-Techstack umfasst verschiedene Tools und Frameworks, um eine robuste und skalierbare Backend-Architektur zu entwickeln.
+
+Zunächst habe ich mich für NestJS entschieden, da mir seine modulare Bauweise sehr gefiel. Es ermöglichte mir, mein Backend übersichtlich zu strukturieren und erleichterte die Erweiterbarkeit.
+
+Für die Datenbankmigration und -kommunikation habe ich Drizzle als ORM verwendet. Mit seinen leistungsstarken Funktionen konnte ich effizient mit meiner Datenbank interagieren.
+
+Handlebars war meine Wahl für das Rendern von serverseitigen Views, wie Passwort-Reset, Mail-Templates und Mail-Bestätigungen. Es erwies sich als zuverlässiges Werkzeug für die Gestaltung dieser wichtigen Benutzeroberflächen.
+
+Nodemailer erleichterte mir das Senden von E-Mails an Benutzer und meinen Service-Mail-Account. Seine einfache Handhabung und Flexibilität machten es zur perfekten Lösung für diese Aufgabe.
+
+Für die Authentifizierung verließ ich mich auf Passport mit der Local-Strategie. Diese Kombination bot mir eine solide Grundlage für die Benutzerauthentifizierung und -autorisierung.
+
+Bcrypt war unverzichtbar für das Hashing und Vergleichen von Passwörtern, was die Sicherheit meiner Anwendung maßgeblich verbesserte.
+
+Zusätzlich nutzte ich einige eingebaute Module von NestJS wie JWT, EventEmitter, Swagger-Dokumentation, WebGateWays mit SocketIO. Diese Module erleichterten die Implementierung von wichtigen Funktionen und sorgten für eine reibungslose Kommunikation zwischen den verschiedenen Teilen meiner Anwendung.
+
+Um die Sicherheit meiner Endpunkte zu gewährleisten, habe ich den eingebauten Throttler verwendet, der auf 25 Anfragen pro Minute begrenzt ist. Dadurch konnte ich potenzielle Angriffe abwehren und die Leistung meiner Anwendung optimieren.
+
+Insgesamt bietet mein Backend-Techstack eine solide Basis für eine leistungsstarke und sichere Webanwendung.
+
+#### Frontend
+
+Ich habe mich entschieden, React für meine Frontend-Entwicklung zu verwenden, da es mir die Flexibilität bietet, individuelle Anpassungen vorzunehmen, und da ich damit schon etwas vertraut war.
+
+Um die Navigation innerhalb meiner Single-Page-Application (SPA) zu ermöglichen, habe ich React Router Dom verwendet, wobei ein HashRouter gewählt wurde, um reibungslose Weiterleitungen zu gewährleisten, ohne Serveranfragen beim Laden der Seite durchzuführen.
+
+Für HTTP-Anfragen habe ich Tenstack React Query genutzt. Diese Bibliothek bietet mir die Möglichkeit, bestimmte Daten im Cache zu halten, sie gezielt zu invalidieren und erneut abzurufen, was die Performance meiner Anwendung verbessert.
+
+Als Component Library habe ich mich für Material UI entschieden, die ich mit einem benutzerdefinierten Theme angepasst habe. Dies ermöglichte es mir, eine ästhetisch ansprechende Benutzeroberfläche zu gestalten, die sich nahtlos in meine Anwendung integriert.
+
+Für Formulare habe ich React Hook Form und Zod im Einklang mit Material UI verwendet, um eine schöne Gestaltung und erleichterte Formularvalidierung und Fehlerbehandlung zu erreichen.
+
+Für die Echtzeitkommunikation mit dem Backend habe ich den Socket.IO-Client verwendet, der es mir ermöglicht, Echtzeitbenachrichtigungen in meiner Anwendung zu implementieren und eine reaktionsschnelle Benutzererfahrung zu gewährleisten.
+
+## 🚀 Lokale installation 🚀
 
 Diese Anleitung erklärt wie du die Applikation lokal zum laufen bekommst.
 
