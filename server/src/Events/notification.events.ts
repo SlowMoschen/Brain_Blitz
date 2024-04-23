@@ -1,4 +1,5 @@
 import { AppUpdate } from "src/Modules/gateway/updates";
+import { SelectUser } from "src/Utils/Types/model.types";
 
 export class SendVerifyMailEvent {
 	constructor(
@@ -24,6 +25,15 @@ export class SendContactFormEvent {
 		public readonly name: string,
 		public readonly email: string,
 		public readonly message: string,
+	) {}
+}
+
+export class SendReportFormEvent {
+	constructor(
+		public readonly problem: string,
+		public readonly description: string,
+		public readonly user: SelectUser,
+		public readonly id?: string,
 	) {}
 }
 

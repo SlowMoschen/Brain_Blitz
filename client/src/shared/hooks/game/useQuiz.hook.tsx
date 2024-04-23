@@ -25,6 +25,7 @@ export function useQuiz(quizData: IQuiz) {
   const [hasStarted, setHasStarted] = useState<boolean>(false);
   const [isQuizComplete, setIsQuizComplete] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
   const { currentScore, increaseScore, decreaseScore, calculateTotalScore } = useScoreTracker();
   const {
     currentTime: quizTime,
@@ -38,6 +39,12 @@ export function useQuiz(quizData: IQuiz) {
   } = useCountdownTimer(4000);
   const { mutate } = useQuizQueries().useCompleteQuiz(quizData.id);
   const { updateDailyStats } = useDailyStatsTracker();
+
+  const togglePause = () => {
+    if (isPaused) startQuizTimer();
+    else stopQuizTimer();
+    setIsPaused((prev) => !prev);
+  };
 
   const startQuiz = () => {
     startInitialCountdown();
@@ -126,6 +133,7 @@ export function useQuiz(quizData: IQuiz) {
   return {
     currentQuestion,
     isQuizComplete,
+    togglePause,
     checkAnswer,
     startQuiz,
     currentScore,

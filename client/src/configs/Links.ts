@@ -23,6 +23,7 @@ export const URLS = {
   API_ENDPOINTS: {
     APP: {
       HEALTH: "/health",
+      REPORT: "/report",
       QUIZ_DATA: "/quiz-data",
       CONTACT: "/contact",
       USER: "/users",
