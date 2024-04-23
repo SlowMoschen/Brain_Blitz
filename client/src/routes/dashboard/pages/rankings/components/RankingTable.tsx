@@ -107,10 +107,7 @@ export default function RankingTable({
                 ? "secondary.dark"
                 : "";
 
-              const hoverStyles =
-                type === "quiz"
-                  ? { cursor: "pointer", "&:hover": { filter: "brightness(0.9)" } }
-                  : {};
+              const hoverStyles = { cursor: "pointer", "&:hover": { filter: "brightness(0.9)" } }
 
               if (new Date(ranking.additionalInfo).toString() !== "Invalid Date") {
                 const date = new Date(ranking.additionalInfo);
