@@ -51,11 +51,12 @@ export default function ProfilePage() {
           />
           <ContainerWithHeader header="Profil Details" sx={{ my: 5, mb: 10 }}>
             <Stack alignContent={"center"} justifyContent={"center"}>
-              <Stack p={2} direction={{ xs: "column", lg: "row" }} justifyContent={"space-evenly"}>
-                <Stack alignItems={"center"} position={'relative'}>
-                  <IconButton onClick={toggleReportModal} sx={{ position: 'absolute', left: 0}}>
+              <Stack p={2} direction={{ xs: "column", lg: "row" }} justifyContent={"space-evenly"} position={'relative'}>
+                  <IconButton onClick={toggleReportModal} sx={{ position: 'absolute', left: 0, top: 0}}>
                     <FlagIcon color="error" />
+                    <Typography variant="caption" color='text.main'>Spieler melden</Typography>
                   </IconButton>
+                <Stack alignItems={"center"} mt={2}>
                   <Badge
                     badgeContent={
                       user.settings.is_verified ? (
