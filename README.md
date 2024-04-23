@@ -13,7 +13,7 @@ Willkommen bei meiner Quiz-Anwendung! Hier kannst du dich auf eine Reise des spi
 
 - [**Geschichte**](#📖-development-geschichte-📖)
 - [**Erkenntnisse und Fähigkeiten**](#💡-erkenntnisse-und-fähigkeiten-💡)
-- [**Tech Stack**](#👩‍💻-tech-stack-👩‍💻)
+- [**Tech Stack**](#-tech-stack-)
     * [TL;DR](#tl-dr)
     * [Backend](#backend)
     * [Frontend](#frontend)
