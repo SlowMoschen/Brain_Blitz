@@ -48,6 +48,7 @@ export default function ProfilePage() {
             ]}
             problemLabel="Was ist das Problem?"
             problemHelperText="Wähle eine Kategorie aus"
+            id={user.id}
           />
           <ContainerWithHeader header="Profil Details" sx={{ my: 5, mb: 10 }}>
             <Stack alignContent={"center"} justifyContent={"center"}>
