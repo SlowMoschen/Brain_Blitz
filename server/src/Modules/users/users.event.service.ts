@@ -25,24 +25,21 @@ export class UsersEventService {
 		const statistics = await this.usersService.getStatistics(user_id);
 
 		const isFirstLogin = statistics.login_streak === 0;
-		const lastLogin = new Date(timestamps.last_login).getTime();
+		// const lastLogin = new Date(timestamps.last_login).getTime();
+		const lastLogin = new Date('2024-04-20').getTime();
 		const currentTime = new Date().getTime();
 		const timeSinceLastLoginInHours = (currentTime - lastLogin) / 1000 / 60 / 60;
 		const twentyFourHours = 24;
 		const fortyEightHours = 48;
 
-		// If the user has not logged in for more than 48 hours the login streak will reset
-		// If the streak is 0 (user has never logged in before) the streak will be set to 1 (as the user has now logged in for the first time)
-		if (timeSinceLastLoginInHours > fortyEightHours || statistics.login_streak === 0) {
-			statistics.login_streak = 1;
+		if (timeSinceLastLoginInHours > twentyFourHours) {
+			const loginStreak = timeSinceLastLoginInHours > fortyEightHours ? 1 : statistics.login_streak + 1;
+			statistics.login_streak = loginStreak;
+			if (loginStreak > statistics.max_login_streak) {
+				statistics.max_login_streak = loginStreak;
+			}
 		}
 
-		// If the user has logged
-		if (timeSinceLastLoginInHours > twentyFourHours) {
-			const newStreak = statistics.login_streak + 1;
-			if (newStreak > statistics.max_login_streak) statistics.max_login_streak = newStreak;
-			statistics.login_streak = newStreak;
-		}
 		await this.usersService.updateStatistics(user_id, statistics);
 
 		setTimeout(() => {

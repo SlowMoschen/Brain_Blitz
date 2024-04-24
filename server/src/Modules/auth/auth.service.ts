@@ -1,4 +1,11 @@
-import { ConflictException, HttpException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+	ConflictException,
+	HttpException,
+	Injectable,
+	Logger,
+	NotFoundException,
+	UnauthorizedException,
+} from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PasswordChangedEvent, SendForgotPasswordMailEvent, SendVerifyMailEvent } from 'src/Events/notification.events';
 import { UserCreatedEvent } from 'src/Events/user.events';
@@ -12,6 +19,8 @@ import { ResetPasswordDTO } from './dto/reset-password.dto';
 
 @Injectable()
 export class AuthService {
+	private readonly logger = new Logger('AuthService');
+
 	constructor(
 		private readonly usersService: UsersService,
 		private readonly encryptionService: EncryptionService,
@@ -62,6 +71,7 @@ export class AuthService {
 			'mail.verify-email',
 			new SendVerifyMailEvent(userID, createUserDTO.email, createUserDTO.first_name, token),
 		);
+		this.logger.log(`New user created with id: ${userID}`);
 		return userID;
 	}
 
@@ -112,6 +122,7 @@ export class AuthService {
 
 		this.eventEmitter.emit('mail.verify-email', new SendVerifyMailEvent(user.id, user.email, user.first_name, token));
 
+		this.logger.log(`Verification-E-Mail request for user: ${user.id}`);
 		return user.id;
 	}
 
@@ -131,6 +142,7 @@ export class AuthService {
 			new SendForgotPasswordMailEvent(user.id, user.email, user.first_name, token),
 		);
 
+		this.logger.log(`Password-Reset request for user: ${user.id}`);
 		return user.id;
 	}
 
@@ -178,6 +190,7 @@ export class AuthService {
 
 		this.eventEmitter.emit('mail.password-changed', new PasswordChangedEvent(user.id, user.email, user.first_name));
 
+		this.logger.log(`Password reseted for user: ${userID}`);
 		return updatedUserID;
 	}
 }

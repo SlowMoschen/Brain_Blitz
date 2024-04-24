@@ -89,7 +89,7 @@ export class UsersController {
 		return await this.usersService.getAllUsers();
 	}
 
-	@ApiOperation({ summary: 'ADMIN ROUTE - Get user data via userID' })
+	@ApiOperation({ summary: 'Get user data via userID' })
 	@ApiOkResponse({ description: 'returns data from a user without the hashed password' })
 	@ApiForbiddenResponse({ description: 'if user got no session cookie or is not an admin' })
 	@ApiNotFoundResponse({ description: 'if no user was found' })

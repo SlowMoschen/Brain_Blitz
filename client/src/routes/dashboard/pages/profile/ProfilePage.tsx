@@ -15,6 +15,7 @@ import ReportForm from "../../../../shared/components/form/ReportForm";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CountUp from "react-countup";
+import { useDocumentTitle } from "../../../../shared/hooks/api/useDocumentTitle.hook";
 
 export default function ProfilePage() {
   const [isReportModalOpen, toggleReportModal] = useToggle(false);
@@ -22,10 +23,15 @@ export default function ProfilePage() {
   const redirect = useNavigate();
   const loggedInUser = useUserContext();
   const { user, isPending } = useUserQueries().useDifferentUserFetch(userID!);
+  useDocumentTitle(
+    `Profil - ${formatValue(user?.first_name, ["capitalize"])} ${formatValue(user?.last_name, [
+      "capitalize",
+    ])}`
+  );
 
-    useEffect(() => {
-      if (loggedInUser.id === userID) redirect(URLS.PROFILE);
-    }, [userID]);
+  useEffect(() => {
+    if (loggedInUser.id === userID) redirect(URLS.PROFILE);
+  }, [userID]);
 
   const countUpStyle = { color: "#99ff66", fontSize: "1.3rem" };
 
@@ -52,11 +58,21 @@ export default function ProfilePage() {
           />
           <ContainerWithHeader header="Profil Details" sx={{ my: 5, mb: 10 }}>
             <Stack alignContent={"center"} justifyContent={"center"}>
-              <Stack p={2} direction={{ xs: "column", lg: "row" }} justifyContent={"space-evenly"} position={'relative'}>
-                  <IconButton onClick={toggleReportModal} sx={{ position: 'absolute', left: 0, top: 0}}>
-                    <FlagIcon color="error" />
-                    <Typography variant="caption" color='text.main'>Spieler melden</Typography>
-                  </IconButton>
+              <Stack
+                p={2}
+                direction={{ xs: "column", lg: "row" }}
+                justifyContent={"space-evenly"}
+                position={"relative"}
+              >
+                <IconButton
+                  onClick={toggleReportModal}
+                  sx={{ position: "absolute", left: 0, top: 0 }}
+                >
+                  <FlagIcon color="error" />
+                  <Typography variant="caption" color="text.main">
+                    Spieler melden
+                  </Typography>
+                </IconButton>
                 <Stack alignItems={"center"} mt={2}>
                   <Badge
                     badgeContent={
@@ -116,27 +132,19 @@ export default function ProfilePage() {
                     <CountUp end={user.statistics.login_streak} style={countUpStyle} />
                   </Grid>
                   <Grid item xs={12} lg={6}>
-                    <Typography variant="body1">
-                      Max. Login Streak:
-                    </Typography>
+                    <Typography variant="body1">Max. Login Streak:</Typography>
                     <CountUp end={user.statistics.max_login_streak} style={countUpStyle} />
                   </Grid>
                   <Grid item xs={12} lg={6}>
-                    <Typography variant="body1">
-                      Gespielte Quizze:
-                    </Typography>
+                    <Typography variant="body1">Gespielte Quizze:</Typography>
                     <CountUp end={user.statistics.played_quizzes} style={countUpStyle} />
                   </Grid>
                   <Grid item xs={12} lg={6}>
-                    <Typography variant="body1">
-                      Korrekte Antworten:
-                    </Typography>
+                    <Typography variant="body1">Korrekte Antworten:</Typography>
                     <CountUp end={user.statistics.correct_answers} style={countUpStyle} />
                   </Grid>
                   <Grid item xs={12} lg={6}>
-                    <Typography variant="body1">
-                      Falsche Antworten:
-                    </Typography>
+                    <Typography variant="body1">Falsche Antworten:</Typography>
                     <CountUp end={user.statistics.incorrect_answers} style={countUpStyle} />
                   </Grid>
                 </Grid>
@@ -155,25 +163,20 @@ export default function ProfilePage() {
                 <Typography variant="h4">Zeitstempel</Typography>
                 <Grid container item xs={12} md={6} spacing={2}>
                   <Grid item xs={12} lg={6}>
-                    <Typography variant="body1">
-                      Erstellt am:
-                    </Typography>
+                    <Typography variant="body1">Erstellt am:</Typography>
                     <Typography color="accent.main" variant="body1">
                       {new Date(user.timestamps.created_at).toLocaleDateString()}
                     </Typography>
                   </Grid>
                   <Grid item xs={12} lg={6}>
-                    <Typography variant="body1">
-                      Letzter Login am:
-                    </Typography>
-                    <Typography color='accent.main' variant="body1">
+                    <Typography variant="body1">Letzter Login am:</Typography>
+                    <Typography color="accent.main" variant="body1">
                       {new Date(user.timestamps.last_login).toLocaleDateString()}
                     </Typography>
                   </Grid>
                 </Grid>
               </Stack>
             </Stack>
-
           </ContainerWithHeader>
         </>
       )}

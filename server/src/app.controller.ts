@@ -1,17 +1,18 @@
 import { Body, Controller, Get, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
-import { QuizService } from './Modules/quizzes/quizzes.service';
-import { SkipThrottle } from '@nestjs/throttler';
-import { ContactDTO, ReportDTO } from './app.dto';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { LocalAuthGuard } from './Guards/localAuth.guard';
-import { RolesGuard } from './Guards/roles.guard';
+import { ApiTags } from '@nestjs/swagger';
+import { SkipThrottle } from '@nestjs/throttler';
 import { Roles } from './Decorators/roles.decorator';
-import { Role } from './Enums/role.enum';
 import { User } from './Decorators/user.decorator';
+import { Role } from './Enums/role.enum';
 import { SendReportFormEvent } from './Events/notification.events';
 import { AuthenticationGuard } from './Guards/auth.guard';
+import { RolesGuard } from './Guards/roles.guard';
+import { QuizService } from './Modules/quizzes/quizzes.service';
 import { UsersService } from './Modules/users/users.service';
+import { ContactDTO, ReportDTO } from './app.dto';
 
+@ApiTags('App')
 @SkipThrottle()
 @Controller()
 export class AppController {

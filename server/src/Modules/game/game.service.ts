@@ -40,11 +40,12 @@ export class GameService {
 		const quiz = await this.quizRepository.findOne(quiz_id);
 
 		if (process.env.NODE_ENV === 'development') {
-			console.log('refreshing complete energy');
+			this.logger.log('Setting energy to 100 for development purposes');
 			await this.userService.updateUserEnergy(user_id, 100);
 		}
 
 		if (user.energy >= gameConfig.ENERGY_CONSUMPTION_RATE) {
+			this.logger.log(`${user.id} started quiz ${quiz.id}`)
 			await this.userService.updateUserEnergy(user_id, user.energy - gameConfig.ENERGY_CONSUMPTION_RATE);
 			await this.quizRepository.updateOne(quiz_id, { times_played: quiz.times_played + 1 });
 		} else {
@@ -66,6 +67,7 @@ export class GameService {
 
 		if (this.isQuizCompleted(user, quiz_id)) return new ConflictException('Quiz already completed');
 
+		this.logger.log(`User ${user_id} completed quiz ${quiz_id}`);
 		return await this.userService.insertNewCompletedQuiz(user_id, quiz_id);
 	}
 
@@ -84,6 +86,7 @@ export class GameService {
 
 		const newUnlockedQuiz = await this.getRandomNewQuiz(user_id);
 
+		this.logger.log(`User ${user_id} unlocked quiz ${newUnlockedQuiz}`);
 		await this.userService.insertNewUnlockedQuiz(user_id, newUnlockedQuiz);
 		const quiz = await this.quizRepository.findOne(newUnlockedQuiz);
 
