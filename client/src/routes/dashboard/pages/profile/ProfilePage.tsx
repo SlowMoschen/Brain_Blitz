@@ -23,11 +23,7 @@ export default function ProfilePage() {
   const redirect = useNavigate();
   const loggedInUser = useUserContext();
   const { user, isPending } = useUserQueries().useDifferentUserFetch(userID!);
-  useDocumentTitle(
-    `Profil - ${formatValue(user?.first_name, ["capitalize"])} ${formatValue(user?.last_name, [
-      "capitalize",
-    ])}`
-  );
+  useDocumentTitle(`Profil - ${user?.first_name} ${user?.last_name}`);
 
   useEffect(() => {
     if (loggedInUser.id === userID) redirect(URLS.PROFILE);
@@ -87,29 +83,29 @@ export default function ProfilePage() {
                       horizontal: "right",
                     }}
                   >
-                    <AvatarIcon first_name={user.first_name} last_name={user.last_name} />
+                    <AvatarIcon first_name={user.first_name} last_name={user?.last_name} />
                   </Badge>
-                  <Typography variant="h4" py={1}>{`${formatValue(user.first_name, [
+                  <Typography variant="h4" py={1}>{`${formatValue(user?.first_name, [
                     "capitalize",
-                  ])} ${formatValue(user.last_name, ["capitalize"])}`}</Typography>
+                  ])} ${formatValue(user?.last_name, ["capitalize"])}`}</Typography>
                 </Stack>
                 <Stack alignItems={"center"} justifyContent={"center"}>
                   <Grid container item xs={12} md={6} spacing={2}>
                     <Grid item xs={12} lg={6}>
                       <Typography variant="subtitle1">Gesamktpunkte:</Typography>
-                      <CountUp end={user.statistics.points} style={countUpStyle} />
+                      <CountUp end={user?.statistics.points} style={countUpStyle} />
                     </Grid>
                     <Grid item xs={12} lg={6}>
                       <Typography variant="body1">Highscores:</Typography>
-                      <CountUp end={user.highscores.length} style={countUpStyle} />
+                      <CountUp end={user?.highscores.length} style={countUpStyle} />
                     </Grid>
                     <Grid item xs={12} lg={6}>
                       <Typography variant="body1">Freigeschaltete Quizze:</Typography>
-                      <CountUp end={user.unlocked_quizzes.length} style={countUpStyle} />
+                      <CountUp end={user?.unlocked_quizzes.length} style={countUpStyle} />
                     </Grid>
                     <Grid item xs={12} lg={6}>
                       <Typography variant="body1">Abgeschlossene Quizze:</Typography>
-                      <CountUp end={user.completed_quizzes.length} style={countUpStyle} />
+                      <CountUp end={user?.completed_quizzes.length} style={countUpStyle} />
                     </Grid>
                   </Grid>
                 </Stack>
@@ -129,23 +125,23 @@ export default function ProfilePage() {
                 <Grid container item xs={12} md={6} spacing={2}>
                   <Grid item xs={12} lg={6}>
                     <Typography variant="body1">Login Streak:</Typography>
-                    <CountUp end={user.statistics.login_streak} style={countUpStyle} />
+                    <CountUp end={user?.statistics.login_streak} style={countUpStyle} />
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Typography variant="body1">Max. Login Streak:</Typography>
-                    <CountUp end={user.statistics.max_login_streak} style={countUpStyle} />
+                    <CountUp end={user?.statistics.max_login_streak} style={countUpStyle} />
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Typography variant="body1">Gespielte Quizze:</Typography>
-                    <CountUp end={user.statistics.played_quizzes} style={countUpStyle} />
+                    <CountUp end={user?.statistics.played_quizzes} style={countUpStyle} />
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Typography variant="body1">Korrekte Antworten:</Typography>
-                    <CountUp end={user.statistics.correct_answers} style={countUpStyle} />
+                    <CountUp end={user?.statistics.correct_answers} style={countUpStyle} />
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Typography variant="body1">Falsche Antworten:</Typography>
-                    <CountUp end={user.statistics.incorrect_answers} style={countUpStyle} />
+                    <CountUp end={user?.statistics.incorrect_answers} style={countUpStyle} />
                   </Grid>
                 </Grid>
               </Stack>
