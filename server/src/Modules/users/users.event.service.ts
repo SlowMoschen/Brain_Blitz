@@ -5,6 +5,7 @@ import { UsersService } from './users.service';
 import { stat } from 'fs';
 import { updates } from '../gateway/updates';
 import { UpdateNotificationEvent } from 'src/Events/notification.events';
+import { is } from 'drizzle-orm';
 
 @Injectable()
 export class UsersEventService {
@@ -24,12 +25,14 @@ export class UsersEventService {
 		const timestamps = await this.usersService.getTimeStamps(user_id);
 		const statistics = await this.usersService.getStatistics(user_id);
 
-		const isFirstLogin = statistics.login_streak === 0;
+		const isFirstLogin = statistics.login_count === 0;
 		const lastLogin = new Date(timestamps.last_login).getTime();
 		const currentTime = new Date().getTime();
 		const timeSinceLastLoginInHours = (currentTime - lastLogin) / 1000 / 60 / 60;
 		const twentyFourHours = 24;
 		const fortyEightHours = 48;
+
+		if (isFirstLogin) statistics.login_streak = 1;
 
 		if (timeSinceLastLoginInHours > twentyFourHours) {
 			const loginStreak = timeSinceLastLoginInHours > fortyEightHours ? 1 : statistics.login_streak + 1;
@@ -38,6 +41,8 @@ export class UsersEventService {
 				statistics.max_login_streak = loginStreak;
 			}
 		}
+
+		statistics.login_count++;
 
 		await this.usersService.updateStatistics(user_id, statistics);
 
