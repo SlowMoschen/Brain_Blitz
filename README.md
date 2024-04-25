@@ -49,6 +49,8 @@ Hier erkläre ich für welchen Tech Stack ich mich entschieden habe uns warum.
 
 #### TL DR
 
+[Datenbank ERD](https://dbdiagram.io/d/Brain-Blitz-65e4ef89cd45b569fb690792)
+
 - **Frontend** 
     * [React](https://react.dev/) - mit [Vite](https://vitejs.dev/) aufgesetzt
     * [React Router Dom](https://reactrouter.com/en/main) - HashRouter als Router
