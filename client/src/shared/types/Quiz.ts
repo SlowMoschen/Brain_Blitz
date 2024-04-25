@@ -1,4 +1,19 @@
 
+export interface IQuizStatistics {
+    uniqueCategories: number;
+    totalQuestions: number;
+    totalQuizzes: number;
+    categoryStats: {
+      category: string;
+      totalQuestions: number;
+      totalQuizzes: number;
+    }[];
+    timesPlayed: {
+      title: string;
+      times_played: number;
+    }[];
+  }
+
 export interface IQuiz {
     id: string;
     created_at: string;

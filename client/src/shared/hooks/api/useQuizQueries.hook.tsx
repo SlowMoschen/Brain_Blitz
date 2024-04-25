@@ -1,4 +1,5 @@
 import { URLS } from "../../../configs/Links";
+import { IQuizStatistics } from "../../types/Quiz";
 import { useMutationFactory } from "./_useMutationFactory";
 import { useQueryFactory } from "./_useQueryFactory";
 
@@ -6,21 +7,6 @@ import { useQueryFactory } from "./_useQueryFactory";
  * @description This hook is used to create hooks for quiz queries.
  * @returns The hooks for quiz queries.
  */
-
-interface IQuizData {
-  uniqueCategories: number;
-  totalQuestions: number;
-  totalQuizzes: number;
-  categoryStats: {
-    category: string;
-    totalQuestions: number;
-    totalQuizzes: number;
-  }[];
-  timesPlayed: {
-    title: string;
-    times_played: number;
-  }[];
-}
 
 interface QuizCompleteDTO {
   correct_answers: number;
@@ -40,7 +26,7 @@ export function useQuizQueries() {
       endpoint: URLS.API_ENDPOINTS.APP.QUIZ_DATA,
     });
 
-    const quizData = (data?.data as IQuizData) || undefined;
+    const quizData = (data?.data as IQuizStatistics) || undefined;
 
     return { quizData, isError };
   };
