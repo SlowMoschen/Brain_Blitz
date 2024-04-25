@@ -158,7 +158,7 @@ const autriaPoliticsQuiz = {
 		},
 		{
 			question: 'Wie viele Sitze hat der österreichische Nationalrat?',
-			answers: ['183', '165', '183', '155'],
+			answers: ['183', '165', '105', '155'],
 			correct_answer: '183',
 		},
 		{
