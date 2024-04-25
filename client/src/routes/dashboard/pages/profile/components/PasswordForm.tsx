@@ -40,6 +40,7 @@ export default function PasswordForm() {
     defaultValues,
     resolver: zodResolver(PasswordChangeSchema),
   });
+  const { mutate: logout } = useAuthQuery({ type: "LOGOUT" })
 
   const onSuccess = () => {
     setSnackbarProps({
@@ -49,6 +50,12 @@ export default function PasswordForm() {
     toggleSnackbarOpen();
     setIsFormDisabled(true);
     reset(defaultValues);
+    setTimeout(() => {
+      logout(undefined);
+    }, 1000);
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
   };
 
   const onError = (error: string) => {
@@ -60,7 +67,6 @@ export default function PasswordForm() {
   };
 
   const { mutate: updatePassword } = useAuthQuery({ type: "RESET_PASSWORD", onSuccess, onError})
-  const { mutate: logout } = useAuthQuery({ type: "LOGOUT" })
 
   const onSubmit = (data: IPasswordChangeInput) => {
     if (data.old_password === data.new_password) {
@@ -72,10 +78,6 @@ export default function PasswordForm() {
       userID,
       password: data.new_password,
     });
-
-    setTimeout(() => {
-      logout(undefined);
-    }, 1000);
   };
 
   return (
