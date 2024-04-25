@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { SignInSchema } from "../schemas/SignIn.schema";
 import { EmailSchema } from "../schemas/Email.schema";
 import { SignUpSchema } from "../schemas/SignUp.schema";
-import { useAuthQueries } from "../../../shared/hooks/api/useAuthQueries.hook";
+import { useAuthQuery } from "../../../shared/hooks/api/useAuthQueries.hook";
 import InputText from "../../../shared/components/form/InputText";
 import InputPassword from "../../../shared/components/form/InputPassword";
 import CallToAction from "../../../shared/components/buttons/CallToAction";
@@ -47,7 +47,7 @@ export default function AuthForm({ type, defaultInput, onError, onSuccess }: Aut
     reset();
   };
 
-  const { mutate, isPending } = useAuthQueries({
+  const { mutate, isPending } = useAuthQuery({
     type,
     onSuccess: onSuccessfulSubmit,
     onError: onFailedSubmit,
