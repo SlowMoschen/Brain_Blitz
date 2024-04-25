@@ -10,7 +10,7 @@ import AvatarIcon from "./AvatarIcon";
 
 export default function ProfileStats() {
   const user = useUserContext();
-  const { mutate: logout } = useAuthQueries().useLogout();
+  const { mutate: logout } = useAuthQueries({ type: "LOGOUT" });
 
   const countUpStyle = { color: "#99ff66", fontSize: "1.3rem" };
 

@@ -36,13 +36,13 @@ export const URLS = {
       OVERALL_MOST_PLAYED_QUIZZES_RANKINGS: "/rankings/overall/most-played-quizzes",
     },
     AUTH: {
-      SIGNIN: "/auth/login",
-      SIGNUP: "/auth/register",
+      SIGN_IN: "/auth/login",
+      SIGN_UP: "/auth/register",
       LOGOUT: "/auth/logout",
       SESSION: "/auth/session",
       FORGOT_PASSWORD: "/auth/forgot-password",
-      RESET_PASSWORD: "/auth/reset-password",
       RESEND_VERIFICATION_EMAIL: "/auth/resend-verification-email",
+      RESET_PASSWORD: "/auth/reset-password",
     },
   },
 };

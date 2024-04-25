@@ -59,8 +59,8 @@ export default function PasswordForm() {
     toggleSnackbarOpen();
   };
 
-  const { mutate: updatePassword } = useAuthQueries().useResetPassword(onSuccess, onError);
-  const { mutate: logout } = useAuthQueries().useLogout();
+  const { mutate: updatePassword } = useAuthQueries({ type: "RESET_PASSWORD", onSuccess, onError})
+  const { mutate: logout } = useAuthQueries({ type: "LOGOUT" })
 
   const onSubmit = (data: IPasswordChangeInput) => {
     if (data.old_password === data.new_password) {

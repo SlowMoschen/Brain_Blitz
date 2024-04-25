@@ -1,18 +1,13 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Backdrop, CircularProgress, IconButton, Paper, Stack, Typography } from "@mui/material";
+import { IconButton, Paper, Stack, Typography } from "@mui/material";
 import { useContext, useState } from "react";
-import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { BREAKPOINTS } from "../../../configs/Breakpoints";
 import { URLS } from "../../../configs/Links";
 import AlertSnackbar from "../../../shared/components/AlertSnackbar";
-import CallToAction from "../../../shared/components/buttons/CallToAction";
-import InputText from "../../../shared/components/form/InputText";
 import { WindowContext } from "../../../shared/context/ScreenSize.context";
-import { useAuthQueries } from "../../../shared/hooks/api/useAuthQueries.hook";
 import useToggle from "../../../shared/hooks/useToggle.hook";
-import { EmailSchema } from "../schemas/Email.schema";
+import AuthForm from "./AuthForm";
 import SuccessScreen from "./SuccessScreen";
 
 interface IResetFormInput {
@@ -45,10 +40,6 @@ export default function ForgotPassword() {
     message: "",
     alertType: "success",
   });
-  const { control, handleSubmit, reset } = useForm<IResetFormInput>({
-    defaultValues,
-    resolver: zodResolver(EmailSchema),
-  });
 
   const handleError = (error: string) => {
     setSnackbarProps({ message: getSnackbarMessage(error), alertType: "error" });
@@ -56,14 +47,6 @@ export default function ForgotPassword() {
   };
 
   const handleSuccess = () => setWasSuccessful(true);
-
-  const { mutate, isPending } = useAuthQueries().useForgotPassword(handleSuccess, handleError);
-
-  const onSubmit = (data: IResetFormInput) => {
-    data.email = data.email.toLowerCase();
-    mutate(data);
-    reset(defaultValues);
-  };
 
   const stackStyles = {
     width: "100%",
@@ -97,11 +80,6 @@ export default function ForgotPassword() {
 
   return (
     <>
-      {isPending && (
-        <Backdrop open={isPending} sx={{ zIndex: 100 }}>
-          <CircularProgress color="primary" />
-        </Backdrop>
-      )}
       <Stack sx={stackStyles}>
         <Paper sx={paperStyles}>
           <Stack gap={2}>
@@ -118,23 +96,12 @@ export default function ForgotPassword() {
               senden dir eine E-Mail mit weiteren Anweisungen. Bitte überprüfe auch deinen
               Spam-Ordner.
             </Typography>
-            <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
-              <Stack spacing={2} sx={{ width: "100%" }}>
-                <InputText
-                  control={control}
-                  name="email"
-                  label="E-Mail-Adresse"
-                  type="email"
-                  placeholder="beispiel@mail.com"
-                />
-                <CallToAction
-                  type="submit"
-                  text="E-Mail senden"
-                  fullWidth
-                  onClick={() => handleSubmit(onSubmit)}
-                />
-              </Stack>
-            </form>
+            <AuthForm
+              type="FORGOT_PASSWORD"
+              defaultInput={defaultValues}
+              onSuccess={handleSuccess}
+              onError={handleError}
+            />
           </Stack>
         </Paper>
       </Stack>

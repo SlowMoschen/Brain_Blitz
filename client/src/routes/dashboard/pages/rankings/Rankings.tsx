@@ -7,7 +7,7 @@ import DailyStats from "../../components/DailyStats";
 import HeaderMenu from "../../components/navigation/HeaderMenu";
 import GlobalRankings from "./components/GlobalRankings";
 import PersonalRankings from "./components/PersonalRankings";
-import { useDocumentTitle } from "../../../../shared/hooks/api/useDocumentTitle.hook";
+import { useDocumentTitle } from "../../../../shared/hooks/useDocumentTitle.hook";
 
 export default function Rankings() {
   useDocumentTitle('Dashboard - Rankings')

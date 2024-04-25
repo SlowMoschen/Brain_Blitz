@@ -5,7 +5,7 @@ import DetailsForm from "./components/DetailsForm";
 import PasswordForm from "./components/PasswordForm";
 import ProfileStats from "./components/ProfileStats";
 import DeleteAccount from "./components/DeleteAccount";
-import { useDocumentTitle } from "../../../../shared/hooks/api/useDocumentTitle.hook";
+import { useDocumentTitle } from "../../../../shared/hooks/useDocumentTitle.hook";
 import BugReportIcon from '@mui/icons-material/BugReport';
 import useToggle from "../../../../shared/hooks/useToggle.hook";
 import ReportForm from "../../../../shared/components/form/ReportForm";
