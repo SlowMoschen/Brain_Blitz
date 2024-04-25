@@ -1,112 +1,38 @@
 import { useNavigate } from "react-router-dom";
 import { URLS } from "../../../configs/Links";
 import { useMutationFactory } from "./_useMutationFactory";
-import { useQueryFactory } from "./_useQueryFactory";
 
 /**
- * @description This hook is used to create hooks for authentication queries.
- * @returns The hooks for authentication queries.
+ * @description Mutauion hook for auth queries
+ * - Sign in, Sign up, Logout, Forgot password, Resend verification email, Session
+ * @param type - AuthQueryType - Type of auth query
+ * @param onSuccess - Function to execute on success
+ * @param onError - Function to execute on error
+ * @returns Mutation hook
  */
 
-interface EmailDTO {
-  email: string;
+// Union type of all possible auth query types - taken from Configs/Links.ts
+type AuthQueryType = keyof typeof URLS.API_ENDPOINTS.AUTH;
+
+interface AuthHookProps {
+  type: AuthQueryType;
+  onSuccess?: () => void;
+  onError?: (error: string) => void;
 }
 
-interface SignInDTO extends EmailDTO {
-  password: string;
-}
+export function useAuthQuery({ type, onSuccess, onError }: AuthHookProps) {
+  const redirect = useNavigate();
 
-interface SignUpDTO extends SignInDTO {
-  first_name: string;
-  last_name: string;
-}
-
-interface ResetPasswordDTO {
-  userID: string;
-  password: string;
-}
-
-export function useAuthQueries() {
-  const useSignIn = (onSuccess: () => void, onError: (error: string) => void) => {
-    return useMutationFactory<SignInDTO>({
-      method: "post",
-      endpoint: URLS.API_ENDPOINTS.AUTH.SIGNIN,
-      onSuccess,
-      onError,
-    });
-  };
-
-  const useSignUp = (onSuccess: () => void, onError: (error: string) => void) => {
-    return useMutationFactory<SignUpDTO>({
-      method: "post",
-      endpoint: URLS.API_ENDPOINTS.AUTH.SIGNUP,
-      onSuccess,
-      onError,
-    });
-  };
-
-  const useForgotPassword = (onSuccess: () => void, onError: (error: string) => void) => {
-    return useMutationFactory<EmailDTO>({
-      method: "post",
-      endpoint: URLS.API_ENDPOINTS.AUTH.FORGOT_PASSWORD,
-      onSuccess,
-      onError,
-    });
-  };
-
-  const useResetPassword = (onSuccess: () => void, onError: (error: string) => void) => {
-    return useMutationFactory<ResetPasswordDTO>({
-      method: "post",
-      endpoint: URLS.API_ENDPOINTS.AUTH.RESET_PASSWORD,
-      onSuccess,
-      onError,
-    });
-  }
-
-  const useResendVerificationEmail = (onSuccess: () => void, onError: (error: string) => void) => {
-    return useMutationFactory<EmailDTO>({
-      method: "post",
-      endpoint: URLS.API_ENDPOINTS.AUTH.RESEND_VERIFICATION_EMAIL,
-      onSuccess,
-      onError,
-    });
-  };
-
-  const useLogout = () => {
-    const redirect = useNavigate();
-
-    return useMutationFactory({
-      method: "post",
-      endpoint: URLS.API_ENDPOINTS.AUTH.LOGOUT,
-      onSuccess: () => {
-        redirect(URLS.HOME);
-      },
-      onError: (error: string) => {
-        console.error(error);
-      },
-    });
-  };
-
-  const useSessionCheck = () => {
-    const { isPending, data } = useQueryFactory({
-      endpoint: URLS.API_ENDPOINTS.AUTH.SESSION,
-      queryKey: ["session"],
-      retry: 1,
-    });
-
-    const isAuthenticated: boolean =
-      data?.status === "ok" && data?.data?.message === "Authorized" ? true : false;
-
-    return { isPending, isAuthenticated };
-  };
-
-  return {
-    useSignIn,
-    useSignUp,
-    useForgotPassword,
-    useResetPassword,
-    useResendVerificationEmail,
-    useSessionCheck,
-    useLogout,
-  };
+  return useMutationFactory({
+    method: type === "SESSION" ? 'get' : 'post',
+    endpoint: URLS.API_ENDPOINTS.AUTH[type],
+    onSuccess: () => {
+      if (type === "LOGOUT") redirect(URLS.HOME);
+      if (type === "SESSION") redirect(URLS.DASHBOARD);
+      if (onSuccess) onSuccess();
+    },
+    onError: (error) => {
+      if (onError) onError(error);
+    },
+  });
 }

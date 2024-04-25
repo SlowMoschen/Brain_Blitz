@@ -15,7 +15,7 @@ import ReportForm from "../../../../shared/components/form/ReportForm";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CountUp from "react-countup";
-import { useDocumentTitle } from "../../../../shared/hooks/api/useDocumentTitle.hook";
+import { useDocumentTitle } from "../../../../shared/hooks/useDocumentTitle.hook";
 
 export default function ProfilePage() {
   const [isReportModalOpen, toggleReportModal] = useToggle(false);

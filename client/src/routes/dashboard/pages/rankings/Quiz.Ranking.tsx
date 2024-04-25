@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useDocumentTitle } from "../../../../shared/hooks/api/useDocumentTitle.hook";
+import { useDocumentTitle } from "../../../../shared/hooks/useDocumentTitle.hook";
 import { useRankingQueries } from "../../../../shared/hooks/api/useRankingQueries.hook";
 import HeaderMenu from "../../components/navigation/HeaderMenu";
 import RankingTable from "./components/RankingTable";

@@ -7,7 +7,7 @@ import AlertSnackbar from "../../../../../shared/components/AlertSnackbar";
 import CallToAction from "../../../../../shared/components/buttons/CallToAction";
 import SecondaryButton from "../../../../../shared/components/buttons/SecondaryButton";
 import InputPassword from "../../../../../shared/components/form/InputPassword";
-import { useAuthQueries } from "../../../../../shared/hooks/api/useAuthQueries.hook";
+import { useAuthQuery } from "../../../../../shared/hooks/api/useAuthQueries.hook";
 import { useUserIdContext } from "../../../../../shared/hooks/context/useUserIdContext.hook";
 import useToggle from "../../../../../shared/hooks/useToggle.hook";
 import { PasswordChangeSchema } from "../schemas/PasswordChange.schema";
@@ -40,6 +40,7 @@ export default function PasswordForm() {
     defaultValues,
     resolver: zodResolver(PasswordChangeSchema),
   });
+  const { mutate: logout } = useAuthQuery({ type: "LOGOUT" })
 
   const onSuccess = () => {
     setSnackbarProps({
@@ -49,6 +50,12 @@ export default function PasswordForm() {
     toggleSnackbarOpen();
     setIsFormDisabled(true);
     reset(defaultValues);
+    setTimeout(() => {
+      logout(undefined);
+    }, 1000);
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
   };
 
   const onError = (error: string) => {
@@ -59,8 +66,7 @@ export default function PasswordForm() {
     toggleSnackbarOpen();
   };
 
-  const { mutate: updatePassword } = useAuthQueries().useResetPassword(onSuccess, onError);
-  const { mutate: logout } = useAuthQueries().useLogout();
+  const { mutate: updatePassword } = useAuthQuery({ type: "RESET_PASSWORD", onSuccess, onError})
 
   const onSubmit = (data: IPasswordChangeInput) => {
     if (data.old_password === data.new_password) {
@@ -72,10 +78,6 @@ export default function PasswordForm() {
       userID,
       password: data.new_password,
     });
-
-    setTimeout(() => {
-      logout(undefined);
-    }, 1000);
   };
 
   return (

@@ -1,24 +1,15 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Box, Link, Paper, Stack, Typography } from "@mui/material";
 import { useContext, useState } from "react";
-import { useForm } from "react-hook-form";
 import signup from "../../../assets/signup.svg";
 import { BREAKPOINTS } from "../../../configs/Breakpoints";
 import { URLS } from "../../../configs/Links";
 import AlertSnackbar from "../../../shared/components/AlertSnackbar";
-import LoadingScreen from "../../../shared/components/LoadingScreen";
-import CallToAction from "../../../shared/components/buttons/CallToAction";
-import RouterButton from "../../../shared/components/buttons/RouterButton";
-import InputPassword from "../../../shared/components/form/InputPassword";
-import InputText from "../../../shared/components/form/InputText";
 import { WindowContext } from "../../../shared/context/ScreenSize.context";
-import { useAuthQueries } from "../../../shared/hooks/api/useAuthQueries.hook";
 import useToggle from "../../../shared/hooks/useToggle.hook";
-import { SignUpSchema } from "../schemas/SignUp.schema";
+import AuthForm from "./AuthForm";
 import SuccessScreen from "./SuccessScreen";
 import { imagePaperStyles, imageStyles, paperStyles, stackStyles } from "./styles/SignUp.styles";
-import { formatValue } from "../../../shared/services/ValueFormatter.service";
 
 interface ISignUpFormInput {
   first_name: string;
@@ -55,10 +46,6 @@ export default function SignUp() {
     message: "",
     alertType: "success",
   });
-  const { control, handleSubmit, reset } = useForm<ISignUpFormInput>({
-    defaultValues,
-    resolver: zodResolver(SignUpSchema),
-  });
 
   const handleError = (error: string) => {
     setSnackbarProps({ message: getSnackbarMessage(error), alertType: "error" });
@@ -66,21 +53,6 @@ export default function SignUp() {
   };
 
   const handleSuccess = () => setWasSuccessful(true);
-
-  const { mutate, isPending } = useAuthQueries().useSignUp(handleSuccess, handleError);
-
-  const onSubmit = (data: ISignUpFormInput) => {
-    for (const key in data) {
-      if (key === "email" || key.includes("name")) {
-        data[key as keyof ISignUpFormInput] = formatValue(data[key as keyof ISignUpFormInput], [
-          "trim",
-          "lowerCase",
-        ]);
-      }
-    }
-    mutate(data);
-    reset(defaultValues);
-  };
 
   if (wasSuccessful) {
     return (
@@ -93,18 +65,8 @@ export default function SignUp() {
     );
   }
 
-  const linkStyles = {
-    color: "primary.main",
-    textDecoration: "underline",
-    m: 0,
-    p: 0,
-    fontSize: 12,
-    textTransform: "none",
-  };
-
   return (
     <>
-      {isPending && <LoadingScreen />}
       <Stack sx={stackStyles} minHeight={"1000px"}>
         <Paper sx={paperStyles}>
           <Paper elevation={9} sx={imagePaperStyles}>
@@ -125,72 +87,12 @@ export default function SignUp() {
             <Typography variant="body1" align="center">
               Erstelle ein Konto, um fortzufahren.
             </Typography>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Stack gap={1} flexDirection={{ xs: "column", md: "row" }}>
-                <InputText
-                  label="Vorname"
-                  control={control}
-                  name="first_name"
-                  placeholder="Max"
-                  type="text"
-                />
-                <InputText
-                  label="Nachname"
-                  control={control}
-                  name="last_name"
-                  placeholder="Mustermann"
-                  type="text"
-                />
-              </Stack>
-              <InputText
-                label="E-Mail"
-                type="email"
-                control={control}
-                name="email"
-                placeholder="beispiel@email.com"
-              />
-              <InputPassword
-                label="Passwort"
-                control={control}
-                name="password"
-                placeholder="●●●●●●●●"
-              />
-              <InputPassword
-                label="Passwort bestätigen"
-                control={control}
-                name="confirm_password"
-                placeholder="●●●●●●●●"
-                showPasswordAdornment={false}
-              />
-              <Stack mt={2} alignItems={"flex-start"}>
-                <RouterButton
-                  to={URLS.SIGNIN}
-                  variant="text"
-                  color="primary"
-                  text="Bereits ein Konto?"
-                />
-              </Stack>
-              <Typography variant="body2" my={2} px={1} fontSize={12}>
-                Mit dem Klicken auf „Anmelden“ stimmst du unseren{" "}
-                <RouterButton
-                  to={URLS.TERMS_AND_CONDITIONS}
-                  variant="text"
-                  sx={linkStyles}
-                  text="Nutzungsbedingungen"
-                  color="primary"
-                />{" "}
-                und{" "}
-                <RouterButton
-                  to={URLS.PRIVACY}
-                  variant="text"
-                  sx={linkStyles}
-                  text="Datenschutzrichtlinien"
-                  color="primary"
-                />{" "}
-                zu.
-              </Typography>
-              <CallToAction text="Anmelden" type="submit" fullWidth />
-            </form>
+            <AuthForm
+              type="SIGN_UP"
+              defaultInput={defaultValues}
+              onSuccess={handleSuccess}
+              onError={handleError}
+            />
           </Stack>
         </Paper>
       </Stack>

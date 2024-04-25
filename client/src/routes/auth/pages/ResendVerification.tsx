@@ -1,18 +1,13 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Backdrop, CircularProgress, IconButton, Paper, Stack, Typography } from "@mui/material";
+import { IconButton, Paper, Stack, Typography } from "@mui/material";
 import { useContext, useState } from "react";
-import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { BREAKPOINTS } from "../../../configs/Breakpoints";
 import { URLS } from "../../../configs/Links";
 import AlertSnackbar from "../../../shared/components/AlertSnackbar";
-import CallToAction from "../../../shared/components/buttons/CallToAction";
-import InputText from "../../../shared/components/form/InputText";
 import { WindowContext } from "../../../shared/context/ScreenSize.context";
-import { useAuthQueries } from "../../../shared/hooks/api/useAuthQueries.hook";
 import useToggle from "../../../shared/hooks/useToggle.hook";
-import { EmailSchema } from "../schemas/Email.schema";
+import AuthForm from "./AuthForm";
 import SuccessScreen from "./SuccessScreen";
 
 interface IResendFormInput {
@@ -48,10 +43,6 @@ export default function ResendVerification() {
     message: "",
     alertType: "success",
   });
-  const { control, handleSubmit, reset } = useForm<IResendFormInput>({
-    defaultValues,
-    resolver: zodResolver(EmailSchema),
-  });
 
   const handleError = (error: string) => {
     setSnackbarProps({ message: getSnackbarMessage(error), alertType: "error" });
@@ -59,14 +50,6 @@ export default function ResendVerification() {
   };
 
   const handleSuccess = () => setWasSuccessful(true);
-
-  const { mutate, isPending } = useAuthQueries().useResendVerificationEmail(handleSuccess, handleError);
-
-  const onSubmit = (data: IResendFormInput) => {
-    data.email = data.email.toLowerCase();
-    mutate(data);
-    reset(defaultValues);
-  };
 
   const stackStyles = {
     width: "100%",
@@ -100,11 +83,6 @@ export default function ResendVerification() {
 
   return (
     <>
-      {isPending && (
-        <Backdrop open={isPending} sx={{ zIndex: 100 }}>
-          <CircularProgress color="primary" />
-        </Backdrop>
-      )}
       <Stack sx={stackStyles}>
         <Paper sx={paperStyles}>
           <Stack gap={2}>
@@ -119,23 +97,12 @@ export default function ResendVerification() {
             <Typography variant="body1" align="left">
               Bitte gib deine E-Mail-Adresse ein, um erneut eine Verifizierungsmail zu erhalten.
             </Typography>
-            <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
-              <Stack spacing={2} sx={{ width: "100%" }}>
-                <InputText
-                  control={control}
-                  name="email"
-                  label="E-Mail-Adresse"
-                  type="email"
-                  placeholder="beispiel@mail.com"
-                />
-                <CallToAction
-                  type="submit"
-                  text="Verifizierungsmail senden"
-                  fullWidth
-                  onClick={() => handleSubmit(onSubmit)}
-                />
-              </Stack>
-            </form>
+            <AuthForm
+              type="RESEND_VERIFICATION_EMAIL"
+              defaultInput={defaultValues}
+              onSuccess={handleSuccess}
+              onError={handleError}
+            />
           </Stack>
         </Paper>
       </Stack>

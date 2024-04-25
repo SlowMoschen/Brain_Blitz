@@ -13,7 +13,7 @@ import { formatValue } from "../../../../../shared/services/ValueFormatter.servi
 import ContainerWithHeader from "../../../components/ContainerWithHeader";
 import { useNavigate } from "react-router-dom";
 import { URLS } from "../../../../../configs/Links";
-import { useDocumentTitle } from "../../../../../shared/hooks/api/useDocumentTitle.hook";
+import { useDocumentTitle } from "../../../../../shared/hooks/useDocumentTitle.hook";
 import { DEFAULT_DOCUMENT_TITLE } from "../../../../../configs/Application";
 
 interface ITableRow {

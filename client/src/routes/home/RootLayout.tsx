@@ -5,7 +5,7 @@ import { DEFAULT_DOCUMENT_TITLE } from "../../configs/Application";
 import { BREAKPOINTS } from "../../configs/Breakpoints";
 import ScrollToTop from "../../shared/components/ScrollToTop";
 import { WindowContext } from "../../shared/context/ScreenSize.context";
-import { useDocumentTitle } from "../../shared/hooks/api/useDocumentTitle.hook";
+import { useDocumentTitle } from "../../shared/hooks/useDocumentTitle.hook";
 import CookieModal from "./components/CookieModal";
 import Footer from "./components/Footer/Footer";
 import MobileNavbar from "./components/navbar/_MobileNavbar.main";

@@ -1,25 +1,18 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Box, Link, Paper, Stack, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import signin from "../../../assets/signin.svg";
 import { BREAKPOINTS } from "../../../configs/Breakpoints";
 import { URLS } from "../../../configs/Links";
 import AlertSnackbar from "../../../shared/components/AlertSnackbar";
 import LoadingScreen from "../../../shared/components/LoadingScreen";
-import CallToAction from "../../../shared/components/buttons/CallToAction";
-import RouterButton from "../../../shared/components/buttons/RouterButton";
-import InputPassword from "../../../shared/components/form/InputPassword";
-import InputText from "../../../shared/components/form/InputText";
-import { WindowContext } from "../../../shared/context/ScreenSize.context";
-import { useAuthQueries } from "../../../shared/hooks/api/useAuthQueries.hook";
-import useToggle from "../../../shared/hooks/useToggle.hook";
-import { SignInSchema } from "../schemas/SignIn.schema";
-import { imagePaperStyles, imageStyles, paperStyles, stackStyles } from "./styles/SignIn.styles";
-import { formatValue } from "../../../shared/services/ValueFormatter.service";
 import ServerStatus from "../../../shared/components/ServerStatus";
+import { WindowContext } from "../../../shared/context/ScreenSize.context";
+import { useAuthQuery } from "../../../shared/hooks/api/useAuthQueries.hook";
+import useToggle from "../../../shared/hooks/useToggle.hook";
+import AuthForm from "./AuthForm";
+import { imagePaperStyles, imageStyles, paperStyles, stackStyles } from "./styles/SignIn.styles";
 
 interface ISignInFormInput {
   email: string;
@@ -47,17 +40,13 @@ export default function SignIn() {
   const { width } = useContext(WindowContext);
   const isDesktop = width > BREAKPOINTS.md;
   const [isSnackbarOpen, toggleSnackbarOpen] = useToggle(false);
-  const { isAuthenticated, isPending: isAuthPending } = useAuthQueries().useSessionCheck();
+  const { isPending: isAuthPending, mutate: checkAuthStatus } = useAuthQuery({ type: "SESSION" })
   const [snackBarProps, setSnackbarProps] = useState<{
     message: string;
     alertType: "success" | "error";
   }>({
     message: "",
     alertType: "success",
-  });
-  const { control, handleSubmit, reset } = useForm<ISignInFormInput>({
-    defaultValues,
-    resolver: zodResolver(SignInSchema),
   });
 
   const handleError = (error: string) => {
@@ -67,24 +56,13 @@ export default function SignIn() {
 
   const handleSuccess = () => redirect(URLS.DASHBOARD);
 
-  const { mutate, isPending: isSignInPending } = useAuthQueries().useSignIn(
-    handleSuccess,
-    handleError
-  );
-
-  const onSubmit = (data: ISignInFormInput) => {
-    data.email = formatValue(data.email, ["trim", "lowerCase"]);
-    mutate(data);
-    reset(defaultValues);
-  };
-
   useEffect(() => {
-    if (isAuthenticated) redirect(URLS.DASHBOARD);
-  }, [isAuthenticated]);
+    checkAuthStatus(undefined);
+  }, []);
 
   return (
     <>
-      {isSignInPending || (isAuthPending && <LoadingScreen />)}
+      {isAuthPending && <LoadingScreen />}
       <Stack sx={stackStyles}>
         <Paper sx={paperStyles}>
           <Paper elevation={9} sx={imagePaperStyles}>
@@ -102,36 +80,12 @@ export default function SignIn() {
             <Typography variant="body1" align="center">
               Bitte melde dich an, um fortzufahren.
             </Typography>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <InputText
-                label="E-Mail"
-                type="email"
-                control={control}
-                name="email"
-                placeholder="beispiel@email.com"
-              />
-              <InputPassword
-                label="Passwort"
-                control={control}
-                name="password"
-                placeholder="●●●●●●●●"
-              />
-              <Stack mt={2} alignItems={"flex-start"}>
-                <RouterButton
-                  to={URLS.SIGNUP}
-                  variant="text"
-                  color="primary"
-                  text="Noch kein Konto?"
-                />
-                <RouterButton
-                  to={URLS.FORGOT_PASSWORD}
-                  variant="text"
-                  color="primary"
-                  text="Passwort vergessen?"
-                />
-              </Stack>
-              <CallToAction text="Anmelden" type="submit" fullWidth />
-            </form>
+            <AuthForm
+              type="SIGN_IN"
+              defaultInput={defaultValues}
+              onSuccess={handleSuccess}
+              onError={handleError}
+            />
           </Stack>
         </Paper>
       </Stack>

@@ -3,7 +3,7 @@ import { IconButton, Stack } from "@mui/material";
 import { useEffect } from "react";
 import { BREAKPOINTS } from "../../../../configs/Breakpoints";
 import ReportForm from "../../../../shared/components/form/ReportForm";
-import { useDocumentTitle } from "../../../../shared/hooks/api/useDocumentTitle.hook";
+import { useDocumentTitle } from "../../../../shared/hooks/useDocumentTitle.hook";
 import { useQuiz } from "../../../../shared/hooks/game/useQuiz.hook";
 import useToggle from "../../../../shared/hooks/useToggle.hook";
 import { IQuiz } from "../../../../shared/types/Quiz";
