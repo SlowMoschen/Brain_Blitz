@@ -25,8 +25,7 @@ export class UsersEventService {
 		const statistics = await this.usersService.getStatistics(user_id);
 
 		const isFirstLogin = statistics.login_streak === 0;
-		// const lastLogin = new Date(timestamps.last_login).getTime();
-		const lastLogin = new Date('2024-04-20').getTime();
+		const lastLogin = new Date(timestamps.last_login).getTime();
 		const currentTime = new Date().getTime();
 		const timeSinceLastLoginInHours = (currentTime - lastLogin) / 1000 / 60 / 60;
 		const twentyFourHours = 24;
