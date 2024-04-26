@@ -3,11 +3,11 @@ import { useContext, useState } from "react";
 import { BREAKPOINTS } from "../../../../configs/Breakpoints";
 import { WindowContext } from "../../../../shared/context/ScreenSize.context";
 import { useRankingQueries } from "../../../../shared/hooks/api/useRankingQueries.hook";
+import { useDocumentTitle } from "../../../../shared/hooks/useDocumentTitle.hook";
 import DailyStats from "../../components/DailyStats";
 import HeaderMenu from "../../components/navigation/HeaderMenu";
 import GlobalRankings from "./components/GlobalRankings";
 import PersonalRankings from "./components/PersonalRankings";
-import { useDocumentTitle } from "../../../../shared/hooks/useDocumentTitle.hook";
 
 export default function Rankings() {
   useDocumentTitle('Dashboard - Rankings')
@@ -21,7 +21,7 @@ export default function Rankings() {
   const handleTabChange = (_e: React.ChangeEvent<object>, newValue: number) => {
     setValue(newValue);
   };
-
+  
   const getMobileView = (tabValue: number) => {
     switch (tabValue) {
       case 0:
