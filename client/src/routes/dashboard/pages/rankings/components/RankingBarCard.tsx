@@ -62,7 +62,8 @@ function transformData(data: (IPlaytimeRanking | IMostPlayedQuizRanking | IPoint
  * @returns The RankingBarTable component
  */
 export default function RankingBarCard<T>({ data, title, onClick }: RankingBarTableProps<T>) {
-  const { parseMinuteString } = useTimeParser();
+  const { parseMinuteString, parseHourString } = useTimeParser();
+  const isOverOneHour = (time: number) => time >= 3600000;
 
   const filteredData = transformData(
     data as (IPlaytimeRanking | IMostPlayedQuizRanking | IPointsRanking)[]
@@ -70,8 +71,8 @@ export default function RankingBarCard<T>({ data, title, onClick }: RankingBarTa
   const emptyBars = Array.from({ length: 3 }, (_, i) => i);
 
   const getValue = (ranking: IPlaytimeRanking | IMostPlayedQuizRanking | IPointsRanking) => {
-    if ("points" in ranking) return ranking.points;
-    if ("playtime" in ranking) return parseMinuteString(ranking.playtime);
+    if ("points" in ranking) return ranking.points ? Number(ranking.points).toLocaleString() : 0;
+    if ("playtime" in ranking) return isOverOneHour(ranking.playtime) ? parseHourString(ranking.playtime) : parseMinuteString(ranking.playtime);
     if ("times_played" in ranking) return ranking.times_played;
     return 0;
   };
