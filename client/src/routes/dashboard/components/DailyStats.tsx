@@ -24,7 +24,7 @@ const content = [
 
 export default function DailyStats() {
   const { dailyStats } = useDailyStatsTracker();
-  const { parseMinuteString } = useTimeParser();
+  const { parseToTimeString } = useTimeParser();
   const stats: IDailyStats = dailyStats;
 
   return (
@@ -37,7 +37,7 @@ export default function DailyStats() {
                 <Typography>{item.title}</Typography>
                 <Typography color='accent.main'>
                   {item.value === "timePlayed"
-                    ? parseMinuteString(stats[item.value])
+                    ? parseToTimeString(stats[item.value])
                     : stats[item.value]}
                 </Typography>
               </Stack>
