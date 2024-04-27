@@ -10,10 +10,13 @@ export function useTimeParser() {
      * @param {number} time - The time in milliseconds.
      * @returns {string} - The time string in the format "mm:ss".
      */
-    const parseMinuteString = (time: number) => {
+    const parseToTimeString = (time: number) => {
+        const isAboveOneHour = time >= 3600000;
         const minutes = Math.floor(time / 60000);
         const seconds = Math.floor((time % 60000) / 1000);
-        return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+        return isAboveOneHour
+        ? parseHourString(time)
+        : `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
     }
 
     /**
@@ -45,5 +48,5 @@ export function useTimeParser() {
         return time * 3600000;
     }
 
-    return { parseMinuteString, parseHourString, parseMillisecondsToSeconds, parseSecondsToMilliseconds, parseMinutesToMilliseconds, parseHoursToMilliseconds };
+    return { parseToTimeString, parseMillisecondsToSeconds, parseSecondsToMilliseconds, parseMinutesToMilliseconds, parseHoursToMilliseconds };
 }

@@ -29,7 +29,7 @@ const LinearTimerBar = styled(LinearProgress)(({ value, theme }) => ({
  */
 export default function QuizTimer({ time }: TimerProps) {
   const [progress, setProgress] = useState<number>(100);
-  const { parseMinuteString } = useTimeParser();
+  const { parseToTimeString } = useTimeParser();
 
   // Calculate the time in milliseconds to a percentage
   const calculateTime = () => {
@@ -43,7 +43,7 @@ export default function QuizTimer({ time }: TimerProps) {
   return (
     <Stack width={"100%"} alignItems={"center"} direction={{ xs: "column", lg: "row" }} gap={1}>
       <Typography variant="h6" sx={{ textAlign: "center" }}>
-        {parseMinuteString(time)}
+        {parseToTimeString(time)}
       </Typography>
       <LinearTimerBar variant="determinate" value={progress} sx={{ width: "100%" }} />
     </Stack>

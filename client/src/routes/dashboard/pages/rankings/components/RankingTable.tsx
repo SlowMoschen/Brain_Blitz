@@ -43,7 +43,7 @@ export default function RankingTable({
     ? tableHeader
     : DEFAULT_DOCUMENT_TITLE
   );
-  const { parseMinuteString } = useTimeParser();
+  const { parseToTimeString } = useTimeParser();
   const redirect = useNavigate();
   const user = useUserContext();
 
@@ -146,8 +146,8 @@ export default function RankingTable({
                   <TableCell>
                     <Typography variant="subtitle1">
                       {valueString === "spielzeit"
-                        ? parseMinuteString(ranking.value)
-                        : ranking.value}
+                        ? parseToTimeString(ranking.value)
+                        : new Number(ranking.value).toLocaleString()}
                     </Typography>
                   </TableCell>
                   <TableCell sx={{ fontSize: { xs: 12, md: 13 } }}>

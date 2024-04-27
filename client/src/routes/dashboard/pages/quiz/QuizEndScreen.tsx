@@ -27,9 +27,9 @@ export default function QuizEndScreen({
   isSuccess,
   quizId,
 }: QuizEndScreenProps) {
-  const { parseMinuteString } = useTimeParser();
+  const { parseToTimeString } = useTimeParser();
   const [isReportModalOpen, toggleReportModal] = useToggle(false);
-  const timeUsed = parseMinuteString(GAME.TIME_PER_QUIZ - time);
+  const timeUsed = parseToTimeString(GAME.TIME_PER_QUIZ - time);
 
   const correctPoints = answersCount.correct * GAME.CORRECT_ANSWER_POINTS;
   const incorrectPoints = answersCount.incorrect * GAME.WRONG_ANSWER_POINTS;
