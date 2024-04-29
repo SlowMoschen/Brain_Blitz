@@ -12,9 +12,14 @@ export function useTimeParser() {
      */
     const parseToTimeString = (time: number) => {
         const isAboveOneHour = time >= 3600000;
-        const hours = isAboveOneHour ? Math.floor(time / 3600000) : 0;
-        const minutes = Math.floor(time / 60000);
-        const seconds = Math.floor((time % 60000) / 1000);
+        const MILSEC_1HOUR = 3600000;
+        const MILSEC_1MINUTE = 60000;
+        const MILSEC_1SECOND = 1000;
+
+        const hours = Math.floor(time / MILSEC_1HOUR);
+        const minutes = Math.floor((time % MILSEC_1HOUR) / MILSEC_1MINUTE);
+        const seconds = Math.floor((time % MILSEC_1MINUTE) / MILSEC_1SECOND);
+
 
         if (isAboveOneHour) return `${hours}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 
