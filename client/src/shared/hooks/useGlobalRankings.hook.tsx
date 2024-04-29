@@ -1,6 +1,12 @@
 import { IMostPlayedQuizRanking, IPlaytimeRanking, IPointsRanking } from "../types/Rankings";
 import { useRankingQuery } from "./api/useRankingQuery.hook";
 
+/**
+ * @description A hook to sum up all the global rankings and return them.
+ * - Transform the data to a common format (IGlobalRanking).
+ * @returns {mostPoints, mostPlaytime, mostPlayedQuizzes, isPending} - The global rankings and a boolean to check if the data is still pending.
+ * 
+ */
 export function useGlobalRankings() {
   const { rankings: overallPointsRankings, isPending: isPointsPending } =
     useRankingQuery<IPointsRanking>({ type: "OVERALL_POINTS" });
