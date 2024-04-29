@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
 import { GAME } from "../../../configs/Application";
+import { URLS } from "../../../configs/Links";
 import { IQuestion, IQuiz } from "../../types/Quiz";
-import { useQuizQueries } from "../api/useQuizQueries.hook";
+import { useMutationFactory } from "../api/_useMutationFactory";
 import { useDailyStatsTracker } from "../localStorage/useDailyStatsTracker.hook";
 import { useCountdownTimer } from "../timer/useCountdownTimer.hook";
 import { useGameSounds } from "./useGameSounds.hook";
 import { useScoreTracker } from "./useScoreTracker.hook";
+
+interface QuizCompleteDTO {
+  correct_answers: number;
+  incorrect_answers: number;
+  score: number;
+  total_time_played: number;
+}
 
 /**
  * @description Custom hook to manage the quiz game logic
@@ -37,7 +45,13 @@ export function useQuiz(quizData: IQuiz) {
     startTimer: startInitialCountdown,
     stopTimer: stopInitialTimer,
   } = useCountdownTimer(4000);
-  const { mutate } = useQuizQueries().useCompleteQuiz(quizData.id);
+  const { mutate } = useMutationFactory<QuizCompleteDTO>({
+    method: "post",
+    endpoint: URLS.API_ENDPOINTS.QUIZ.QUIZ_COMPLETE + quizData.id,
+    invalidateData: ["user"],
+    onSuccess: () => {},
+    onError: () => {},
+  });
   const { updateDailyStats } = useDailyStatsTracker();
 
   const togglePause = () => {

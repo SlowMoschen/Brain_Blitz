@@ -1,10 +1,11 @@
 import { Stack, Typography } from "@mui/material";
-import { useRankingQueries } from "../../../../../shared/hooks/api/useRankingQueries.hook";
+import { useRankingQuery } from "../../../../../shared/hooks/api/useRankingQuery.hook";
 import ContainerWithHeader from "../../../components/ContainerWithHeader";
 import PersonalRankingCard from "./PersonalRankingCard";
+import { IPersonalRanking } from "../../../../../shared/types/Rankings";
 
 export default function PersonalRankings() {
-  const { personalRankings } = useRankingQueries().usePersonalRankings();
+  const { rankings: personalRankings } = useRankingQuery<IPersonalRanking>({ type: "PERSONAL" });
   return (
     <Stack
       width={"100%"}

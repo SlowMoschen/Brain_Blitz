@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { SignInSchema } from "../schemas/SignIn.schema";
 import { EmailSchema } from "../schemas/Email.schema";
 import { SignUpSchema } from "../schemas/SignUp.schema";
-import { useAuthQuery } from "../../../shared/hooks/api/useAuthQueries.hook";
+import { useAuthQuery } from "../../../shared/hooks/api/useAuthQuery.hook";
 import InputText from "../../../shared/components/form/InputText";
 import InputPassword from "../../../shared/components/form/InputPassword";
 import CallToAction from "../../../shared/components/buttons/CallToAction";

@@ -7,7 +7,7 @@ import AlertSnackbar from "../../../../../shared/components/AlertSnackbar";
 import CallToAction from "../../../../../shared/components/buttons/CallToAction";
 import SecondaryButton from "../../../../../shared/components/buttons/SecondaryButton";
 import InputPassword from "../../../../../shared/components/form/InputPassword";
-import { useAuthQuery } from "../../../../../shared/hooks/api/useAuthQueries.hook";
+import { useAuthQuery } from "../../../../../shared/hooks/api/useAuthQuery.hook";
 import { useUserIdContext } from "../../../../../shared/hooks/context/useUserIdContext.hook";
 import useToggle from "../../../../../shared/hooks/useToggle.hook";
 import { PasswordChangeSchema } from "../schemas/PasswordChange.schema";

@@ -22,18 +22,24 @@ export const URLS = {
   API_URL: import.meta.env.PROD ? "https://www.api.brain-blitz.com" : "http://localhost:3000",
   API_ENDPOINTS: {
     APP: {
+      FORMS: {
+        CONTACT: "/contact",
+        REPORT: "/report",
+      },
       HEALTH: "/health",
-      REPORT: "/report",
       QUIZ_DATA: "/quiz-data",
-      CONTACT: "/contact",
       USER: "/users",
+    },
+    QUIZ: {
       QUIZ_START: "/quizzes/start/",
       QUIZ_COMPLETE: "/quizzes/complete/",
-      PERSONAL_RANKINGS: "/rankings/personal",
-      OVERALL_QUIZ_RANKINGS: "/rankings/overall/",
-      OVERALL_POINTS_RANKINGS: "/rankings/overall/points",
-      OVERALL_PLAYTIME_RANKINGS: "/rankings/overall/playtime",
-      OVERALL_MOST_PLAYED_QUIZZES_RANKINGS: "/rankings/overall/most-played-quizzes",
+    },
+    RANKINGS: {
+      PERSONAL: "/rankings/personal",
+      SINGLE_QUIZ: "/rankings/overall/",
+      OVERALL_POINTS: "/rankings/overall/points",
+      OVERALL_PLAYTIME: "/rankings/overall/playtime",
+      OVERALL_MOST_PLAYED_QUIZZES: "/rankings/overall/most-played-quizzes",
     },
     AUTH: {
       SIGN_IN: "/auth/login",

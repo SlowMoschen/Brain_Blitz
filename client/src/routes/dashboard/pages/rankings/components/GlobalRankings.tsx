@@ -1,33 +1,33 @@
 import { Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { URLS } from "../../../../../configs/Links";
-import { useRankingQueries } from "../../../../../shared/hooks/api/useRankingQueries.hook";
+import { useGlobalRankings } from "../../../../../shared/hooks/useGlobalRankings.hook";
 import OlympicPodestCard, { OlympicPodestCardProps } from "./OlympicPodestCard";
 
 export default function GlobalRankings() {
-  const { mostPlayedQuizzes, mostPlaytime, mostPoints} = useRankingQueries().useGlobalRankings();
+  const { mostPoints, mostPlaytime, mostPlayedQuizzes } = useGlobalRankings();
   const redirect = useNavigate();
 
- const podestCards: OlympicPodestCardProps[] = [
-  {
-    title: "Gesamtpunktezahl",
-    data: mostPoints,
-    onClick: () => redirect(URLS.MOST_POINTS_RANKING),
-    valueType: "number",
-  },
-  {
-    title: "Gesamtspielzeit",
-    data: mostPlaytime,
-    onClick: () => redirect(URLS.MOST_PLAYTIME_RANKING),
-    valueType: "milliseconds",
-  },
-  {
-    title: "Meist gespielten Quizze",
-    data: mostPlayedQuizzes,
-    onClick: () => redirect(URLS.MOST_PLAYED_QUIZZES_RANKING),
-    valueType: "number",
-  },
- ]
+  const podestCards: OlympicPodestCardProps[] = [
+    {
+      title: "Gesamtpunktezahl",
+      data: mostPoints,
+      onClick: () => redirect(URLS.MOST_POINTS_RANKING),
+      valueType: "number",
+    },
+    {
+      title: "Gesamtspielzeit",
+      data: mostPlaytime,
+      onClick: () => redirect(URLS.MOST_PLAYTIME_RANKING),
+      valueType: "milliseconds",
+    },
+    {
+      title: "Meist gespielten Quizze",
+      data: mostPlayedQuizzes,
+      onClick: () => redirect(URLS.MOST_PLAYED_QUIZZES_RANKING),
+      valueType: "number",
+    },
+  ];
 
   return (
     <Stack alignItems={"center"} width={"100%"} pb={5} my={2} gap={2}>

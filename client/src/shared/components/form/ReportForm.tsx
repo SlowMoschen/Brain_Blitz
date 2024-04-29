@@ -1,15 +1,14 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMutationFactory } from "../../hooks/api/_useMutationFactory";
+import { z } from "zod";
+import { useFormMutation } from "../../hooks/api/useFormMutation.hook";
 import useToggle from "../../hooks/useToggle.hook";
 import AlertSnackbar from "../AlertSnackbar";
 import CallToAction from "../buttons/CallToAction";
 import InputSelect from "./InputSelect";
 import InputText from "./InputText";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { URLS } from "../../../configs/Links";
 
 interface ReportFormProps {
   header: string;
@@ -80,12 +79,7 @@ export default function ReportForm({
     console.error(error);
   };
 
-  const { mutate } = useMutationFactory({
-    endpoint: URLS.API_ENDPOINTS.APP.REPORT,
-    method: "post",
-    onSuccess: onSuccess,
-    onError: onError,
-  });
+  const { mutate } = useFormMutation<IFormInput>({ type: "REPORT", onSuccess, onError });
 
   const onSubmit = (data: IFormInput) => {
     if (id) {

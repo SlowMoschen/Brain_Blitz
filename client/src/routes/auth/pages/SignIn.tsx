@@ -9,7 +9,7 @@ import AlertSnackbar from "../../../shared/components/AlertSnackbar";
 import LoadingScreen from "../../../shared/components/LoadingScreen";
 import ServerStatus from "../../../shared/components/ServerStatus";
 import { WindowContext } from "../../../shared/context/ScreenSize.context";
-import { useAuthQuery } from "../../../shared/hooks/api/useAuthQueries.hook";
+import { useAuthQuery } from "../../../shared/hooks/api/useAuthQuery.hook";
 import useToggle from "../../../shared/hooks/useToggle.hook";
 import AuthForm from "./AuthForm";
 import { imagePaperStyles, imageStyles, paperStyles, stackStyles } from "./styles/SignIn.styles";

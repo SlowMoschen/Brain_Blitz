@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useRankingQueries } from "../../../../shared/hooks/api/useRankingQueries.hook";
+import { useGlobalRankings } from "../../../../shared/hooks/useGlobalRankings.hook";
 import HeaderMenu from "../../components/navigation/HeaderMenu";
 import RankingTable, { ITableProps } from "./components/RankingTable";
 
 export default function GlobalRankingTable() {
   const [tableProps, setTableProps] = useState<ITableProps>();
   const { rankingParam } = useParams<{ rankingParam: string }>();
-  const { mostPlayedQuizzes, mostPlaytime, mostPoints, isPending } = useRankingQueries().useGlobalRankings();
+  const { mostPlayedQuizzes, mostPlaytime, mostPoints, isPending } = useGlobalRankings();
 
   const setProps = (rankingParam: string) => {
     switch (rankingParam) {

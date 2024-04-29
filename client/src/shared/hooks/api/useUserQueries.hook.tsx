@@ -70,7 +70,7 @@ export function useUserQueries() {
    * @returns The user object, isPending, isError and error.
    */
   const useDifferentUserFetch = (id: string) => {
-    const { data , isPending, isError, error } = useQueryFactory({
+    const { data, isPending, isError, error } = useQueryFactory({
       endpoint: `${URLS.API_ENDPOINTS.APP.USER}/${id}`,
       queryKey: ["differentUser", id],
     });

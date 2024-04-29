@@ -3,7 +3,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { Badge, Grid, Stack, Typography } from "@mui/material";
 import CountUp from "react-countup";
 import CallToAction from "../../../../../shared/components/buttons/CallToAction";
-import { useAuthQuery } from "../../../../../shared/hooks/api/useAuthQueries.hook";
+import { useAuthQuery } from "../../../../../shared/hooks/api/useAuthQuery.hook";
 import { useUserContext } from "../../../../../shared/hooks/context/useUserContext.hook";
 import { formatValue } from "../../../../../shared/services/ValueFormatter.service";
 import AvatarIcon from "./AvatarIcon";
