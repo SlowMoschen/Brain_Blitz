@@ -1,8 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
-import { URLS } from "../../configs/Links";
-import { HttpServiceInstance } from "../services/httpService.service";
+import { useAppQuery } from "../hooks/api/useAppQuery.hook";
 
 interface ServerStatusProps {
   size?: "small" | "medium" | "large";
@@ -10,10 +8,12 @@ interface ServerStatusProps {
 }
 
 export default function ServerStatus({ size = "medium", direction = "column" }: ServerStatusProps) {
-  const { isSuccess } = useQuery({
-    queryKey: ["server-status"],
-    queryFn: async () => HttpServiceInstance.get(URLS.API_ENDPOINTS.APP.HEALTH),
-  });
+  const { isSuccess } = useAppQuery({
+    type: 'HEALTH',
+    queryProps: {
+      queryKey: ['health'],
+    },
+  })
   const dotRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {

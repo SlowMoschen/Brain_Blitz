@@ -10,12 +10,12 @@ import {
 } from "@mui/material";
 import CallToAction from "../../../../../shared/components/buttons/CallToAction";
 import SecondaryButton from "../../../../../shared/components/buttons/SecondaryButton";
-import { useUserQueries } from "../../../../../shared/hooks/api/useUserQueries.hook";
+import { useUserMutation } from "../../../../../shared/hooks/api/useUserAPI.hook";
 import useToggle from "../../../../../shared/hooks/useToggle.hook";
 
 export default function DeleteAccount() {
   const [isModalOpen, toggleModal] = useToggle(false);
-  const { mutate: deleteUser } = useUserQueries().useDeleteUserFetch();
+  const { mutate: deleteUser } = useUserMutation({ type: "DELETE_USER" })
 
   return (
     <Stack p={2}>

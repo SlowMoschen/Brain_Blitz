@@ -20,7 +20,7 @@ interface AuthHookProps {
   onError?: (error: string) => void;
 }
 
-export function useAuthQuery({ type, onSuccess, onError }: AuthHookProps) {
+export function useAuthMutation({ type, onSuccess, onError }: AuthHookProps) {
   const redirect = useNavigate();
 
   return useMutationFactory({

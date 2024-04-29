@@ -13,7 +13,7 @@ import { HttpServiceInstance } from "../../services/httpService.service";
  * @returns The query object.
  */
 
-type QuerySetupProps = {
+export type QuerySetupProps = {
   endpoint: string;
   queryKey: string[];
   refetchInterval?: number;

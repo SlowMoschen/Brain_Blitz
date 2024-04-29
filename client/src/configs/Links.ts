@@ -28,7 +28,9 @@ export const URLS = {
       },
       HEALTH: "/health",
       QUIZ_DATA: "/quiz-data",
-      USER: "/users",
+    },
+    USER: {
+      USERS: "/users",
     },
     QUIZ: {
       QUIZ_START: "/quizzes/start/",

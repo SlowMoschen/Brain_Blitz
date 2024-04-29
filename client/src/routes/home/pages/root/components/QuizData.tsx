@@ -4,8 +4,7 @@ import CountUp from "react-countup";
 import { TIMES } from "../../../../../configs/Application";
 import { BREAKPOINTS } from "../../../../../configs/Breakpoints";
 import { WindowContext } from "../../../../../shared/context/ScreenSize.context";
-import { useQueryFactory } from "../../../../../shared/hooks/api/_useQueryFactory";
-import { URLS } from "../../../../../configs/Links";
+import { useAppQuery } from "../../../../../shared/hooks/api/useAppQuery.hook";
 
 interface DataCountUpCardProps {
   count: number;
@@ -73,12 +72,14 @@ function DataCountUpCard({ count, textContent, bgColor, isColumn }: DataCountUpC
  */
 export default function QuizData() {
 
-  const { data } = useQueryFactory({
-    queryKey: ["quiz-data"],
-    endpoint: URLS.API_ENDPOINTS.APP.QUIZ_DATA,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    retry: 1,
+  const { data } = useAppQuery({
+    type: "QUIZ_DATA",
+    queryProps: {
+      queryKey: ["quizData"],
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
   });
 
   const quizData = data?.data;

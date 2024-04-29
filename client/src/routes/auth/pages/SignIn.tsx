@@ -9,7 +9,7 @@ import AlertSnackbar from "../../../shared/components/AlertSnackbar";
 import LoadingScreen from "../../../shared/components/LoadingScreen";
 import ServerStatus from "../../../shared/components/ServerStatus";
 import { WindowContext } from "../../../shared/context/ScreenSize.context";
-import { useAuthQuery } from "../../../shared/hooks/api/useAuthQuery.hook";
+import { useAuthMutation } from "../../../shared/hooks/api/useAuthMutation.hook";
 import useToggle from "../../../shared/hooks/useToggle.hook";
 import AuthForm from "./AuthForm";
 import { imagePaperStyles, imageStyles, paperStyles, stackStyles } from "./styles/SignIn.styles";
@@ -40,7 +40,7 @@ export default function SignIn() {
   const { width } = useContext(WindowContext);
   const isDesktop = width > BREAKPOINTS.md;
   const [isSnackbarOpen, toggleSnackbarOpen] = useToggle(false);
-  const { isPending: isAuthPending, mutate: checkAuthStatus } = useAuthQuery({ type: "SESSION" })
+  const { isPending: isAuthPending, mutate: checkAuthStatus } = useAuthMutation({ type: "SESSION" })
   const [snackBarProps, setSnackbarProps] = useState<{
     message: string;
     alertType: "success" | "error";
