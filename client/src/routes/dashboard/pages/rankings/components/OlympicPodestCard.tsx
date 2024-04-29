@@ -25,13 +25,13 @@ export default function OlympicPodestCard({
   const appendEmptyData = (data: IGlobalRanking[]) => {
     if (!data) return Array.from({ length: 3 }, () => ({ name: "", value: 0, id: "" }));
     if (data.length < 3) {
-        for (let i = data.length; i < 3; i++) {
-            data.push({ name: "", value: 0, id: "" });
-        }
+      for (let i = data.length; i < 3; i++) {
+        data.push({ name: "", value: 0, id: "" });
+      }
     }
 
     return data.slice(0, 3);
-  }
+  };
 
   return (
     <ContainerWithHeader header={title} center>
@@ -45,18 +45,22 @@ export default function OlympicPodestCard({
         px={{ xs: 0, lg: 2 }}
         gap={2}
       >
-        {
-            appendEmptyData(data).map((ranking, index) => (
-                <OlympicPodestBar
-                key={index}
-                value={valueType === "milliseconds" ? parseToTimeString(ranking.value) : ranking.value}
-                name={formatValue(ranking.name, ['capitalize'])}
-                rank={index + 1}
-                id={ranking.id}
-                onClick={onClick}
-                />
-            ))
-        }
+        {appendEmptyData(data).map((ranking, index) => (
+          <OlympicPodestBar
+            key={index}
+            value={
+              valueType === "milliseconds"
+                ? parseToTimeString(ranking.value)
+                : ranking.value > 0
+                ? new Number(ranking.value).toLocaleString()
+                : 0
+            }
+            name={formatValue(ranking.name, ["capitalize"])}
+            rank={index + 1}
+            id={ranking.id}
+            onClick={onClick}
+          />
+        ))}
       </Stack>
     </ContainerWithHeader>
   );
