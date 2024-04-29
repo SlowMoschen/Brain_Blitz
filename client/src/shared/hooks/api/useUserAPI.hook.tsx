@@ -11,11 +11,15 @@ import { useQueryFactory } from "./_useQueryFactory";
  * @exports useUserMutation - A hook to update or delete user data.
  */
 
+/**
+ * @description A hook to fetch logged in user data or a different user data.
+ * @param {UserQueryHookProps} { id } - The id of the user to fetch. If no id is provided, the logged in user data will be fetched.
+ * @returns {IUser} user - The user data.
+ */
 interface UserQueryHookProps {
   id?: string;
 }
 
-// if no id is provided, the hook will fetch the logged in user data
 export function useUserQuery({ id }: UserQueryHookProps) {
   const {data, isPending, isError, error } = useQueryFactory({
     endpoint: id ? `${URLS.API_ENDPOINTS.USER.USERS}/${id}` : URLS.API_ENDPOINTS.USER.USERS,
@@ -31,6 +35,12 @@ export function useUserQuery({ id }: UserQueryHookProps) {
 
   return { user, isPending, isError, noAccess };
 }
+
+/**
+ * @description A hook to update or delete user data.
+ * @param {UserMutationHookProps} { type, onSuccess, onError } - The type of mutation, onSuccess and onError callbacks.
+ * @returns {mutate} - A function to trigger the mutation.
+ */
 
 interface UpdateUserDTO {
   first_name?: string;
