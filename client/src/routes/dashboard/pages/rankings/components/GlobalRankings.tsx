@@ -1,43 +1,45 @@
 import { Stack } from "@mui/material";
-import RankingBarCard from "./RankingBarCard";
-import {
-  IMostPlayedQuizRanking,
-  IPlaytimeRanking,
-  IPointsRanking,
-} from "../../../../../shared/types/Rankings";
 import { useNavigate } from "react-router-dom";
 import { URLS } from "../../../../../configs/Links";
+import { useRankingQueries } from "../../../../../shared/hooks/api/useRankingQueries.hook";
+import OlympicPodestCard, { OlympicPodestCardProps } from "./OlympicPodestCard";
 
-interface GeneralRankingsProps {
-  overallPointsRankings: IPointsRanking[];
-  overallPlaytimeRankings: IPlaytimeRanking[];
-  overallMostPlayedQuizzesRankings: IMostPlayedQuizRanking[];
-}
-
-export default function GlobalRankings({
-  overallPointsRankings,
-  overallPlaytimeRankings,
-  overallMostPlayedQuizzesRankings,
-}: GeneralRankingsProps) {
+export default function GlobalRankings() {
+  const { mostPlayedQuizzes, mostPlaytime, mostPoints} = useRankingQueries().useGlobalRankings();
   const redirect = useNavigate();
+
+ const podestCards: OlympicPodestCardProps[] = [
+  {
+    title: "Gesamtpunktezahl",
+    data: mostPoints,
+    onClick: () => redirect(URLS.MOST_POINTS_RANKING),
+    valueType: "number",
+  },
+  {
+    title: "Gesamtspielzeit",
+    data: mostPlaytime,
+    onClick: () => redirect(URLS.MOST_PLAYTIME_RANKING),
+    valueType: "milliseconds",
+  },
+  {
+    title: "Meist gespielten Quizze",
+    data: mostPlayedQuizzes,
+    onClick: () => redirect(URLS.MOST_PLAYED_QUIZZES_RANKING),
+    valueType: "number",
+  },
+ ]
 
   return (
     <Stack alignItems={"center"} width={"100%"} pb={5} my={2} gap={2}>
-      <RankingBarCard<IPointsRanking>
-        title="Gesamtpunktezahl"
-        data={overallPointsRankings}
-        onClick={() => redirect(URLS.MOST_POINTS_RANKING)}
-      />
-      <RankingBarCard<IPlaytimeRanking>
-        title="Gesamtspielzeit"
-        data={overallPlaytimeRankings}
-        onClick={() => redirect(URLS.MOST_PLAYTIME_RANKING)}
-      />
-      <RankingBarCard<IMostPlayedQuizRanking>
-        title="Meist gespielten Quizze"
-        data={overallMostPlayedQuizzesRankings}
-        onClick={() => redirect(URLS.MOST_PLAYED_QUIZZES_RANKING)}
-      />
+      {podestCards.map((podestCard, index) => (
+        <OlympicPodestCard
+          key={index}
+          title={podestCard.title}
+          data={podestCard.data}
+          onClick={podestCard.onClick}
+          valueType={podestCard.valueType}
+        />
+      ))}
     </Stack>
   );
 }

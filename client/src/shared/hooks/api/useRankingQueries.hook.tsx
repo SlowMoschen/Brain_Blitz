@@ -63,11 +63,29 @@ export function useRankingQueries() {
     }
 
     const useGlobalRankings = () => {
-        const { overallPointsRankings: mostPoints, isPending: isPointsPending } = useOverallPointsRankings();
-        const {overallPlaytimeRankings: mostPlaytime, isPending: isPlaytimePending } = useOverallPlaytimeRankings()
-        const {overallMostPlayedQuizzesRankings: mostPlayedQuizzes, isPending: isQuizzesPenidng } = useOverallMostPlayedQuizzesRankings()
+        const { overallPointsRankings, isPending: isPointsPending } = useOverallPointsRankings();
+        const {overallPlaytimeRankings, isPending: isPlaytimePending } = useOverallPlaytimeRankings()
+        const {overallMostPlayedQuizzesRankings, isPending: isQuizzesPenidng } = useOverallMostPlayedQuizzesRankings()
 
         const isPending = isPointsPending || isPlaytimePending || isQuizzesPenidng
+
+        const transformToGlobalRanking = (data: IPointsRanking[] | IPlaytimeRanking[] | IMostPlayedQuizRanking[]) => {
+            return data?.map((ranking: IPointsRanking | IPlaytimeRanking | IMostPlayedQuizRanking) => ({
+                id: "userID" in ranking ? ranking.userID : "quiz_id" in ranking ? ranking.quiz_id : '',
+                name: "first_name" in ranking ? ranking.first_name : ranking.quiz_name,
+                value:
+                    "points" in ranking
+                        ? ranking.points
+                        : "playtime" in ranking
+                        ? ranking.playtime
+                        : ranking.times_played,
+                additionalInfo: "",
+            }));
+        };
+
+        const mostPoints = transformToGlobalRanking(overallPointsRankings)
+        const mostPlaytime = transformToGlobalRanking(overallPlaytimeRankings)
+        const mostPlayedQuizzes = transformToGlobalRanking(overallMostPlayedQuizzesRankings)
 
         return {
             isPending,

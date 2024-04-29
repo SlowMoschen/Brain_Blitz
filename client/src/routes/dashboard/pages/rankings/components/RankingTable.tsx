@@ -26,17 +26,17 @@ interface ITableRow {
 export interface ITableProps {
   data: ITableRow[];
   valueString: string;
-  additionalInfoString: string;
+  additionalInfoString?: string;
   tableHeader: string;
   type: "player" | "quiz";
 }
 
 export default function RankingTable({
   data,
-  additionalInfoString,
   valueString,
   tableHeader,
   type,
+  additionalInfoString = "",
 }: ITableProps) {
   useDocumentTitle(
     tableHeader

@@ -38,7 +38,7 @@ export default function PersonalRankingCard({
         <Typography variant="h6">{quizName}</Typography>
         <Typography variant="body1" fontSize={{ xs: 20 }}>
           {position === 1
-            ? "🥇"
+            ? "👑"
             : position === 2
             ? "🥈"
             : position === 3

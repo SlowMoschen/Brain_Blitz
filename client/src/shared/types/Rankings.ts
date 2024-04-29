@@ -7,6 +7,12 @@ export interface IPersonalRanking {
   quiz_category: string;
 }
 
+export interface IGlobalRanking {
+    name: string;
+    value : number;
+    id: string;
+}
+
 export interface IPointsRanking {
     first_name: string;
     points: number;
