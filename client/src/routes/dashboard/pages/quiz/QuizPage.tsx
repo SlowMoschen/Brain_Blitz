@@ -7,16 +7,28 @@ import Quiz from "./Quiz";
 
 export default function QuizPage() {
   const { quizID } = useParams();
-  
-  const {data , isError, isPending} = useQueryFactory({
+
+  const { data, isError, isPending } = useQueryFactory({
     queryKey: ["quiz-start"],
     endpoint: URLS.API_ENDPOINTS.QUIZ.QUIZ_START + quizID,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     retry: 1,
+    gcTime: 100,
   });
 
-  const quizData = data?.data;
+  const quizData = () => {
+    if (import.meta.env.MODE === "development" && data?.data?.questions) {
+      const { questions, ...rest } = data.data;
+
+      return {
+        questions: questions.slice(0, 3),
+        ...rest,
+      }
+    }
+
+    return data?.data;
+  }
 
   if (isError)
     return (
@@ -29,5 +41,5 @@ export default function QuizPage() {
 
   if (isPending) return <LoadingScreen />;
 
-  return <Quiz quizData={quizData} />;
+  return <Quiz quizData={quizData()} />;
 }

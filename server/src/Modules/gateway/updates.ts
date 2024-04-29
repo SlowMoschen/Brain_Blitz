@@ -62,4 +62,10 @@ export const updates: AppUpdate[] = [
 			body: 'Einige Fragen in verschiedenen Kategorien wurden überarbeitet. Die Fragen sind nun besser formuliert und enthalten weniger Fehler.',
 		},
 	]),
+	new AppUpdate('2024-04-30', '1.1.1', [
+		{
+			header: 'Hotfix',
+			body: 'Ein Fehler wurde behoben, der dazu führte, dass kein neues Quiz geladen wurde, nachdem ein Quiz beendet wurde.',
+		},
+	]),
 ];
