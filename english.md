@@ -41,9 +41,6 @@ On the infrastructure side, I set up a Linux server with a reverse proxy from Ng
 Overall, I not only gained technical skills such as Typescript, SQL, React and Linux server administration, but also put important concepts such as modular development, security and DevOps into practice. These experiences are extremely valuable and will certainly help me in my future career as a web developer.
 
 ## 👩‍💻 Tech Stack 👩‍💻
-Here I explain which tech stack I have chosen and why.
-
-#### TL DR
 
 [Database ERD](https://dbdiagram.io/d/Brain-Blitz-65e4ef89cd45b569fb690792)
 
@@ -66,41 +63,6 @@ Here I explain which tech stack I have chosen and why.
     * [Ubuntu](https://ubuntu.com/) Linux server with [NGINX](https://www.nginx.com/) reverse proxy to route requests to my API server
     * HTTPS is set up with [Certbot](https://certbot.eff.org/)
  
-#### Backend
-
-My backend tech stack includes various tools and frameworks to develop a robust and scalable backend architecture.
-
-I initially opted for NestJS because I really liked its modular design. It allowed me to structure my backend clearly and made it easier to expand.
-
-For database migration and communication, I used Drizzle as an ORM. With its powerful features, I was able to interact efficiently with my database.
-
-Handlebars was my choice for rendering server-side views, such as password reset, mail templates and mail confirmations. It proved to be a reliable tool for designing these important user interfaces.
-
-Nodemailer made it easy for me to send emails to users and my service mail account. Its ease of use and flexibility made it the perfect solution for this task.
-
-For authentication, I relied on Passport with the Local strategy. This combination gave me a solid foundation for user authentication and authorization.
-
-Bcrypt was essential for hashing and comparing passwords, which significantly improved the security of my application.
-
-Additionally, I used some built-in modules of NestJS like JWT, EventEmitter, Swagger documentation, WebGateWays with SocketIO. These modules facilitated the implementation of important functions and ensured smooth communication between the different parts of my application.
-
-To ensure the security of my endpoints, I used the built-in throttler, which is limited to 25 requests per minute. This allowed me to fend off potential attacks and optimize the performance of my application.
-
-Overall, my backend tech stack provides a solid foundation for a powerful and secure web application.
-
-#### Frontend
-
-I decided to use React for my front-end development as it gave me the flexibility to make customizations and I was already somewhat familiar with it.
-
-To enable navigation within my single-page application (SPA), I used React Router Dom, choosing a HashRouter to ensure smooth redirects without making server requests on page load.
-
-For HTTP requests, I used Tenstack React Query. This library allows me to keep certain data in the cache, invalidate it specifically and retrieve it again, which improves the performance of my application.
-
-As a component library, I chose Material UI, which I customized with a custom theme. This allowed me to design an aesthetically pleasing user interface that integrates seamlessly into my application.
-
-For forms, I used React Hook Form and Zod in line with Material UI to achieve a beautiful design and facilitate form validation and error handling.
-
-For real-time communication with the backend, I used the Socket.IO client, which allows me to implement real-time notifications in my application and ensure a responsive user experience.
 
 ## 🚀 Local installation 🚀
 

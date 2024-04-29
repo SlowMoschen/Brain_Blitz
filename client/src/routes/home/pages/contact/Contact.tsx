@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { BREAKPOINTS } from "../../../../configs/Breakpoints";
 import AlertSnackbar from "../../../../shared/components/AlertSnackbar";
 import InputText from "../../../../shared/components/form/InputText";
-import { ContactDto, useContactFetch } from "../../../../shared/hooks/api/useContactFetch.hook";
+import { useFormMutation } from "../../../../shared/hooks/api/useFormMutation.hook";
 import useToggle from "../../../../shared/hooks/useToggle.hook";
 import { ContactSchema } from "./contact.schema";
 
@@ -46,10 +46,14 @@ export default function Contact() {
       alertType: "success",
     });
 
-  const mutation = useContactFetch(handleSuccess, handleError);
+  const { mutate } = useFormMutation<IContactFormInput>({
+    type: "CONTACT",
+    onSuccess: handleSuccess,
+    onError: handleError,
+  });
 
   const onSubmit = (data: IContactFormInput) => {
-    mutation.mutate(data as ContactDto);
+    mutate(data);
     toggleSnackbarOpen();
     reset(defaultValues);
   };

@@ -74,7 +74,7 @@ export default function App() {
         { path: "profile/:userID", element: <ProfilePage /> },
         { path: "rankings", element: <Rankings /> },
         { path: "rankings/quiz-ranking/:quizID", element: <QuizRanking /> },
-        { path: "rankings/overall/:ranking", element: <GeneralRankingTable /> },
+        { path: "rankings/overall/:rankingParam", element: <GeneralRankingTable /> },
         {
           path: "quiz",
           element: <QuizLayout />,

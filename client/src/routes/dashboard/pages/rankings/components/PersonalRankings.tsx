@@ -1,13 +1,11 @@
 import { Stack, Typography } from "@mui/material";
+import { useRankingQuery } from "../../../../../shared/hooks/api/useRankingQuery.hook";
 import ContainerWithHeader from "../../../components/ContainerWithHeader";
-import { IPersonalRanking } from "../../../../../shared/types/Rankings";
 import PersonalRankingCard from "./PersonalRankingCard";
+import { IPersonalRanking } from "../../../../../shared/types/Rankings";
 
-interface PersonalRankingsProps {
-  data: IPersonalRanking[];
-}
-
-export default function PersonalRankings({ data }: PersonalRankingsProps) {
+export default function PersonalRankings() {
+  const { rankings: personalRankings } = useRankingQuery<IPersonalRanking>({ type: "PERSONAL" });
   return (
     <Stack
       width={"100%"}
@@ -19,8 +17,8 @@ export default function PersonalRankings({ data }: PersonalRankingsProps) {
     >
       <ContainerWithHeader header="Deine Rankings">
         <Stack p={2} gap={2}>
-          {data && data.length > 0 ? (
-            data.map((ranking, index) => {
+          {personalRankings && personalRankings.length > 0 ? (
+            personalRankings.map((ranking, index) => {
               const { points, position, quiz_category, quiz_id, quiz_name } = ranking;
               return (
                 <PersonalRankingCard

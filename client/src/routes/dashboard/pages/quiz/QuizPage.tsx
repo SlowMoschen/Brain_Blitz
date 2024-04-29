@@ -1,13 +1,22 @@
 import { useParams } from "react-router-dom";
 import { URLS } from "../../../../configs/Links";
 import LoadingScreen from "../../../../shared/components/LoadingScreen";
-import { useQuizQueries } from "../../../../shared/hooks/api/useQuizQueries.hook";
+import { useQueryFactory } from "../../../../shared/hooks/api/_useQueryFactory";
 import RedirectErrorPage from "../../../error/RedirectErrorPage";
 import Quiz from "./Quiz";
 
 export default function QuizPage() {
   const { quizID } = useParams();
-  const { quizData, isPending, isError } = useQuizQueries().useQuizGameData(quizID!);
+  
+  const {data , isError, isPending} = useQueryFactory({
+    queryKey: ["quiz-start"],
+    endpoint: URLS.API_ENDPOINTS.QUIZ.QUIZ_START + quizID,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    retry: 1,
+  });
+
+  const quizData = data?.data;
 
   if (isError)
     return (

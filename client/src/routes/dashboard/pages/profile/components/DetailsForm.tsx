@@ -6,7 +6,7 @@ import AlertSnackbar from "../../../../../shared/components/AlertSnackbar";
 import CallToAction from "../../../../../shared/components/buttons/CallToAction";
 import SecondaryButton from "../../../../../shared/components/buttons/SecondaryButton";
 import InputText from "../../../../../shared/components/form/InputText";
-import { useUserQueries } from "../../../../../shared/hooks/api/useUserQueries.hook";
+import { useUserMutation } from "../../../../../shared/hooks/api/useUserAPI.hook";
 import { useUserContext } from "../../../../../shared/hooks/context/useUserContext.hook";
 import useToggle from "../../../../../shared/hooks/useToggle.hook";
 import { formatValue } from "../../../../../shared/services/ValueFormatter.service";
@@ -63,7 +63,7 @@ export default function DetailsForm() {
     toggleSnackbarOpen();
   };
 
-  const { mutate: updateUser } = useUserQueries().useUpdateUser(onSucces, onError);
+  const { mutate: updateUser } = useUserMutation({ type: "UPDATE_USER", onSuccess: onSucces, onError });
   const { control, handleSubmit, reset } = useForm<IDetailsFormInput>({
     defaultValues,
     resolver: zodResolver(ProfileDetailsSchema),

@@ -5,14 +5,15 @@ interface RankingBarProps {
   value: number | string;
   name: string;
   rank: number;
-  user_id: string;
+  id: string;
   onClick?: () => void;
 }
 
-export default function RankingBar({ value, name, rank, user_id, onClick }: RankingBarProps) {
+export default function OlympicPodestBar({ value, name, rank, id, onClick }: RankingBarProps) {
   const user = useUserContext();
 
   const isZero = value === 0 || value === "00:00";
+  const isUser = user?.id === id;
 
   // conditional styling
   const desktopHeight = rank === 1 ? "20rem" : rank === 2 ? "14rem" : "10rem";
@@ -48,16 +49,21 @@ export default function RankingBar({ value, name, rank, user_id, onClick }: Rank
     
   };
 
+  const rankString = isZero ? "" : rank === 1 ? "👑" : rank === 2 ? "🥈" : "🥉";
+  const nameString= isZero ? "" : isUser ? `${name}(Du)` : `${name.slice(0, 10)}...`;
+  const valueString = isZero ? "" : value;
+
+
   return (
     <Stack sx={styles} onClick={onClick}>
       <Typography variant="h5" fontSize={{ md: 30, lg: 40 }}>
-        {isZero ? "" : rank === 1 ? "👑" : rank === 2 ? "🥈" : "🥉"}
+        {rankString}
       </Typography>
       <Typography variant="subtitle1" fontSize={{ md: 25, lg: 30 }} align="center">
-        {user_id === user.id ? `${name} (Du)` : `${name.length > 15 ? name.slice(0, 10) + "..." : name}`}
+        {nameString}
       </Typography>
       <Typography variant="body1" fontSize={{ md: 20 }} sx={{ textDecoration: "underline" }}>
-        {isZero ? "" : value}
+        {valueString}
       </Typography>
     </Stack>
   );

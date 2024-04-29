@@ -1,28 +1,28 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useUserQueries } from "../../../../shared/hooks/api/useUserQueries.hook";
-import LoadingScreen from "../../../../shared/components/LoadingScreen";
-import { useUserContext } from "../../../../shared/hooks/context/useUserContext.hook";
+import CancelIcon from "@mui/icons-material/Cancel";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import FlagIcon from "@mui/icons-material/Flag";
+import { Badge, Divider, Grid, IconButton, Stack, Typography } from "@mui/material";
 import { useEffect } from "react";
+import CountUp from "react-countup";
+import { useNavigate, useParams } from "react-router-dom";
 import { URLS } from "../../../../configs/Links";
+import LoadingScreen from "../../../../shared/components/LoadingScreen";
+import ReportForm from "../../../../shared/components/form/ReportForm";
+import { useUserQuery } from "../../../../shared/hooks/api/useUserAPI.hook";
+import { useUserContext } from "../../../../shared/hooks/context/useUserContext.hook";
+import { useDocumentTitle } from "../../../../shared/hooks/useDocumentTitle.hook";
+import useToggle from "../../../../shared/hooks/useToggle.hook";
+import { formatValue } from "../../../../shared/services/ValueFormatter.service";
 import ContainerWithHeader from "../../components/ContainerWithHeader";
 import HeaderMenu from "../../components/navigation/HeaderMenu";
 import AvatarIcon from "./components/AvatarIcon";
-import { Badge, Divider, Grid, IconButton, Stack, Typography } from "@mui/material";
-import { formatValue } from "../../../../shared/services/ValueFormatter.service";
-import useToggle from "../../../../shared/hooks/useToggle.hook";
-import FlagIcon from "@mui/icons-material/Flag";
-import ReportForm from "../../../../shared/components/form/ReportForm";
-import CancelIcon from "@mui/icons-material/Cancel";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CountUp from "react-countup";
-import { useDocumentTitle } from "../../../../shared/hooks/useDocumentTitle.hook";
 
 export default function ProfilePage() {
   const [isReportModalOpen, toggleReportModal] = useToggle(false);
   const { userID } = useParams();
   const redirect = useNavigate();
   const loggedInUser = useUserContext();
-  const { user, isPending } = useUserQueries().useDifferentUserFetch(userID!);
+  const { user, isPending } = useUserQuery({ id: userID });
   useDocumentTitle(`Profil - ${user?.first_name} ${user?.last_name}`);
 
   useEffect(() => {

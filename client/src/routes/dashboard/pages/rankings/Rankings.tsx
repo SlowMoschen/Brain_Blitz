@@ -2,7 +2,6 @@ import { Stack } from "@mui/material";
 import { useContext, useState } from "react";
 import { BREAKPOINTS } from "../../../../configs/Breakpoints";
 import { WindowContext } from "../../../../shared/context/ScreenSize.context";
-import { useRankingQueries } from "../../../../shared/hooks/api/useRankingQueries.hook";
 import { useDocumentTitle } from "../../../../shared/hooks/useDocumentTitle.hook";
 import DailyStats from "../../components/DailyStats";
 import HeaderMenu from "../../components/navigation/HeaderMenu";
@@ -13,8 +12,6 @@ export default function Rankings() {
   useDocumentTitle('Dashboard - Rankings')
   const [value, setValue] = useState(0);
   const { width } = useContext(WindowContext);
-  const { personalRankings } = useRankingQueries().usePersonalRankings();
-  const { mostPlayedQuizzes, mostPlaytime, mostPoints} = useRankingQueries().useGlobalRankings();
   const isMobile = width < BREAKPOINTS.lg;
   const tabs = (isMobile && ["Global", "Deine Rankings", "Daily Stats"]) || [];
 
@@ -26,14 +23,10 @@ export default function Rankings() {
     switch (tabValue) {
       case 0:
         return (
-          <GlobalRankings
-            overallMostPlayedQuizzesRankings={mostPlayedQuizzes}
-            overallPlaytimeRankings={mostPlaytime}
-            overallPointsRankings={mostPoints}
-          />
+          <GlobalRankings />
         );
       case 1:
-        return <PersonalRankings data={personalRankings} />;
+        return <PersonalRankings />;
       case 2:
         return <DailyStats />;
       default:
@@ -55,12 +48,8 @@ export default function Rankings() {
             direction={"row"}
             pb={8}
           >
-            <GlobalRankings
-              overallMostPlayedQuizzesRankings={mostPlayedQuizzes}
-              overallPlaytimeRankings={mostPlaytime}
-              overallPointsRankings={mostPoints}
-            />
-            <PersonalRankings data={personalRankings} />
+            <GlobalRankings />
+            <PersonalRankings />
           </Stack>
         </>
       )}

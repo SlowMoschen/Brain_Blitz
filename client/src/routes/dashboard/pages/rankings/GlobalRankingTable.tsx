@@ -1,59 +1,37 @@
-import { useParams } from "react-router-dom";
-import HeaderMenu from "../../components/navigation/HeaderMenu";
-import { useRankingQueries } from "../../../../shared/hooks/api/useRankingQueries.hook";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useGlobalRankings } from "../../../../shared/hooks/useGlobalRankings.hook";
+import HeaderMenu from "../../components/navigation/HeaderMenu";
 import RankingTable, { ITableProps } from "./components/RankingTable";
-import {
-  IMostPlayedQuizRanking,
-  IPlaytimeRanking,
-  IPointsRanking,
-} from "../../../../shared/types/Rankings";
 
 export default function GlobalRankingTable() {
-  const [tableProps, setTableProps] = useState<ITableProps | null>(null);
-  const { ranking } = useParams<{ ranking: string }>();
-  const { mostPlayedQuizzes, mostPlaytime, mostPoints, isPending } = useRankingQueries().useGlobalRankings();
+  const [tableProps, setTableProps] = useState<ITableProps>();
+  const { rankingParam } = useParams<{ rankingParam: string }>();
+  const { mostPlayedQuizzes, mostPlaytime, mostPoints, isPending } = useGlobalRankings();
 
-  const transformData = (data: (IPlaytimeRanking | IPointsRanking | IMostPlayedQuizRanking)[]) => {
-    return data?.map((ranking: IPlaytimeRanking | IPointsRanking | IMostPlayedQuizRanking) => ({
-      id: "userID" in ranking ? ranking.userID : "quiz_id" in ranking ? ranking.quiz_id : '',
-      name: "first_name" in ranking ? ranking.first_name : ranking.quiz_name,
-      value:
-        "points" in ranking
-          ? ranking.points
-          : "playtime" in ranking
-          ? ranking.playtime
-          : ranking.times_played,
-      additionalInfo: "",
-    }));
-  };
-
-  const setProps = (ranking: string) => {
-    switch (ranking) {
+  const setProps = (rankingParam: string) => {
+    switch (rankingParam) {
       case "points":
         setTableProps({
-          data: transformData(mostPoints),
+          data: mostPoints,
           tableHeader: "Bestenliste Punkte",
           valueString: "Punkte",
-          additionalInfoString: "",
           type: "player",
         });
         break;
       case "playtime":
         setTableProps({
-          data: transformData(mostPlaytime),
+          data: mostPlaytime,
           tableHeader: "Bestenliste Spielzeit",
           valueString: "spielzeit",
-          additionalInfoString: "",
           type: "player",
         });
         break;
       case "most-played-quizzes":
         setTableProps({
-          data: transformData(mostPlayedQuizzes),
+          data: mostPlayedQuizzes,
           tableHeader: "Meistgespielte Quizze",
           valueString: "Anzahl",
-          additionalInfoString: "",
           type: "quiz",
         });
         break;
@@ -63,7 +41,7 @@ export default function GlobalRankingTable() {
   };
 
   useEffect(() => {
-    setProps(ranking!);
+    setProps(rankingParam!);
   }, [isPending]);
 
   return (

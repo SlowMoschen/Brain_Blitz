@@ -20,11 +20,11 @@ interface AuthHookProps {
   onError?: (error: string) => void;
 }
 
-export function useAuthQuery({ type, onSuccess, onError }: AuthHookProps) {
+export function useAuthMutation({ type, onSuccess, onError }: AuthHookProps) {
   const redirect = useNavigate();
 
   return useMutationFactory({
-    method: type === "SESSION" ? 'get' : 'post',
+    method: type === "SESSION" ? "get" : "post",
     endpoint: URLS.API_ENDPOINTS.AUTH[type],
     onSuccess: () => {
       if (type === "LOGOUT") redirect(URLS.HOME);
