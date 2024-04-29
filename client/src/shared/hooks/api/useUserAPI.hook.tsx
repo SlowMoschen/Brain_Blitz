@@ -5,25 +5,17 @@ import { IUser } from "../../types/User";
 import { useMutationFactory } from "./_useMutationFactory";
 import { useQueryFactory } from "./_useQueryFactory";
 
-interface UpdateUserDTO {
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  password?: string;
-}
-
-type UserMutationType = "UPDATE_USER" | "DELETE_USER";
+/**
+ * @description This file contains all the hooks related for fetching and updating user data.
+ * @exports useUserQuery - A hook to fetch logged in user data or a different user data.
+ * @exports useUserMutation - A hook to update or delete user data.
+ */
 
 interface UserQueryHookProps {
   id?: string;
 }
 
-interface UserMutationHookProps {
-  type: UserMutationType;
-  onSuccess?: () => void;
-  onError?: (error: string) => void;
-}
-
+// if no id is provided, the hook will fetch the logged in user data
 export function useUserQuery({ id }: UserQueryHookProps) {
   const {data, isPending, isError, error } = useQueryFactory({
     endpoint: id ? `${URLS.API_ENDPOINTS.USER.USERS}/${id}` : URLS.API_ENDPOINTS.USER.USERS,
@@ -38,6 +30,21 @@ export function useUserQuery({ id }: UserQueryHookProps) {
   const noAccess: boolean = error?.message.includes("Forbidden") || error?.message.includes("Unauthorized") ? true : false;
 
   return { user, isPending, isError, noAccess };
+}
+
+interface UpdateUserDTO {
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  password?: string;
+}
+
+type UserMutationType = "UPDATE_USER" | "DELETE_USER";
+
+interface UserMutationHookProps {
+  type: UserMutationType;
+  onSuccess?: () => void;
+  onError?: (error: string) => void;
 }
 
 export function useUserMutation({ type, onSuccess, onError }: UserMutationHookProps) {
