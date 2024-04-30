@@ -7,8 +7,12 @@ import { useAuthMutation } from "../../../../../shared/hooks/api/useAuthMutation
 import { useUserContext } from "../../../../../shared/hooks/context/useUserContext.hook";
 import { formatValue } from "../../../../../shared/services/ValueFormatter.service";
 import AvatarIcon from "./AvatarIcon";
+import SecondaryButton from "../../../../../shared/components/buttons/SecondaryButton";
+import { useNavigate } from "react-router-dom";
+import { URLS } from "../../../../../configs/Links";
 
 export default function ProfileStats() {
+  const redirect = useNavigate();
   const user = useUserContext();
   const { mutate: logout } = useAuthMutation({ type: "LOGOUT" });
 
@@ -78,7 +82,13 @@ export default function ProfileStats() {
           </Grid>
         </Grid>
       </Stack>
-      <CallToAction text="Logout" color="error" size="large" onClick={() => logout(undefined)} />
+      <Stack gap={1}>
+        <CallToAction text="Logout" color="error" size="large" onClick={() => logout(undefined)} />
+        {user.settings.roles.includes("admin") && (
+          <SecondaryButton text="Admin Dashboard
+          " onClick={() => redirect(URLS.ADMIN_DASHBOARD)} />
+        )}
+      </Stack>
     </Stack>
   );
 }

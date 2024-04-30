@@ -21,7 +21,7 @@ export interface IOutletContext {
 export default function DashboardLayout() {
   const [pageState, setPageState] = useState<"error" | "success" | "pending">("pending");
   const [notifications, setNotifications] = useState<INotification[]>([]);
-  const { user, isPending, isError, noAccess } = useUserQuery({})
+  const { user, isPending, isError, noAccess } = useUserQuery({});
   const { setUserID } = useUserIdContext();
   const { pathname } = useLocation();
   const redirect = useNavigate();
@@ -89,7 +89,9 @@ export default function DashboardLayout() {
           />
         )}
       </Stack>
-      {pathname.includes("/dashboard/quiz") ? null : <BottomMenu />}
+      {pathname.includes("/dashboard/quiz") || pathname.includes("/dashboard/admin") ? null : (
+        <BottomMenu />
+      )}
     </>
   );
 }
