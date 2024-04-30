@@ -1,11 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
-import { UserLogEvent } from 'src/Events/user.events';
-import { UsersService } from './users.service';
-import { stat } from 'fs';
-import { updates } from '../gateway/updates';
 import { UpdateNotificationEvent } from 'src/Events/notification.events';
-import { is } from 'drizzle-orm';
+import { UserLogEvent } from 'src/Events/user.events';
+import { updates } from '../gateway/updates';
+import { UsersService } from './users.service';
 
 @Injectable()
 export class UsersEventService {
@@ -35,10 +33,10 @@ export class UsersEventService {
 		if (isFirstLogin) statistics.login_streak = 1;
 
 		if (timeSinceLastLoginInHours > twentyFourHours) {
-			const loginStreak = timeSinceLastLoginInHours > fortyEightHours ? 1 : statistics.login_streak + 1;
-			statistics.login_streak = loginStreak;
-			if (loginStreak > statistics.max_login_streak) {
-				statistics.max_login_streak = loginStreak;
+			const newLoginStreak = timeSinceLastLoginInHours > fortyEightHours ? 1 : statistics.login_streak + 1;
+			statistics.login_streak = newLoginStreak;
+			if (newLoginStreak > statistics.max_login_streak) {
+				statistics.max_login_streak = newLoginStreak;
 			}
 		}
 
@@ -58,6 +56,6 @@ export class UsersEventService {
 			}
 		}, notificationDelay);
 
-		this.eventEmitter.emit('time.login', new UserLogEvent(user_id));
+		await this.eventEmitter.emitAsync('time.login', new UserLogEvent(user_id));
 	}
 }
