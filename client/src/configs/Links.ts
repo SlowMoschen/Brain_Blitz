@@ -12,6 +12,7 @@ export const URLS = {
   FORGOT_PASSWORD: "/auth/forgot-password",
   RESEND_VERIFICATION_EMAIL: "/auth/resend-verification-email",
   DASHBOARD: "/dashboard",
+  ADMIN_DASHBOARD: "/dashboard/admin",
   QUIZ: "/dashboard/quiz",
   PROFILE: "/dashboard/profile/",
   RANKINGS: "/dashboard/rankings",

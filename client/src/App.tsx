@@ -24,6 +24,7 @@ import { WindowContextProvider } from "./shared/context/ScreenSize.context";
 import { SocketContextProvider } from "./shared/context/Socket.context";
 import { UserIDContextProvider } from "./shared/context/UserID.context";
 import ProfilePage from "./routes/dashboard/pages/profile/ProfilePage";
+import AdminDashboardLayout from "./routes/dashboard/pages/admin/AdminDasbordLayout";
 const GeneralRankingTable = lazy(
   () => import("./routes/dashboard/pages/rankings/GlobalRankingTable")
 );
@@ -75,6 +76,7 @@ export default function App() {
         { path: "rankings", element: <Rankings /> },
         { path: "rankings/quiz-ranking/:quizID", element: <QuizRanking /> },
         { path: "rankings/overall/:rankingParam", element: <GeneralRankingTable /> },
+        { path: "admin", element: <AdminDashboardLayout /> },
         {
           path: "quiz",
           element: <QuizLayout />,
