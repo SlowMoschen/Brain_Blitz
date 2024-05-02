@@ -25,8 +25,10 @@ import { SocketContextProvider } from "./shared/context/Socket.context";
 import { UserIDContextProvider } from "./shared/context/UserID.context";
 import ProfilePage from "./routes/dashboard/pages/profile/ProfilePage";
 import AdminDashboardLayout from "./routes/dashboard/pages/admin/AdminDasbordLayout";
-import Users from "./routes/dashboard/pages/admin/pages/Users";
+import UsersTable from "./routes/dashboard/pages/admin/pages/UsersTable";
 import AdminDashboard from "./routes/dashboard/pages/admin/pages/AdminDashboard";
+import QuizzesTable from "./routes/dashboard/pages/admin/pages/QuizzesTable";
+import QuizCategories from "./routes/dashboard/pages/admin/pages/QuizCategories";
 const GeneralRankingTable = lazy(
   () => import("./routes/dashboard/pages/rankings/GlobalRankingTable")
 );
@@ -90,7 +92,10 @@ export default function App() {
       element: <AdminDashboardLayout />,
       children: [
         { path: "/admin", element: <AdminDashboard /> },
-        { path: "/admin/users/all", element: <Users /> },
+        { path: "users/:param", element: <UsersTable /> },
+        { path: "quiz/all", element: <QuizzesTable /> },
+        { path: "quiz/categories", element: <QuizCategories />},
+        { path: "quiz/:quizID", element: <div>Quiz</div>}
       ],
     }
   ]);

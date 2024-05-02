@@ -19,7 +19,7 @@ export const listItems: IListItem[] = [
                 path: URLS.ADMIN_ROUTES.ALL_USERS,
             },
             {
-                name: "Letzte 14 Tage",
+                name: "Letzten 14 Tage",
                 path: URLS.ADMIN_ROUTES.RECENT_USERS,
             }
         ],

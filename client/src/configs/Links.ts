@@ -45,6 +45,7 @@ export const URLS = {
     QUIZ: {
       QUIZ_START: "/quizzes/start/",
       QUIZ_COMPLETE: "/quizzes/complete/",
+      QUIZ: "/quizzes/",
     },
     RANKINGS: {
       PERSONAL: "/rankings/personal",
@@ -62,5 +63,9 @@ export const URLS = {
       RESEND_VERIFICATION_EMAIL: "/auth/resend-verification-email",
       RESET_PASSWORD: "/auth/reset-password",
     },
+    ADMIN: {
+      ALL_USERS: "/users/all",
+      ALL_QUIZZES: "/quizzes/all",
+    }
   },
 };

@@ -108,6 +108,13 @@ const customTheme = createTheme({
                 }
             }
         },
+        MuiPaper: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: '#2b2b2b'
+                }
+            }
+        },
     }
 })
 

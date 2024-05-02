@@ -1,13 +1,13 @@
 import MenuIcon from "@mui/icons-material/Menu";
 import {
-    AppBar,
-    Box,
-    Drawer,
-    IconButton,
-    List,
-    ListSubheader,
-    Toolbar,
-    Typography,
+  AppBar,
+  Box,
+  Drawer,
+  IconButton,
+  List,
+  ListSubheader,
+  Toolbar,
+  Typography,
 } from "@mui/material";
 import { useContext, useState } from "react";
 import { Outlet } from "react-router-dom";
@@ -16,19 +16,42 @@ import Logo from "../../../../shared/components/Logo";
 import { WindowContext } from "../../../../shared/context/ScreenSize.context";
 import DrawerItem from "./components/navigation/DrawerItem";
 import { listItems } from "./components/navigation/ListContent";
+import { useAdminQuery } from "../../../../shared/hooks/api/useAdminAPI.hook";
+import LoadingScreen from "../../../../shared/components/LoadingScreen";
+import RedirectErrorPage from "../../../error/RedirectErrorPage";
+import { URLS } from "../../../../configs/Links";
+import { IUser } from "../../../../shared/types/User";
+import { IQuiz } from "../../../../shared/types/Quiz";
+
+export interface AdminOutletContext {
+    allUsers: IUser[];
+    allQuizzes: IQuiz[];
+}
 
 export default function AdminDrawer() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { width } = useContext(WindowContext);
-  const isMobile = width < BREAKPOINTS.md;
-
+  const isMobile = width < BREAKPOINTS.lg;
+  const { allUsers, allQuizzes, isPending, isError } = useAdminQuery();
+  
   const handleListItemClick = (index: number) => {
     setSelectedIndex(index);
     setIsOpen(false);
   };
 
   const drawerWidth = isMobile ? 240 : 300;
+
+  if (isPending) return <LoadingScreen />;
+
+  if (isError)
+    return (
+      <RedirectErrorPage
+        message="Kein Zugriff"
+        redirectTo="zur Startseite"
+        redirectUrl={URLS.HOME}
+      />
+    );
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -93,7 +116,10 @@ export default function AdminDrawer() {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Toolbar />
-        <Outlet />
+        <Outlet context={{
+            allUsers,
+            allQuizzes,
+        }} />
       </Box>
     </Box>
   );

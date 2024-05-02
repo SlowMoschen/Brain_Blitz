@@ -1,7 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import { formatValue } from "../../../../shared/services/ValueFormatter.service";
 
-export default function QuizCategoryIcon({ category }: { category: string }) {
+interface QuizCategoryIconProps {
+  category: string;
+  sx?: Record<string, string | number>;
+}
+
+export default function QuizCategoryIcon({ category, sx }: QuizCategoryIconProps) {
   const categoryIcons: { [key: string]: string } = {
     geschichte: "🏰",
     geographie: "🌍",
@@ -40,7 +45,7 @@ export default function QuizCategoryIcon({ category }: { category: string }) {
   };
 
   return (
-    <Box sx={styles}>
+    <Box sx={{ ...styles, ...sx }}>
       {categoryIcons[category] ? (
         <>
           <Typography
