@@ -12,7 +12,6 @@ export const URLS = {
   FORGOT_PASSWORD: "/auth/forgot-password",
   RESEND_VERIFICATION_EMAIL: "/auth/resend-verification-email",
   DASHBOARD: "/dashboard",
-  ADMIN_DASHBOARD: "/dashboard/admin",
   QUIZ: "/dashboard/quiz",
   PROFILE: "/dashboard/profile/",
   RANKINGS: "/dashboard/rankings",
@@ -20,6 +19,16 @@ export const URLS = {
   MOST_PLAYTIME_RANKING: "/dashboard/rankings/overall/playtime",
   MOST_PLAYED_QUIZZES_RANKING: "/dashboard/rankings/overall/most-played-quizzes",
   QUIZ_RANKING: "/dashboard/rankings/quiz-ranking/",
+  ADMIN_ROUTES: {
+    DASHBOARD: "/admin",
+    USERS: "/admin/users",
+    ALL_USERS: "/admin/users/all",
+    RECENT_USERS: "/admin/users/recent",
+    QUIZ: "/admin/quiz",
+    CREATE_QUIZ: "/admin/quiz/create",
+    ALL_QUIZZES: "/admin/quiz/all",
+    QUIZ_CATEGORIES: "/admin/quiz/categories",
+  },
   API_URL: import.meta.env.PROD ? "https://www.api.brain-blitz.com" : "http://localhost:3000",
   API_ENDPOINTS: {
     APP: {
@@ -36,6 +45,7 @@ export const URLS = {
     QUIZ: {
       QUIZ_START: "/quizzes/start/",
       QUIZ_COMPLETE: "/quizzes/complete/",
+      QUIZ: "/quizzes/",
     },
     RANKINGS: {
       PERSONAL: "/rankings/personal",
@@ -53,5 +63,9 @@ export const URLS = {
       RESEND_VERIFICATION_EMAIL: "/auth/resend-verification-email",
       RESET_PASSWORD: "/auth/reset-password",
     },
+    ADMIN: {
+      ALL_USERS: "/users/all",
+      ALL_QUIZZES: "/quizzes/all",
+    }
   },
 };

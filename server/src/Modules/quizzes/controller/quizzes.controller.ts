@@ -48,7 +48,7 @@ export class QuizzesController {
 	@Roles(Role.USER, Role.ADMIN)
 	@Get()
 	async getQuizzesByCategory(@Query('category') category: string) {
-		return await this.quizService.getQuizzesByCategory(category);
+		return await this.quizService.getQuizzesByCategory(category.toLowerCase());
 	}
 
 	@ApiOperation({ summary: 'ADMIN ROUTE - Get all quizzes' })

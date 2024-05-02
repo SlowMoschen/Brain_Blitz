@@ -1,8 +1,8 @@
 import FlashOnIcon from "@mui/icons-material/FlashOn";
 import { Typography } from "@mui/material";
-import { useUserContext } from "../../../shared/hooks/context/useUserContext.hook";
-import use15MinuteTimer from "../../../shared/hooks/timer/use15MinuteTimer.hook";
-import InfoContainer from "./InfoContainer";
+import { useUserContext } from "../../../../../shared/hooks/context/useUserContext.hook";
+import use15MinuteTimer from "../../../../../shared/hooks/timer/use15MinuteTimer.hook";
+import InfoContainer from "../../../components/InfoContainer";
 
 export default function EnergyTracker() {
   const user = useUserContext();

@@ -20,7 +20,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "db:generate": "drizzle-kit generate:pg --config ./src/Configs/drizzle.config.ts",
     "db:migrate": "ts-node src/DB/migrate.ts",
-    "db:seed": "ts-node src/DB/MainSeed.ts"
+    "db:seed": "ts-node src/DB/MainSeed.ts",
+    "db:change": "ts-node src/DB/Changes.ts"
   },
   "dependencies": {
     "@css-inline/css-inline": "^0.14.0",

@@ -1,7 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import { formatValue } from "../../../../shared/services/ValueFormatter.service";
 
-export default function QuizCategoryIcon({ category }: { category: string }) {
+interface QuizCategoryIconProps {
+  category: string;
+  sx?: Record<string, string | number>;
+}
+
+export default function QuizCategoryIcon({ category, sx }: QuizCategoryIconProps) {
   const categoryIcons: { [key: string]: string } = {
     geschichte: "🏰",
     geographie: "🌍",
@@ -15,39 +20,21 @@ export default function QuizCategoryIcon({ category }: { category: string }) {
     videospiele: "🎮",
   };
 
-  const getColor = (category: string) => {
-    switch (formatValue(category, ["trim", "lowerCase"])) {
-      case "geschichte":
-        return "#f5a623"; 
-      case "geographie":
-        return "#4a90e2"; 
-      case "fernsehen":
-        return "#7ed321"; 
-      case "videospiele":
-        return "#9013fe"; 
-      case "sport":
-        return "#1b07d1"; 
-      case "musik":
-        return "#d0021b";
-      case "filme":
-        return "#cc16a5"; 
-      case "technologie":
-        return "#7ed321"; 
-      case "biologie":
-        return "#cde20d"; 
-      case "politik":
-        return "#d0021b"; 
-      default:
-        return "#4a90e2";
-    }
-  };
-
-  const capitalize = (s: string) => {
-    return s.charAt(0).toUpperCase() + s.slice(1);
+  const categoryColors: { [key: string]: string } = {
+    geschichte: "#f5a623",
+    geographie: "#4a90e2",
+    fernsehen: "#7ed321",
+    sport: "#1b07d1",
+    musik: "#d0021b",
+    film: "#cc16a5",
+    technologie: "#7ed321",
+    biologie: "#cde20d",
+    politik: "#d0021b",
+    videospiele: "#9013fe",
   };
 
   const styles = {
-    bgcolor: getColor(category),
+    bgcolor: categoryColors[category] || "#4a90e2",
     fontSize: { xs: 30, lg: 50 },
     minWidth: { xs: 50, lg: 100 },
     display: "flex",
@@ -58,16 +45,16 @@ export default function QuizCategoryIcon({ category }: { category: string }) {
   };
 
   return (
-    <Box sx={styles}>
-      {categoryIcons[category.toLowerCase()] ? (
+    <Box sx={{ ...styles, ...sx }}>
+      {categoryIcons[category] ? (
         <>
           <Typography
             variant="caption"
             sx={{ color: "text.dark", position: "absolute", top: "0", left: 2, fontSize: 10 }}
           >
-            {capitalize(category)}
+            {formatValue(category, ["capitalize"])}
           </Typography>
-          <span>{categoryIcons[category.toLowerCase()]}</span>
+          <span>{categoryIcons[category]}</span>
         </>
       ) : (
         <span>❓</span>
