@@ -5,11 +5,11 @@ import { BREAKPOINTS } from "../../../../configs/Breakpoints";
 import { WindowContext } from "../../../../shared/context/ScreenSize.context";
 import { useUserContext } from "../../../../shared/hooks/context/useUserContext.hook";
 import DailyStats from "../../components/DailyStats";
-import EnergyTracker from "../../components/EnergyTracker";
-import LoginStreak from "../../components/LoginStreak";
+import EnergyTracker from "./components/EnergyTracker";
+import LoginStreak from "./components/LoginStreak";
 import HeaderMenu from "../../components/navigation/HeaderMenu";
 import QuizTable from "../../components/quiz/QuizTable";
-import WelcomeHeader from "./WelcomeHeader";
+import WelcomeHeader from "../../components/WelcomeHeader";
 import { useDocumentTitle } from "../../../../shared/hooks/useDocumentTitle.hook";
 
 export default function DashboardRoot() {

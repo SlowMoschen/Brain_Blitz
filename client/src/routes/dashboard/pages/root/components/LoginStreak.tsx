@@ -1,7 +1,7 @@
 import StarIcon from "@mui/icons-material/Star";
 import { Typography } from "@mui/material";
-import { useUserContext } from "../../../shared/hooks/context/useUserContext.hook";
-import InfoContainer from "./InfoContainer";
+import { useUserContext } from "../../../../../shared/hooks/context/useUserContext.hook";
+import InfoContainer from "../../../components/InfoContainer";
 
 export default function LoginStreak() {
   const user = useUserContext();
