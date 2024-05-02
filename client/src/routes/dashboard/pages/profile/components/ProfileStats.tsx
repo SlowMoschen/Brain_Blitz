@@ -86,7 +86,7 @@ export default function ProfileStats() {
         <CallToAction text="Logout" color="error" size="large" onClick={() => logout(undefined)} />
         {user.settings.roles.includes("admin") && (
           <SecondaryButton text="Admin Dashboard
-          " onClick={() => redirect(URLS.ADMIN_DASHBOARD)} />
+          " onClick={() => redirect(URLS.ADMIN_ROUTES.DASHBOARD)} />
         )}
       </Stack>
     </Stack>
