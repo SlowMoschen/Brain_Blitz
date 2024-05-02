@@ -43,7 +43,7 @@ export default function DashboardRoot() {
               rotate: "-10deg",
             }}
           ></Box>
-          <WelcomeHeader name={first_name} />
+          <WelcomeHeader name={first_name} text="Willkommen zurück" />
           <Stack direction={{ xs: "column", lg: "row" }} width={"100%"} maxWidth={"600px"} gap={1}>
             <LoginStreak />
             <EnergyTracker />
