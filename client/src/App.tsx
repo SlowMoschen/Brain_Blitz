@@ -29,6 +29,7 @@ import UsersTable from "./routes/dashboard/pages/admin/pages/UsersTable";
 import AdminDashboard from "./routes/dashboard/pages/admin/pages/AdminDashboard";
 import QuizzesTable from "./routes/dashboard/pages/admin/pages/QuizzesTable";
 import QuizCategories from "./routes/dashboard/pages/admin/pages/QuizCategories";
+import EditQuiz from "./routes/dashboard/pages/admin/pages/EditQuiz";
 const GeneralRankingTable = lazy(
   () => import("./routes/dashboard/pages/rankings/GlobalRankingTable")
 );
@@ -95,7 +96,7 @@ export default function App() {
         { path: "users/:param", element: <UsersTable /> },
         { path: "quiz/all", element: <QuizzesTable /> },
         { path: "quiz/categories", element: <QuizCategories />},
-        { path: "quiz/:quizID", element: <div>Quiz</div>}
+        { path: "quiz/:quizID", element: <EditQuiz />}
       ],
     }
   ]);

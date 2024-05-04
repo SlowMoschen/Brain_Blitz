@@ -3,7 +3,7 @@ import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { URLS } from "../../../../../configs/Links";
 import { IUser } from "../../../../../shared/types/User";
 import { AdminOutletContext } from "../AdminDasbordLayout";
-import DataTable from "./DataTable";
+import DataTable from "../components/DataTable";
 import UsersPage from "./UsersPage";
 
 export default function UsersTable() {

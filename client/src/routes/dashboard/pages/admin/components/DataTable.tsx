@@ -67,6 +67,8 @@ export default function DataTable<T extends { id: string; [key: string | number]
       );
     }
 
+    // Access nested object properties
+    // Example: key = "user.settings.roles"
     const keys = key.split(".");
     let value = row;
     for (const k of keys) {

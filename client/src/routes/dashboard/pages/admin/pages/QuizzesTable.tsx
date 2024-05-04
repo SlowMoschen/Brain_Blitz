@@ -3,7 +3,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import { URLS } from "../../../../../configs/Links";
 import { IQuiz } from "../../../../../shared/types/Quiz";
 import { AdminOutletContext } from "../AdminDasbordLayout";
-import DataTable from "./DataTable";
+import DataTable from "../components/DataTable";
 
 interface QuizzesTableProps {
   category?: string | null;

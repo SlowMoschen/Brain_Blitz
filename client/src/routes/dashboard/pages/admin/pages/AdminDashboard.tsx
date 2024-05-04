@@ -15,6 +15,7 @@ export default function AdminDashboard() {
             <CallToAction text="Benutzer verwalten" onClick={() => redirect(URLS.ADMIN_ROUTES.ALL_USERS)} />
             <SecondaryButton text="Quiz erstellen" onClick={() => redirect(URLS.ADMIN_ROUTES.CREATE_QUIZ)} />
             <CallToAction text="Quiz verwalten" onClick={() => redirect(URLS.ADMIN_ROUTES.ALL_QUIZZES)} />
+            <SecondaryButton text="Zurück zur zum Dashboard" onClick={() => redirect(URLS.DASHBOARD)} />
         </Stack>
         </>
     )
