@@ -2,19 +2,17 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CampaignIcon from '@mui/icons-material/Campaign';
 import PeopleIcon from "@mui/icons-material/People";
 import PsychologyIcon from "@mui/icons-material/Psychology";
-import { Stack, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Box, Stack, Typography } from "@mui/material";
+import { Outlet, useNavigate } from "react-router-dom";
 import { URLS } from "../../../../../configs/Links";
 import CallToAction from "../../../../../shared/components/buttons/CallToAction";
 import SecondaryButton from "../../../../../shared/components/buttons/SecondaryButton";
-import WelcomeHeader from "../../../components/WelcomeHeader";
 
 export default function AdminDashboard() {
   const redirect = useNavigate();
   return (
     <>
-      <WelcomeHeader name="Admin" text="Willkommen zurück" />
-      <Stack gap={1}>
+      <Stack gap={2} my={2}>
         <Typography variant="h4" align="center">
           Was möchtest du tun?
         </Typography>
@@ -49,7 +47,7 @@ export default function AdminDashboard() {
             }}
           >
             <PsychologyIcon sx={{ fontSize: 40 }} />
-            Quiz verwalten
+            Quizze verwalten
           </CallToAction>
           <SecondaryButton
             onClick={() => redirect(URLS.ADMIN_ROUTES.QUIZZES)}
@@ -71,7 +69,7 @@ export default function AdminDashboard() {
             Notifications verwalten
           </SecondaryButton>
           <CallToAction
-            onClick={() => redirect(URLS.ADMIN_ROUTES.QUIZZES)}
+            onClick={() => redirect(URLS.DASHBOARD)}
             sx={{
               display: "flex",
               flexDirection: "column",
@@ -89,6 +87,9 @@ export default function AdminDashboard() {
           </CallToAction>
         </Stack>
       </Stack>
+        <Box sx={{ width: "100%", mt: 4, px: 12 }}>
+            <Outlet />
+        </Box>
     </>
   );
 }
