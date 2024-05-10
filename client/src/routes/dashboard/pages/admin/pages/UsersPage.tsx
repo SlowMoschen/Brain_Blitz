@@ -1,22 +1,11 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { IUser } from "../../../../../shared/types/User";
-import ContainerWithHeader from "../../../components/ContainerWithHeader";
 import { Stack, Typography } from "@mui/material";
+import { useParams } from "react-router-dom";
+import { useUserQuery } from "../../../../../shared/hooks/api/useUserAPI.hook";
+import ContainerWithHeader from "../../../components/ContainerWithHeader";
 
-interface UserPageProps {
-  user: IUser | undefined;
-}
-
-export default function UsersPage({ user }: UserPageProps) {
-  const redirect = useNavigate();
-
-  useEffect(() => {
-    if (!user) {
-      console.log("User not found");
-      redirect(-1);
-    }
-  }, [user]);
+export default function UsersPage() {
+  const { userID } = useParams();
+  const { user } = useUserQuery({ id: userID });
 
   if (!user) return null;
 

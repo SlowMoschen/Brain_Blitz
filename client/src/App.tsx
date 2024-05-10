@@ -7,6 +7,10 @@ import customTheme from "./configs/CustomTheme";
 import AuthLayout from "./routes/auth/AuthLayout";
 import ForgotPassword from "./routes/auth/pages/ForgotPassword";
 import ResendVerification from "./routes/auth/pages/ResendVerification";
+import AdminDashboard from "./routes/dashboard/pages/admin/pages/AdminDashboard";
+import QuizzesTable from "./routes/dashboard/pages/admin/pages/QuizzesTable";
+import UsersTable from "./routes/dashboard/pages/admin/pages/UsersTable";
+import ProfilePage from "./routes/dashboard/pages/profile/ProfilePage";
 import UserProfile from "./routes/dashboard/pages/profile/UserProfile";
 import Rankings from "./routes/dashboard/pages/rankings/Rankings";
 import ErrorPage from "./routes/error/ErrorPage";
@@ -23,12 +27,7 @@ import LoadingScreen from "./shared/components/LoadingScreen";
 import { WindowContextProvider } from "./shared/context/ScreenSize.context";
 import { SocketContextProvider } from "./shared/context/Socket.context";
 import { UserIDContextProvider } from "./shared/context/UserID.context";
-import ProfilePage from "./routes/dashboard/pages/profile/ProfilePage";
-import AdminDashboardLayout from "./routes/dashboard/pages/admin/AdminDasbordLayout";
-import UsersTable from "./routes/dashboard/pages/admin/pages/UsersTable";
-import AdminDashboard from "./routes/dashboard/pages/admin/pages/AdminDashboard";
-import QuizzesTable from "./routes/dashboard/pages/admin/pages/QuizzesTable";
-import QuizCategories from "./routes/dashboard/pages/admin/pages/QuizCategories";
+import UsersPage from "./routes/dashboard/pages/admin/pages/UsersPage";
 const GeneralRankingTable = lazy(
   () => import("./routes/dashboard/pages/rankings/GlobalRankingTable")
 );
@@ -85,19 +84,19 @@ export default function App() {
           element: <QuizLayout />,
           children: [{ path: ":quizID", element: <QuizPage /> }],
         },
+        {
+          path: "admin",
+          element: <AdminDashboard />,
+          children: [
+            { path: "users", element: <UsersTable /> },
+            { path: "users/edit/:userID", element: <UsersPage /> },
+            { path: "quizzes", element: <QuizzesTable /> },
+            { path: "quizzes/edit/:quizID", element: <div>Quiz bearbeiten</div> },
+            { path: "quizzes/create", element: <div>Quiz erstellen</div> },
+          ],
+        },
       ],
     },
-    {
-      path: "/admin",
-      element: <AdminDashboardLayout />,
-      children: [
-        { path: "/admin", element: <AdminDashboard /> },
-        { path: "users/:param", element: <UsersTable /> },
-        { path: "quiz/all", element: <QuizzesTable /> },
-        { path: "quiz/categories", element: <QuizCategories />},
-        { path: "quiz/:quizID", element: <div>Quiz</div>}
-      ],
-    }
   ]);
 
   const queryClient = new QueryClient();

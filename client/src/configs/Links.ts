@@ -20,14 +20,10 @@ export const URLS = {
   MOST_PLAYED_QUIZZES_RANKING: "/dashboard/rankings/overall/most-played-quizzes",
   QUIZ_RANKING: "/dashboard/rankings/quiz-ranking/",
   ADMIN_ROUTES: {
-    DASHBOARD: "/admin",
-    USERS: "/admin/users",
-    ALL_USERS: "/admin/users/all",
-    RECENT_USERS: "/admin/users/recent",
-    QUIZ: "/admin/quiz",
-    CREATE_QUIZ: "/admin/quiz/create",
-    ALL_QUIZZES: "/admin/quiz/all",
-    QUIZ_CATEGORIES: "/admin/quiz/categories",
+    DASHBOARD: "/dashboard/admin",
+    USERS: "/dashboard/admin/users",
+    QUIZZES: "/dashboard/admin/quizzes",
+    CREATE_QUIZ: "/dashboard/admin/quizzes/create",
   },
   API_URL: import.meta.env.PROD ? "https://www.api.brain-blitz.com" : "http://localhost:3000",
   API_ENDPOINTS: {
