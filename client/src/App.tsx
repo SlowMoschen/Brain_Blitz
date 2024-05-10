@@ -8,7 +8,6 @@ import AuthLayout from "./routes/auth/AuthLayout";
 import ForgotPassword from "./routes/auth/pages/ForgotPassword";
 import ResendVerification from "./routes/auth/pages/ResendVerification";
 import AdminDashboard from "./routes/dashboard/pages/admin/pages/AdminDashboard";
-import QuizCategories from "./routes/dashboard/pages/admin/pages/QuizCategories";
 import QuizzesTable from "./routes/dashboard/pages/admin/pages/QuizzesTable";
 import UsersTable from "./routes/dashboard/pages/admin/pages/UsersTable";
 import ProfilePage from "./routes/dashboard/pages/profile/ProfilePage";
@@ -28,6 +27,7 @@ import LoadingScreen from "./shared/components/LoadingScreen";
 import { WindowContextProvider } from "./shared/context/ScreenSize.context";
 import { SocketContextProvider } from "./shared/context/Socket.context";
 import { UserIDContextProvider } from "./shared/context/UserID.context";
+import UsersPage from "./routes/dashboard/pages/admin/pages/UsersPage";
 const GeneralRankingTable = lazy(
   () => import("./routes/dashboard/pages/rankings/GlobalRankingTable")
 );
@@ -89,8 +89,10 @@ export default function App() {
           element: <AdminDashboard />,
           children: [
             { path: "users", element: <UsersTable /> },
+            { path: "users/edit/:userID", element: <UsersPage /> },
             { path: "quizzes", element: <QuizzesTable /> },
-            { path: "quizzes/create", element: <QuizCategories /> },
+            { path: "quizzes/edit/:quizID", element: <div>Quiz bearbeiten</div> },
+            { path: "quizzes/create", element: <div>Quiz erstellen</div> },
           ],
         },
       ],
