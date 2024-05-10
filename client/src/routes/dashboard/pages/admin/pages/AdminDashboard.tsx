@@ -1,13 +1,13 @@
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import CampaignIcon from '@mui/icons-material/Campaign';
+import PeopleIcon from "@mui/icons-material/People";
+import PsychologyIcon from "@mui/icons-material/Psychology";
 import { Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import WelcomeHeader from "../../../components/WelcomeHeader";
-import CallToAction from "../../../../../shared/components/buttons/CallToAction";
 import { URLS } from "../../../../../configs/Links";
+import CallToAction from "../../../../../shared/components/buttons/CallToAction";
 import SecondaryButton from "../../../../../shared/components/buttons/SecondaryButton";
-import PeopleIcon from "@mui/icons-material/People";
-import AddBoxIcon from "@mui/icons-material/AddBox";
-import PsychologyIcon from "@mui/icons-material/Psychology";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import WelcomeHeader from "../../../components/WelcomeHeader";
 
 export default function AdminDashboard() {
   const redirect = useNavigate();
@@ -35,23 +35,6 @@ export default function AdminDashboard() {
             <PeopleIcon sx={{ fontSize: 40 }} />
             Benutzer verwalten
           </CallToAction>
-          <SecondaryButton
-            onClick={() => redirect(URLS.ADMIN_ROUTES.CREATE_QUIZ)}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "200px",
-              width: "200px",
-              fontSize: 20,
-              bgcolor: "accent.light",
-              color: "text.main",
-            }}
-          >
-            <AddBoxIcon sx={{ fontSize: 40 }} />
-            Quiz erstellen
-          </SecondaryButton>
           <CallToAction
             onClick={() => redirect(URLS.ADMIN_ROUTES.QUIZZES)}
             sx={{
@@ -78,13 +61,32 @@ export default function AdminDashboard() {
               height: "200px",
               width: "200px",
               fontSize: 20,
+              bgcolor: "accent.light",
+              color: "text.main",
+              pointerEvents: "none",
+              opacity: 0.5,
+            }}
+          >
+            <CampaignIcon sx={{ fontSize: 40 }} />
+            Notifications verwalten
+          </SecondaryButton>
+          <CallToAction
+            onClick={() => redirect(URLS.ADMIN_ROUTES.QUIZZES)}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "200px",
+              width: "200px",
+              fontSize: 20,
               bgcolor: "primary.main",
               color: "text.main",
             }}
           >
             <ArrowBackIcon sx={{ fontSize: 40 }} />
             Zurück zum Dashboard
-          </SecondaryButton>
+          </CallToAction>
         </Stack>
       </Stack>
     </>
